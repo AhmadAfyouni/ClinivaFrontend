@@ -1,7 +1,7 @@
 import React from "react";
 
-function test() {
+function store() {
   return {};
 }
 
-export default test;
+export default store;

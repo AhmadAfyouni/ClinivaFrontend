@@ -1,7 +1,7 @@
 import React from "react";
 
-function test() {
+function them() {
   return {};
 }
 
-export default test;
+export default them;
