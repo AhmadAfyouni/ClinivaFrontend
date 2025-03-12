@@ -1,8 +1,8 @@
-import React from "react";
+import { Button } from "@mantine/core";
 import "./App.css";
 
 function App() {
-  return <div className="App">clivin</div>;
+  return <Button>button</Button>;
 }
 
 export default App;
