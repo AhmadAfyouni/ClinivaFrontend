@@ -3,10 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "@mantine/core/styles.css";
+import { createTheme, MantineProvider } from "@mantine/core";
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <MantineProvider theme={theme}>
+    <App />
+  </MantineProvider>
 );
-root.render(<App />);
 
 reportWebVitals();
