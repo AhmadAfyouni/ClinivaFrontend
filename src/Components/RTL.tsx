@@ -1,7 +1,5 @@
 import { ActionIcon, Text, Tooltip, useDirection } from "@mantine/core";
 
-import { MdOutlineLanguage } from "react-icons/md";
-
 export default function RTL() {
   const { toggleDirection, dir } = useDirection();
   return (
