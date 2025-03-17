@@ -42,8 +42,6 @@ export default function InputFileBase({ base }: Props) {
             bottom: 0,
             right: 0,
             color: "white",
-            // background: "transparency",
-
             boxShadow: "0 0 5px rgba(0,0,0,0.2)",
           }}
         >
@@ -51,14 +49,20 @@ export default function InputFileBase({ base }: Props) {
         </ActionIcon>
       </div>
 
+      {/* Hidden File Input */}
       <FileInput
         ref={fileInputRef}
         accept="image/*"
         placeholder="Upload an image"
         onChange={handleImageChange}
-        error={base.error}
         style={{ display: "none" }}
       />
+
+      {base.error && (
+        <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+          {base.error}
+        </p>
+      )}
     </Group>
   );
 }

@@ -10,9 +10,7 @@ const AddUserSchema = Yup.object().shape({
     .nullable(),
   created_at: Yup.date().default(() => new Date()),
   dateOfBirth: Yup.date().required("Date of Birth is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+  email: Yup.string().email("Invalid email format"),
   emergencyContact: Yup.string().nullable(),
   gender: Yup.string()
     .oneOf(["female", "male"], "Invalid gender")
@@ -20,7 +18,19 @@ const AddUserSchema = Yup.object().shape({
     .required("Gender is Required"),
   height: Yup.number().positive("Height must be positive").nullable(),
   identity: Yup.string().nullable(),
-  image: Yup.string().url("Invalid image URL").nullable(),
+  image: Yup.mixed()
+    .nullable()
+    .test("fileSize", "File size is too large (max 5MB)", (value) => {
+      if (!value) return true; // No file uploaded is valid
+      return (value as File).size <= 5 * 1024 * 1024; // Max 5MB
+    })
+    .test("fileType", "Invalid file format (Only images allowed)", (value) => {
+      if (!value) return true;
+      return ["image/jpeg", "image/png", "image/jpg"].includes(
+        (value as File).type
+      );
+    }),
+
   insurances: Yup.mixed().nullable(), // If it's an object or array, keep mixed()
   is_active: Yup.boolean().default(true),
   marital_status: Yup.string()
