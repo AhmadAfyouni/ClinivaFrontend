@@ -1,4 +1,4 @@
-export default interface AddUserType {
+export default interface AddPatientType {
   name?: string;
   phone?: string;
   dateOfBirth?: Date | "";

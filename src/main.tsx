@@ -12,7 +12,6 @@ import { useEffect } from "react";
 
 const Root = () => {
   const { dark } = useDarkThem();
-  console.log("@@##@", dark);
   useEffect(() => {
     console.log(dark);
   }, [dark]);
