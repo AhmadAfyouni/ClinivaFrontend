@@ -5,18 +5,20 @@ interface Props {
   base: InputPropsType[];
   count: number;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  title: string;
 }
-function InputForm({ base, onSubmit }: Props) {
+function InputForm({ base, onSubmit, title }: Props) {
   return (
     <form
       onSubmit={(e) => {
+        console.log("omsubmit");
         onSubmit(e);
       }}
     >
       <Flex
         // bg={"grape"}
         w={"100%"}
-        h={"600px"}
+        h={"100%"}
         direction={"column"}
         justify={"center"}
         align={"center"}
@@ -24,14 +26,14 @@ function InputForm({ base, onSubmit }: Props) {
         style={{ overflowY: "auto" }}
       >
         <Flex
-          bg={"blue"}
+          // bg={"blue"}
           w={"100%"}
           // h={"2%"}
           direction={"row"}
           justify={"flex-start"}
           align={"center"}
         >
-          <Text fw={"500"}>New Doctor</Text>
+          <Text fw={"500"}>{title}</Text>ss
         </Flex>
 
         <Grid w={"95%"} h={"100%"} mb={"xl"}>

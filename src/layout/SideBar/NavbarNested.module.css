@@ -3,7 +3,7 @@
     var(--mantine-color-white),
     var(--mantine-color-dark-6)
   );
-  height: 100%;
+  height: 100vh;
   width: 15%;
   padding: var(--mantine-spacing-md);
   padding-bottom: 0;

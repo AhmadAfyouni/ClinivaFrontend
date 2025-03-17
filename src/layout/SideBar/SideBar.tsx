@@ -14,37 +14,36 @@ import classes from "./NavbarNested.module.css";
 // import { Logo } from "./Logo";
 
 const mockdata = [
-  { label: "Dashboard", icon: IconGauge },
+  { label: "Dashboard", icon: IconGauge, link: "/" },
   {
-    label: "Market news",
+    label: "Patient",
     icon: IconNotes,
     initiallyOpened: true,
     links: [
-      { label: "Overview", link: "/" },
-      { label: "Forecasts", link: "/" },
-      { label: "Outlook", link: "/" },
-      { label: "Real time", link: "/" },
+      { label: "Add Patient", link: "/patients/add" },
+      { label: "All Patients", link: "/patients/all" },
+      { label: "Appointments", link: "/patients/appointments" },
+      { label: "Records", link: "/patients/records" },
     ],
   },
   {
-    label: "Releases",
+    label: "Doctor",
     icon: IconCalendarStats,
     links: [
-      { label: "Upcoming releases", link: "/" },
-      { label: "Previous releases", link: "/" },
-      { label: "Releases schedule", link: "/" },
+      { label: "Add Doctor", link: "/doctors/add" },
+      { label: "All Doctors", link: "/doctors/all" },
     ],
   },
-  { label: "Analytics", icon: IconPresentationAnalytics },
-  { label: "Contracts", icon: IconFileAnalytics },
-  { label: "Settings", icon: IconAdjustments },
+  { label: "Analytics", icon: IconPresentationAnalytics, link: "/analytics" },
+  { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
+  { label: "Settings", icon: IconAdjustments, link: "/settings" },
   {
     label: "Security",
     icon: IconLock,
     links: [
-      { label: "Enable 2FA", link: "/" },
-      { label: "Change password", link: "/" },
-      { label: "Recovery codes", link: "/" },
+      { label: "Enable 2FA", link: "/security/2fa" },
+      { label: "Change password", link: "/security/password" },
+      { label: "Recovery codes", link: "/security/recovery" },
     ],
   },
 ];
