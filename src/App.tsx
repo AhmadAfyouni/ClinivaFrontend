@@ -3,6 +3,9 @@ import "./App.css";
 import { SideBar } from "./layout/SideBar/SideBar";
 import NavBar from "./layout/NavBar/NavBar";
 import PatientsTables from "./pages/Patients";
+import AddUser from "./pages/User/AddUser";
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 
 const theme = createTheme({
   colors: {
@@ -49,6 +52,7 @@ function App() {
             {/* <ArticleCard/> */}
           </Card>
         </Flex>
+
       </Flex>
     </MantineProvider>
   );
