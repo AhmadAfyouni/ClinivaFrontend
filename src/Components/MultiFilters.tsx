@@ -72,10 +72,10 @@ const MultiFilters = ({search,handleSearchChange , doctorOptions,handleChangDrop
         >
         <SearchInput searchValue={search} setSearchValue={handleSearchChange} />
         <Flex>
-          <CircledButton margin="8px">
+          <CircledButton margin="8px" bg={theme.other.secondaryLightColor}>
             <SlidersHorizontal size={27} color="#1A1615" />
           </CircledButton>
-          <CircledButton>
+          <CircledButton bg={theme.other.secondaryDarkColor}>
             <Plus size={27} color="#1A1615" />
           </CircledButton>
         </Flex>

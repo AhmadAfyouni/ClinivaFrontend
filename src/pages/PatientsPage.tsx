@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Table,
-  ScrollArea,
-  Flex,
-} from "@mantine/core";
+import { Table, ScrollArea, Flex } from "@mantine/core";
 import data from "../data/patients.json";
 import sortData from "../utilities/SortData";
 import TableBody from "../Components/Table/TableBody";
@@ -97,13 +93,19 @@ const PatientsPage = () => {
       status={item.status}
     />
   ));
-  
 
   return (
     <Flex w="95%" h="85vh" direction="column">
-      <MultiFilters search={search} handleSearchChange={handleSearchChange} doctorOptions={doctorOptions} treatmentOptions={treatmentOptions}
-      dateRange={dateRange} handleChangDropDownDoctor={handleChangDropDownDoctor} handleChangeDropDownTreatment={handleChangeDropDownTreatment}
-      setDateRange={setDateRange}/>
+      <MultiFilters
+        search={search}
+        handleSearchChange={handleSearchChange}
+        doctorOptions={doctorOptions}
+        treatmentOptions={treatmentOptions}
+        dateRange={dateRange}
+        handleChangDropDownDoctor={handleChangDropDownDoctor}
+        handleChangeDropDownTreatment={handleChangeDropDownTreatment}
+        setDateRange={setDateRange}
+      />
       <ScrollArea>
         <Table>
           <TableHead

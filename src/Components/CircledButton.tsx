@@ -1,14 +1,14 @@
-import { Button, useMantineTheme } from '@mantine/core'
+import { Button} from '@mantine/core'
 import { ReactNode } from 'react'
 interface Props{
     children ?: ReactNode
     margin ?: string
+    bg:string
 }
-const CircledButton = ({children ,margin}:Props) => {
-  const theme =useMantineTheme()
+const CircledButton = ({children ,margin ,bg}:Props) => {
   return (
     <Button
-    c={theme.other.secondaryLightColor}
+    bd={bg}
     onClick={() => {}}
     variant="filled"
     w='35px'

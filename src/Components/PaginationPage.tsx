@@ -55,7 +55,7 @@ const PaginationPage = ({
             },
           }}
         />
-        <Text size="sm" c={theme.other.onSurfaceSecondary}>out of {totalItems * totalPages}</Text>
+        <Text size="sm" c={theme.other.onSurfaceSecondary}>out of {totalItems}</Text>
       </MantineGroup>
     </Grid.Col>
 
