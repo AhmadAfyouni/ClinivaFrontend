@@ -3,5 +3,5 @@ export default interface ThProps {
     reversed: boolean;
     sorted: boolean;
     onSort: () => void;
-    style?: React.CSSProperties;
+    w : string;
   }

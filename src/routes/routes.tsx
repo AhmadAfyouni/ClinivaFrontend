@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import AddDoctor from "../pages/Doctor/AddDoctor";
-import PatientsTables from "../pages/Patients";
+import PatientsTables from "../pages/PatientsPage";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
 import DoctorLayout from "../layout/DoctorLayout";
