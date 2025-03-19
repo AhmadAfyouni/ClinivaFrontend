@@ -8,20 +8,26 @@ import {
   ColorSchemeScript,
 } from "@mantine/core";
 import { useDarkThem } from "./store/darkThem.ts";
-import { useEffect } from "react";
 
-const Root = () => {
+// Separate component to handle theme changes
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { dark } = useDarkThem();
-  useEffect(() => {
-    console.log(dark);
-  }, [dark]);
+
   return (
     <DirectionProvider>
-      <MantineProvider defaultColorScheme={dark === "dark" ? "light" : "light"}>
+      <MantineProvider defaultColorScheme={dark}>
         <ColorSchemeScript />
-        <App />
+        {children}
       </MantineProvider>
     </DirectionProvider>
+  );
+};
+
+const Root = () => {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   );
 };
 

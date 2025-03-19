@@ -3,6 +3,9 @@ import AddDoctorType from "../../types/AddDoctorType";
 import AddDoctorSchema from "../../schema/AddDoctorSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
+import { ScrollArea } from "@mantine/core";
+import { specialties } from "../../data/Specialties";
+import { language } from "../../data/Language";
 
 function AddDoctor() {
   const handleImageChange = (file: File | null) => {
@@ -61,28 +64,30 @@ function AddDoctor() {
       id: "specialties",
       label: "Specialties",
       mandatory: true,
-      type: "autoCompleat",
+      type: "select",
       description: "",
       error: formik.errors.specialties as string,
       placeholder: "Cardiology, Neurology",
       tooltip: "Enter medical specialties",
-      value: formik.values.specialties?.join(", ") || "",
+      value: "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      selectValue: specialties,
     },
 
     {
       id: "languages",
       label: "Languages",
       mandatory: false,
-      type: "autoCompleat",
+      type: "select",
       description: "",
-      error: formik.errors.languages as string,
+      error: formik.errors.languages,
       placeholder: "English, Arabic",
       tooltip: "Enter languages spoken",
-      value: formik.values.languages?.join(", ") || "",
+      value: "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      selectValue: language,
     },
     {
       id: "evaluation",
@@ -133,8 +138,8 @@ function AddDoctor() {
         typeof formik.errors.dateOfBirth === "string"
           ? formik.errors.dateOfBirth
           : undefined,
-      placeholder: "",
-      value: formik.values.dateOfBirth?.toISOString().split("T")[0] || "",
+      placeholder: "1/1/1990",
+      value: "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -299,12 +304,9 @@ function AddDoctor() {
   ];
 
   return (
-    <InputForm
-      title="New Doctor"
-      base={attrb}
-      count={0}
-      onSubmit={formik.handleSubmit}
-    />
+    <ScrollArea h="calc(100vh - 80px)" w="100%">
+      <InputForm base={attrb} count={0} onSubmit={formik.handleSubmit} />
+    </ScrollArea>
   );
 }
 

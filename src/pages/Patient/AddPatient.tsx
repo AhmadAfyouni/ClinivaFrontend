@@ -3,6 +3,8 @@ import AddPatientType from "../../types/AddPatientType";
 import AddUserSchema from "../../schema/AddUserSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
+import { ScrollArea } from "@mantine/core";
+import { country } from "../../data/country";
 
 function AddPatient() {
   const handleImageChange = (file: File | null) => {
@@ -138,7 +140,7 @@ function AddPatient() {
       id: "nationality",
       label: "Nationality",
       mandatory: false,
-      type: "autoCompleat",
+      type: "select",
       description: "",
       error: formik.errors.nationality,
       placeholder: "Syrian",
@@ -146,6 +148,7 @@ function AddPatient() {
       value: formik.values.nationality || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      selectValue: country,
     },
     {
       id: "address",
@@ -282,12 +285,9 @@ function AddPatient() {
   console.log("Formik values:", formik.values);
   console.log("Formik errors:", formik.errors);
   return (
-    <InputForm
-      title="New Patient"
-      base={attrb}
-      count={0}
-      onSubmit={formik.handleSubmit}
-    />
+    <ScrollArea h="calc(100vh - 80px)" w="100%">
+      <InputForm base={attrb} count={0} onSubmit={formik.handleSubmit} />
+    </ScrollArea>
   );
 }
 
