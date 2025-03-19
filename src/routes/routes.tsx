@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
 import DoctorLayout from "../layout/DoctorLayout";
 import PatientLayout from "../layout/PatientLayout";
+import AddCompany from "../pages/Company/AddCompany";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -59,6 +60,24 @@ export const routes: AppRoute[] = [
       {
         path: "all",
         element: <PatientsTables />,
+      },
+    ],
+  },
+  {
+    path: "/company",
+    element: <AddCompany />,
+    children: [
+      {
+        path: "",
+        element: <AddCompany />,
+      },
+      {
+        path: "add",
+        element: <AddDoctor />,
+      },
+      {
+        path: "all",
+        element: <AddCompany />,
       },
     ],
   },

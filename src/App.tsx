@@ -1,4 +1,9 @@
-import { Card, createTheme, Flex, MantineProvider } from "@mantine/core";
+import {
+  Card,
+  Flex,
+  MantineProvider,
+  MantineThemeOverride,
+} from "@mantine/core";
 import "./App.css";
 import { SideBar } from "./layout/SideBar/SideBar";
 import NavBar from "./layout/NavBar/NavBar";
@@ -7,8 +12,12 @@ import "@mantine/dates/styles.css";
 import { BrowserRouter } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
+import { useMediaQuery } from "@mantine/hooks";
+import { useDarkThem } from "./store/darkThem";
 
-const theme = createTheme({
+const createAppTheme = (
+  colorScheme: "light" | "dark"
+): MantineThemeOverride => ({
   colors: {
     myPrimary: [
       "#FFF5F2", // 0 - lightest
@@ -29,26 +38,35 @@ const theme = createTheme({
     secondaryDarkColor: "#9BDABB",
     secondaryLightColor: "#E2F6EC",
     secondaryColor: "#CDEDDD",
-    surfaceDefault: "#FFFDFC",
-    bgSubtle: "#FAFAF8",
-    bg: "#FAF6F5",
-    borderDefault: "#E4E2DD",
-    onSurfaceTertiary: "#B8B1A9",
-    onSurfaceSecondary: "#66615E",
-    onSurfacePrimary: "#1A1615",
+    surfaceDefault: colorScheme === "dark" ? "#1A1B1E" : "#FFFDFC",
+    bgSubtle: colorScheme === "dark" ? "#25262B" : "#FAFAF8",
+    bg: colorScheme === "dark" ? "#2C2E33" : "#FAF6F5",
+    borderDefault: colorScheme === "dark" ? "#373A40" : "#E4E2DD",
+    onSurfaceTertiary: colorScheme === "dark" ? "#909296" : "#B8B1A9",
+    onSurfaceSecondary: colorScheme === "dark" ? "#C1C2C5" : "#66615E",
+    onSurfacePrimary: colorScheme === "dark" ? "#FFFFFF" : "#1A1615",
     PurpleHear: "#D9D9D9",
   },
 });
 
 function AppContent() {
   const element = useRoutes(routes);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const { dark } = useDarkThem();
+  const theme = createAppTheme(dark);
 
   return (
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <SideBar />
-      <Flex w={"100%"} direction={"column"} justify={"start"} align={"center"}>
+      <Flex
+        w={"100%"}
+        direction={"column"}
+        justify={"start"}
+        align={"center"}
+        style={{ marginLeft: isMobile ? 0 : "15%" }}
+      >
         <NavBar />
-        <Card bg={"#FAF6F5"} w={"97%"} h={"100%"} mr={"xl"} ml={"xl"}>
+        <Card bg={theme.other?.bg} w={"97%"} h={"100%"} mr={"xl"} ml={"xl"}>
           {/* <AddDoctor /> */}
           {element}
         </Card>
@@ -58,6 +76,9 @@ function AppContent() {
 }
 
 function App() {
+  const { dark } = useDarkThem();
+  const theme = createAppTheme(dark);
+
   return (
     <MantineProvider theme={theme}>
       <BrowserRouter>
