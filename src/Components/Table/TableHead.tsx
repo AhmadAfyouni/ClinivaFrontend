@@ -1,18 +1,18 @@
 import { Box, Checkbox, Flex, Table, useMantineTheme } from "@mantine/core";
-import Patient from "../../types/Patient";
 import sortData from "../../utilities/SortData";
-interface Props {
+interface Props<T> {
   sortBy: string | null;
-  setSortBy: (sort: keyof Patient | null) => void;
+  setSortBy: (sort: keyof T | null) => void;
   reverseSortDirection: boolean;
   setReverseSortDirection: (reverse: boolean) => void;
   selection: string[];
   setSelection: (updater: (current: string[]) => string[]) => void;
-  data: Patient[];
+  data: T[];
   search: string;
-  setSortedData: (data: Patient[]) => void;
+  setSortedData: (data: T[]) => void;
+  labels:string[]
 }
-const TableHead = ({
+const TableHead = <T extends Record<string, string>>({
   sortBy,
   setSortBy,
   reverseSortDirection,
@@ -22,9 +22,10 @@ const TableHead = ({
   data,
   search,
   setSortedData,
-}: Props) => {
+  labels,
+}: Props<T>) => {
   const theme = useMantineTheme();
-  const setSorting = (field: keyof Patient) => {
+  const setSorting = (field: keyof T) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
     setSortBy(field);
@@ -36,6 +37,7 @@ const TableHead = ({
       current.length === data.length ? [] : data.map((item) => item.id)
     );
 
+  const sortingLable = Object.keys(data[0])
   const styles: React.CSSProperties = {
     cursor: "pointer",
     display: "flex",
@@ -62,19 +64,19 @@ const TableHead = ({
         </Table.Th>
         <Table.Th p={0} colSpan={6} w="100%">
           <Flex w="97%" justify="space-between">
-            <Flex visibleFrom="md" w="30%" justify="space-between">
+            <Flex visibleFrom="md" w="25%" justify="space-between">
               <Box w="70px">
-                <Box style={styles} onClick={() => setSorting("id")}>
-                  Patient ID
-                  {sortBy === "id" && (
+                <Box style={styles} onClick={() => setSorting(sortingLable[0])}>
+                  {labels[0]}
+                  {sortBy === sortingLable[0] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                   )}
                 </Box>
               </Box>
               <Box w="130px">
-                <Box style={styles} onClick={() => setSorting("name")}>
-                  Name
-                  {sortBy === "name" && (
+                <Box style={styles} onClick={() => setSorting(sortingLable[1])}>
+                {labels[1]}
+                  {sortBy ===sortingLable[1] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                   )}
                 </Box>
@@ -84,9 +86,9 @@ const TableHead = ({
             {/* Mobile Screen */}
             <Flex w="120px" align="start" hiddenFrom="md">
               <Box w="120px">
-                <Box style={styles} onClick={() => setSorting("id")}>
+                <Box style={styles} onClick={() => setSorting(sortingLable[0])}>
                   Patient
-                  {sortBy === "id" && (
+                  {sortBy === sortingLable[0] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                   )}
                 </Box>
@@ -95,9 +97,9 @@ const TableHead = ({
 
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
-                <Box onClick={() => setSorting("date")} style={styles}>
-                  Last Visit
-                  {sortBy === "date" && (
+                <Box onClick={() => setSorting(sortingLable[2])} style={styles} >
+                  {labels[2]}
+                  {sortBy === sortingLable[2] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                   )}
                 </Box>
@@ -105,28 +107,27 @@ const TableHead = ({
             </Flex>
 
             <Box w="96px">
-              <Box onClick={() => setSorting("doctor")} style={styles}>
-                Doctors
-                {sortBy === "doctor" && (
+              <Box onClick={() => setSorting(sortingLable[3])} style={styles}>
+              {labels[3]}
+                {sortBy === sortingLable[3] && (
                   <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                 )}
               </Box>
             </Box>
 
             <Box w="106px">
-              <Box onClick={() => setSorting("treatment")} style={styles}>
-                Treatment
-                {sortBy === "treatment" && (
+              <Box onClick={() => setSorting(sortingLable[4])} style={styles}>
+                {labels[4]}
+                {sortBy === sortingLable[4] && (
                   <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                 )}
               </Box>
             </Box>
 
-            {/* Status column */}
             <Box w="110px">
-              <Box onClick={() => setSorting("status")} style={styles}>
-                Status
-                {sortBy === "status" && (
+              <Box onClick={() => setSorting(sortingLable[5])} style={styles}>
+                {labels[5]}
+                {sortBy === sortingLable[5] && (
                   <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                 )}
               </Box>

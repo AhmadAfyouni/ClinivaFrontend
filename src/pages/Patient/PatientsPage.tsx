@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Table, ScrollArea, Flex } from "@mantine/core";
-import data from "../data/patients.json";
-import sortData from "../utilities/SortData";
-import TableBody from "../Components/Table/TableBody";
-import useSelectionStore from "../store/useSelectionStore";
-import PaginationPage from "../Components/PaginationPage";
-import Patient from "../types/Patient";
-import TableHead from "../Components/Table/TableHead";
-import MultiFilters from "../Components/multiFilters";
+import data from "../../data/patients.json";
+import sortData from "../../utilities/SortData";
+import TableBody from "../../Components/Table/TableBody";
+import useSelectionStore from "../../store/useSelectionStore";
+import PaginationPage from "../../Components/PaginationRow";
+import Patient from "../../types/Patient";
+import TableHead from "../../Components/Table/TableHead";
+import MultiFilters from "../../Components/MultiFilters";
 
 const PatientsPage = () => {
   const [activePage, setActivePage] = useState(1);
@@ -67,7 +67,7 @@ const PatientsPage = () => {
       result = result.filter((p) => {
         if (!dateRange || !dateRange[0] || !dateRange[1]) return false;
         const [startDate, endDate] = dateRange;
-        const pDate = new Date(p.date);
+        const pDate = new Date(p.date); 
         return pDate >= startDate && pDate <= endDate;
       });
     }
@@ -84,13 +84,12 @@ const PatientsPage = () => {
   const rows = currentItems.map((item) => (
     <TableBody
       key={item.id}
-      id={item.id}
-      name={item.name}
-      date={item.date}
-      time={item.time}
-      doctor={item.doctor}
-      treatment={item.treatment}
-      status={item.status}
+      th0={item.id}
+      th1={item.name}
+      th2={item.date}
+      th3={item.doctor}
+      th4={item.treatment}
+      th5={item.status}
     />
   ));
 
@@ -109,6 +108,7 @@ const PatientsPage = () => {
       <ScrollArea>
         <Table>
           <TableHead
+            labels={["Patint Id" ,"Name" ,"Last Visist ", "Doctors" ,"Treatment" , 'status' ,'Patient']}
             data={data}
             reverseSortDirection={reverseSortDirection}
             setReverseSortDirection={setReverseSortDirection}

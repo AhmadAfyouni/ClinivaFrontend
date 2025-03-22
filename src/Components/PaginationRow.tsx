@@ -15,7 +15,7 @@ interface Props {
   activePage: number;
   setActivePage: (item: number) => void;
 }
-const PaginationPage = ({
+const PaginationRow = ({
     itemsPerPage,
     setItemsPerPage,
     totalItems,
@@ -83,4 +83,4 @@ const PaginationPage = ({
   </Grid>)
 };
 
-export default PaginationPage;
+export default PaginationRow;

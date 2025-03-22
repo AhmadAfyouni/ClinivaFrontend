@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import {ScrollArea, TextInput,Grid,  Group, useMantineTheme,Box, Flex } from '@mantine/core';
-import doctors from '../data/doctors.json'
-import PaginationPage from '../Components/PaginationPage';
-import DoctorCard from '../Components/DoctorCard';
-import Dropdown from '../Components/Dropdown';
-import Doctor from '../types/Doctor';
+import doctors from '../../data/doctors.json'
+import PaginationPage from '../../Components/PaginationRow';
+import DoctorCard from '../../Components/DoctorCard';
+import Dropdown from '../../Components/Dropdown';
+import Doctor from '../../types/Doctor';
 import { IconSearch } from '@tabler/icons-react';
-import filterData from '../utilities/FilterData';
-import CircledButton from '../Components/CircledButton';
+import filterData from '../../utilities/FilterData';
+import CircledButton from '../../Components/CircledButton';
 import { Plus, SlidersHorizontal } from 'lucide-react';
 
 const DoctorsPage = () => {

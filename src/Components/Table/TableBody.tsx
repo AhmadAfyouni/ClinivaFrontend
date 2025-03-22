@@ -3,29 +3,27 @@ import  { ReactNode} from 'react'
 import useSelectionStore from "../../store/useSelectionStore";
 import CheckBox from "./CheckBox";
 interface Props{
-    id:string;
-    name :string;
-    date :ReactNode;
-    time:ReactNode;
-    doctor:string;
-    treatment:string;
-    status: string
+    th0:string;
+    th1 :string;
+    th2 :ReactNode;
+    th3:string;
+    th4:string;
+    th5: string
 }
-const TableBody = ({ id , name , date , time , doctor , treatment , status }:Props) => {
+const TableBody = ({ th0 , th1 , th2 ,  th3 , th4 , th5 }:Props) => {
   const theme = useMantineTheme();
   const { selection, setSelection } = useSelectionStore();
       const getStatusBadge = (status: string) => {
         const statusColors = {
-          Completed: { bg: theme.other?.secondaryDarkColor, },
-          'In Progress': { bg: theme.other?.primaryColor},
-          Pending: { bg: theme.other?.borderDefault}
+          active: { bg: theme.other?.secondaryDarkColor, },
+          inactive: { bg: theme.primaryColor}
         };
-    
-        const {bg} = statusColors[status as keyof typeof statusColors] || statusColors.Pending;
+
+        const {bg} = statusColors[status as keyof typeof statusColors] || {bg : theme.other.bg};
         return (
           <Badge 
           bg={bg} c={theme.other?.onSurfacePrimary} ff="Lato" fz='9px' p='4px 10px' radius='20px'>
-            {status}
+            {th5}
           </Badge>
         );
       };
@@ -47,22 +45,23 @@ const TableBody = ({ id , name , date , time , doctor , treatment , status }:Pro
 
   return (
     <Table.Tbody>
-    <Table.Tr key={id} bd={theme.other.bgSubtle}>
+    <Table.Tr key={th0} bd={theme.other.bgSubtle}>
       <Table.Td>
-        <CheckBox selection={selection} setToggle={toggleRow} id={id} />
+        <CheckBox selection={selection} setToggle={toggleRow} id={th0} />
       </Table.Td>
       
       <Table.Td p={0} w='100%'>
         <Flex fz='11px' h='50px' w='97%' justify='space-between'>
           {/* Desktop view ID and Name */}
-          <Flex visibleFrom="md" w='30%' justify='space-between'>
+          <Flex visibleFrom="md" w='25%' justify='space-between'>
             <Box fz='11px' w='70px' p='16px 4px' c={theme.other.onSurfacePrimary} ta='start'>
-              {id}
+            <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th0}</Text>
+              
             </Box>
             <Box fz='11px' w='130px' p='16px 4px' c={theme.other.onSurfacePrimary}>
               <Flex align='center' ta='start' c={theme.other.onSurfacePrimary}>
                 {getAvatarCircle()}
-                {name}
+                <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th1}</Text>
               </Flex>
             </Box>
           </Flex>
@@ -71,27 +70,29 @@ const TableBody = ({ id , name , date , time , doctor , treatment , status }:Pro
           <Flex hiddenFrom="md" direction='row' align='center' w='120px'>
             {getAvatarCircle()}
             <Flex direction='column' w='130px' align='start'>
-              <Text fz='11px' p='0' c={theme.other.onSurfacePrimary}>{name}</Text>
-              <Text fz='11px' p='0' c={theme.other.onSurfacePrimary}>{id}</Text>
+              <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th1}</Text>
+              <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th0}</Text>
             </Flex>
           </Flex>
 
           <Flex w={{ base: '90px', md: '148px' }}>
             <Box fz='11px' c={theme.other.onSurfacePrimary} style={{ padding: '16px 4px', color: '#6b7280', textAlign: 'start' }}>
-              {date} - {time}
+              {th2}
             </Box>
           </Flex>
           
           <Box fz='11px' p='16px 4px' w='110px' ta='start' c={theme.other.onSurfacePrimary}>
-            {doctor}
+            <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th3}</Text>
           </Box>
           
           <Box w='106px' p='16px 4px' fz='11px' ta='start' c={theme.other.onSurfacePrimary}>
-            {treatment}
+           <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>{th4}</Text>
           </Box>
           
           <Box w='110px' p='16px 4px' fz='11px' ta='start' c={theme.other.onSurfacePrimary}>
-            {getStatusBadge(status)}
+            {getStatusBadge(th5.toLocaleLowerCase())}
+          <Text fz='11px' p='0' c={theme.other.onSurfacePrimary} truncate>
+          </Text>
           </Box>
         </Flex>
       </Table.Td>
