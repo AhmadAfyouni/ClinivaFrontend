@@ -7,8 +7,8 @@ import Dropdown from '../../Components/Dropdown';
 import Doctor from '../../types/Doctor';
 import { IconSearch } from '@tabler/icons-react';
 import filterData from '../../utilities/FilterData';
-import CircledButton from '../../Components/CircledButton';
-import { Plus, SlidersHorizontal } from 'lucide-react';
+import MobileFilters from '../../Components/mobliefilters';
+import AddButton from '../../Components/addButton';
 
 const DoctorsPage = () => {
   const [filteredData, setFilteredData] = useState<Doctor[]>([]);
@@ -88,12 +88,8 @@ const DoctorsPage = () => {
                     />
               </Group>
               <Flex justify='end' hiddenFrom='sm'>
-                <CircledButton margin="8px" bg={theme.other.secondaryLightColor}>
-                  <SlidersHorizontal size={27} color={theme.other.onSurfacePrimary} />
-                </CircledButton>
-                <CircledButton bg={theme.other.secondaryDarkColor}>
-                  <Plus size={27} color={theme.other.onSurfacePrimary} />
-                </CircledButton>
+                <MobileFilters/>
+                <AddButton/>
               </Flex>
                 
             </Grid.Col>

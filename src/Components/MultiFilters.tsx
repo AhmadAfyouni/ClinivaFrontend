@@ -1,9 +1,9 @@
 import { Button, Flex, useMantineTheme ,Text} from '@mantine/core'
 import { SearchInput } from './SearchInput'
-import { Plus, SlidersHorizontal } from 'lucide-react'
-import CircledButton from './CircledButton'
 import Dropdown from './Dropdown'
 import CompactDatePicker from './CompactDatePicker'
+import MobileFilters from './mobliefilters'
+import AddButton from './addButton'
 
 interface Props{
     search : string
@@ -18,7 +18,6 @@ interface Props{
 }
 const MultiFilters = ({search,handleSearchChange , doctorOptions,handleChangDropDownDoctor,
     treatmentOptions,handleChangeDropDownTreatment,dateRange,setDateRange}:Props) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const theme = useMantineTheme()
   return (
     <>
@@ -64,20 +63,16 @@ const MultiFilters = ({search,handleSearchChange , doctorOptions,handleChangDrop
         </Flex>
       </Flex>
       <Flex
-        hiddenFrom="xs"
+        hiddenFrom="sm"
         align="center"
+        w='90%'
         h="35px"
-        w="50%"
         justify="space-between"
         >
         <SearchInput searchValue={search} setSearchValue={handleSearchChange} />
-        <Flex>
-          <CircledButton margin="8px" bg={theme.other.secondaryLightColor}>
-            <SlidersHorizontal size={27} color="#1A1615" />
-          </CircledButton>
-          <CircledButton bg={theme.other.secondaryDarkColor}>
-            <Plus size={27} color="#1A1615" />
-          </CircledButton>
+        <Flex justify={'end'}>
+          <MobileFilters/>
+          <AddButton/>
         </Flex>
       </Flex>
     </>

@@ -6,11 +6,11 @@ interface Props<T> {
   reverseSortDirection: boolean;
   setReverseSortDirection: (reverse: boolean) => void;
   selection: string[];
-  setSelection: (updater: (current: string[]) => string[]) => void;
   data: T[];
   search: string;
   setSortedData: (data: T[]) => void;
   labels:string[]
+  toggleAll : ()=> void
 }
 const TableHead = <T extends Record<string, string>>({
   sortBy,
@@ -18,11 +18,11 @@ const TableHead = <T extends Record<string, string>>({
   reverseSortDirection,
   setReverseSortDirection,
   selection,
-  setSelection,
   data,
   search,
   setSortedData,
   labels,
+  toggleAll
 }: Props<T>) => {
   const theme = useMantineTheme();
   const setSorting = (field: keyof T) => {
@@ -32,10 +32,7 @@ const TableHead = <T extends Record<string, string>>({
     setSortedData(sortData(data, { sortBy: field, reversed, search }));
   };
 
-  const toggleAll = () =>
-    setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.id)
-    );
+  
 
   const sortingLable = Object.keys(data[0])
   const styles: React.CSSProperties = {
@@ -49,17 +46,15 @@ const TableHead = <T extends Record<string, string>>({
     <Table.Thead>
       <Table.Tr>
         <Table.Th>
-          <Checkbox
-            iconColor={theme.other.onSurfacePrimary}
-            color={selection ? theme.other.secondaryColor : theme.other.bg}
-            w="12px"
-            h="12px"
-            size="12px"
-            onChange={toggleAll}
-            checked={selection.length === data.length}
-            indeterminate={
-              selection.length > 0 && selection.length !== data.length
-            }
+        <Checkbox
+          iconColor={theme.other.onSurfacePrimary}
+          color={selection.length === data.length ? theme.other.secondaryColor : theme.other.bg}
+          w="12px"
+          h="12px"
+          size="12px"
+          onChange={toggleAll}
+          checked={selection.length === data.length}
+          indeterminate={selection.length > 0 && selection.length !== data.length}
           />
         </Table.Th>
         <Table.Th p={0} colSpan={6} w="100%">
@@ -87,7 +82,7 @@ const TableHead = <T extends Record<string, string>>({
             <Flex w="120px" align="start" hiddenFrom="md">
               <Box w="120px">
                 <Box style={styles} onClick={() => setSorting(sortingLable[0])}>
-                  Patient
+                  {labels[6]}
                   {sortBy === sortingLable[0] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                   )}

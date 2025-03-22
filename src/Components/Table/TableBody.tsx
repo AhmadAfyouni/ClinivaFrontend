@@ -1,6 +1,6 @@
 import { Badge,Text, Flex, Table, useMantineTheme , Box} from "@mantine/core";
 import  { ReactNode} from 'react'
-import useSelectionStore from "../../store/useSelectionStore";
+// import useSelectionStore from "../../store/useSelectionStore";
 import CheckBox from "./CheckBox";
 interface Props{
     th0:string;
@@ -9,10 +9,12 @@ interface Props{
     th3:string;
     th4:string;
     th5: string
+    selection: string[];
+    setSelection: (updater: (current: string[]) => string[]) => void;
 }
-const TableBody = ({ th0 , th1 , th2 ,  th3 , th4 , th5 }:Props) => {
+const TableBody = ({ th0 , th1 , th2 ,  th3 , th4 , th5 ,selection,setSelection}:Props) => {
   const theme = useMantineTheme();
-  const { selection, setSelection } = useSelectionStore();
+  // const { selection, setSelection } = useSelectionStore();
       const getStatusBadge = (status: string) => {
         const statusColors = {
           active: { bg: theme.other?.secondaryDarkColor, },

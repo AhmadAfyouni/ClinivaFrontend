@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import data from "../../data/users.json";
-import User from "../../types/User";
+import data from "../../data/staff.json";
 import { Flex, ScrollArea, Table } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import Dropdown from "../../Components/Dropdown";
@@ -10,15 +9,16 @@ import sortData from "../../utilities/SortData";
 import PaginationRow from "../../Components/PaginationRow";
 import AddButton from "../../Components/AddButton";
 import MobileFilters from "../../Components/mobliefilters";
+import Staff from "../../types/Staff";
 
-const UsersPage = () => {
+const StaffPage = () => {
   const [search,setSearch] = useState(""); 
-  const [sortedData, setSortedData] = useState<User[]>(data); 
-  const [sortBy, setSortBy] = useState<keyof User | null>(null);
+  const [sortedData, setSortedData] = useState<Staff[]>(data); 
+  const [sortBy, setSortBy] = useState<keyof Staff | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const [ selection , setSelection ] = useState<string[]>([]);
   const [role, setRole] = useState<string | null>(null);
-  const [status, setStatus] = useState<string | null>(null);
+  const [department, setDepartment] = useState<string | null>(null);
   const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
   const [activePage, setActivePage] = useState(1);
 
@@ -44,11 +44,11 @@ const UsersPage = () => {
 
   const toggleAll = () => {
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) =>  {return item.userId})
+      current.length === data.length ? [] : data.map((item) =>  {return item.staffId.toString()})
     );
   };
 
-  const statusOptions = [...new Set(data.map((p) => p.status))]
+  const statusOptions = [...new Set(data.map((p) => p.department))]
     .map((d) => ({ value: d, label: d }))
     .map((option) => option.value);
 
@@ -58,22 +58,22 @@ const UsersPage = () => {
   const handleChangDropDownRole = (e: string | null) => {
     setRole(e);
   };
-  const handleChangDropDownStatus = (e: string | null) => {
-    setStatus(e);
+  const handleChangDropDownDepartment = (e: string | null) => {
+    setDepartment(e);
   };
   useEffect(() => {
     let result = [...data];
-    if (status) {
-      result = result.filter((p) => p.status === status);
+    if (department) {
+      result = result.filter((p) => p.department === department);
     }
 
     if (role) {
       result = result.filter((p) => p.role === role);
     }
-    setStatus(status);
+    setDepartment(department);
     setRole(role);;
     setSortedData(result);
-  }, [status, role]);
+  }, [department, role]);
 
   const currentItems = sortedData.slice(
     (activePage - 1) * parseInt(itemsPerPage ?? "0"),
@@ -84,14 +84,11 @@ const UsersPage = () => {
     <TableBody
       selection={selection}
       setSelection={setSelection}
-      key={item.userId}
-      th0={item.userId}
-      th1={item.username}
-      th2={new Date(item.createdDate).toLocaleString('en-US', {
-        year: 'numeric', month: 'numeric', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', hour12: true
-      })}
-      th3={item.email}
+      key={item.staffId}
+      th0={item.staffId.toString()}
+      th1={item.name}
+      th2={item.contact}
+      th3={item.department}
       th4={item.role}
       th5={item.status}
     />
@@ -102,7 +99,7 @@ const UsersPage = () => {
     <Flex w='90%' justify='space-between'>
       <Flex justify='start' visibleFrom="sm">
         <Dropdown onChange={handleChangDropDownRole} options={roleOptions} placeHolder="Role"/>
-        <Dropdown onChange={handleChangDropDownStatus} options={statusOptions} placeHolder="Status"/>
+        <Dropdown onChange={handleChangDropDownDepartment} options={statusOptions} placeHolder="Department"/>
       </Flex>
       <SearchInput searchValue={search} setSearchValue={handleSearchChange} />
       <Flex justify='end' hiddenFrom="sm" >
@@ -113,7 +110,7 @@ const UsersPage = () => {
     <ScrollArea>
         <Table>
           <TableHead
-          labels={["User Id", "User Name", "Created Date", "Email", "Role", "Status", "User"]}
+          labels={["Staff Id", "Staff Name", "Contact Info", "department", "Role", "Status", "User"]}
           data={data}  
           reverseSortDirection={reverseSortDirection}
           setReverseSortDirection={setReverseSortDirection}
@@ -133,4 +130,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default StaffPage;

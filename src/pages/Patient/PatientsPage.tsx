@@ -3,7 +3,6 @@ import { Table, ScrollArea, Flex } from "@mantine/core";
 import data from "../../data/patients.json";
 import sortData from "../../utilities/SortData";
 import TableBody from "../../Components/Table/TableBody";
-import useSelectionStore from "../../store/useSelectionStore";
 import PaginationPage from "../../Components/PaginationRow";
 import Patient from "../../types/Patient";
 import TableHead from "../../Components/Table/TableHead";
@@ -13,7 +12,7 @@ const PatientsPage = () => {
   const [activePage, setActivePage] = useState(1);
   const [treatment, setTreatment] = useState<string | null>(null);
   const [doctor, setDoctor] = useState<string | null>(null);
-  const { selection, setSelection } = useSelectionStore();
+  const [ selection, setSelection ] = useState<string[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(data);
@@ -40,7 +39,11 @@ const PatientsPage = () => {
       })
     );
   };
-
+  const toggleAll = () => {
+    setSelection((current) =>
+      current.length === data.length ? [] : data.map((item) =>  {return item.id})
+    );
+  };
   const doctorOptions = [...new Set(data.map((p) => p.doctor))]
     .map((d) => ({ value: d, label: d }))
     .map((option) => option.value);
@@ -90,6 +93,8 @@ const PatientsPage = () => {
       th3={item.doctor}
       th4={item.treatment}
       th5={item.status}
+      selection={selection}
+      setSelection={setSelection}
     />
   ));
 
@@ -114,7 +119,7 @@ const PatientsPage = () => {
             setReverseSortDirection={setReverseSortDirection}
             search={search}
             selection={selection}
-            setSelection={setSelection}
+            toggleAll={toggleAll}
             sortBy={sortBy}
             setSortBy={setSortBy}
             setSortedData={setSortedData}
