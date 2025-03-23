@@ -10,21 +10,20 @@ const CheckBox = ({selection , setToggle , id}:Props) => {
     
     return (
     <Checkbox
-            w='12px'
-            iconColor={theme.other.onSurfacePrimary}
-            c='blue'
-            color={selection.includes(id) ? theme.other.secondaryColor : theme.other.bg}
-            h='12px'
-                type="checkbox"
-                checked={selection.includes(id)}
-                onChange={() => setToggle(id)}
-                size='12px'
-                style={{
-                    borderRadius: '4px',
-                    border: '1px solid #d1d5db',
-                    cursor: 'pointer'
-                }}
-                />
+        w='12px'
+        iconColor={theme.other.onSurfacePrimary}
+        color={selection.includes(id) ? theme.other.secondaryColor : theme.other.bg}
+        h='12px'
+            type="checkbox"
+            checked={selection.includes(id)}
+            onChange={() => setToggle(id)}
+            size='12px'
+            style={{
+                borderRadius: '4px',
+                border: '1px solid #d1d5db',
+                cursor: 'pointer'
+            }}
+            />
     )
 }
 
