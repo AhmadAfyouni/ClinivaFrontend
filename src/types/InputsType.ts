@@ -9,7 +9,8 @@ export default interface InputPropsType {
     | "image"
     | "date"
     | "radio"
-    | "autoCompleat";
+    | "autoCompleat"
+    | "select";
   placeholder?: string;
   error?: string;
   description?: string;
@@ -23,6 +24,7 @@ export default interface InputPropsType {
   ) => void;
   value: string | File;
   radio?: RadioType[];
+  selectValue?: string[];
 }
 export interface Text {
   base: InputPropsType;

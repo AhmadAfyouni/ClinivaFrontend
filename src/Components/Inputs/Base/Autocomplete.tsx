@@ -16,6 +16,7 @@ function AutocompleteCustom({ base }: Props) {
   };
   return (
     <Autocomplete
+      id={base.id}
       label={base.label}
       placeholder={base.placeholder}
       data={data}

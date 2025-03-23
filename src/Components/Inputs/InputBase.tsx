@@ -5,6 +5,7 @@ import DateBase from "./Base/DateBase";
 import RadioBase from "./Base/RadioBase";
 import InputFileBase from "./Base/InputFileBase";
 import AutocompleteCustom from "./Base/Autocomplete";
+import SelectBaseCustom from "./Base/SelectBase";
 interface Props {
   base: InputPropsType;
 }
@@ -21,6 +22,7 @@ function InputBaseCustom({ base }: Props) {
   else if (base.type === "image") return <InputFileBase base={base} />;
   else if (base.type === "autoCompleat")
     return <AutocompleteCustom base={base} />;
+  else if (base.type === "select") return <SelectBaseCustom base={base} />;
   return <>!</>;
 }
 

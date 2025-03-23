@@ -1,8 +1,15 @@
-import { Avatar, Flex, Text } from "@mantine/core";
+import { Avatar, Flex, Text, Group, Burger } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import RTL from "../../Components/RTL";
 import SwitchDarkMode from "../../Components/Dark";
+import usePageTitleStore from "../../store/usePageTitleStore";
+import useDrawerStore from "../../store/useDrawerStore";
 
 function NavBar() {
+  const title = usePageTitleStore((state) => state.title);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const { opened, toggle } = useDrawerStore();
+
   return (
     <Flex
       // bg={"blue"}
@@ -12,22 +19,33 @@ function NavBar() {
       direction={"row"}
       justify={"space-between"}
       align={"center"}
+      style={{ padding: isMobile ? "8px" : "16px 24px" }}
     >
-      <Text fw={"700"} size="1.5rem">
-        Doctor
-      </Text>
+      <Group gap="md">
+        {isMobile && <Burger opened={opened} onClick={toggle} size="sm" />}
+        <Text fw={"700"} size={isMobile ? "1.2rem" : "1.5rem"}>
+          {title}
+        </Text>
+      </Group>
 
-      <Flex gap={"lg"} direction={"row"} align={"center"}>
+      <Group gap={"lg"} visibleFrom="sm">
         <SwitchDarkMode />
         <RTL />
         <Avatar radius={"xl"} />
-        <Flex w={"100%"} direction={"column"} align={"flex-start"}>
+        <Flex direction={"column"} align={"flex-start"}>
           <Text fw={"500"}>AbdElwahap</Text>
           <Text fw={"100"} size="0.8rem">
             Dev
           </Text>
         </Flex>
-      </Flex>
+      </Group>
+
+      {/* Mobile view */}
+      <Group gap={"md"} hiddenFrom="sm">
+        <SwitchDarkMode />
+        <RTL />
+        <Avatar radius={"xl"} />
+      </Group>
     </Flex>
   );
 }

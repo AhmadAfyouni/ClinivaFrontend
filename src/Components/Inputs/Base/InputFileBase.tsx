@@ -56,6 +56,7 @@ export default function InputFileBase({ base }: Props) {
         placeholder="Upload an image"
         onChange={handleImageChange}
         style={{ display: "none" }}
+        id={base.id}
       />
 
       {base.error && (
