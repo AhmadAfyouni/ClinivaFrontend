@@ -9,6 +9,7 @@ import { SideBar } from "./layout/SideBar/SideBar";
 import NavBar from "./layout/NavBar/NavBar";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
@@ -17,6 +18,10 @@ import { useDarkThem } from "./store/darkThem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoaderCustom from "./Components/Loader";
 import { useEffect } from "react";
+import { Notifications } from "@mantine/notifications";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -51,6 +56,7 @@ const createAppTheme = (
     PurpleHear: "#D9D9D9",
     calenderCard1: "#FFD9CF",
     calenderCard2: "#CDEDDD",
+
     calenderCardText1: "#1A1615",
     calenderCardText2: "#66615E",
   },
@@ -95,7 +101,8 @@ function AppContent() {
           style={{ marginLeft: isMobile ? 0 : "15%" }}
         >
           <NavBar />
-          <Card bg={theme.other?.bg} w={"97%"} h={"100%"} mr={"xl"} ml={"xl"}>
+          <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
+
             {element}
           </Card>
         </Flex>
@@ -111,7 +118,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <MantineProvider theme={theme}>
+        <Notifications />
+
         <BrowserRouter>
           <AppContent />
         </BrowserRouter>

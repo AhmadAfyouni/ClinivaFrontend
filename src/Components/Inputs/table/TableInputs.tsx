@@ -1,10 +1,10 @@
 import { DateInput } from "@mantine/dates";
 import { Checkbox, TextInput } from "@mantine/core";
-import { TableColumn, TableRow } from "../../../types/TableInputTypes";
+import { TableColumn } from "../../../types/TableInputTypes";
 
 type TableInputProps = {
   column: TableColumn;
-  value: TableRow;
+  value: unknown;
   onChange: (value: string | Date | boolean) => void;
 };
 

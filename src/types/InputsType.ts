@@ -10,7 +10,11 @@ export default interface InputPropsType {
     | "date"
     | "radio"
     | "autoCompleat"
-    | "select";
+    | "select"
+    | "multiSelect"
+    | "time"
+    | "email"
+    | "phone";
   placeholder?: string;
   error?: string;
   description?: string;
@@ -22,9 +26,10 @@ export default interface InputPropsType {
   onBlur?: (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  value: string | File;
+  value?: string | File | string[];
   radio?: RadioType[];
   selectValue?: string[];
+  disabled?: boolean;
 }
 export interface Text {
   base: InputPropsType;

@@ -29,7 +29,7 @@ export default function DateBase(props: Props) {
   return (
     <DateInput
       dateParser={dateParser}
-      w={"40%"}
+      w={"60%"}
       valueFormat="DD/MM/YYYY"
       id={props.base.id}
       withAsterisk={props.base.mandatory}
@@ -37,6 +37,7 @@ export default function DateBase(props: Props) {
       placeholder={props.base.placeholder}
       onChange={handleChange}
       error={props.base.error}
+      disabled={props.base.disabled}
     />
   );
 }
