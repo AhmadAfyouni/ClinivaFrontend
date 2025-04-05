@@ -6,6 +6,9 @@ import AddPatient from "../pages/Patient/AddPatient";
 import DoctorLayout from "../layout/DoctorLayout";
 import PatientLayout from "../layout/PatientLayout";
 import AddCompany from "../pages/Company/AddCompany";
+import { Login } from "../pages/auth/Login/Login";
+import Appointments from "../pages/Appointments";
+import AddEmployee from "../pages/Employee/AddEmployee";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -20,6 +23,10 @@ export const routes: AppRoute[] = [
     element: <Dashboard />,
   },
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/patients",
     element: <PatientLayout />,
     children: [
@@ -31,13 +38,14 @@ export const routes: AppRoute[] = [
         path: "add",
         element: <AddPatient />,
       },
+
       {
         path: "all",
         element: <PatientsTables />,
       },
       {
         path: "appointments",
-        element: <PatientsTables />,
+        element: <Appointments />,
       },
       {
         path: "records",
@@ -54,7 +62,7 @@ export const routes: AppRoute[] = [
         element: <PatientsTables />,
       },
       {
-        path: "add",
+        path: "add/",
         element: <AddDoctor />,
       },
       {
@@ -82,7 +90,25 @@ export const routes: AppRoute[] = [
     ],
   },
   {
+    path: "/Employee",
+    element: <AddEmployee />,
+    children: [
+      {
+        path: "",
+        element: <AddEmployee />,
+      },
+      {
+        path: "add",
+        element: <AddEmployee />,
+      },
+      {
+        path: "all",
+        element: <AddCompany />,
+      },
+    ],
+  },
+  {
     path: "*",
-    element: <div>404 - Page Not Found</div>,
+    element: <Dashboard />,
   },
 ];

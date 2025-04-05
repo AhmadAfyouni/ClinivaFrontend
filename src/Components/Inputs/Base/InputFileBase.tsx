@@ -52,6 +52,7 @@ export default function InputFileBase({ base }: Props) {
       {/* Hidden File Input */}
       <FileInput
         ref={fileInputRef}
+        disabled={base.disabled}
         accept="image/*"
         placeholder="Upload an image"
         onChange={handleImageChange}

@@ -1,12 +1,11 @@
-import { Select } from "@mantine/core";
+import { MultiSelect } from "@mantine/core";
 import InputPropsType from "../../../types/InputsType";
-
 interface Props {
   base: InputPropsType;
 }
-function SelectBaseCustom({ base }: Props) {
+function MultiSelectBase({ base }: Props) {
   return (
-    <Select
+    <MultiSelect
       id={base.id}
       name={base.id}
       label={base.label}
@@ -15,9 +14,8 @@ function SelectBaseCustom({ base }: Props) {
       searchable
       nothingFoundMessage="Nothing found..."
       disabled={base.disabled}
-      // value={base.value.toString()}
     />
   );
 }
 
-export default SelectBaseCustom;
+export default MultiSelectBase;

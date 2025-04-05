@@ -15,6 +15,8 @@ export default function TextareaBase(props: Props) {
       placeholder={props.base.placeholder}
       onChange={props.base.onChange}
       error={props.base.error}
+      value={props.base.value?.toString() || ""}
+      disabled={props.base.disabled}
     />
   );
 }

@@ -1,4 +1,5 @@
-import { Select, useMantineTheme } from '@mantine/core';
+import { ComboboxItem, Select, useMantineTheme } from "@mantine/core";
+
 
 interface Props {
   options: string[];
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const Dropdown = ({ placeHolder, options, onChange }: Props) => {
+
     const theme = useMantineTheme(); 
     
   return (
@@ -15,21 +17,22 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
       mr='5px'
         placeholder={placeHolder}
         onChange={onChange}
-        color={ theme.other.onSurfacePrimary}
-        data={options} 
+        color={theme.other.onSurfacePrimary}
+        data={options}
         clearable
         styles={{
           input: {
-            backgroundColor:theme.other.secondaryLightColor,
-            border: 'none',
+            backgroundColor: theme.other.secondaryLightColor,
+            border: "none",
             color: theme.other.onSurfacePrimary,
             fontWeight: 500,
-            fontSize: '10px',
-            borderRadius: '50px',
-            '::placeholder': {
-                color: theme.other.onSurfacePrimary,
-              },
+            fontSize: "10px",
+            borderRadius: "50px",
+            "::placeholder": {
+              color: theme.other.onSurfacePrimary,
+            },
           },
+
           option: {
             fontSize: '10px', 
             padding: '8px 4px', 
