@@ -10,11 +10,13 @@ export default function TextareaBase(props: Props) {
       // size="md"
       id={props.base.id}
       withAsterisk={props.base.mandatory}
-      w={"40%"}
+      w={"75%"}
       label={props.base.label}
       placeholder={props.base.placeholder}
       onChange={props.base.onChange}
       error={props.base.error}
+      value={props.base.value?.toString() || ""}
+      disabled={props.base.disabled}
     />
   );
 }

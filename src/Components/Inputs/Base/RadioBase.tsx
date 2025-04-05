@@ -29,7 +29,12 @@ export default function RadioBase(props: Props) {
     >
       <Group mt="xs">
         {props.radio.map((option) => (
-          <Radio key={option.value} value={option.value} label={option.label} />
+          <Radio
+            disabled={props.base.disabled}
+            key={option.value}
+            value={option.value}
+            label={option.label}
+          />
         ))}
         {/* <Radio value="react" label="React" />
         <Radio value="react" label="React" /> */}

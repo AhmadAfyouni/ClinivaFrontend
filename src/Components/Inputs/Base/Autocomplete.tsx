@@ -16,6 +16,7 @@ function AutocompleteCustom({ base }: Props) {
   };
   return (
     <Autocomplete
+      id={base.id}
       label={base.label}
       placeholder={base.placeholder}
       data={data}
@@ -24,6 +25,8 @@ function AutocompleteCustom({ base }: Props) {
       onBlur={base.onBlur}
       styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }}
       mt="md"
+      disabled={base.disabled}
+      value={base.value?.toString() || ""}
     />
   );
 }

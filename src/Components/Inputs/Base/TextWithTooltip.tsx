@@ -32,7 +32,9 @@ export default function InputTooltipBase(props: Props) {
       placeholder={props.base.placeholder}
       onChange={props.base.onChange}
       error={props.base.error}
+      disabled={props.base.disabled}
       inputWrapperOrder={["label", "input", "error", "description"]}
+      value={props.base.value?.toString() || ""}
     />
   );
 }

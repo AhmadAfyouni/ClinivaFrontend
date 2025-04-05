@@ -1,85 +1,68 @@
 import { useFormik } from "formik";
-import AddPatientType from "../../types/AddPatientType";
-import AddUserSchema from "../../schema/AddUserSchema";
+import AddEmployeeType, {
+  WorkingHours,
+  Vacation,
+} from "../../types/AddEmployeeType";
+import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
+import { Button, ScrollArea } from "@mantine/core";
+import { country } from "../../data/country";
+import TableSelection from "../../Components/Inputs/table/TableSelection";
+import useAddUser from "../../hooks/users/useAddUser";
 
 function AddPatient() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
+  const hook = useAddUser();
 
-  const formik = useFormik<AddPatientType>({
+  const formik = useFormik<AddEmployeeType>({
     initialValues: {
-      address: "",
-      blood_type: "",
-      created_at: new Date(),
-      dateOfBirth: new Date(),
-      email: "",
-      emergencyContact: "",
-      gender: "",
-      height: 0,
-      identity: "",
-      image: "",
-      insurances: "",
-      is_active: true,
-      marital_status: "",
       name: "",
+      dateOfBirth: "",
+      gender: "",
+      identity: "",
       nationality: "",
-      notes: "",
+      image: "",
+      marital_status: "",
       number_children: 0,
-      phone: "",
-      updated_at: new Date(),
-      weight: 0,
+      notes: "",
+      address: "",
+      professional_experience: "",
+      specialties: [],
+      Languages: [],
+      workingHours: [],
+      vacations: [],
+      evaluation: 0,
+      employeeType: "Doctor",
     },
-    validationSchema: AddUserSchema,
+    validationSchema: AddEmployeeSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
+      hook.mutate(values);
+      // formik.resetForm();
       console.log("Form Submitted:", values);
     },
   });
 
-  const attrb: InputPropsType[] = [
+  console.log(formik.errors);
+  const primaryFields: InputPropsType[] = [
     {
       id: "name",
-      label: "name",
+      label: "Name",
       mandatory: true,
       type: "text",
       description: "",
       error: formik.errors.name,
-      placeholder: "Kaled",
+      placeholder: "John Doe",
       tooltip: "Enter the name",
       value: formik.values.name || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "phone",
-      label: "Phone",
-      mandatory: true,
-      type: "number",
-      description: "",
-      error: formik.errors.phone,
-      placeholder: "099996666",
-      tooltip: "Enter your phone",
-      value: formik.values.phone || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
-    {
-      id: "email",
-      label: "Email Address",
-      mandatory: true,
-      type: "text",
-      description: "",
-      error: formik.errors.email,
-      placeholder: "Example@gmail.com",
-      tooltip: "Enter your Email Address",
-      value: formik.values.phone || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "dateOfBirth",
       label: "Date Of Birth",
@@ -88,7 +71,7 @@ function AddPatient() {
       description: "",
       error: formik.errors.dateOfBirth,
       placeholder: "",
-      value: "",
+      value: formik.values.dateOfBirth?.toString() || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -109,61 +92,37 @@ function AddPatient() {
       ],
     },
     {
-      id: "image",
-      label: "Profile Image",
-      mandatory: false,
-      type: "image",
-      description: "",
-      error: formik.errors.image,
-      placeholder: "",
-      value: formik.values.image || "",
-      onChangeFile: handleImageChange,
-      onChange: () => {},
-    },
-    {
       id: "identity",
-      label: "identity",
-      mandatory: false,
+      label: "Identity",
+      mandatory: true,
       type: "text",
       description: "",
       error: formik.errors.identity,
-      placeholder: "0011232111254",
+      placeholder: "123456517890",
       tooltip: "Enter your identity",
       value: formik.values.identity || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-
     {
       id: "nationality",
       label: "Nationality",
-      mandatory: false,
-      type: "autoCompleat",
+      mandatory: true,
+      type: "select",
       description: "",
       error: formik.errors.nationality,
-      placeholder: "Syrian",
+      placeholder: "Select nationality",
       tooltip: "Enter your nationality",
       value: formik.values.nationality || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      selectValue: country,
     },
-    {
-      id: "address",
-      label: "Address",
-      mandatory: true,
-      type: "text",
-      description: "",
-      error: formik.errors.address,
-      placeholder: "Aleppo , street 10",
-      tooltip: "Enter your address",
-      value: formik.values.address || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "marital_status",
       label: "Marital Status",
-      mandatory: false,
+      mandatory: true,
       type: "radio",
       description: "",
       error: formik.errors.marital_status,
@@ -180,75 +139,53 @@ function AddPatient() {
     },
     {
       id: "number_children",
-      label: "Number Children",
-      mandatory: false,
+      label: "Number of Children",
+      mandatory: true,
       type: "number",
       description: "",
       error: formik.errors.number_children,
       placeholder: "0",
-      tooltip: "Enter your Number Children",
-      value: "",
+      tooltip: "Enter number of children",
+      value: formik.values.number_children?.toString() || "0",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
     {
-      id: " blood_type",
-      label: " Blood Type",
-      mandatory: false,
-      type: "radio",
+      id: "address",
+      label: "Address",
+      mandatory: true,
+      type: "text",
       description: "",
-      error: formik.errors.blood_type,
-      placeholder: "",
-      value: formik.values.blood_type || "",
+      error: formik.errors.address,
+      placeholder: "Enter address",
+      tooltip: "Enter your address",
+      value: formik.values.address || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      radio: [
-        { label: "A+", value: "A+" },
-        { label: "B+", value: "B+" },
-        { label: "A-", value: "A-" },
-        { label: "B-", value: "B-" },
-        { label: "AB-", value: "AB-" },
-        { label: "AB+", value: "AB+" },
-        { label: "O+", value: "O+" },
-        { label: "O-", value: "O-" },
-      ],
     },
     {
-      id: "height",
-      label: "height",
-      mandatory: false,
+      id: "professional_experience",
+      label: "Professional Experience",
+      mandatory: true,
+      type: "areaText",
+      description: "",
+      error: formik.errors.professional_experience,
+      placeholder: "Enter professional experience",
+      tooltip: "Enter your professional experience",
+      value: formik.values.professional_experience || "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "evaluation",
+      label: "Evaluation",
+      mandatory: true,
       type: "number",
       description: "",
-      error: formik.errors.height,
-      placeholder: "0",
-      tooltip: "Enter your height",
-      value: "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
-    {
-      id: "weight",
-      label: "Weight",
-      mandatory: false,
-      type: "number",
-      description: "",
-      error: formik.errors.weight,
-      placeholder: "0",
-      tooltip: "Enter your Weight",
-      value: "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
-    {
-      id: "emergencyContact",
-      label: "Emergency Contact",
-      mandatory: false,
-      type: "number",
-      description: "",
-      error: formik.errors.emergencyContact,
-      placeholder: "",
-      tooltip: "Enter your Emergency Contact",
-      value: "",
+      error: formik.errors.evaluation,
+      placeholder: "0-10",
+      tooltip: "Enter evaluation score",
+      value: formik.values.evaluation?.toString() || "0",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -259,35 +196,96 @@ function AddPatient() {
       type: "areaText",
       description: "",
       error: formik.errors.notes,
-      placeholder: "note:",
-      tooltip: "Enter your Notes",
-      value: "",
+      placeholder: "Enter notes",
+      tooltip: "Enter additional notes",
+      value: formik.values.notes || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
     {
-      id: "insurances",
-      label: "Insurances",
-      mandatory: false,
-      type: "text",
+      id: "languages",
+      label: "Languages",
+      mandatory: true,
+      type: "multiSelect",
       description: "",
-      error: formik.errors.insurances,
-      placeholder: "",
-      tooltip: "Enter your Insurances",
-      value: "",
+      error: formik.errors.Languages,
+      placeholder: "Select Languages",
+      tooltip: "Enter your Languages",
+      value: formik.values.Languages || [],
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      selectValue: ["English", "French", "Spanish", "German", "Italian"],
+    },
+    {
+      id: "image",
+      label: "Profile Image",
+      mandatory: false,
+      type: "image",
+      description: "",
+      error: formik.errors.image,
+      placeholder: "",
+      value: formik.values.image || "",
+      onChangeFile: handleImageChange,
+      onChange: () => {},
     },
   ];
-  console.log("Formik values:", formik.values);
-  console.log("Formik errors:", formik.errors);
+
   return (
-    <InputForm
-      title="New Patient"
-      base={attrb}
-      count={0}
-      onSubmit={formik.handleSubmit}
-    />
+    <ScrollArea h="calc(100vh - 80px)" w="100%">
+      <form onSubmit={formik.handleSubmit}>
+        <InputForm
+          base={primaryFields}
+          count={0}
+          onSubmit={() => {}}
+          with_submit={false}
+        />
+
+        <TableSelection<{ name: string }>
+          title="Specialties"
+          fieldName="specialties"
+          columns={[{ key: "name", label: "Specialty", type: "text" }]}
+          data={formik.values.specialties?.map((s) => ({ name: s })) || []}
+          onFieldChange={(field, value) => {
+            formik.setFieldValue(
+              field,
+              value.map((v) => v.name)
+            );
+          }}
+        />
+
+        <TableSelection<WorkingHours>
+          title="Working Hours"
+          fieldName="workingHours"
+          columns={[
+            {
+              key: "day",
+              label: "Day",
+              type: "select",
+              options: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
+            },
+            { key: "timeSlots.0.startTime", label: "Start Time", type: "time" },
+            { key: "timeSlots.0.endTime", label: "End Time", type: "time" },
+          ]}
+          data={formik.values.workingHours}
+          onFieldChange={formik.setFieldValue}
+        />
+
+        <TableSelection<Vacation>
+          title="Vacations"
+          fieldName="vacations"
+          columns={[
+            { key: "leaveStartDate", label: "Start Date", type: "date" },
+            { key: "leaveEndDate", label: "End Date", type: "date" },
+            { key: "leaveType", label: "Leave Type", type: "text" },
+            { key: "status", label: "Status", type: "text" },
+          ]}
+          data={formik.values.vacations}
+          onFieldChange={formik.setFieldValue}
+        />
+
+        <Button type="submit">Submit</Button>
+      </form>
+    </ScrollArea>
   );
 }
 

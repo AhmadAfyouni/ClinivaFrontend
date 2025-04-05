@@ -9,11 +9,16 @@ import {
   rem,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 import classes from "./NavbarLinksGroup.module.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import usePageTitleStore from "../../store/usePageTitleStore";
 
 interface LinksGroupProps {
-  icon: React.FC<any>;
+  icon: React.ComponentType<{
+    size?: number;
+    stroke?: number;
+    style?: React.CSSProperties;
+  }>;
   label: string;
   initiallyOpened?: boolean;
   link?: string;
@@ -27,28 +32,21 @@ export function LinksGroup({
   links,
   link,
 }: LinksGroupProps) {
-  const [opened, setOpened] = useState(initiallyOpened || false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const hasLinks = Array.isArray(links);
-  const isActive = link
-    ? location.pathname === link
-    : links?.some((l) => location.pathname === l.link);
+  const setTitle = usePageTitleStore((state) => state.setTitle);
+  const [opened, setOpened] = useState(initiallyOpened || false);
 
-  const items = (hasLinks ? links : []).map((link) => (
+  const handleClick = (targetLink: string, targetLabel: string) => {
+    navigate(targetLink);
+    setTitle(targetLabel);
+  };
+
+  const items = (links || []).map((link) => (
     <Text<"a">
       component="a"
       className={classes.link}
-      href={link.link}
       key={link.label}
-      onClick={(event) => {
-        event.preventDefault();
-        navigate(link.link);
-      }}
-      style={{
-        backgroundColor:
-          location.pathname === link.link ? "#FFF5F2" : undefined,
-      }}
+      onClick={() => handleClick(link.link, link.label)}
     >
       {link.label}
     </Text>
@@ -58,16 +56,13 @@ export function LinksGroup({
     <>
       <UnstyledButton
         onClick={() => {
-          if (hasLinks) {
+          if (links) {
             setOpened((o) => !o);
           } else if (link) {
-            navigate(link);
+            handleClick(link, label);
           }
         }}
         className={classes.control}
-        style={{
-          backgroundColor: isActive ? "#FFF5F2" : undefined,
-        }}
       >
         <Group justify="space-between" gap={0}>
           <Box style={{ display: "flex", alignItems: "center" }}>
@@ -76,25 +71,27 @@ export function LinksGroup({
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
-          {hasLinks && (
+          {links && (
             <IconChevronRight
               className={classes.chevron}
               stroke={1.5}
               style={{
-                transform: opened ? "rotate(90deg)" : "none",
+                width: rem(16),
+                height: rem(16),
+                transform: opened ? "rotate(-90deg)" : "none",
               }}
             />
           )}
         </Group>
       </UnstyledButton>
-      {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+      {links ? <Collapse in={opened}>{items}</Collapse> : null}
     </>
   );
 }
 
 const mockdata = {
   label: "Releases",
-  // icon: IconCalendarStats,
+  icon: IconChevronRight,
   links: [
     { label: "Upcoming releases", link: "/" },
     { label: "Previous releases", link: "/" },

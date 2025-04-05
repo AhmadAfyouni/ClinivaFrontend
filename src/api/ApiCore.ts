@@ -2,8 +2,27 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
-  baseURL: "",
+  baseURL: "https://cliniva-backend.qnv2oe.easypanel.host/api/v1",
 });
+
+const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) {
+    throw new Error("No refresh token available");
+  }
+
+  const response = await axios.post(
+    "https://cliniva-backend.qnv2oe.easypanel.host/api/v1/auth/refresh-token",
+    {
+      refreshToken,
+    }
+  );
+
+  const newAccessToken = response.data.data.accessToken;
+  localStorage.setItem("token", newAccessToken);
+  return newAccessToken;
+};
+
 axiosInstance.interceptors.request.use(
   (config) => {
     if (config.url !== "/login") {
@@ -19,73 +38,92 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
 axiosInstance.interceptors.response.use(
   function (response) {
-    switch (response?.config?.method) {
-      case "post": {
-        if (response.data.message === "" || response?.data.messages === "") {
-          showToast("The operation was completed successfully", "success");
-        } else {
+    if (response.data.message) {
+      switch (response?.config?.method) {
+        case "get":
           showToast(response.data.message, "success");
-        }
-        break;
+          break;
+        case "post":
+          showToast(
+            response.data.message || "The operation was completed successfully",
+            "success"
+          );
+          break;
+        case "put":
+          showToast("Updated: " + response.data.message, "success");
+          break;
+        case "patch":
+          showToast(response.data.message, "success");
+          break;
+        case "delete":
+          showToast("Deleted: success", "success");
+          break;
+        default:
+          break;
       }
-      case "put":
-        showToast("Updated: " + response.data.message, "success");
-        break;
-      case "patch":
-        showToast(response.data.message, "success");
-        break;
-      case "delete":
-        showToast("Deleted: success", "success");
-        break;
-      default:
-        break;
     }
-
     return response;
   },
-  function (error) {
+  async function (error) {
+    console.log(error.response?.data?.message?.message);
     if (error.response) {
-      switch (error?.response?.status) {
+      const status = error.response.status;
+      const errorData = error.response.data;
+
+      switch (status) {
         case 404:
         case 419:
         case 422:
         case 500:
-          if (typeof error.response.data.errors === "string")
-            toast.error(`Error placing order: ${error.response.data.errors}`);
-          else {
-            const e = Object.values(error.response.data.errors)
-              .flatMap((err) => err)
-              .join("\n");
-            showToast(e, "error");
-          }
-          break;
-        case 405:
-          Object.keys(error.response.data.message).map((key) =>
-            showToast(error.response.data.message[key], "error")
+          showToast(
+            errorData?.data?.message?.message || "An error occurred",
+            "error"
           );
           break;
+        case 405:
+          if (errorData?.message) {
+            Object.keys(errorData.message).forEach((key) =>
+              showToast(errorData.message[key], "error")
+            );
+          }
+          break;
         case 401:
-          // navigate("/");
-          showToast(error.response.data.message, "error");
+          try {
+            const newAccessToken = await refreshAccessToken();
+            error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+            return axiosInstance(error.config); // Retry original request
+          } catch (refreshError) {
+            showToast(
+              "Session expired. Please log in again. " + refreshError,
+              "error"
+            );
+            localStorage.removeItem("token");
+            localStorage.removeItem("refreshToken");
+          }
           break;
         case 403:
-          // navigate("/");
+          showToast("Forbidden", "error");
           break;
         default:
-          showToast(error.response?.data?.message, "error");
+          showToast(
+            errorData?.message?.message || "An error occurred",
+            "error"
+          );
           break;
       }
     } else if (error?.request) {
-      showToast(error.message, "error");
+      showToast("Network error occurred", "error");
     } else {
-      // Something happened in setting up the request that triggered an Error
-      showToast("Unknown Error", "error");
+      showToast("An unexpected error occurred", "error");
     }
+
     return Promise.reject(error);
   }
 );
+
 const showToast = (message: string, variant: "success" | "error") => {
   if (variant === "success") {
     toast.success(message, { autoClose: 4000, position: "top-right" });
@@ -93,7 +131,5 @@ const showToast = (message: string, variant: "success" | "error") => {
     toast.error(message, { autoClose: 4000, position: "bottom-right" });
   }
 };
-export const APIKeyGoogleMap = "AIzaSyC9AEfwxO9TCxGzZgugExbTuW2xWzTqv_o";
-export const MapID = "b6e7d03b3e41a8db";
 
 export default axiosInstance;
