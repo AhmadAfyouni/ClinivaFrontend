@@ -15,49 +15,59 @@ import classes from "./NavbarNested.module.css";
 import useDrawerStore from "../../store/useDrawerStore";
 // import { Logo } from "./Logo";
 
-const mockdata = [
-  { label: "Dashboard", icon: IconGauge, link: "/" },
-  {
-    label: "Patient",
-    icon: IconNotes,
-    initiallyOpened: true,
-    links: [
-      { label: "Add Patient", link: "/patients/add" },
-      { label: "All Patients", link: "/patients/all" },
-      { label: "Appointments", link: "/patients/appointments" },
-      { label: "Records", link: "/patients/records" },
-    ],
-  },
-  {
-    label: "Doctor",
-    icon: IconCalendarStats,
-    links: [
-      { label: "Add Doctor", link: "/doctors/add" },
-      { label: "All Doctors", link: "/doctors/all" },
-    ],
-  },
-  {
-    label: "Company",
-    icon: IconPresentationAnalytics,
-    links: [
-      { label: "Company", link: "/company" },
-      { label: "Add Company", link: "/company/add" },
-    ],
-  },
-  { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
-  { label: "Settings", icon: IconAdjustments, link: "/settings" },
-  {
-    label: "Security",
-    icon: IconLock,
-    links: [
-      { label: "Enable 2FA", link: "/security/2fa" },
-      { label: "Change password", link: "/security/password" },
-      { label: "Recovery codes", link: "/security/recovery" },
-    ],
-  },
-];
-
 export function SideBar() {
+  const mockdata = [
+    { label: "Dashboard", icon: IconGauge, link: "/" },
+    {
+      label: "Employee",
+      icon: IconPresentationAnalytics,
+      initiallyOpened: true,
+
+      links: [
+        { label: "Employee", link: "/Employee" },
+        { label: "Add Employee", link: "/Employee/add" },
+      ],
+    },
+    {
+      label: "Patient",
+      icon: IconNotes,
+      initiallyOpened: true,
+
+      links: [
+        { label: "Add Patient", link: "/patients/add" },
+        { label: "All Patients", link: "/patients/all" },
+        { label: "Appointments", link: "/patients/appointments" },
+        { label: "Records", link: "/patients/records" },
+      ],
+    },
+    {
+      label: "Doctor",
+      icon: IconCalendarStats,
+      links: [
+        { label: "Add Doctor", link: "/doctors/add" },
+        { label: "All Doctors", link: "/doctors/all" },
+      ],
+    },
+    {
+      label: "Company",
+      icon: IconPresentationAnalytics,
+      links: [
+        { label: "Company", link: "/company" },
+        { label: "Add Company", link: "/company/add" },
+      ],
+    },
+    { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
+    { label: "Settings", icon: IconAdjustments, link: "/settings" },
+    {
+      label: "Security",
+      icon: IconLock,
+      links: [
+        { label: "Enable 2FA", link: "/security/2fa" },
+        { label: "Change password", link: "/security/password" },
+        { label: "Recovery codes", link: "/security/recovery" },
+      ],
+    },
+  ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, close } = useDrawerStore();
   const links = mockdata.map((item) => (

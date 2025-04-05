@@ -1,7 +1,7 @@
 export interface TableColumn {
   key: string;
   label: string;
-  type?: "text" | "number" | "date" | "email" | "phone";
+  type?: "text" | "number" | "date" | "email" | "phone" | "select" | "time";
   step?: string;
   options?: string[];
 }

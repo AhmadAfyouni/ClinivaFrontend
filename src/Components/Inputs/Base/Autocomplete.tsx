@@ -25,6 +25,8 @@ function AutocompleteCustom({ base }: Props) {
       onBlur={base.onBlur}
       styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }}
       mt="md"
+      disabled={base.disabled}
+      value={base.value?.toString() || ""}
     />
   );
 }

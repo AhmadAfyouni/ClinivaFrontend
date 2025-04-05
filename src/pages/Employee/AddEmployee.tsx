@@ -11,7 +11,7 @@ import { country } from "../../data/country";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import useAddUser from "../../hooks/users/useAddUser";
 
-function AddPatient() {
+function AddEmployee() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
@@ -33,9 +33,17 @@ function AddPatient() {
       specialties: [],
       Languages: [],
       workingHours: [],
-      vacations: [],
-      evaluation: 0,
       employeeType: "Doctor",
+      contactInfos: [],
+      vacationRecords: [],
+      hireDate: "",
+      medicalLicenseNumber: "",
+      certifications: [],
+      jobType: "FULL_TIME",
+      breakTimes: [],
+      isActive: false,
+      clinics: [],
+      specializations: [],
     },
     validationSchema: AddEmployeeSchema,
     validateOnBlur: false,
@@ -176,19 +184,7 @@ function AddPatient() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "evaluation",
-      label: "Evaluation",
-      mandatory: true,
-      type: "number",
-      description: "",
-      error: formik.errors.evaluation,
-      placeholder: "0-10",
-      tooltip: "Enter evaluation score",
-      value: formik.values.evaluation?.toString() || "0",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "notes",
       label: "Notes",
@@ -253,40 +249,24 @@ function AddPatient() {
           }}
         />
 
+        <TableSelection
+          title="Contact Infos"
+          fieldName="contactInfos"
+          columns={[{ key: "type", label: "Type", type: "select" }]}
+          onFieldChange={() => {}}
+        />
         <TableSelection<WorkingHours>
           title="Working Hours"
+          columns={[{}]}
           fieldName="workingHours"
-          columns={[
-            {
-              key: "day",
-              label: "Day",
-              type: "select",
-              options: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
-            },
-            { key: "timeSlots.0.startTime", label: "Start Time", type: "time" },
-            { key: "timeSlots.0.endTime", label: "End Time", type: "time" },
-          ]}
+          onFieldChange={formik.setFieldValue}
+          key={"workingHours"}
           data={formik.values.workingHours}
-          onFieldChange={formik.setFieldValue}
         />
-
-        <TableSelection<Vacation>
-          title="Vacations"
-          fieldName="vacations"
-          columns={[
-            { key: "leaveStartDate", label: "Start Date", type: "date" },
-            { key: "leaveEndDate", label: "End Date", type: "date" },
-            { key: "leaveType", label: "Leave Type", type: "text" },
-            { key: "status", label: "Status", type: "text" },
-          ]}
-          data={formik.values.vacations}
-          onFieldChange={formik.setFieldValue}
-        />
-
         <Button type="submit">Submit</Button>
       </form>
     </ScrollArea>
   );
 }
 
-export default AddPatient;
+export default AddEmployee;

@@ -9,11 +9,18 @@ import { SideBar } from "./layout/SideBar/SideBar";
 import NavBar from "./layout/NavBar/NavBar";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
-import { BrowserRouter } from "react-router-dom";
+import "@mantine/notifications/styles.css";
+import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDarkThem } from "./store/darkThem";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LoaderCustom from "./Components/Loader";
+import { useEffect } from "react";
+import { Notifications } from "@mantine/notifications";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -46,6 +53,8 @@ const createAppTheme = (
     onSurfaceSecondary: colorScheme === "dark" ? "#C1C2C5" : "#66615E",
     onSurfacePrimary: colorScheme === "dark" ? "#FFFFFF" : "#1A1615",
     PurpleHear: "#D9D9D9",
+    calenderCard1: "#FFD9CF",
+    calenderCard2: "#CDEDDD",
   },
 });
 
@@ -54,37 +63,64 @@ function AppContent() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLoginPage = location.pathname === "/login";
+
+  useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (!token && !isLoginPage) {
+      navigate("/login");
+    } else if (token && isLoginPage) {
+      navigate("/");
+    }
+  }, [navigate, isLoginPage]);
+
+  if (isLoginPage) {
+    return element;
+  }
 
   return (
-    <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
-      <SideBar />
-      <Flex
-        w={"100%"}
-        direction={"column"}
-        justify={"start"}
-        align={"center"}
-        style={{ marginLeft: isMobile ? 0 : "15%" }}
-      >
-        <NavBar />
-        <Card bg={theme.other?.bg} w={"97%"} h={"100%"} mr={"xl"} ml={"xl"}>
-          {/* <AddDoctor /> */}
-          {element}
-        </Card>
+    <>
+      <LoaderCustom />
+
+      <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
+        <SideBar />
+
+        <Flex
+          w={"100%"}
+          direction={"column"}
+          justify={"start"}
+          align={"center"}
+          style={{ marginLeft: isMobile ? 0 : "15%" }}
+        >
+          <NavBar />
+          <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
+            {element}
+          </Card>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }
 
 function App() {
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
+  const queryClient = new QueryClient();
 
   return (
-    <MantineProvider theme={theme}>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <ToastContainer />
+      <MantineProvider theme={theme}>
+        <Notifications />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </MantineProvider>
+    </QueryClientProvider>
   );
 }
 

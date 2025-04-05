@@ -1,4 +1,4 @@
-import {ComboboxItem, Select, useMantineTheme } from '@mantine/core';
+import { ComboboxItem, Select, useMantineTheme } from "@mantine/core";
 
 interface Props {
   options: string[];
@@ -7,43 +7,44 @@ interface Props {
 }
 
 const Dropdown = ({ placeHolder, options, onChange }: Props) => {
-    const theme = useMantineTheme(); 
+  const theme = useMantineTheme();
   return (
     <div>
-      <Select w='100px'
-      mr='5px'
+      <Select
+        w="100px"
+        mr="5px"
         placeholder={placeHolder}
         onChange={onChange}
-        color={ theme.other.onSurfacePrimary}
-        data={options} 
+        color={theme.other.onSurfacePrimary}
+        data={options}
         clearable
         styles={{
           input: {
-            backgroundColor:theme.other.secondaryLightColor,
-            border: 'none',
+            backgroundColor: theme.other.secondaryLightColor,
+            border: "none",
             color: theme.other.onSurfacePrimary,
             fontWeight: 500,
-            fontSize: '10px',
-            borderRadius: '50px',
-            '::placeholder': {
-                color: theme.other.onSurfacePrimary,
-              },
+            fontSize: "10px",
+            borderRadius: "50px",
+            "::placeholder": {
+              color: theme.other.onSurfacePrimary,
+            },
           },
-          
+
           dropdown: {
-            borderRadius: '8px',
+            borderRadius: "8px",
           },
           item: {
-            '&[data-selected]': {
-              backgroundColor: '#e8f5e9',
-              color: '#2A9D8F',
+            "&[data-selected]": {
+              backgroundColor: "#e8f5e9",
+              color: "#2A9D8F",
             },
-            '&[data-hovered]': {
-              backgroundColor: '#f0f9f0',
+            "&[data-hovered]": {
+              backgroundColor: "#f0f9f0",
             },
           },
           rightSection: {
-            pointerEvents: 'none',
+            pointerEvents: "none",
           },
         }}
       />
