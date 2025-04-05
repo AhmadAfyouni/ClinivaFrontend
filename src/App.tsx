@@ -22,6 +22,7 @@ import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
+
 const createAppTheme = (
   colorScheme: "light" | "dark"
 ): MantineThemeOverride => ({
@@ -55,6 +56,9 @@ const createAppTheme = (
     PurpleHear: "#D9D9D9",
     calenderCard1: "#FFD9CF",
     calenderCard2: "#CDEDDD",
+
+    calenderCardText1: "#1A1615",
+    calenderCardText2: "#66615E",
   },
 });
 
@@ -98,6 +102,7 @@ function AppContent() {
         >
           <NavBar />
           <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
+
             {element}
           </Card>
         </Flex>
@@ -116,6 +121,7 @@ function App() {
       <ToastContainer />
       <MantineProvider theme={theme}>
         <Notifications />
+
         <BrowserRouter>
           <AppContent />
         </BrowserRouter>

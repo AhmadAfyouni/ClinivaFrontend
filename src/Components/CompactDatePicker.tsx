@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Calendar } from 'lucide-react';
-import { Popover, Text, Group, Button, useMantineTheme } from '@mantine/core';
+import { Popover, Text, Group, Button, useMantineTheme, Box } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 interface Props{
@@ -12,7 +12,7 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
   const [opened, setOpened] = useState(false);
 
   const formatRange = (range: [Date | null, Date | null]|null) => {
-    if (!range[0] || !range[1]) return 'Select date range';
+    if (!range || !range[0] || !range[1]) return 'Select date range';
 
     const formatDate = (date: Date) => date.toLocaleDateString('en-GB', {
       day: 'numeric',
@@ -30,8 +30,14 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
     if (value) setDateRange(value);
   };
 
+  const resetFilters = () => {
+    setDateRange([null, null]);
+  };
+  
   return (
-    <div style={{ width: '150px'}}>
+    <>
+   
+    <Box w='150px'>
       <Popover
         position="bottom"
         shadow="md"
@@ -43,7 +49,7 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
         <Popover.Target>
           <Button
             fullWidth 
-            
+            w='100%'
             variant="default"
             onClick={() => setOpened((o) => !o)}
             rightSection={<ChevronDown size={18} />}
@@ -59,7 +65,6 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
                 borderRadius: '16px',
               },
               inner: {
-                width: '100%',
                 justifyContent: 'space-between'
               }
             }}
@@ -72,6 +77,7 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
 
         <Popover.Dropdown p={0}>
           <DatePicker
+          mb='8px'
             type="range"
             value={dateRange|| [null, null]}
             onChange={handleDateChange}
@@ -80,13 +86,12 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
             styles={{
               calendarHeader: { 
                 backgroundColor: '#f8fafc',
-                marginBottom: 8
               },
               day: { borderRadius: 4 },
             }}
           />
 
-          <Group p="sm" style={{ borderTop: '1px solid #f1f5f9', justifyContent: 'flex-end' }}>
+          <Group p="sm" justify='flex-end' bd='1px solid #f1f5f9'>
             <Button 
               variant="light"
               size="sm"
@@ -98,7 +103,20 @@ const CompactDatePicker = ({dateRange,setDateRange}:Props) => {
           </Group>
         </Popover.Dropdown>
       </Popover>
-    </div>
+    </Box>
+    {!dateRange?.includes(null) && (
+      <Text
+        mt="10px"
+        mr="5px"
+        size="sm"
+        style={{ cursor: "pointer" }}
+        onClick={resetFilters}
+      >
+        
+        Reset Filter
+      </Text>
+    )}
+</>
   );
 };
 

@@ -1,18 +1,20 @@
 import { ComboboxItem, Select, useMantineTheme } from "@mantine/core";
 
+
 interface Props {
   options: string[];
   placeHolder: string;
-  onChange: (value: string | null, option: ComboboxItem) => void;
+  onChange: (value: string | null) => void;
 }
 
 const Dropdown = ({ placeHolder, options, onChange }: Props) => {
-  const theme = useMantineTheme();
+
+    const theme = useMantineTheme(); 
+    
   return (
     <div>
-      <Select
-        w="100px"
-        mr="5px"
+      <Select w='110px'
+      mr='5px'
         placeholder={placeHolder}
         onChange={onChange}
         color={theme.other.onSurfacePrimary}
@@ -31,20 +33,19 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
             },
           },
 
+          option: {
+            fontSize: '10px', 
+            padding: '8px 4px', 
+            '&[dataSelected]': {
+              backgroundColor: theme.other.bgSubtle, 
+              color: '#2A9D8F', 
+            },
+            '&[dataHovered]': {
+              backgroundColor: theme.other.bgSubtle,
+            },
+          },
           dropdown: {
-            borderRadius: "8px",
-          },
-          item: {
-            "&[data-selected]": {
-              backgroundColor: "#e8f5e9",
-              color: "#2A9D8F",
-            },
-            "&[data-hovered]": {
-              backgroundColor: "#f0f9f0",
-            },
-          },
-          rightSection: {
-            pointerEvents: "none",
+            borderRadius: '8px',
           },
         }}
       />
