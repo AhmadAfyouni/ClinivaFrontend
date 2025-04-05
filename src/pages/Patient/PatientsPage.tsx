@@ -7,12 +7,13 @@ import PaginationPage from "../../Components/PaginationRow";
 import Patient from "../../types/Patient";
 import TableHead from "../../Components/Table/TableHead";
 import MultiFilters from "../../Components/MultiFilters";
+import { useNavigate } from "react-router";
 
 const PatientsPage = () => {
   const [activePage, setActivePage] = useState(1);
   const [treatment, setTreatment] = useState<string | null>(null);
   const [doctor, setDoctor] = useState<string | null>(null);
-  const [ selection, setSelection ] = useState<string[]>([]);
+  const [selection, setSelection] = useState<string[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(data);
@@ -27,6 +28,7 @@ const PatientsPage = () => {
   const startIndex = (activePage - 1) * itemsPerPageNumber;
   const endIndex = startIndex + itemsPerPageNumber;
   const totalItems = sortedData.slice(startIndex, endIndex).length;
+  const navigate = useNavigate();
 
   const handleSearchChange = (event: string) => {
     const value = event;
@@ -41,7 +43,11 @@ const PatientsPage = () => {
   };
   const toggleAll = () => {
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) =>  {return item.id})
+      current.length === data.length
+        ? []
+        : data.map((item) => {
+            return item.id;
+          })
     );
   };
   const doctorOptions = [...new Set(data.map((p) => p.doctor))]
@@ -70,7 +76,7 @@ const PatientsPage = () => {
       result = result.filter((p) => {
         if (!dateRange || !dateRange[0] || !dateRange[1]) return false;
         const [startDate, endDate] = dateRange;
-        const pDate = new Date(p.date); 
+        const pDate = new Date(p.date);
         return pDate >= startDate && pDate <= endDate;
       });
     }
@@ -95,6 +101,7 @@ const PatientsPage = () => {
       th5={item.status}
       selection={selection}
       setSelection={setSelection}
+      onClick={() => navigate("/patients/details")}
     />
   ));
 
@@ -113,7 +120,15 @@ const PatientsPage = () => {
       <ScrollArea>
         <Table>
           <TableHead
-            labels={["Patint Id" ,"Name" ,"Last Visist ", "Doctors" ,"Treatment" , 'status' ,'Patient']}
+            labels={[
+              "Patint Id",
+              "Name",
+              "Last Visist ",
+              "Doctors",
+              "Treatment",
+              "status",
+              "Patient",
+            ]}
             data={data}
             reverseSortDirection={reverseSortDirection}
             setReverseSortDirection={setReverseSortDirection}

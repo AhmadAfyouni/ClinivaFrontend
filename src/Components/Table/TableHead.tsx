@@ -1,5 +1,6 @@
 import { Box, Checkbox, Flex, Table, useMantineTheme } from "@mantine/core";
 import sortData from "../../utilities/SortData";
+import { useMediaQuery } from "@mantine/hooks";
 interface Props<T> {
   sortBy: string | null;
   setSortBy: (sort: keyof T | null) => void;
@@ -9,8 +10,8 @@ interface Props<T> {
   data: T[];
   search: string;
   setSortedData: (data: T[]) => void;
-  labels:string[]
-  toggleAll : ()=> void
+  labels: string[];
+  toggleAll: () => void;
 }
 const TableHead = <T extends Record<string, string>>({
   sortBy,
@@ -22,9 +23,12 @@ const TableHead = <T extends Record<string, string>>({
   search,
   setSortedData,
   labels,
-  toggleAll
+  toggleAll,
 }: Props<T>) => {
   const theme = useMantineTheme();
+  const isMobile = useMediaQuery("(max-width: 576px)");
+  const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
+  const isComputer = useMediaQuery("(min-width: 993px)");
   const setSorting = (field: keyof T) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
@@ -32,9 +36,7 @@ const TableHead = <T extends Record<string, string>>({
     setSortedData(sortData(data, { sortBy: field, reversed, search }));
   };
 
-  
-
-  const sortingLable = Object.keys(data[0])
+  const sortingLable = Object.keys(data[0]);
   const styles: React.CSSProperties = {
     cursor: "pointer",
     display: "flex",
@@ -46,53 +48,72 @@ const TableHead = <T extends Record<string, string>>({
     <Table.Thead>
       <Table.Tr>
         <Table.Th>
-        <Checkbox
-          iconColor={theme.other.onSurfacePrimary}
-          color={selection.length === data.length ? theme.other.secondaryColor : theme.other.bg}
-          w="12px"
-          h="12px"
-          size="12px"
-          onChange={toggleAll}
-          checked={selection.length === data.length}
-          indeterminate={selection.length > 0 && selection.length !== data.length}
+          <Checkbox
+            iconColor={theme.other.onSurfacePrimary}
+            color={
+              selection.length === data.length
+                ? theme.other.secondaryColor
+                : theme.other.bg
+            }
+            w="12px"
+            h="12px"
+            size="12px"
+            onChange={toggleAll}
+            checked={selection.length === data.length}
+            indeterminate={
+              selection.length > 0 && selection.length !== data.length
+            }
           />
         </Table.Th>
         <Table.Th p={0} colSpan={6} w="100%">
           <Flex w="97%" justify="space-between">
-            <Flex visibleFrom="md" w="25%" justify="space-between">
-              <Box w="70px">
-                <Box style={styles} onClick={() => setSorting(sortingLable[0])}>
-                  {labels[0]}
-                  {sortBy === sortingLable[0] && (
-                    <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                  )}
+            {isComputer && (
+              <Flex visibleFrom="md" w="25%" justify="space-between">
+                <Box w="70px">
+                  <Box
+                    style={styles}
+                    onClick={() => setSorting(sortingLable[0])}
+                  >
+                    {labels[0]}
+                    {sortBy === sortingLable[0] && (
+                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-              <Box w="130px">
-                <Box style={styles} onClick={() => setSorting(sortingLable[1])}>
-                {labels[1]}
-                  {sortBy ===sortingLable[1] && (
-                    <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                  )}
+                <Box w="130px">
+                  <Box
+                    style={styles}
+                    onClick={() => setSorting(sortingLable[1])}
+                  >
+                    {labels[1]}
+                    {sortBy === sortingLable[1] && (
+                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            </Flex>
+              </Flex>
+            )}
 
             {/* Mobile Screen */}
-            <Flex w="120px" align="start" hiddenFrom="md">
-              <Box w="120px">
-                <Box style={styles} onClick={() => setSorting(sortingLable[0])}>
-                  {labels[6]}
-                  {sortBy === sortingLable[0] && (
-                    <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                  )}
+            {(isMobile || isTablet) && (
+              <Flex w="120px" align="start" hiddenFrom="md">
+                <Box w="120px">
+                  <Box
+                    style={styles}
+                    onClick={() => setSorting(sortingLable[0])}
+                  >
+                    {labels[6]}
+                    {sortBy === sortingLable[0] && (
+                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            </Flex>
+              </Flex>
+            )}
 
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
-                <Box onClick={() => setSorting(sortingLable[2])} style={styles} >
+                <Box onClick={() => setSorting(sortingLable[2])} style={styles}>
                   {labels[2]}
                   {sortBy === sortingLable[2] && (
                     <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
@@ -103,7 +124,7 @@ const TableHead = <T extends Record<string, string>>({
 
             <Box w="96px">
               <Box onClick={() => setSorting(sortingLable[3])} style={styles}>
-              {labels[3]}
+                {labels[3]}
                 {sortBy === sortingLable[3] && (
                   <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
                 )}

@@ -3,7 +3,7 @@ import { SearchInput } from './SearchInput'
 import Dropdown from './Dropdown'
 import CompactDatePicker from './CompactDatePicker'
 import MobileFilters from './mobliefilters'
-import AddButton from './addButton'
+import AddButton from './AddButton'
 
 interface Props{
     search : string
@@ -72,7 +72,7 @@ const MultiFilters = ({search,handleSearchChange , doctorOptions,handleChangDrop
         <SearchInput searchValue={search} setSearchValue={handleSearchChange} />
         <Flex justify={'end'}>
           <MobileFilters/>
-          <AddButton/>
+          <AddButton text='Add Patient'/>
         </Flex>
       </Flex>
     </>
