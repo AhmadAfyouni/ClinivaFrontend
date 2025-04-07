@@ -13,13 +13,14 @@ const AddEmployeeSchema = Yup.object().shape({
         subType: Yup.string().nullable(), // Optional subtype
       })
     )
-    .required("Contact information is required"),
+    .required("Contact information is required")
+    .min(1, "At least one Contact entry is required"),
   dateOfBirth: Yup.date().required("Date of Birth is required"),
   gender: Yup.string()
     .oneOf(["female", "male"], "Invalid gender")
     .required("Gender is required"),
-  identity: Yup.string().nullable(),
-  nationality: Yup.string().nullable(),
+  identity: Yup.string().required("Identify is required"),
+  nationality: Yup.string().required("Nationality is required"),
   image: Yup.mixed()
     .nullable()
     .test("fileSize", "File size is too large (max 5MB)", (value) => {
@@ -44,23 +45,17 @@ const AddEmployeeSchema = Yup.object().shape({
   professional_experience: Yup.string().required(
     "Professional experience is required"
   ),
-  specialties: Yup.array().of(Yup.string()).nullable(),
   Languages: Yup.array().of(Yup.string()).nullable(),
   workingHours: Yup.array()
     .of(
       Yup.object().shape({
         day: Yup.string().required("Day is required"),
-        timeSlots: Yup.array()
-          .of(
-            Yup.object().shape({
-              startTime: Yup.string().required("Start time is required"),
-              endTime: Yup.string().required("End time is required"),
-            })
-          )
-          .required("Time slots are required"),
+        startTime: Yup.string().required("Start time is required"),
+        endTime: Yup.string().required("End time is required"),
       })
     )
-    .required("Working hours are required"),
+    .required("Working hours are required")
+    .min(1, "At least one working hour entry is required"),
   vacationRecords: Yup.array()
     .of(
       Yup.object().shape({

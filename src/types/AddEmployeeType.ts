@@ -1,21 +1,21 @@
-export interface TimeSlot {
+export interface BreakTimesType {
   startTime: string;
   endTime: string;
 }
 
-export interface WorkingHours {
+export interface WorkingHoursType {
   day: string;
-  timeSlots: TimeSlot[];
+  startTime: string;
+  endTime: string;
 }
-
-export interface Vacation {
+export interface VacationRecordsType {
   leaveStartDate: string;
   leaveEndDate: string;
-  leaveType: string;
-  status: string;
+  leaveType: "Vacation" | "Sick Leave" | "Emergency";
+  status: "Pending" | "Approved";
 }
 
-export interface ContactInfo {
+export interface ContactInfoType {
   type: "email" | "phone";
   value: string;
   isPublic: boolean;
@@ -24,7 +24,7 @@ export interface ContactInfo {
 
 export default interface AddEmployeeType {
   name: string;
-  contactInfos: ContactInfo[];
+  contactInfos: ContactInfoType[];
   dateOfBirth: string;
   gender: "female" | "male" | "";
   identity: string;
@@ -35,17 +35,26 @@ export default interface AddEmployeeType {
   notes: string;
   address: string;
   professional_experience: string;
-  specialties: string[];
   Languages: string[];
-  workingHours: WorkingHours[];
-  vacationRecords: Vacation[];
-  employeeType: string;
+  workingHours: WorkingHoursType[];
+  vacationRecords: VacationRecordsType[];
+  employeeType:
+    | "Doctor"
+    | "Nurse"
+    | "Technician"
+    | "Administrative"
+    | "Employee"
+    | "Other"
+    | "";
   hireDate: string;
   medicalLicenseNumber: string;
   certifications: string[];
   jobType: "FULL_TIME" | "PART_TIME";
-  breakTimes: TimeSlot[];
+  breakTimes: BreakTimesType[];
   isActive: boolean;
   clinics: string[];
   specializations: string[];
+  companyId: string;
+  clinicCollectionId: string;
+  departmentId: string;
 }

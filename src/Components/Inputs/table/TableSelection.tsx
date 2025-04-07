@@ -13,13 +13,15 @@ import { TableInput } from "./TableInputs";
 import { TableSelectionProps } from "../../../types/TableInputTypes";
 import { validateTableRow, formatTableValue, createEmptyRow } from "./utils";
 
-export default function TableSelection<T extends Record<string, unknown>>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function TableSelection<T extends Record<string, any>>({
   columns,
   title,
   fieldName,
   data = [],
   onFieldChange,
   onDelete,
+  error,
 }: TableSelectionProps<T>) {
   const theme = useMantineTheme();
   const [scrolled, setScrolled] = useState(false);
@@ -38,9 +40,10 @@ export default function TableSelection<T extends Record<string, unknown>>({
               ? Number(value)
               : column?.type === "date"
               ? new Date(value as string)
-              : value,
+              : value, // Directly set the boolean value
         } as T)
     );
+    console.log(newRow);
   };
 
   const handleSave = () => {
@@ -95,6 +98,9 @@ export default function TableSelection<T extends Record<string, unknown>>({
       <Group justify="space-between" m="sm">
         <Text fw={800} c={theme.primaryColor}>
           {title}
+        </Text>
+        <Text c={"#f12"} fw={800}>
+          {error}
         </Text>
         <Button
           color="red"
