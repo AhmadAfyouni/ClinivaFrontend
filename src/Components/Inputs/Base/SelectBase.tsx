@@ -7,6 +7,7 @@ interface Props {
 function SelectBaseCustom({ base }: Props) {
   return (
     <Select
+      withAsterisk={base.mandatory}
       id={base.id}
       name={base.id}
       label={base.label}
@@ -15,7 +16,10 @@ function SelectBaseCustom({ base }: Props) {
       searchable
       nothingFoundMessage="Nothing found..."
       disabled={base.disabled}
-      // value={base.value.toString()}
+      error={base.error || ""}
+      // onChange={base.onChange}
+      onChange={(value) => base.onChange(value)}
+      value={base.value?.toString()}
     />
   );
 }

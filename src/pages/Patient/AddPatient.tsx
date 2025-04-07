@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
 import AddEmployeeType, {
-  WorkingHours,
+  WorkingHoursType,
   Vacation,
+  VacationRecordsType,
 } from "../../types/AddEmployeeType";
 import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
@@ -253,7 +254,7 @@ function AddPatient() {
           }}
         />
 
-        <TableSelection<WorkingHours>
+        <TableSelection<WorkingHoursType>
           title="Working Hours"
           fieldName="workingHours"
           columns={[
@@ -270,17 +271,29 @@ function AddPatient() {
           onFieldChange={formik.setFieldValue}
         />
 
-        <TableSelection<Vacation>
-          title="Vacations"
-          fieldName="vacations"
+        <TableSelection<VacationRecordsType>
+          title="Vacation Records"
           columns={[
-            { key: "leaveStartDate", label: "Start Date", type: "date" },
-            { key: "leaveEndDate", label: "End Date", type: "date" },
-            { key: "leaveType", label: "Leave Type", type: "text" },
-            { key: "status", label: "Status", type: "text" },
+            { key: "leaveStartDate", label: "Leave Start Date", type: "date" },
+            { key: "leaveEndDate", label: "Leave End Date", type: "date" },
+            {
+              key: "leaveType",
+              label: "Leave Type",
+              type: "select",
+              options: ["Vacation", "Sick Leave", "Emergency"],
+            },
+            {
+              key: "status",
+              label: "Status",
+              type: "select",
+              options: ["Approved", "Sick Pending "],
+            },
           ]}
-          data={formik.values.vacations}
+          fieldName="vacationRecords"
           onFieldChange={formik.setFieldValue}
+          key={"vacationRecords"}
+          data={formik.values.vacationRecords}
+          error={formik.errors.vacationRecords?.toString() || ""}
         />
 
         <Button type="submit">Submit</Button>

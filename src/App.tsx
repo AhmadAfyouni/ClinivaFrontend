@@ -22,7 +22,6 @@ import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
-
 const createAppTheme = (
   colorScheme: "light" | "dark"
 ): MantineThemeOverride => ({
@@ -102,7 +101,6 @@ function AppContent() {
         >
           <NavBar />
           <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
-
             {element}
           </Card>
         </Flex>
@@ -114,7 +112,11 @@ function AppContent() {
 function App() {
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 * 2 },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -20,7 +20,11 @@ export default interface InputPropsType {
   description?: string;
   mandatory: boolean;
   onChange: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | string>
+    event:
+      | string
+      | string[]
+      | null
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   onChangeFile?: (file: File | null) => void;
   onBlur?: (

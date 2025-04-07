@@ -8,10 +8,10 @@ const useAddUser = () => {
     mutationKey: ["AddUser"],
     mutationFn: (User: object) => {
       return axiosInstance
-        .post("/users", User)
+        .post("/user", User)
         .then((res) => {
           setTimeout(() => {
-            navigate(`/dashboard`);
+            navigate(`/Employee`);
           }, 1000);
           return res.data;
         })
