@@ -11,9 +11,12 @@ function MultiSelectBase({ base }: Props) {
       label={base.label}
       placeholder={base.placeholder}
       data={base.selectValue}
+      error={base.error || ""}
       searchable
       nothingFoundMessage="Nothing found..."
       disabled={base.disabled}
+      onChange={base.onChange}
+      withAsterisk={base.mandatory}
     />
   );
 }
