@@ -1,7 +1,7 @@
 import { Box, Button, Card, Flex } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import AppointmentType from "../../types/AppointmentType";
+import AppointmentType from "../../types/Appointment/AppointmentType";
 import AppointmentSchema from "../../schema/AppointmentSchema";
 import InputForm from "../Inputs/InputForm";
 import AppointmentHeader from "./AppointmentHeader";

@@ -1,4 +1,4 @@
-export default interface SpecializationType {
+export default interface SpecializationDetailsType {
   _id: string;
   name: string;
   description: string;

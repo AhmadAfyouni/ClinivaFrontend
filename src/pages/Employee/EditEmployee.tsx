@@ -17,7 +17,7 @@ import useAddEmployee from "../../hooks/employee/useAddEmployee";
 interface selectSpecializationType {
   [key: string]: string;
 }
-function AddEmployee() {
+function EditEmployee() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
@@ -454,4 +454,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default EditEmployee;
