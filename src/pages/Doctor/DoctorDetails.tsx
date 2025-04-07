@@ -1,4 +1,4 @@
-import { Flex, ScrollArea } from "@mantine/core";
+import { Flex, ScrollArea, useMantineTheme } from "@mantine/core";
 import DoctorProfileCard from "../../Components/DoctorsDetails/DoctorProfileCard ";
 import PatientStatisticsChart from "../../Components/DoctorsDetails/PatientStatisticsChart ";
 import AppointmentSchedule from "../../Components/DoctorsDetails/AppointmentSchedule";
@@ -6,6 +6,9 @@ import Workplaces from "../../Components/DoctorsDetails/WorkplacesBreakTime";
 import PercentageTable from "../../Components/DoctorsDetails/PercentageTable";
 import Cards from "../../Components/DoctorsDetails/Cards";
 import { useMediaQuery } from "@mantine/hooks";
+import { PiIdentificationCardThin } from "react-icons/pi";
+import { CiFlag1 } from "react-icons/ci";
+import { IconUsers } from "@tabler/icons-react";
 const DoctorDetails = () => {
   const thPatient = ["Name", "Date", "Treatment"];
   const patients = [
@@ -122,8 +125,14 @@ const DoctorDetails = () => {
   ];
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
+  const theme = useMantineTheme();
   const titleCards = ["Identity", "Nationality", "Total Patients"];
   const valueCards = ["3543654", "Syrian", "1245"];
+  const icons = [
+    <PiIdentificationCardThin size={32} color={theme.other.onSurfacePrimary} />,
+    <CiFlag1 size={32} color={theme.other.onSurfacePrimary} />,
+    <IconUsers stroke={1.3} color={theme.other.onSurfacePrimary} />,
+  ];
   return (
     <ScrollArea>
       <Flex direction="column">

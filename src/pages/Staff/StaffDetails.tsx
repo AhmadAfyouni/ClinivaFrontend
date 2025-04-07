@@ -52,6 +52,7 @@ const StaffDetails = () => {
             Account Info
           </Text>
           <GroupText
+            direction="row"
             titlewidth={300}
             titles={[
               "User Name",
@@ -77,6 +78,7 @@ const StaffDetails = () => {
               Employment Details
             </Text>
             <GroupText
+              direction="row"
               titlewidth={130}
               titles={["Date of Hire", "Employment type", "Employment End"]}
               values={["20/2/2025", "Doctor", "20/2/2027"]}
@@ -87,6 +89,7 @@ const StaffDetails = () => {
               Work assignment
             </Text>
             <GroupText
+              direction="row"
               titlewidth={120}
               titles={["assigned Department", "assigned Clinic", "Supervisor"]}
               values={["dental", "dental", "supervisor"]}

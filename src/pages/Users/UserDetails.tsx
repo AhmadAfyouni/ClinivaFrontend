@@ -27,14 +27,6 @@ const UserDetails = () => {
       icon: <Mail size={24} />,
       onClick: () => console.log("Clicked on Email"),
     },
-    // {
-    //   icon: <MapPin size={24} />,
-    //   onClick: () => console.log("Clicked on Email"),
-    // },
-    // {
-    //   icon: <Globe size={24} />,
-    //   onClick: () => console.log("Clicked on Email"),
-    // },
   ];
   return (
     <Flex direction={isComputer ? "row" : "column"}>
@@ -77,6 +69,7 @@ const UserDetails = () => {
               Employment Details
             </Text>
             <GroupText
+              direction="row"
               titlewidth={130}
               titles={["Date of Hire", "Employment type", "Employment End"]}
               values={["20/2/2025", "Doctor", "20/2/2027"]}
@@ -87,6 +80,7 @@ const UserDetails = () => {
               Work assignment
             </Text>
             <GroupText
+              direction="row"
               titlewidth={120}
               titles={["assigned Department", "assigned Clinic", "Supervisor"]}
               values={["dental", "dental", "supervisor"]}

@@ -2,17 +2,16 @@ import { Flex, Text, useMantineTheme } from "@mantine/core";
 interface Props {
   titles: string[];
   values: string[];
-  titlewidth: number;
+  titlewidth?: number;
+  direction: "row" | "column";
 }
-const GroupText = ({ titles, values, titlewidth }: Props) => {
-  // const titles = ["Date of Hire", "Employment type", "Employment End"];
-  // const values = ["20/2/2025", "Doctor", "20/2/2027"];
+const GroupText = ({ titles, values, titlewidth, direction }: Props) => {
   const theme = useMantineTheme();
 
   return (
     <Flex direction="column" gap="lg" pl={30}>
       {titles.map((title, index) => (
-        <Flex key={index}>
+        <Flex key={index} direction={direction}>
           <Text w={titlewidth} c={theme.other.onSurfaceSecondary}>
             {title}
           </Text>

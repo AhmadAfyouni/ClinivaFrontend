@@ -64,9 +64,7 @@ function PatientInfoCard({
           </Text>
         </ScrollArea>
       </Stack>
-
       <Divider color={theme.other.onSurfaceTertiary} />
-
       <Grid gutter={0} pt={16} pb={8}>
         <Grid.Col span={12}>
           <Flex justify="space-between" mb={18}>

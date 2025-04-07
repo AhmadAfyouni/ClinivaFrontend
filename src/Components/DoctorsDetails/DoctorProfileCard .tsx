@@ -113,7 +113,7 @@ const DoctorProfileCard = ({
         </Box>
         <Flex direction="column">
           {titleInfo.map((item, index) => (
-            <Flex direction="row" align="end" mb="12px">
+            <Flex direction="row" align="end" mb="12px" key={index}>
               <Text
                 w="90px"
                 fw={500}
@@ -146,7 +146,7 @@ const DoctorProfileCard = ({
         mb={isTablet || isMobile ? 0 : 20}
       >
         {sectionTitle.map((item, index) => (
-          <>
+          <Flex direction="column" key={index}>
             <Flex direction="column" h={50} mt={10}>
               <Text size="sm" fw={600} c={theme.other.onSurfacePrimary}>
                 {item}
@@ -164,7 +164,7 @@ const DoctorProfileCard = ({
               visibleFrom="lg"
               c={theme.other.borderDefault}
             />
-          </>
+          </Flex>
         ))}
       </Card.Section>
 
@@ -179,7 +179,12 @@ const DoctorProfileCard = ({
         </Text>
         <Flex direction="column" gap="sm">
           {contactInfoTitle.map((item, index) => (
-            <Flex h={{ sm: 30, md: 20 }} justify="start" align="centers">
+            <Flex
+              h={{ sm: 30, md: 20 }}
+              justify="start"
+              align="centers"
+              key={index}
+            >
               <Text
                 size="sm"
                 fw={500}

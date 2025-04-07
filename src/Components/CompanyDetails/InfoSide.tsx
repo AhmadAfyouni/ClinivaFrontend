@@ -4,7 +4,6 @@ import {
   useMantineTheme,
   Flex,
   Divider,
-  Badge,
   ActionIcon,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -15,47 +14,32 @@ interface IconItem {
   onClick: () => void;
 }
 interface Props {
+  titles: string[];
+  values: string[];
+  titlesWidth: string;
   name: string;
-  id: string;
-  birthday: string;
-  gender: string;
-  address?: string;
-  nationalId: string;
-  isActive: boolean;
   contactInfoIcons: IconItem[];
   iconsMaxWidth: string;
+  hasSocialMedia: boolean;
+  socialMediaIcons: IconItem[];
 }
 
-const InfoCard = ({
-  id,
+const InfoSide = ({
   name,
-  birthday,
-  gender,
-  address,
-  nationalId,
-  isActive,
   contactInfoIcons,
   iconsMaxWidth,
+  titles,
+  values,
+  titlesWidth,
+  hasSocialMedia,
+  socialMediaIcons,
 }: Props) => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const generalInfoTitle = [
-    "ID",
-    "Birthday",
-    "Gender",
-    "address",
-    "NationalId",
-  ];
-  const generalInfovalue = [id, birthday, gender, address, nationalId];
   const theme = useMantineTheme();
   return (
-    <Flex
-      direction={isTablet ? "row" : "column"}
-      justify="space-around"
-      w="90%"
-      p={10}
-    >
-      <Flex direction="column" gap="md" w={isTablet ? "50%" : "100%"} h={370}>
+    <Flex direction={isTablet ? "row" : "column"} w="90%" p={10}>
+      <Flex direction="column" gap="md" w={isTablet ? "50%" : "100%"} h={300}>
         <Image
           w="150px"
           h="150px"
@@ -68,21 +52,6 @@ const InfoCard = ({
           <Text ta="center" c={theme.other.onSurfaceSecondary}>
             {name}
           </Text>
-          <Badge
-            m="0 auto"
-            fz={16}
-            p={15}
-            radioGroup="40px"
-            c={theme.other?.onSurfacePrimary}
-            w="fit-content"
-            bg={
-              isActive
-                ? theme.other.secondaryDarkColor
-                : theme.colors.myPrimary[3]
-            }
-          >
-            {isActive ? "Active" : "unActive"}
-          </Badge>
         </Flex>
         <Text m="10px auto 0" fw={600} fz={18} c={theme.other.onSurfacePrimary}>
           Contact Info
@@ -115,20 +84,42 @@ const InfoCard = ({
           General Info
         </Text>
         <Flex direction="column" gap="md" ml={10}>
-          {generalInfoTitle.map((item, index) => (
+          {titles.map((item, index) => (
             <Flex gap="md" ml={10} key={index}>
-              <Text fz={15} w={70} c={theme.other.onSurfaceSecondary}>
+              <Text fz={15} w={titlesWidth} c={theme.other.onSurfaceSecondary}>
                 {item}
               </Text>
-              <Text fz={15} w={30} c={theme.other.onSurfacePrimary}>
-                {generalInfovalue[index]}
+              <Text fz={15} c={theme.other.onSurfacePrimary}>
+                {values[index]}
               </Text>
             </Flex>
           ))}
+
+          {hasSocialMedia && (
+            <>
+              <Text fw={500} fz={16} mb={10} c={theme.other.onSurfacePrimary}>
+                Social Media Accocunts :
+              </Text>
+              <Flex m="0 auto" justify="space-between" maw={iconsMaxWidth}>
+                {socialMediaIcons.map((item, index) => (
+                  <ActionIcon
+                    m="0 5px"
+                    onClick={item.onClick}
+                    key={index}
+                    size="xl"
+                    radius="xl"
+                    variant="light"
+                  >
+                    {item.icon}
+                  </ActionIcon>
+                ))}
+              </Flex>
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default InfoCard;
+export default InfoSide;
