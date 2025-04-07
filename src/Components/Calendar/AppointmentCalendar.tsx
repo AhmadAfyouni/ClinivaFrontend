@@ -1,7 +1,7 @@
 import { Box, Center, Table, useMantineTheme } from "@mantine/core";
 import CardDate from "./CardDate";
 import AppointmentCard from "./AppointmentCard";
-import AppointmentType from "../../types/AppointmentType";
+import AppointmentType from "../../types/Appointment/AppointmentType";
 
 interface AppointmentCalendarProps {
   days: {

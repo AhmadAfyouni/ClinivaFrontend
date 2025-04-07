@@ -1,6 +1,6 @@
 import axiosInstance from "../../api/ApiCore";
-import SpecializationType from "../../types/SpecializationType";
-import ResponseType from "../../types/Response";
+import SpecializationListType from "../../types/Specialization/SpecializationType";
+import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 const useSpecialization = (
   limit = 500,
@@ -27,7 +27,7 @@ const useSpecialization = (
         order
       }`;
       return axiosInstance
-        .get<ResponseType<SpecializationType>>(url)
+        .get<ResponseType<SpecializationListType>>(url)
         .then((res) => {
           //   countryStore.setMeta(res.data.data.meta);
           //   countryStore.setLinks(res.data.data.links);
