@@ -60,7 +60,7 @@ function AddEmployee() {
     onSubmit: (values) => {
       values.image = "";
       hook.mutate(values);
-      // formik.resetForm();
+      formik.resetForm();
       console.log("Form Submitted:", values);
     },
   });
