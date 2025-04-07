@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
-import TableHead from "../../Components/Table/TableHead";
-import data from "../../data/staff.json";
 import { Flex, ScrollArea, Table } from "@mantine/core";
-import TableBody from "../../Components/Table/TableBody";
-import Dropdown from "../../Components/Dropdown";
-import { SearchInput } from "../../Components/SearchInput";
-import sortData from "../../utilities/SortData";
+import { useState } from "react";
 import PaginationRow from "../../Components/PaginationRow";
+import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
-import MobileFilters from "../../Components/mobliefilters";
-import Staff from "../../types/Staff";
+import TableHead from "../../Components/Table/TableHead";
+import TableBody from "../../Components/Table/TableBody";
+import Clinic from "../../types/Clinic";
+import data from "../../data/clinics.json";
+import sortData from "../../utilities/SortData";
 
-const StaffPage = () => {
+const ClinicsPage = () => {
   const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState<Staff[]>(data);
-  const [sortBy, setSortBy] = useState<keyof Staff | null>(null);
+  const [sortedData, setSortedData] = useState<Clinic[]>(data);
+  const [sortBy, setSortBy] = useState<keyof Clinic | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const [selection, setSelection] = useState<string[]>([]);
-  const [role, setRole] = useState<string | null>(null);
-  const [department, setDepartment] = useState<string | null>(null);
   const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
   const [activePage, setActivePage] = useState(1);
 
@@ -45,37 +41,10 @@ const StaffPage = () => {
       current.length === data.length
         ? []
         : data.map((item) => {
-            return item.staffId.toString();
+            return item.clinicId.toString();
           })
     );
   };
-
-  const statusOptions = [...new Set(data.map((p) => p.department))]
-    .map((d) => ({ value: d, label: d }))
-    .map((option) => option.value);
-
-  const roleOptions = [...new Set(data.map((p) => p.role))]
-    .map((t) => ({ value: t, label: t }))
-    .map((option) => option.value);
-  const handleChangDropDownRole = (e: string | null) => {
-    setRole(e);
-  };
-  const handleChangDropDownDepartment = (e: string | null) => {
-    setDepartment(e);
-  };
-  useEffect(() => {
-    let result = [...data];
-    if (department) {
-      result = result.filter((p) => p.department === department);
-    }
-
-    if (role) {
-      result = result.filter((p) => p.role === role);
-    }
-    setDepartment(department);
-    setRole(role);
-    setSortedData(result);
-  }, [department, role]);
 
   const currentItems = sortedData.slice(
     (activePage - 1) * parseInt(itemsPerPage ?? "0"),
@@ -86,12 +55,12 @@ const StaffPage = () => {
     <TableBody
       selection={selection}
       setSelection={setSelection}
-      key={item.staffId}
-      th0={item.staffId.toString()}
-      th1={item.name}
-      th2={item.contact}
-      th3={item.department}
-      th4={item.role}
+      key={item.clinicId}
+      th0={item.clinicId.toString()}
+      th1={item.clinicName}
+      th2={item.workingHours}
+      th3={item.specialty}
+      th4={item.numberoFPatientsTreated}
       th5={item.status}
     />
   ));
@@ -99,39 +68,24 @@ const StaffPage = () => {
   return (
     <>
       <Flex w="90%" justify="space-between">
-        <Flex justify="start" visibleFrom="sm">
-          <Dropdown
-            onChange={handleChangDropDownRole}
-            options={roleOptions}
-            placeHolder="Role"
-          />
-          <Dropdown
-            onChange={handleChangDropDownDepartment}
-            options={statusOptions}
-            placeHolder="Department"
-          />
-        </Flex>
         <SearchInput
-          text="Search Staff"
           searchValue={search}
           setSearchValue={handleSearchChange}
+          text="Search Clinic"
         />
-        <Flex justify="end" hiddenFrom="sm">
-          <AddButton text="Add Staff" />
-          <MobileFilters />
-        </Flex>
+        <AddButton text="Add Clinic" />
       </Flex>
       <ScrollArea>
         <Table>
           <TableHead
             labels={[
-              "Staff Id",
-              "Staff Name",
-              "Contact Info",
-              "department",
-              "Role",
+              "Clinic Id",
+              "Clinic Name",
+              "workingHours",
+              "Speciality",
+              "NumberOfPatients",
               "Status",
-              "User",
+              "Clinic",
             ]}
             data={data}
             reverseSortDirection={reverseSortDirection}
@@ -158,4 +112,4 @@ const StaffPage = () => {
   );
 };
 
-export default StaffPage;
+export default ClinicsPage;

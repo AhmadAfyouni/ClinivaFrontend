@@ -1,7 +1,9 @@
 import {Text, useMantineTheme } from "@mantine/core";
 import CircledButton from "./CircledButton";
-
-const AddButton = () => {
+interface Props {
+  text :string
+}
+const AddButton = ({text}:Props) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const theme = useMantineTheme()
   return (
@@ -21,7 +23,7 @@ const AddButton = () => {
         c={theme.other?.onSurfacePrimary}
         visibleFrom="sm"
       >
-        add User
+        {text}
       </Text>
     </CircledButton>
   );
