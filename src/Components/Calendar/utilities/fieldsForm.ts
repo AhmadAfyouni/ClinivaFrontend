@@ -1,6 +1,6 @@
 import InputPropsType from "../../../types/InputsType";
 import { FormikProps } from "formik";
-import AppointmentType from "../../../types/AppointmentType";
+import AppointmentType from "../../../types/Appointment/AppointmentType";
 
 export const fieldsForm: (
   formik: FormikProps<AppointmentType>,

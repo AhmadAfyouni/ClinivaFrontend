@@ -3,7 +3,7 @@ import AddEmployeeType, {
   WorkingHoursType,
   Vacation,
   VacationRecordsType,
-} from "../../types/AddEmployeeType";
+} from "../../types/Employee/AddEmployeeType";
 import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";

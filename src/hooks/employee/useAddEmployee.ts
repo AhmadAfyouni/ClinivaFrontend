@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/ApiCore";
-import AddEmployeeType from "../../types/AddEmployeeType";
+import AddEmployeeType from "../../types/Employee/AddEmployeeType";
 
 const useAddEmployee = () => {
   const navigate = useNavigate();
