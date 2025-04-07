@@ -30,6 +30,7 @@
     "react-router": "^7.3.0",
     "react-router-dom": "^7.3.0",
     "react-toastify": "^11.0.5",
+    "recharts": "^2.15.1",
     "smart-webcomponents-react": "^22.0.0",
     "yup": "^1.6.1",
     "zustand": "^5.0.3"

@@ -12,23 +12,21 @@ import AddButton from "../../Components/AddButton";
 import MobileFilters from "../../Components/mobliefilters";
 
 const UsersPage = () => {
-  const [search,setSearch] = useState(""); 
-  const [sortedData, setSortedData] = useState<User[]>(data); 
+  const [search, setSearch] = useState("");
+  const [sortedData, setSortedData] = useState<User[]>(data);
   const [sortBy, setSortBy] = useState<keyof User | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
-  const [ selection , setSelection ] = useState<string[]>([]);
+  const [selection, setSelection] = useState<string[]>([]);
   const [role, setRole] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
   const [activePage, setActivePage] = useState(1);
-
 
   const itemsPerPageNumber = parseInt(itemsPerPage ?? "0");
   const totalPages = Math.ceil(sortedData.length / itemsPerPageNumber);
   const startIndex = (activePage - 1) * itemsPerPageNumber;
   const endIndex = startIndex + itemsPerPageNumber;
   const totalItems = sortedData.slice(startIndex, endIndex).length;
-
 
   const handleSearchChange = (event: string) => {
     const value = event;
@@ -44,7 +42,11 @@ const UsersPage = () => {
 
   const toggleAll = () => {
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) =>  {return item.userId})
+      current.length === data.length
+        ? []
+        : data.map((item) => {
+            return item.userId;
+          })
     );
   };
 
@@ -71,7 +73,7 @@ const UsersPage = () => {
       result = result.filter((p) => p.role === role);
     }
     setStatus(status);
-    setRole(role);;
+    setRole(role);
     setSortedData(result);
   }, [status, role]);
 
@@ -87,48 +89,78 @@ const UsersPage = () => {
       key={item.userId}
       th0={item.userId}
       th1={item.username}
-      th2={new Date(item.createdDate).toLocaleString('en-US', {
-        year: 'numeric', month: 'numeric', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', hour12: true
+      th2={new Date(item.createdDate).toLocaleString("en-US", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
       })}
       th3={item.email}
       th4={item.role}
       th5={item.status}
     />
-))
-    
+  ));
+
   return (
     <>
-    <Flex w='90%' justify='space-between'>
-      <Flex justify='start' visibleFrom="sm">
-        <Dropdown onChange={handleChangDropDownRole} options={roleOptions} placeHolder="Role"/>
-        <Dropdown onChange={handleChangDropDownStatus} options={statusOptions} placeHolder="Status"/>
+      <Flex w="90%" justify="space-between">
+        <Flex justify="start" visibleFrom="sm">
+          <Dropdown
+            onChange={handleChangDropDownRole}
+            options={roleOptions}
+            placeHolder="Role"
+          />
+          <Dropdown
+            onChange={handleChangDropDownStatus}
+            options={statusOptions}
+            placeHolder="Status"
+          />
+        </Flex>
+        <SearchInput
+          text="Search User"
+          searchValue={search}
+          setSearchValue={handleSearchChange}
+        />
+        <Flex justify="end" hiddenFrom="sm">
+          <AddButton text="Add User" />
+          <MobileFilters />
+        </Flex>
       </Flex>
-      <SearchInput searchValue={search} setSearchValue={handleSearchChange} />
-      <Flex justify='end' hiddenFrom="sm" >
-        <AddButton/>   
-        <MobileFilters/>
-      </Flex>
-    </Flex>
-    <ScrollArea>
+      <ScrollArea>
         <Table>
           <TableHead
-          labels={["User Id", "User Name", "Created Date", "Email", "Role", "Status", "User"]}
-          data={data}  
-          reverseSortDirection={reverseSortDirection}
-          setReverseSortDirection={setReverseSortDirection}
-          search={search}
-          selection={selection}
-          sortBy={sortBy}
-          toggleAll={toggleAll}
-          setSortBy={setSortBy}
-          setSortedData={setSortedData} 
+            labels={[
+              "User Id",
+              "User Name",
+              "Created Date",
+              "Email",
+              "Role",
+              "Status",
+              "User",
+            ]}
+            data={data}
+            reverseSortDirection={reverseSortDirection}
+            setReverseSortDirection={setReverseSortDirection}
+            search={search}
+            selection={selection}
+            sortBy={sortBy}
+            toggleAll={toggleAll}
+            setSortBy={setSortBy}
+            setSortedData={setSortedData}
           />
           {rows}
         </Table>
       </ScrollArea>
-      <PaginationRow activePage={activePage} setActivePage={setActivePage} itemsPerPage={itemsPerPage} 
-      setItemsPerPage={setItemsPerPage} totalItems={totalItems} totalPages={totalPages}/>
+      <PaginationRow
+        activePage={activePage}
+        setActivePage={setActivePage}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        totalItems={totalItems}
+        totalPages={totalPages}
+      />
     </>
   );
 };
