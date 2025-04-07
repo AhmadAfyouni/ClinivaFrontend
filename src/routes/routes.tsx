@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
 import AddDoctor from "../pages/Doctor/AddDoctor";
-import PatientsTables from "../pages/PatientsPage";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
 import DoctorLayout from "../layout/DoctorLayout";
@@ -9,6 +8,7 @@ import AddCompany from "../pages/Company/AddCompany";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/Appointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
+import PatientsPage from "../pages/Patient/PatientsPage";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -32,7 +32,7 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <PatientsTables />,
+        element: <PatientsPage />,
       },
       {
         path: "add",
@@ -41,7 +41,7 @@ export const routes: AppRoute[] = [
 
       {
         path: "all",
-        element: <PatientsTables />,
+        element: <PatientsPage />,
       },
       {
         path: "appointments",
@@ -49,7 +49,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "records",
-        element: <PatientsTables />,
+        element: <PatientsPage />,
       },
     ],
   },
@@ -59,7 +59,7 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <PatientsTables />,
+        element: <PatientsPage />,
       },
       {
         path: "add/",
@@ -67,7 +67,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "all",
-        element: <PatientsTables />,
+        element: <PatientsPage />,
       },
     ],
   },
