@@ -16,7 +16,6 @@ export default function sortData<T extends Record<string, string | number>>(
       const bValue = b[sortBy];
 
       if (typeof aValue === "string" && typeof bValue === "string") {
-
         const aParsed = isNaN(Number(aValue)) ? aValue : Number(aValue);
         const bParsed = isNaN(Number(bValue)) ? bValue : Number(bValue);
 

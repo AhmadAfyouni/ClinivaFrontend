@@ -5,27 +5,33 @@ import {
   Flex,
   Divider,
   ActionIcon,
+  Skeleton,
+  Badge,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 interface IconItem {
   icon: ReactElement;
-  onClick: () => void;
+  href: string;
 }
 interface Props {
   titles: string[];
   values: string[];
   titlesWidth: string;
+  url: string;
   name: string;
   contactInfoIcons: IconItem[];
   iconsMaxWidth: string;
   hasSocialMedia: boolean;
   socialMediaIcons: IconItem[];
+  hasActivation: boolean;
+  isActive?: boolean;
 }
 
 const InfoSide = ({
   name,
+  url,
   contactInfoIcons,
   iconsMaxWidth,
   titles,
@@ -33,25 +39,62 @@ const InfoSide = ({
   titlesWidth,
   hasSocialMedia,
   socialMediaIcons,
+  hasActivation,
+  isActive,
 }: Props) => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const theme = useMantineTheme();
+  const [loaded, setLoaded] = useState(false);
+  const [imgSrc, setImgSrc] = useState(url || "/fallback.png");
   return (
     <Flex direction={isTablet ? "row" : "column"} w="90%" p={10}>
-      <Flex direction="column" gap="md" w={isTablet ? "50%" : "100%"} h={300}>
-        <Image
-          w="150px"
-          h="150px"
-          m="0 auto"
-          alt="Profile Picture"
-          radius="xl"
-          src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=87&q=80"
-        />
-        <Flex justify="center" direction="column" gap="xs">
+      <Flex
+        direction="column"
+        gap="md"
+        w={isTablet ? "50%" : "100%"}
+        h={hasActivation ? 350 : 300}
+      >
+        <div
+          style={{
+            width: 150,
+            height: 150,
+            margin: "0 auto",
+            position: "relative",
+          }}
+        >
+          {!loaded && <Skeleton width={150} height={150} radius="xl" />}
+          <Image
+            w={150}
+            h={150}
+            radius="xl"
+            alt=""
+            src={imgSrc}
+            onLoad={() => setLoaded(true)}
+            onError={() => {
+              setImgSrc("/fallback.png");
+              setLoaded(true);
+            }}
+            style={{ display: loaded ? "block" : "none" }}
+          />
+        </div>
+        <Flex justify="center" direction="column" gap="xs" align="center">
           <Text ta="center" c={theme.other.onSurfaceSecondary}>
             {name}
           </Text>
+          {hasActivation && (
+            <Badge
+              ta="center"
+              size="lg"
+              bg={
+                isActive
+                  ? theme.other.secondaryDarkColor
+                  : theme.colors.myPrimary[3]
+              }
+            >
+              {isActive ? "Active" : "InActive"}
+            </Badge>
+          )}
         </Flex>
         <Text m="10px auto 0" fw={600} fz={18} c={theme.other.onSurfacePrimary}>
           Contact Info
@@ -60,7 +103,7 @@ const InfoSide = ({
           {contactInfoIcons.map((item, index) => (
             <ActionIcon
               m="0 5px"
-              onClick={item.onClick}
+              onClick={() => window.open(item.href, "_blank")}
               key={index}
               size="xl"
               radius="xl"
@@ -104,7 +147,7 @@ const InfoSide = ({
                 {socialMediaIcons.map((item, index) => (
                   <ActionIcon
                     m="0 5px"
-                    onClick={item.onClick}
+                    onClick={() => window.open(item.href, "_blank")}
                     key={index}
                     size="xl"
                     radius="xl"

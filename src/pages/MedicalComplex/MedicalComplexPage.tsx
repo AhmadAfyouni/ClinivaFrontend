@@ -1,121 +1,85 @@
 import { useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import data from "../../data/medical.json";
-import { Flex, ScrollArea, Table } from "@mantine/core";
+import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import { SearchInput } from "../../Components/SearchInput";
-import sortData from "../../utilities/SortData";
-import PaginationRow from "../../Components/PaginationRow";
 import AddButton from "../../Components/AddButton";
-import MedicalComplex from "../../types/MedicalComplex";
+import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 
 const MedicalComplexPage = () => {
+  const { data, isFetched } = useMedicalComplexList(1, 1, true);
+  // console.log(data);
+
   const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState<MedicalComplex[]>(data);
-  const [sortBy, setSortBy] = useState<keyof MedicalComplex | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const [selection, setSelection] = useState<string[]>([]);
-  const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
-  const [activePage, setActivePage] = useState(1);
-
-  const itemsPerPageNumber = parseInt(itemsPerPage ?? "0");
-  const totalPages = Math.ceil(sortedData.length / itemsPerPageNumber);
-  const startIndex = (activePage - 1) * itemsPerPageNumber;
-  const endIndex = startIndex + itemsPerPageNumber;
-  const totalItems = sortedData.slice(startIndex, endIndex).length;
-
-  const convertedData = data.map((item) => ({
-    ...item,
-    DepartmentsCount: String(item.DepartmentsCount),
-    StaffCount: String(item.StaffCount),
-  }));
 
   const handleSearchChange = (event: string) => {
-    const value = event;
-    setSearch(value);
-    setSortedData(
-      sortData(convertedData, {
-        sortBy,
-        reversed: reverseSortDirection,
-        search: value,
-      })
-    );
+    setSearch(event);
   };
-
-  const toggleAll = () => {
-    setSelection((current) =>
-      current.length === data.length
-        ? []
-        : data.map((item) => {
-            return item.MedicalId.toString();
-          })
-    );
-  };
-
-  const currentItems = sortedData.slice(
-    (activePage - 1) * parseInt(itemsPerPage ?? "0"),
-    activePage * parseInt(itemsPerPage ?? "0")
-  );
-
-  const rows = currentItems.map((item) => (
+  const rows = data?.map((item) => (
     <TableBody
+      onClick={() => console.log("mediacl")}
       selection={selection}
       setSelection={setSelection}
-      key={item.MedicalId}
-      th0={item.MedicalId}
-      th1={item.ComplexName}
-      th2={item.PIC}
-      th3={item.Address}
-      th4={item.DepartmentsCount.toString()}
-      th5={item.StaffCount.toString()}
+      key={item._id}
+      th0={item.name}
+      th1={item.goals}
+      th2={item.address}
+      th3={item.address}
+      th4={item.address}
+      th5={item.address}
     />
   ));
-
-  return (
-    <>
-      <Flex w="90%" justify="space-between">
-        <SearchInput
-          text="Search MedicalComplex"
-          searchValue={search}
-          setSearchValue={handleSearchChange}
-        />
-        <AddButton text="Add MedicalComplex" />
-      </Flex>
-      <ScrollArea>
-        <Table>
-          <TableHead
-            labels={[
-              "Medical Id",
-              "Medical Name",
-              "PIC",
-              "Address",
-              "DepartmentsCount",
-              "StaffCount",
-              "Medical",
-            ]}
-            data={convertedData}
-            reverseSortDirection={reverseSortDirection}
-            setReverseSortDirection={setReverseSortDirection}
-            search={search}
-            selection={selection}
-            sortBy={sortBy}
-            toggleAll={toggleAll}
-            setSortBy={setSortBy}
-            setSortedData={setSortedData}
+  const toggleAll = () => {
+    if (data) {
+      setSelection((current) =>
+        current.length === data.length
+          ? []
+          : data.map((item) => {
+              return item.companyId.toString();
+            })
+      );
+    }
+  };
+  if (!isFetched || !data)
+    return (
+      <Center>
+        <Text>No Specialization Found</Text>
+      </Center>
+    );
+  else
+    return (
+      <>
+        <Flex w="90%" justify="space-between">
+          <SearchInput
+            text="Search MedicalComplex"
+            searchValue={search}
+            setSearchValue={handleSearchChange}
           />
-          {rows}
-        </Table>
-      </ScrollArea>
-      <PaginationRow
-        activePage={activePage}
-        setActivePage={setActivePage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        totalItems={totalItems}
-        totalPages={totalPages}
-      />
-    </>
-  );
+          <AddButton text="Add MedicalComplex" />
+        </Flex>
+        <ScrollArea>
+          <Table>
+            <TableHead
+              sortedBy={["_id", "name"]}
+              labels={[
+                "Medical Id",
+                "Medical Name",
+                "PIC",
+                "Address",
+                "DepartmentsCount",
+                "StaffCount",
+                "Medical",
+              ]}
+              data={data}
+              selection={selection}
+              toggleAll={toggleAll}
+            />
+            {rows}
+          </Table>
+        </ScrollArea>
+      </>
+    );
 };
 
 export default MedicalComplexPage;

@@ -1,4 +1,4 @@
-import { Flex, ScrollArea, useMantineTheme } from "@mantine/core";
+import { Flex, ScrollArea } from "@mantine/core";
 import DoctorProfileCard from "../../Components/DoctorsDetails/DoctorProfileCard ";
 import PatientStatisticsChart from "../../Components/DoctorsDetails/PatientStatisticsChart ";
 import AppointmentSchedule from "../../Components/DoctorsDetails/AppointmentSchedule";
@@ -6,10 +6,10 @@ import Workplaces from "../../Components/DoctorsDetails/WorkplacesBreakTime";
 import PercentageTable from "../../Components/DoctorsDetails/PercentageTable";
 import Cards from "../../Components/DoctorsDetails/Cards";
 import { useMediaQuery } from "@mantine/hooks";
-import { PiIdentificationCardThin } from "react-icons/pi";
-import { CiFlag1 } from "react-icons/ci";
-import { IconUsers } from "@tabler/icons-react";
+import useDoctorDetails from "../../hooks/doctor/useDoctorDetails";
 const DoctorDetails = () => {
+  const { data } = useDoctorDetails("546356");
+  console.log(data);
   const thPatient = ["Name", "Date", "Treatment"];
   const patients = [
     {
@@ -41,16 +41,6 @@ const DoctorDetails = () => {
       end: "01:00 PM",
     },
     {
-      day: "Mon",
-      start: "8:00 AM",
-      end: "11:00 PM",
-    },
-    {
-      day: "Wed",
-      start: "9:00 AM",
-      end: "12:00 PM",
-    },
-    {
       day: "Sun",
       start: "9:00 AM",
       end: "01:00 PM",
@@ -75,18 +65,6 @@ const DoctorDetails = () => {
       status: "Pending",
     },
     {
-      leavestartdate: "Sarah Miller",
-      leaveenddate: "2028-09-12, 9:00 AM",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
-      leavestartdate: "Sarah Miller",
-      leaveenddate: "2028-09-12, 9:00 AM",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
       leavestartdate: "31/3/2025",
       leaveenddate: "2/4/2025",
       leavetype: "Vic",
@@ -103,18 +81,6 @@ const DoctorDetails = () => {
       leaveenddate: "2/4/2025",
       leavetype: "Vic",
       status: "Pending",
-    },
-    {
-      leavestartdate: "31/3/2025",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "active",
-    },
-    {
-      leavestartdate: "Sarah Miller",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "active",
     },
     {
       leavestartdate: "Sarah Miller",
@@ -125,14 +91,10 @@ const DoctorDetails = () => {
   ];
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
-  const theme = useMantineTheme();
+  // const theme = useMantineTheme();
   const titleCards = ["Identity", "Nationality", "Total Patients"];
   const valueCards = ["3543654", "Syrian", "1245"];
-  const icons = [
-    <PiIdentificationCardThin size={32} color={theme.other.onSurfacePrimary} />,
-    <CiFlag1 size={32} color={theme.other.onSurfacePrimary} />,
-    <IconUsers stroke={1.3} color={theme.other.onSurfacePrimary} />,
-  ];
+
   return (
     <ScrollArea>
       <Flex direction="column">
@@ -226,5 +188,4 @@ const DoctorDetails = () => {
     </ScrollArea>
   );
 };
-
 export default DoctorDetails;
