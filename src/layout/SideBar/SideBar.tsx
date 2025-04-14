@@ -19,13 +19,13 @@ export function SideBar() {
   const mockdata = [
     { label: "Dashboard", icon: IconGauge, link: "/" },
     {
-      label: "Employee",
+      label: "Staff",
       icon: IconPresentationAnalytics,
       initiallyOpened: true,
 
       links: [
-        { label: "Employee", link: "/Employee" },
-        { label: "Add Employee", link: "/Employee/add" },
+        { label: "Staff", link: "/employee" },
+        { label: "Add Staff", link: "/employee/add" },
       ],
     },
     {
@@ -34,18 +34,26 @@ export function SideBar() {
       initiallyOpened: true,
 
       links: [
+        { label: "Patients", link: "/patients" },
         { label: "Add Patient", link: "/patients/add" },
-        { label: "All Patients", link: "/patients/all" },
         { label: "Appointments", link: "/patients/appointments" },
-        { label: "Records", link: "/patients/records" },
+        // { label: "Records", link: "/patients/records" },
       ],
     },
     {
       label: "Doctor",
       icon: IconCalendarStats,
       links: [
+        { label: "Doctors", link: "/doctors" },
         { label: "Add Doctor", link: "/doctors/add" },
-        { label: "All Doctors", link: "/doctors/all" },
+      ],
+    },
+    {
+      label: "User",
+      icon: IconCalendarStats,
+      links: [
+        { label: "Users", link: "/users" },
+        { label: "Add User", link: "/users/add" },
       ],
     },
     {
@@ -56,6 +64,39 @@ export function SideBar() {
         { label: "Add Company", link: "/company/add" },
       ],
     },
+    {
+      label: "MedicalComplex",
+      icon: IconPresentationAnalytics,
+      links: [
+        { label: "Company", link: "/medicalComplex" },
+        { label: "Add MedicalComplex", link: "/medicalComplex/add" },
+      ],
+    },
+    {
+      label: "Departement",
+      icon: IconPresentationAnalytics,
+      links: [
+        { label: "Departement", link: "/departement" },
+        { label: "Add Departement", link: "/departement/add" },
+      ],
+    },
+    {
+      label: "Clinic",
+      icon: IconPresentationAnalytics,
+      links: [
+        { label: "Clinics", link: "/clinic" },
+        { label: "Add Clinic", link: "/clinic/add" },
+      ],
+    },
+    {
+      label: "Speciality",
+      icon: IconPresentationAnalytics,
+      links: [
+        { label: "Specialties", link: "/speciality" },
+        { label: "Add Speciality", link: "/speciality/add" },
+      ],
+    },
+
     { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
     { label: "Settings", icon: IconAdjustments, link: "/settings" },
     {
