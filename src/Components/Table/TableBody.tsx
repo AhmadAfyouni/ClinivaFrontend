@@ -1,4 +1,12 @@
-import { Badge, Text, Flex, Table, useMantineTheme, Box } from "@mantine/core";
+import {
+  Badge,
+  Text,
+  Flex,
+  Table,
+  useMantineTheme,
+  Box,
+  Tooltip,
+} from "@mantine/core";
 import { ReactNode } from "react";
 import CheckBox from "./CheckBox";
 import { useMediaQuery } from "@mantine/hooks";
@@ -31,10 +39,9 @@ const TableBody = ({
 
   const getStatusBadge = (status: string) => {
     const statusColors = {
-      active: { bg: theme.other?.secondaryDarkColor },
-      inactive: { bg: theme.primaryColor },
+      true: { bg: theme.other?.secondaryDarkColor },
+      false: { bg: theme.primaryColor },
     };
-
     const { bg } = statusColors[status as keyof typeof statusColors] || {
       bg: theme.other.bg,
     };
@@ -54,8 +61,8 @@ const TableBody = ({
 
   const getAvatarCircle = () => (
     <Box
-      w="30px"
-      h="30px"
+      miw="30px"
+      mih="30px"
       mr="10px"
       bg={theme.colors.myPrimary[4]}
       style={{
@@ -72,15 +79,20 @@ const TableBody = ({
         : [...current, id]
     );
   };
-
   return (
-    <Table.Tbody onClick={onClick}>
+    <Table.Tbody>
+      {/* <Table.Tbody> */}
       <Table.Tr key={th0} bd={theme.other.bgSubtle}>
         <Table.Td>
           <CheckBox selection={selection} setToggle={toggleRow} id={th0} />
         </Table.Td>
 
-        <Table.Td p={0} w="100%">
+        <Table.Td
+          p={0}
+          w="100%"
+          onClick={onClick}
+          style={{ cursor: "pointer" }}
+        >
           <Flex fz="11px" h="50px" w="97%" justify="space-between">
             {/* Desktop view ID and Name */}
             {isComputer && (
@@ -103,7 +115,7 @@ const TableBody = ({
                 </Box>
                 <Box
                   fz="11px"
-                  w="130px"
+                  w="160px"
                   p="16px 4px"
                   c={theme.other.onSurfacePrimary}
                 >
@@ -128,7 +140,7 @@ const TableBody = ({
 
             {/* Mobile  Avatar, Name and ID */}
             {(isMobile || isTablet) && (
-              <Flex direction="row" align="center" w="120px">
+              <Flex direction="row" align="center" w="150px">
                 {getAvatarCircle()}
                 <Flex direction="column" w="130px" align="start">
                   <Text
@@ -172,9 +184,11 @@ const TableBody = ({
               ta="start"
               c={theme.other.onSurfacePrimary}
             >
-              <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
-                {th3}
-              </Text>
+              <Tooltip label={th3}>
+                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                  {th3}
+                </Text>
+              </Tooltip>
             </Box>
 
             <Box
@@ -184,9 +198,11 @@ const TableBody = ({
               ta="start"
               c={theme.other.onSurfacePrimary}
             >
-              <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
-                {th4}
-              </Text>
+              <Tooltip label={th4}>
+                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                  {th4}
+                </Text>
+              </Tooltip>
             </Box>
 
             <Box
@@ -196,13 +212,15 @@ const TableBody = ({
               ta="start"
               c={theme.other.onSurfacePrimary}
             >
-              {getStatusBadge(th5.toLocaleLowerCase())}
-              <Text
-                fz="11px"
-                p="0"
-                c={theme.other.onSurfacePrimary}
-                truncate
-              ></Text>
+              {getStatusBadge(th5)}
+              <Tooltip label={th5}>
+                <Text
+                  fz="11px"
+                  p="0"
+                  c={theme.other.onSurfacePrimary}
+                  truncate
+                ></Text>
+              </Tooltip>
             </Box>
           </Flex>
         </Table.Td>

@@ -1,106 +1,100 @@
 import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import data from "../../data/staff.json";
-import { Flex, ScrollArea, Table } from "@mantine/core";
+import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
-import Dropdown from "../../Components/Dropdown";
+// import Dropdown from "../../Components/Dropdown";
 import { SearchInput } from "../../Components/SearchInput";
-import sortData from "../../utilities/SortData";
-import PaginationRow from "../../Components/PaginationRow";
 import AddButton from "../../Components/AddButton";
 import MobileFilters from "../../Components/mobliefilters";
-import Staff from "../../types/Staff";
+import useStaffList from "../../hooks/staff/useStaffList";
+import useSortStore from "../../hooks/useSortStore ";
 
 const StaffPage = () => {
+  const { data, isFetched } = useStaffList();
+  // console.log(data);
   const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState<Staff[]>(data);
-  const [sortBy, setSortBy] = useState<keyof Staff | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const [selection, setSelection] = useState<string[]>([]);
-  const [role, setRole] = useState<string | null>(null);
-  const [department, setDepartment] = useState<string | null>(null);
-  const [itemsPerPage, setItemsPerPage] = useState<string | null>("10");
-  const [activePage, setActivePage] = useState(1);
+  console.log(search);
 
-  const itemsPerPageNumber = parseInt(itemsPerPage ?? "0");
-  const totalPages = Math.ceil(sortedData.length / itemsPerPageNumber);
-  const startIndex = (activePage - 1) * itemsPerPageNumber;
-  const endIndex = startIndex + itemsPerPageNumber;
-  const totalItems = sortedData.slice(startIndex, endIndex).length;
+  const { sortBy, order, setSortBy, setOrder } = useSortStore();
 
-  const handleSearchChange = (event: string) => {
-    const value = event;
-    setSearch(value);
-    setSortedData(
-      sortData(data, {
-        sortBy,
-        reversed: reverseSortDirection,
-        search: value,
-      })
-    );
-  };
+  useEffect(() => {
+    setOrder(order);
+    setSortBy(sortBy);
+
+    // if (role) {
+    //   result = result.filter((p) => p.role === role);
+    // }
+    // setRole(role);
+  }, [order, sortBy]);
+
+  // const [role, setRole] = useState<string | null>(null);
+  // const [status, setStatus] = useState<string | null>(null);
+
+  // const [role, setRole] = useState<string | null>(null);
+  // const [department, setDepartment] = useState<string | null>(null);
+
+  if (!data) return null;
 
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data.length
         ? []
         : data.map((item) => {
-            return item.staffId.toString();
+            return item._id.toString();
           })
     );
   };
 
-  const statusOptions = [...new Set(data.map((p) => p.department))]
-    .map((d) => ({ value: d, label: d }))
-    .map((option) => option.value);
+  // const statusOptions = [...new Set(data.map((p) => p.department))]
+  //   .map((d) => ({ value: d, label: d }))
+  //   .map((option) => option.value);
 
-  const roleOptions = [...new Set(data.map((p) => p.role))]
-    .map((t) => ({ value: t, label: t }))
-    .map((option) => option.value);
-  const handleChangDropDownRole = (e: string | null) => {
-    setRole(e);
-  };
-  const handleChangDropDownDepartment = (e: string | null) => {
-    setDepartment(e);
-  };
-  useEffect(() => {
-    let result = [...data];
-    if (department) {
-      result = result.filter((p) => p.department === department);
-    }
+  // const roleOptions = [...new Set(data.map((p) => p.role))]
+  //   .map((t) => ({ value: t, label: t }))
+  //   .map((option) => option.value);
 
-    if (role) {
-      result = result.filter((p) => p.role === role);
-    }
-    setDepartment(department);
-    setRole(role);
-    setSortedData(result);
-  }, [department, role]);
+  // const handleChangDropDownRole = (e: string | null) => {
+  //   setRole(e);
+  // };
+  // const handleChangDropDownDepartment = (e: string | null) => {
+  //   setDepartment(e);
+  // };
 
-  const currentItems = sortedData.slice(
-    (activePage - 1) * parseInt(itemsPerPage ?? "0"),
-    activePage * parseInt(itemsPerPage ?? "0")
-  );
-
-  const rows = currentItems.map((item) => (
+  const rows = data?.map((item) => (
     <TableBody
+      onClick={() => console.log("hee")}
       selection={selection}
       setSelection={setSelection}
-      key={item.staffId}
-      th0={item.staffId.toString()}
+      key={item._id}
+      th0={item._id.toString()}
+      // th0={item.staffId.toString()}
       th1={item.name}
-      th2={item.contact}
-      th3={item.department}
-      th4={item.role}
-      th5={item.status}
+      th2={item.contactInfos.map((item) =>
+        item.type === "email" ? item.value : ""
+      )}
+      th3={item.departmentId}
+      th4={item.employeeType}
+      th5={item.isActive.toString()}
+      // th2={item.contact}
+      // th3={item.department}
+      // th4={item.role}
+      // th5={item.status}
     />
   ));
 
-  return (
-    <>
-      <Flex w="90%" justify="space-between">
-        <Flex justify="start" visibleFrom="sm">
-          <Dropdown
+  if (!isFetched || !data)
+    return (
+      <Center>
+        <Text>No Staff Found</Text>
+      </Center>
+    );
+  else
+    return (
+      <>
+        <Flex w="90%" justify="space-between">
+          <Flex justify="start" visibleFrom="sm">
+            {/* <Dropdown
             onChange={handleChangDropDownRole}
             options={roleOptions}
             placeHolder="Role"
@@ -109,53 +103,40 @@ const StaffPage = () => {
             onChange={handleChangDropDownDepartment}
             options={statusOptions}
             placeHolder="Department"
+          /> */}
+          </Flex>
+          <SearchInput
+            text="Search Staff"
+            searchValue={search}
+            setSearchValue={setSearch}
           />
+          <Flex justify="end" hiddenFrom="sm">
+            <AddButton text="Add Staff" />
+            <MobileFilters />
+          </Flex>
         </Flex>
-        <SearchInput
-          text="Search Staff"
-          searchValue={search}
-          setSearchValue={handleSearchChange}
-        />
-        <Flex justify="end" hiddenFrom="sm">
-          <AddButton text="Add Staff" />
-          <MobileFilters />
-        </Flex>
-      </Flex>
-      <ScrollArea>
-        <Table>
-          <TableHead
-            labels={[
-              "Staff Id",
-              "Staff Name",
-              "Contact Info",
-              "department",
-              "Role",
-              "Status",
-              "User",
-            ]}
-            data={data}
-            reverseSortDirection={reverseSortDirection}
-            setReverseSortDirection={setReverseSortDirection}
-            search={search}
-            selection={selection}
-            sortBy={sortBy}
-            toggleAll={toggleAll}
-            setSortBy={setSortBy}
-            setSortedData={setSortedData}
-          />
-          {rows}
-        </Table>
-      </ScrollArea>
-      <PaginationRow
-        activePage={activePage}
-        setActivePage={setActivePage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        totalItems={totalItems}
-        totalPages={totalPages}
-      />
-    </>
-  );
+        <ScrollArea>
+          <Table>
+            <TableHead
+              labels={[
+                "Staff Id",
+                "Staff Name",
+                "Contact Info",
+                "department",
+                "Role",
+                "Status",
+                "User",
+              ]}
+              sortedBy={["_id", "name", "contactInfos", "", ""]}
+              data={data}
+              selection={selection}
+              toggleAll={toggleAll}
+            />
+            {rows}
+          </Table>
+        </ScrollArea>
+      </>
+    );
 };
 
 export default StaffPage;

@@ -11,17 +11,17 @@ interface Props {
   title: string;
   listItems: string[];
   icon: ReactElement;
+  minwidth?: string;
 }
-function ListComponent({ title, listItems, icon }: Props) {
+function ListComponent({ title, listItems, icon, minwidth }: Props) {
   const theme = useMantineTheme();
   return (
-    <ScrollArea p="md" h={250}>
+    <ScrollArea p="md" h={250} miw={minwidth} type="always">
       <Box mb="md">
-        <Text fw={600} size="sm" color="dimmed">
+        <Text fw={600} size="sm" c={theme.other.onSurfaceTertiary}>
           {title}
         </Text>
       </Box>
-
       <List spacing="md">
         {listItems.map((item, index) => (
           <List.Item

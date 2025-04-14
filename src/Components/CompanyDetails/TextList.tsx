@@ -5,9 +5,10 @@ import {
   Text,
   Box,
   Paper,
-  Group,
   useMantineTheme,
+  Flex,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { CircleDot } from "lucide-react";
 
 interface Props {
@@ -18,21 +19,48 @@ interface Props {
   content2: string[];
   primaryColor?: string;
   secondaryColor?: string;
+  heightLists: number;
+  heightOneList: number;
 }
 
-const TextList = ({ title, title1, content1, title2, content2 }: Props) => {
+const TextList = ({
+  title,
+  title1,
+  content1,
+  title2,
+  content2,
+  heightLists,
+  heightOneList,
+}: Props) => {
   const theme = useMantineTheme();
+  const isMobile = useMediaQuery("(max-width: 576px)");
   const primaryColor = theme.colors.myPrimary[5];
   return (
-    <Paper radius="md">
+    <Paper radius="md" w="100%">
       <Box mb="lg">
-        <Text fz={24} fw={700} c={primaryColor} mb={8}>
+        <Text fz={20} fw={700} c={primaryColor} mb={8}>
           {title}
         </Text>
       </Box>
-      <ScrollArea h={100} type="auto" scrollbarSize={8} offsetScrollbars>
-        <Group grow align="flex-start" gap="xl">
-          <Paper p="lg" radius="md" withBorder>
+      <ScrollArea
+        h={heightLists}
+        type="auto"
+        scrollbarSize={8}
+        offsetScrollbars
+      >
+        <Flex
+          w="100%"
+          align="start"
+          gap="xl"
+          direction={isMobile ? "column" : "row"}
+        >
+          <Paper
+            h={heightOneList}
+            p="lg"
+            w={isMobile ? "100%" : "50%"}
+            radius="md"
+            withBorder
+          >
             <Text fw={600} fz={18} mb="md" pb="xs">
               {title1}
             </Text>
@@ -56,7 +84,13 @@ const TextList = ({ title, title1, content1, title2, content2 }: Props) => {
               ))}
             </List>
           </Paper>
-          <Paper p="lg" radius="md" withBorder>
+          <Paper
+            h={heightOneList}
+            p="lg"
+            w={isMobile ? "100%" : "50%"}
+            radius="md"
+            withBorder
+          >
             <Text fw={600} fz={18} mb="md" pb="xs">
               {title2}
             </Text>
@@ -80,7 +114,7 @@ const TextList = ({ title, title1, content1, title2, content2 }: Props) => {
               ))}
             </List>
           </Paper>
-        </Group>
+        </Flex>
       </ScrollArea>
     </Paper>
   );

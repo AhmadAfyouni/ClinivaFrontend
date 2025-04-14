@@ -1,5 +1,4 @@
-import { ComboboxItem, Select, useMantineTheme } from "@mantine/core";
-
+import { Select, useMantineTheme } from "@mantine/core";
 
 interface Props {
   options: string[];
@@ -8,13 +7,13 @@ interface Props {
 }
 
 const Dropdown = ({ placeHolder, options, onChange }: Props) => {
+  const theme = useMantineTheme();
 
-    const theme = useMantineTheme(); 
-    
   return (
-    <div>
-      <Select w='110px'
-      mr='5px'
+    <>
+      <Select
+        w="110px"
+        mr="5px"
         placeholder={placeHolder}
         onChange={onChange}
         color={theme.other.onSurfacePrimary}
@@ -34,22 +33,22 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
           },
 
           option: {
-            fontSize: '10px', 
-            padding: '8px 4px', 
-            '&[dataSelected]': {
-              backgroundColor: theme.other.bgSubtle, 
-              color: '#2A9D8F', 
+            fontSize: "10px",
+            padding: "8px 4px",
+            "&[dataSelected]": {
+              backgroundColor: theme.other.bgSubtle,
+              color: "#2A9D8F",
             },
-            '&[dataHovered]': {
+            "&[dataHovered]": {
               backgroundColor: theme.other.bgSubtle,
             },
           },
           dropdown: {
-            borderRadius: '8px',
+            borderRadius: "8px",
           },
         }}
       />
-    </div>
+    </>
   );
 };
 

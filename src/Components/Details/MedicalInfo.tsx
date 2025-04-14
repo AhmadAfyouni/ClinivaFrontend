@@ -11,8 +11,8 @@ import { GiBodyHeight, GiWeightScale } from "react-icons/gi";
 import { CiFlag1 } from "react-icons/ci";
 interface Props {
   bloodType: string;
-  weight: string;
-  hieght: string;
+  weight: number;
+  hieght: number;
   nationality: string;
 }
 export function MedicalInfo({ bloodType, hieght, nationality, weight }: Props) {
