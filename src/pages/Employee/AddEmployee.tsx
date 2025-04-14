@@ -1,11 +1,8 @@
 import { useFormik } from "formik";
 import AddEmployeeType, {
-  WorkingHoursType,
-  ContactInfoType,
   VacationRecordsType,
-  BreakTimesType,
 } from "../../types/Employee/AddEmployeeType";
-import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
+import AddEmployeeSchema from "../../schema/Employee/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Button, Center, ScrollArea, Text } from "@mantine/core";
@@ -13,6 +10,11 @@ import { country } from "../../data/country";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
 import useAddEmployee from "../../hooks/employee/useAddEmployee";
+import {
+  WorkingHoursType,
+  ContactInfoType,
+  BreakTimesType,
+} from "../../types/GeneralAdd";
 
 interface selectSpecializationType {
   [key: string]: string;
@@ -86,6 +88,14 @@ function AddEmployee() {
     console.log(selectedValues);
     formik.setFieldValue(fieldName, selectedValues);
   };
+  function getKeysByValue<T>(obj: Record<string, T>, value: T[]): string[] {
+    const keys = Object.entries(obj)
+      .filter(([, val]) => value.includes(val)) // Check if the value is in the array of values
+      .map(([key]) => key);
+    console.log(formik.values.specializations);
+    return keys;
+  }
+
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -187,7 +197,7 @@ function AddEmployee() {
       description: "",
       error: formik.errors.hireDate,
       placeholder: "",
-      value: formik.values.hireDate?.toString() || Date.now().toString(),
+      value: formik.values.hireDate?.toString(),
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -301,7 +311,7 @@ function AddEmployee() {
       error: formik.errors.specializations?.toString(),
       placeholder: "Select Specialties",
       tooltip: "Enter your Specialties",
-      value: formik.values.specializations || [],
+      value: getKeysByValue(Specializations, formik.values.specializations),
       onChange: (selectedKeys) => {
         if (
           Array.isArray(selectedKeys) &&

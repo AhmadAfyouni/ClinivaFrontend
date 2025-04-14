@@ -11,7 +11,12 @@ interface Props {
   base: InputPropsType;
 }
 function InputBaseCustom({ base }: Props) {
-  if (base.type === "text" || base.type === "number")
+  if (
+    base.type === "text" ||
+    base.type === "number" ||
+    base.type === "password" ||
+    base.type === "email"
+  )
     return <InputTooltipBase base={base} key={base.id} />;
   else if (base.type === "areaText")
     return <TextareaBase base={base} key={base.id} />;

@@ -1,11 +1,14 @@
 import { Radio, Group } from "@mantine/core";
 import InputPropsType, { RadioType } from "../../../types/InputsType";
+import { useTranslation } from "react-i18next";
 interface Props {
   base: InputPropsType;
   radio: RadioType[];
 }
 
 export default function RadioBase(props: Props) {
+  const { t } = useTranslation("index");
+
   const handleChange = (value: string) => {
     if (props.base.onChange) {
       const event = {
@@ -20,12 +23,12 @@ export default function RadioBase(props: Props) {
     <Radio.Group
       w={"100%"}
       name={props.base.id}
-      label={props.base.label}
-      description={props.base.description}
+      label={t(props.base.label)}
+      description={t(props.base.description || "")}
       id={props.base.id}
       withAsterisk={props.base.mandatory}
       onChange={handleChange}
-      error={props.base.error}
+      error={t(props.base.error || "")}
     >
       <Group mt="xs">
         {props.radio.map((option) => (
@@ -33,7 +36,7 @@ export default function RadioBase(props: Props) {
             disabled={props.base.disabled}
             key={option.value}
             value={option.value}
-            label={option.label}
+            label={t(option.label)}
           />
         ))}
         {/* <Radio value="react" label="React" />

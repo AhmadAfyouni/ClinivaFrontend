@@ -1,60 +1,70 @@
 import { useFormik } from "formik";
-import AddEmployeeType, {
-  WorkingHoursType,
-  ContactInfoType,
-  VacationRecordsType,
-  BreakTimesType,
-} from "../../types/Employee/AddEmployeeType";
-import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
+import { WorkingHoursType } from "../../types/Employee/AddEmployeeType";
+import AddEmployeeSchema from "../../schema/Employee/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Button, Center, ScrollArea, Text } from "@mantine/core";
 import { country } from "../../data/country";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
-import useAddEmployee from "../../hooks/employee/useAddEmployee";
+import GetEmployeeType, {
+  BreakTime,
+  ContactInfo,
+  VacationRecord,
+} from "../../types/Employee/GetEmployee";
+import useEditEmployee from "../../hooks/employee/useEditEmployee";
+import EditEmployeeSchema from "../../schema/Employee/EditEmployeeSchema";
 
 interface selectSpecializationType {
   [key: string]: string;
 }
-function EditEmployee() {
+interface Props {
+  data: GetEmployeeType;
+}
+function EditEmployee({ data }: Props) {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
-  const hook = useAddEmployee();
   const querySpecialization = useSpecialization();
+  const hook = useEditEmployee("67e50dea191e5b9428a7474f");
+  // if (employee.data) return <></>
 
-  const formik = useFormik<AddEmployeeType>({
+  const formik = useFormik<GetEmployeeType>({
     initialValues: {
+      createdAt: data.createdAt,
+      _id: data._id,
+      __v: data.__v,
+      specialties: data.specialties,
+      updatedAt: data.updatedAt,
       clinicCollectionId: "",
-      companyId: "",
-      departmentId: "",
-      name: "",
-      dateOfBirth: "",
-      gender: "",
-      identity: "",
-      nationality: "",
-      image: "",
-      marital_status: "",
-      number_children: 0,
-      notes: "",
-      address: "",
-      professional_experience: "",
-      Languages: [],
-      workingHours: [],
-      employeeType: "",
-      contactInfos: [],
-      vacationRecords: [],
-      hireDate: "",
-      medicalLicenseNumber: "",
-      certifications: [],
-      jobType: "FULL_TIME",
-      breakTimes: [],
-      isActive: false,
-      clinics: [],
-      specializations: [],
+      companyId: data.companyId || "",
+      departmentId: data.departmentId || "",
+      name: data.name,
+      dateOfBirth: data.dateOfBirth,
+      gender: data.gender || "female",
+      identity: data.identity,
+      nationality: data.nationality,
+      image: data.image,
+      marital_status: data.marital_status,
+      number_children: data.number_children,
+      notes: data.notes,
+      address: data.address,
+      professional_experience: data.professional_experience,
+      Languages: data.Languages,
+      workingHours: data.workingHours,
+      employeeType: data.employeeType,
+      contactInfos: data.contactInfos,
+      vacationRecords: data.vacationRecords,
+      hireDate: data.hireDate,
+      medicalLicenseNumber: data.medicalLicenseNumber,
+      certifications: data.certifications,
+      jobType: data.jobType,
+      breakTimes: data.breakTimes,
+      isActive: data.isActive,
+      clinics: null,
+      specializations: data.specializations,
     },
-    validationSchema: AddEmployeeSchema,
+    validationSchema: EditEmployeeSchema,
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
@@ -71,7 +81,8 @@ function EditEmployee() {
         <Text>No Specialization Found</Text>
       </Center>
     );
-
+  console.log("first@@@@@@@@@");
+  console.log(formik.errors);
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
@@ -109,7 +120,7 @@ function EditEmployee() {
       description: "",
       error: formik.errors.dateOfBirth,
       placeholder: "",
-      value: formik.values.dateOfBirth?.toString() || "",
+      value: formik.values.dateOfBirth || data.dateOfBirth,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -151,7 +162,7 @@ function EditEmployee() {
       error: formik.errors.employeeType,
       placeholder: "",
       tooltip: "select the Employee Type",
-      value: formik.values.employeeType || "",
+      value: formik.values.employeeType || data.employeeType,
       // onChange: formik.handleChange,
       onChange: (value) => formik.setFieldValue("employeeType", value),
 
@@ -174,7 +185,7 @@ function EditEmployee() {
       error: formik.errors.nationality,
       placeholder: "Select nationality",
       tooltip: "Enter your nationality",
-      value: formik.values.nationality || "",
+      value: formik.values.nationality || data.nationality,
       onChange: (value) => formik.setFieldValue("nationality", value),
       onBlur: formik.handleBlur,
       selectValue: country,
@@ -187,7 +198,7 @@ function EditEmployee() {
       description: "",
       error: formik.errors.hireDate,
       placeholder: "",
-      value: formik.values.hireDate?.toString() || Date.now().toString(),
+      value: formik.values.hireDate || data.hireDate,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -301,7 +312,7 @@ function EditEmployee() {
       error: formik.errors.specializations?.toString(),
       placeholder: "Select Specialties",
       tooltip: "Enter your Specialties",
-      value: formik.values.specializations || [],
+      value: formik.values.specialties || [""],
       onChange: (selectedKeys) => {
         if (
           Array.isArray(selectedKeys) &&
@@ -329,7 +340,7 @@ function EditEmployee() {
       error: formik.errors.certifications?.toString(),
       placeholder: "Select certifications",
       tooltip: "Enter your certifications",
-      value: formik.values.certifications || [],
+      // value: formik.values.certifications.join(" "),
       onChange: (selectedValues) =>
         handleMultiSelectChange("certifications", selectedValues as string[]),
 
@@ -345,7 +356,7 @@ function EditEmployee() {
       description: "",
       error: formik.errors.image,
       placeholder: "",
-      value: formik.values.image || "",
+      value: formik.values.image,
       onChangeFile: handleImageChange,
       onChange: () => {},
     },
@@ -361,7 +372,7 @@ function EditEmployee() {
           with_submit={false}
         />
 
-        <TableSelection<ContactInfoType>
+        <TableSelection<ContactInfo>
           title="Contact Infos"
           fieldName="contactInfos"
           columns={[
@@ -371,23 +382,14 @@ function EditEmployee() {
               type: "select",
               options: ["email", "phone"],
             },
-            {
-              key: "isPublic",
-              label: "Is Public",
-              type: "boolean",
-              options: ["yes", "no"],
-            },
+
             {
               key: "value",
               label: "Value",
               type: "text",
             },
-            {
-              key: "subType",
-              label: "Sub Type",
-              type: "text",
-            },
           ]}
+          data={formik.values.contactInfos}
           onFieldChange={formik.setFieldValue}
           error={formik.errors.contactInfos?.toString() || ""}
         />
@@ -412,22 +414,15 @@ function EditEmployee() {
           data={formik.values.workingHours}
           error={formik.errors.workingHours?.toString() || ""}
         />
-        <TableSelection<VacationRecordsType>
+        <TableSelection<VacationRecord>
           title="Vacation Records"
           columns={[
-            { key: "leaveStartDate", label: "Leave Start Date", type: "date" },
-            { key: "leaveEndDate", label: "Leave End Date", type: "date" },
+            { key: "startDate", label: "Leave Start Date", type: "date" },
+            { key: "endDate", label: "Leave End Date", type: "date" },
             {
-              key: "leaveType",
-              label: "Leave Type",
-              type: "select",
-              options: ["Vacation", "Sick Leave", "Emergency"],
-            },
-            {
-              key: "status",
-              label: "Status",
-              type: "select",
-              options: ["Approved", "Sick Pending "],
+              key: "reason",
+              label: "Reason",
+              type: "text",
             },
           ]}
           fieldName="vacationRecords"
@@ -436,7 +431,7 @@ function EditEmployee() {
           data={formik.values.vacationRecords}
           error={formik.errors.vacationRecords?.toString() || ""}
         />
-        <TableSelection<BreakTimesType>
+        <TableSelection<BreakTime>
           columns={[
             { key: "startTime", label: "Start Time", type: "time" },
             { key: "endTime", label: "End Time", type: "time" },

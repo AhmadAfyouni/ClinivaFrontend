@@ -2,12 +2,15 @@ import { useState, useRef } from "react";
 import { Avatar, FileInput, Group, ActionIcon } from "@mantine/core";
 import { FiCamera } from "react-icons/fi";
 import InputPropsType from "../../../types/InputsType";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   base: InputPropsType;
 }
 
 export default function InputFileBase({ base }: Props) {
+  const { t } = useTranslation("index");
+
   const [image, setImage] = useState<string | null>(
     typeof base.value === "string" ? base.value : null
   );
@@ -54,7 +57,7 @@ export default function InputFileBase({ base }: Props) {
         ref={fileInputRef}
         disabled={base.disabled}
         accept="image/*"
-        placeholder="Upload an image"
+        placeholder={t("Upload an image")}
         onChange={handleImageChange}
         style={{ display: "none" }}
         id={base.id}

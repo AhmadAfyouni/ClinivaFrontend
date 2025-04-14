@@ -4,7 +4,7 @@ import AddEmployeeType, {
   Vacation,
   VacationRecordsType,
 } from "../../types/Employee/AddEmployeeType";
-import AddEmployeeSchema from "../../schema/AddEmployeeSchema";
+import AddEmployeeSchema from "../../schema/Employee/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Button, ScrollArea } from "@mantine/core";

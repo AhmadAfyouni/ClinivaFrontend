@@ -7,7 +7,7 @@ import {
   DirectionProvider,
   ColorSchemeScript,
 } from "@mantine/core";
-import { useDarkThem } from "./store/darkThem.ts";
+import { useDarkThem } from "./store/useDarkThem.ts";
 
 // Separate component to handle theme changes
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {

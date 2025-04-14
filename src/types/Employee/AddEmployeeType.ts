@@ -1,25 +1,14 @@
-export interface BreakTimesType {
-  startTime: string;
-  endTime: string;
-}
+import {
+  BreakTimesType,
+  ContactInfoType,
+  WorkingHoursType,
+} from "../GeneralAdd";
 
-export interface WorkingHoursType {
-  day: string;
-  startTime: string;
-  endTime: string;
-}
 export interface VacationRecordsType {
   leaveStartDate: string;
   leaveEndDate: string;
   leaveType: "Vacation" | "Sick Leave" | "Emergency";
   status: "Pending" | "Approved";
-}
-
-export interface ContactInfoType {
-  type: "email" | "phone";
-  value: string;
-  isPublic: boolean;
-  subType?: string;
 }
 
 export default interface AddEmployeeType {

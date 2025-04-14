@@ -14,7 +14,7 @@ import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
-import { useDarkThem } from "./store/darkThem";
+import { useDarkThem } from "./store/useDarkThem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoaderCustom from "./Components/Loader";
 import { useEffect } from "react";
@@ -87,7 +87,7 @@ function AppContent() {
 
   return (
     <>
-      <LoaderCustom />
+      {/* <LoaderCustom /> */}
 
       <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
         <SideBar />
