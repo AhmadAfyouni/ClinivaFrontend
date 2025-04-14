@@ -1,14 +1,14 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
 import ResponseDetailsType from "../../types/Responsedetail";
-import SpecializationDetailsType from "../../types/Specialization/SpecializationDetailsType";
-const useGetSpecialization = (id: string) => {
+import MedicalComplexDetailsType from "../../types/medicalComplex/MedicalComplexDetailsType";
+const useMedicalComplexDetails = (id: string) => {
   return useQuery({
-    queryKey: ["specializationsDetails"],
+    queryKey: ["medicalComplexDetails"],
     queryFn: () => {
-      const url = `/specializations/` + id;
+      const url = `/cliniccollections/` + id;
       return axiosInstance
-        .get<ResponseDetailsType<SpecializationDetailsType>>(url)
+        .get<ResponseDetailsType<MedicalComplexDetailsType>>(url)
         .then((res) => {
           console.log(res.data);
           console.log(res.status);
@@ -21,4 +21,4 @@ const useGetSpecialization = (id: string) => {
     },
   });
 };
-export default useGetSpecialization;
+export default useMedicalComplexDetails;

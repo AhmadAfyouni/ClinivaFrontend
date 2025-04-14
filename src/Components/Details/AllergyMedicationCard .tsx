@@ -7,29 +7,11 @@ import {
   ScrollArea,
   Flex,
 } from "@mantine/core";
-
-const AllergyMedicationCard = () => {
-  const allergies = [
-    "Penicillin",
-    "Pollen",
-    "Latex",
-    "Penicillin",
-    "Pollen",
-    "Penicillin",
-    "Pollen",
-    "Latex",
-    "Penicillin",
-    "Pollen",
-    "Latex",
-  ];
-  const chronicDiseases = [
-    "Hypertension (High Blood Pressure)",
-    "Diabetes",
-    "Asthma",
-    "Chronic Obstructive Pulmonary Disease (COPD)",
-    "Arthritis",
-    "Chronic Kidney Disease",
-  ];
+interface Props {
+  allergies: string[];
+  chronicDiseases: string[];
+}
+const AllergyMedicationCard = ({ allergies, chronicDiseases }: Props) => {
   const theme = useMantineTheme();
   return (
     <Container size="sm" py="md" bg={theme.other.bgSubtle} w="100%">

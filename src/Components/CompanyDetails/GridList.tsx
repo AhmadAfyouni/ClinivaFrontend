@@ -4,6 +4,7 @@ import {
   ScrollArea,
   SimpleGrid,
   Text,
+  Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 
@@ -21,20 +22,29 @@ function GridList({ title, girdItems }: Props) {
       <ScrollArea p="md" h={250}>
         <SimpleGrid cols={3} spacing="md">
           {girdItems.map((item, index) => (
-            <Card
-              key={index}
-              shadow="sm"
-              padding="lg"
-              radius="md"
-              withBorder
-              bg={
-                index % 2 === 0
-                  ? theme.colors.myPrimary[3]
-                  : theme.other.secondaryColor
-              }
-            >
-              <Text c={theme.other.onSurfacePrimary}>{item}</Text>
-            </Card>
+            <Tooltip label={item} key={index}>
+              <Card
+                h={55}
+                shadow="sm"
+                padding="xs"
+                radius="md"
+                withBorder
+                bg={
+                  index % 2 === 0
+                    ? theme.colors.myPrimary[3]
+                    : theme.other.secondaryColor
+                }
+              >
+                <Text
+                  c={theme.other.onSurfacePrimary}
+                  ta="center"
+                  truncate
+                  w="90%"
+                >
+                  {item}
+                </Text>
+              </Card>
+            </Tooltip>
           ))}
         </SimpleGrid>
       </ScrollArea>

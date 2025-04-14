@@ -1,42 +1,36 @@
 import { Box, Checkbox, Flex, Table, useMantineTheme } from "@mantine/core";
-import sortData from "../../utilities/SortData";
 import { useMediaQuery } from "@mantine/hooks";
+import useSortStore from "../../hooks/useSortStore ";
 interface Props<T> {
-  sortBy: string | null;
-  setSortBy: (sort: keyof T | null) => void;
-  reverseSortDirection: boolean;
-  setReverseSortDirection: (reverse: boolean) => void;
   selection: string[];
   data: T[];
-  search: string;
-  setSortedData: (data: T[]) => void;
   labels: string[];
   toggleAll: () => void;
+  sortedBy: string[];
 }
-const TableHead = <T extends Record<string, string>>({
-  sortBy,
-  setSortBy,
-  reverseSortDirection,
-  setReverseSortDirection,
+const TableHead = <T,>({
   selection,
   data,
-  search,
-  setSortedData,
   labels,
   toggleAll,
+  sortedBy,
 }: Props<T>) => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const setSorting = (field: keyof T) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
+
+  const { sortBy, order, setSortBy, toggleOrder, setOrder } = useSortStore();
+
+  const handleSort = (field: string) => {
+    if (field === sortBy) {
+      toggleOrder(); // عكس الترتيب فقط
+    } else {
+      setSortBy(field); // تغيير العمود
+      setOrder("asc"); // بدء بترتيب تصاعدي
+    }
   };
 
-  const sortingLable = Object.keys(data[0]);
   const styles: React.CSSProperties = {
     cursor: "pointer",
     display: "flex",
@@ -70,25 +64,15 @@ const TableHead = <T extends Record<string, string>>({
             {isComputer && (
               <Flex visibleFrom="md" w="25%" justify="space-between">
                 <Box w="70px">
-                  <Box
-                    style={styles}
-                    onClick={() => setSorting(sortingLable[0])}
-                  >
-                    {labels[0]}
-                    {sortBy === sortingLable[0] && (
-                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                    )}
+                  <Box style={styles} onClick={() => handleSort(sortedBy[0])}>
+                    {labels[0]}{" "}
+                    {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
-                <Box w="130px">
-                  <Box
-                    style={styles}
-                    onClick={() => setSorting(sortingLable[1])}
-                  >
-                    {labels[1]}
-                    {sortBy === sortingLable[1] && (
-                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                    )}
+                <Box w="160px" onClick={() => handleSort(sortedBy[1])}>
+                  <Box style={styles}>
+                    {labels[1]}{" "}
+                    {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
               </Flex>
@@ -96,16 +80,11 @@ const TableHead = <T extends Record<string, string>>({
 
             {/* Mobile Screen */}
             {(isMobile || isTablet) && (
-              <Flex w="120px" align="start" hiddenFrom="md">
-                <Box w="120px">
-                  <Box
-                    style={styles}
-                    onClick={() => setSorting(sortingLable[0])}
-                  >
-                    {labels[6]}
-                    {sortBy === sortingLable[0] && (
-                      <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                    )}
+              <Flex w="150px" align="start" hiddenFrom="md">
+                <Box w="120px" onClick={() => handleSort(sortedBy[6])}>
+                  <Box style={styles}>
+                    {labels[6]}{" "}
+                    {sortBy === sortedBy[6] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
               </Flex>
@@ -113,39 +92,31 @@ const TableHead = <T extends Record<string, string>>({
 
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
-                <Box onClick={() => setSorting(sortingLable[2])} style={styles}>
+                <Box style={styles} onClick={() => handleSort(sortedBy[2])}>
                   {labels[2]}
-                  {sortBy === sortingLable[2] && (
-                    <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                  )}
+                  {sortBy === sortedBy[2] && (order === "asc" ? "▲" : "▼")}
                 </Box>
               </Box>
             </Flex>
 
-            <Box w="96px">
-              <Box onClick={() => setSorting(sortingLable[3])} style={styles}>
-                {labels[3]}
-                {sortBy === sortingLable[3] && (
-                  <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                )}
+            <Box w="96px" onClick={() => handleSort(sortedBy[3])}>
+              <Box style={styles}>
+                {labels[3]}{" "}
+                {sortBy === sortedBy[3] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
 
-            <Box w="106px">
-              <Box onClick={() => setSorting(sortingLable[4])} style={styles}>
-                {labels[4]}
-                {sortBy === sortingLable[4] && (
-                  <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                )}
+            <Box w="106px" onClick={() => handleSort(sortedBy[4])}>
+              <Box style={styles}>
+                {labels[4]}{" "}
+                {sortBy === sortedBy[4] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
 
-            <Box w="110px">
-              <Box onClick={() => setSorting(sortingLable[5])} style={styles}>
-                {labels[5]}
-                {sortBy === sortingLable[5] && (
-                  <Box ml={4}>{reverseSortDirection ? "▲" : "▼"}</Box>
-                )}
+            <Box w="110px" onClick={() => handleSort(sortedBy[5])}>
+              <Box style={styles}>
+                {labels[5]}{" "}
+                {sortBy === sortedBy[5] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
           </Flex>

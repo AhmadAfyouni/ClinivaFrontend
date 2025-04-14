@@ -27,6 +27,7 @@ function PatientInfoCard({
   gender,
 }: Props) {
   const theme = useMantineTheme();
+  const birthda = birthday.slice(0, 10);
   return (
     <Card
       p="lg"
@@ -54,7 +55,7 @@ function PatientInfoCard({
         <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary} mb={8}>
           About Patient
         </Text>
-        <ScrollArea h={{ md: "90px", xs: "120px" }}>
+        <ScrollArea h={{ md: "50px", xs: "50px" }}>
           <Text
             size="sm"
             style={{ lineHeight: 1.8 }}
@@ -69,7 +70,7 @@ function PatientInfoCard({
         <Grid.Col span={12}>
           <Flex justify="space-between" mb={18}>
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              ID Patient
+              Patient Id
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
               {patientId}
@@ -92,7 +93,7 @@ function PatientInfoCard({
               Birthday
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
-              {birthday}
+              {birthda}
             </Text>
           </Flex>
         </Grid.Col>

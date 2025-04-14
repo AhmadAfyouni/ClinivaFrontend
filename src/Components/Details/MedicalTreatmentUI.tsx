@@ -43,7 +43,7 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
     scheduleTreatment,
     scheduleDate,
   }: TreatmentProps) => (
-    <Card radius="md" bg={theme.other.bgSubtle} mb="md">
+    <Card radius="md" bg={theme.other.bgSubtle} mb="xs">
       <Stack gap="md">
         <Group gap={8}>
           <Badge
