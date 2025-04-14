@@ -1,6 +1,6 @@
 import { Switch } from "@mantine/core";
 import { IconSun, IconMoonStars } from "@tabler/icons-react";
-import { useDarkThem } from "../store/darkThem";
+import { useDarkThem } from "../store/useDarkThem";
 
 export default function SwitchDarkMode() {
   const { dark, change } = useDarkThem();

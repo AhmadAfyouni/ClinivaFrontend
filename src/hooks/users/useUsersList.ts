@@ -1,26 +1,28 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
-import { UserDetailType } from "../../types/user/UserDetailType";
-const useUsersList = (
-  limit = 500,
-  page = 1,
-  allData = false,
-  sortBy = "_id",
-  order = "desc"
-) => {
+import { UserDetailType } from "../../types/User/UserDetailType";
+import useUserPaginationStore from "../../store/Pagination/useUser";
+const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
+  const pagination = useUserPaginationStore();
+
   // console.log("useGetUsers per_page", per_page);
   //   const countryStore = useCountriesPaginationStore();
   return useQuery({
-    queryKey: ["users", page, limit, allData, sortBy, order],
+    queryKey: [
+      "users",
+      pagination.current_page,
+      pagination.items_per_page,
+      allData,
+      sortBy,
+      order,
+    ],
     queryFn: () => {
       const url = `/users?${
         "&page=" +
-        page +
+        pagination.current_page +
         "&limit=" +
-        limit +
-        "&allData=" +
-        allData +
+        pagination.items_per_page +
         "&sortBy=" +
         sortBy +
         "&order=" +
@@ -34,6 +36,16 @@ const useUsersList = (
           //   countryStore.setReFetch(true);
           console.log(res.data);
           console.log(res.status);
+          pagination.setCurrent_page(res.data.pagination.current_page);
+          pagination.setItems_per_page(res.data.pagination.items_per_page);
+          pagination.setHas_next_page(res.data.pagination.has_next_page);
+          pagination.setTotal_items(res.data.pagination.total_items);
+          pagination.setTotal_pages(res.data.pagination.total_pages);
+          pagination.setHas_previous_page(
+            res.data.pagination.has_previous_page
+          );
+
+          // pagination.(res.data.pagination.meta);
           return res.data.data;
         })
         .catch((error) => {

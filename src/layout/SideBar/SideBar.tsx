@@ -16,7 +16,7 @@ import useDrawerStore from "../../store/useDrawerStore";
 // import { Logo } from "./Logo";
 
 export function SideBar() {
-  const mockdata = [
+  const ItemData = [
     { label: "Dashboard", icon: IconGauge, link: "/" },
     {
       label: "Employee",
@@ -26,6 +26,15 @@ export function SideBar() {
       links: [
         { label: "Employee", link: "/Employee" },
         { label: "Add Employee", link: "/Employee/add" },
+        { label: "Add User", link: "/Employee/user" },
+      ],
+    },
+    {
+      label: "ClinicCollection",
+      icon: IconCalendarStats,
+      links: [
+        { label: "Add ClinicCollection", link: "/ClinicCollection/add" },
+        { label: "All Doctors", link: "/" },
       ],
     },
     {
@@ -70,7 +79,7 @@ export function SideBar() {
   ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, close } = useDrawerStore();
-  const links = mockdata.map((item) => (
+  const links = ItemData.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
 

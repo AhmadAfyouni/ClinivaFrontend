@@ -2,18 +2,22 @@ import dayjs from "dayjs";
 import { DateInput, DateInputProps } from "@mantine/dates";
 import InputPropsType from "../../../types/InputsType";
 import { DateValue } from "@mantine/dates";
+import { useTranslation } from "react-i18next";
 
 const dateParser: DateInputProps["dateParser"] = (input) => {
   if (input === "WW2") {
     return new Date(1939, 8, 1);
   }
-
   return dayjs(input, "DD/MM/YYYY").toDate();
 };
+
 interface Props {
   base: InputPropsType;
 }
+
 export default function DateBase(props: Props) {
+  const { t } = useTranslation("index");
+
   const handleChange = (value: DateValue) => {
     if (props.base.onChange) {
       const formattedDate = value ? dayjs(value).format("YYYY-MM-DD") : "";
@@ -26,6 +30,18 @@ export default function DateBase(props: Props) {
     }
   };
 
+  let dateValue: Date | null;
+  if (
+    typeof props.base.value === "string" &&
+    dayjs(props.base.value, "DD/MM/YYYY").isValid()
+  ) {
+    dateValue = new Date(props.base.value);
+  } else if (typeof props.base.value === "number") {
+    dateValue = new Date(props.base.value);
+  } else {
+    dateValue = null;
+  }
+
   return (
     <DateInput
       dateParser={dateParser}
@@ -33,11 +49,12 @@ export default function DateBase(props: Props) {
       valueFormat="DD/MM/YYYY"
       id={props.base.id}
       withAsterisk={props.base.mandatory}
-      label={props.base.label}
-      placeholder={props.base.placeholder}
+      label={t(props.base.label)}
+      placeholder={t(props.base.placeholder || "")}
       onChange={handleChange}
-      error={props.base.error}
+      error={t(props.base.error || "")}
       disabled={props.base.disabled}
+      value={dateValue}
     />
   );
 }

@@ -1,9 +1,13 @@
 import { Autocomplete } from "@mantine/core";
 import InputPropsType from "../../../types/InputsType";
+import { useTranslation } from "react-i18next";
+
 interface Props {
   base: InputPropsType;
 }
 function AutocompleteCustom({ base }: Props) {
+  const { t } = useTranslation("index");
+
   const data = ["1", "2", "4", "5"];
   const handleChange = (value: string) => {
     if (base.onChange) {
@@ -17,8 +21,8 @@ function AutocompleteCustom({ base }: Props) {
   return (
     <Autocomplete
       id={base.id}
-      label={base.label}
-      placeholder={base.placeholder}
+      label={t(base.label)}
+      placeholder={t(base.placeholder || "")}
       data={data}
       withScrollArea={false}
       onChange={handleChange}
@@ -27,6 +31,7 @@ function AutocompleteCustom({ base }: Props) {
       mt="md"
       disabled={base.disabled}
       value={base.value?.toString() || ""}
+      error={t(base.error || "")}
     />
   );
 }

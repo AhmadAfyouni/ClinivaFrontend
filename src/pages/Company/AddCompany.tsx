@@ -1,10 +1,5 @@
 import { useFormik } from "formik";
-import AddCompanyType, {
-  ContactInfo,
-  Holiday,
-  Specialization,
-  BankAccount,
-} from "../../types/AddCompanyType";
+import AddCompanyType, { Specialization } from "../../types/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
@@ -12,14 +7,16 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import { Box, Button, Container, Flex, ScrollArea, Text } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { useMantineTheme } from "@mantine/core";
+import {
+  BankAccountType,
+  ContactInfoType,
+  Holiday,
+} from "../../types/GeneralAdd";
+import CustomPagination from "../../Components/Pagination/Pagination";
 
 function AddCompany() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("logo", file);
-  };
-
-  const handleLocationChange = (location: { x: number; y: number }) => {
-    formik.setFieldValue("locationGoogle", location);
   };
 
   const formik = useFormik<AddCompanyType>({
@@ -53,9 +50,14 @@ function AddCompany() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
-      console.log("Form Submitted:", values);
+      console.log("Form Submitted::::", values);
     },
   });
+
+  const handleLocationChange = (location: { x: number; y: number }) => {
+    console.log(location, "55555555555");
+    formik.setFieldValue("locationGoogle", location);
+  };
 
   const attrb: InputPropsType[] = [
     {
@@ -149,6 +151,7 @@ function AddCompany() {
       onBlur: formik.handleBlur,
     },
   ];
+
   const commercialRecord: InputPropsType[] = [
     {
       id: "commercialRecord.recordNumber",
@@ -216,13 +219,30 @@ function AddCompany() {
       onBlur: formik.handleBlur,
     },
   ];
-  console.log("values", formik.values);
-  console.log("Error values", formik.errors);
 
   const theme = useMantineTheme();
 
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
+      <CustomPagination
+        store={{
+          currentPage: 5,
+          meta: {
+            current_page: 5,
+            has_next_page: true,
+            has_previous_page: true,
+            items_per_page: 5,
+            total_items: 55,
+            total_pages: 51,
+          },
+          paramKey: "",
+          perPage: 5,
+          setCurrentPage: () => {},
+          setReFetch: () => {},
+          setSearchKey: () => {},
+          withSkelton: true,
+        }}
+      />
       <form
         onSubmit={(e) => {
           console.log("omsubmit");
@@ -236,7 +256,6 @@ function AddCompany() {
             onSubmit={formik.handleSubmit}
             with_submit={false}
           />
-
           <Box
             mt="xl"
             mb="md"
@@ -257,7 +276,8 @@ function AddCompany() {
             />
           </Box>
 
-          <TableSelection<ContactInfo>
+          <TableSelection<ContactInfoType>
+            key={"contactInfos"}
             title="Contact Information"
             fieldName="contactInfos"
             columns={[
@@ -268,9 +288,10 @@ function AddCompany() {
             ]}
             data={formik.values.contactInfos}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
-
           <TableSelection<Holiday>
+            key={"holidays"}
             title="Holidays"
             fieldName="holidays"
             columns={[
@@ -280,9 +301,10 @@ function AddCompany() {
             ]}
             data={formik.values.holidays}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
-
           <TableSelection<Specialization>
+            key={"specializations"}
             title="Specializations"
             fieldName="specializations"
             columns={[
@@ -291,9 +313,10 @@ function AddCompany() {
             ]}
             data={formik.values.specializations}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
-
-          <TableSelection<BankAccount>
+          <TableSelection<BankAccountType>
+            key={"bankAccount"}
             title="Bank Accounts"
             fieldName="bankAccount"
             columns={[
@@ -304,8 +327,8 @@ function AddCompany() {
             ]}
             data={formik.values.bankAccount}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
-
           <Box mt="md" mb="xl">
             <Flex gap={"xl"}>
               <h3>Location</h3>

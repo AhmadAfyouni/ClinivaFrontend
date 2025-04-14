@@ -1,6 +1,7 @@
 import { DateInput } from "@mantine/dates";
 import { Checkbox, Select, TextInput } from "@mantine/core";
 import { TableColumn } from "../../../types/TableInputTypes";
+import { useTranslation } from "react-i18next";
 
 type TableInputProps = {
   column: TableColumn;
@@ -9,6 +10,8 @@ type TableInputProps = {
 };
 
 export const TableInput = ({ column, value, onChange }: TableInputProps) => {
+  const { t } = useTranslation("index");
+
   if (column.type === "date") {
     return (
       <DateInput
@@ -16,7 +19,7 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
         value={value as Date}
         onChange={(date) => onChange(date || new Date())}
         valueFormat="YYYY-MM-DD"
-        error={column.error || ""}
+        error={t(column.error || "")}
       />
     );
   }
@@ -25,12 +28,12 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
       <Select
         id={column.key}
         name={column.key}
-        placeholder={column.label}
+        placeholder={t(column.label)}
         data={column.options}
         searchable
         value={value as string}
         onChange={(selectedValue) => onChange(selectedValue || "")}
-        nothingFoundMessage="Nothing found..."
+        nothingFoundMessage={t("Nothing found...")}
       />
     );
   }
@@ -41,8 +44,8 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
         radius={"md"}
         checked={Boolean(value)}
         onChange={(event) => onChange(event.currentTarget.checked)} // Pass boolean value
-        label={column.label}
-        error={column.error || ""}
+        label={t(column.label)}
+        error={t(column.error || "")}
       />
     );
   }
@@ -58,12 +61,12 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
 
   return (
     <TextInput
-      placeholder={column.label}
+      placeholder={t(column.label)}
       value={value?.toString() || ""}
       onChange={(e) => onChange(e.target.value)}
       type={column.type}
       step={column.step}
-      error={column.error || ""}
+      error={t(column.error || "")}
     />
   );
 };

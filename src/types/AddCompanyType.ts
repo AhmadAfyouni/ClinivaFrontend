@@ -1,36 +1,14 @@
-export interface ContactInfo {
-  name: string;
-  email: string;
-  phone: string;
-  designation: string;
-  [key: string]: unknown;
-}
-
-export interface Holiday {
-  name: string;
-  date: string;
-  [key: string]: unknown;
-}
+import {
+  BankAccountType,
+  ContactInfoType,
+  Holiday,
+  LocationGoogle,
+  WorkingHoursType,
+} from "./GeneralAdd";
 
 export interface Specialization {
   name: string;
   description: string;
-  [key: string]: unknown;
-}
-
-export interface WorkingHours {
-  day: string;
-  timeSlots: {
-    startTime: string;
-    endTime: string;
-  }[];
-}
-
-export interface BankAccount {
-  bankName: string;
-  accountNumber: string;
-  swiftCode: string;
-  accountName: string;
   [key: string]: unknown;
 }
 
@@ -48,11 +26,6 @@ export interface CommercialRecord {
   taxNumber: string;
 }
 
-export interface LocationGoogle {
-  x: number;
-  y: number;
-}
-
 export default interface AddCompanyType {
   name: string;
   address: string;
@@ -61,11 +34,11 @@ export default interface AddCompanyType {
   logo?: string;
   vision: string;
   details: string;
-  contactInfos: ContactInfo[];
+  contactInfos: ContactInfoType[];
   holidays: Holiday[];
   specializations: Specialization[];
-  workingDays: WorkingHours[];
-  bankAccount: BankAccount[];
+  workingDays: WorkingHoursType[];
+  bankAccount: BankAccountType[];
   insuranceCompany: InsuranceCompany[];
   commercialRecord: CommercialRecord;
   locationGoogle: LocationGoogle;

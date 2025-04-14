@@ -14,7 +14,8 @@ export default interface InputPropsType {
     | "multiSelect"
     | "time"
     | "email"
-    | "phone";
+    | "phone"
+    | "password";
   placeholder?: string;
   error?: string;
   description?: string;
