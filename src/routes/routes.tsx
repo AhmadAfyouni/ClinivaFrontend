@@ -9,6 +9,13 @@ import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/Appointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
+import FetchDataForEditEmploy from "../pages/Employee/FetchData";
+import StaffPage from "../pages/Staff/StaffPage";
+import AddUser from "../pages/Users/AddUser";
+import EmployeeLayout from "../pages/Employee/EmployeeLayout";
+import ClinicCollectionLayout from "../pages/ClinicCollection/ClinicCollectionLayout";
+import AddClinicCollection from "../pages/ClinicCollection/AddClinicCollection";
+import UsersPage from "../pages/Users/UsersPage";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -77,7 +84,7 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <AddCompany />,
+        element: <StaffPage />,
       },
       {
         path: "add",
@@ -90,20 +97,34 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/Employee",
-    element: <AddEmployee />,
+    path: "/ClinicCollection",
+    element: <ClinicCollectionLayout />,
     children: [
       {
-        path: "",
-        element: <AddEmployee />,
+        path: "add",
+        element: <AddClinicCollection />,
+      },
+    ],
+  },
+  {
+    path: "/Employee",
+    element: <EmployeeLayout />,
+    children: [
+      {
+        path: "all",
+        element: <UsersPage />,
+      },
+      {
+        path: "edit",
+        element: <FetchDataForEditEmploy />,
       },
       {
         path: "add",
         element: <AddEmployee />,
       },
       {
-        path: "all",
-        element: <AddCompany />,
+        path: "user",
+        element: <AddUser />,
       },
     ],
   },

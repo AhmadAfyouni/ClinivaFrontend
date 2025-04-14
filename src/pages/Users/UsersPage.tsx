@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
+import { Box, Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 // import Dropdown from "../../Components/Dropdown";
 import { SearchInput } from "../../Components/SearchInput";
@@ -8,13 +8,15 @@ import AddButton from "../../Components/AddButton";
 import MobileFilters from "../../Components/mobliefilters";
 import useUsersList from "../../hooks/users/useUsersList";
 import useSortStore from "../../hooks/useSortStore ";
+import CustomPagination from "../../Components/Pagination/Pagination";
+import useUserPaginationStore from "../../store/Pagination/useUser";
 
 const UsersPage = () => {
   const { data, isFetched } = useUsersList();
   const [search, setSearch] = useState("");
   const [selection, setSelection] = useState<string[]>([]);
   const { sortBy, order, setSortBy, setOrder } = useSortStore();
-
+  const pagination = useUserPaginationStore();
   useEffect(() => {
     setOrder(order);
     setSortBy(sortBy);
@@ -108,12 +110,12 @@ const UsersPage = () => {
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No Userd Found</Text>
+        <Text>No User Found</Text>
       </Center>
     );
   else
     return (
-      <>
+      <Box h={"50%"}>
         <Flex w="90%" justify="space-between">
           <Flex justify="start" visibleFrom="sm">
             {/* <Dropdown
@@ -137,7 +139,7 @@ const UsersPage = () => {
             <MobileFilters />
           </Flex>
         </Flex>
-        <ScrollArea>
+        <ScrollArea h={"100%"}>
           <Table>
             <TableHead
               labels={[
@@ -157,7 +159,8 @@ const UsersPage = () => {
             {rows}
           </Table>
         </ScrollArea>
-      </>
+        <CustomPagination store={pagination} />
+      </Box>
     );
 };
 

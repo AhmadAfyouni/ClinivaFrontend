@@ -12,6 +12,7 @@ import { IconTrash } from "@tabler/icons-react";
 import { TableInput } from "./TableInputs";
 import { TableSelectionProps } from "../../../types/TableInputTypes";
 import { validateTableRow, formatTableValue, createEmptyRow } from "./utils";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function TableSelection<T extends Record<string, any>>({
@@ -23,6 +24,8 @@ export default function TableSelection<T extends Record<string, any>>({
   onDelete,
   error,
 }: TableSelectionProps<T>) {
+  const { t } = useTranslation("index");
+
   const theme = useMantineTheme();
   const [scrolled, setScrolled] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
@@ -97,10 +100,10 @@ export default function TableSelection<T extends Record<string, any>>({
     <Box mb={"xl"} bd={"1px solid red"}>
       <Group justify="space-between" m="sm">
         <Text fw={800} c={theme.primaryColor}>
-          {title}
+          {t(title)}
         </Text>
         <Text c={"#f12"} fw={800}>
-          {error}
+          {t(error)}
         </Text>
         <Button
           color="red"
@@ -108,7 +111,7 @@ export default function TableSelection<T extends Record<string, any>>({
           onClick={handleDeleteSelected}
           disabled={selectedRows.length === 0}
         >
-          Delete Selected ({selectedRows.length})
+          {t("Delete Selected") + " " + selectedRows.length}
         </Button>
       </Group>
       <Box
@@ -131,7 +134,7 @@ export default function TableSelection<T extends Record<string, any>>({
               <Table.Tr>
                 <Table.Th />
                 {columns.map((col) => (
-                  <Table.Th key={col.key}>{col.label}</Table.Th>
+                  <Table.Th key={col.key}>{t(col.label)}</Table.Th>
                 ))}
               </Table.Tr>
             </Table.Thead>

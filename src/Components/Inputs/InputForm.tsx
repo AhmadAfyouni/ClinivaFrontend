@@ -1,4 +1,4 @@
-import { Flex, Text, Grid, Button } from "@mantine/core";
+import { Flex, Text, Grid, Button, useMantineTheme } from "@mantine/core";
 import InputPropsType from "../../types/InputsType";
 import InputBaseCustom from "./InputBase";
 interface Props {
@@ -9,11 +9,12 @@ interface Props {
   with_submit?: boolean;
 }
 function InputForm({ base, onSubmit, title, with_submit = true }: Props) {
+  const theme = useMantineTheme();
   return (
     <form
       onSubmit={(e) => {
         console.log("omsubmit");
-        onSubmit(e);
+        // onSubmit(e);
       }}
     >
       <Flex
@@ -35,7 +36,9 @@ function InputForm({ base, onSubmit, title, with_submit = true }: Props) {
             justify={"flex-start"}
             align={"center"}
           >
-            <Text fw={"500"}>{title}</Text>
+            <Text c={theme.other.onSurfaceSecondary} fw={"800"}>
+              {title}
+            </Text>
           </Flex>
         ) : (
           <></>
