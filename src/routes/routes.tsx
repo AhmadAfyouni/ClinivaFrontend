@@ -9,13 +9,20 @@ import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/Appointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
-import FetchDataForEditEmploy from "../pages/Employee/FetchData";
+import PatientDetails from "../pages/Patient/PatientDetails";
+import MedicalComplexPage from "../pages/MedicalComplex/MedicalComplexPage";
+import DoctorDetails from "../pages/Doctor/DoctorDetails";
+import DoctorsPage from "../pages/Doctor/DoctorsPage";
 import StaffPage from "../pages/Staff/StaffPage";
-import AddUser from "../pages/Users/AddUser";
-import EmployeeLayout from "../pages/Employee/EmployeeLayout";
-import ClinicCollectionLayout from "../pages/ClinicCollection/ClinicCollectionLayout";
-import AddClinicCollection from "../pages/ClinicCollection/AddClinicCollection";
 import UsersPage from "../pages/Users/UsersPage";
+import UserDetails from "../pages/Users/UserDetails";
+import MainLayout from "../layout/MainLayout";
+import MedicalComplexDetails from "../pages/MedicalComplex/MedicalComplexDetails";
+import DepartementsPage from "../pages/Departement/DepartementsPage";
+import DepartementDetails from "../pages/Departement/DepartementDetails";
+import ClinicsPage from "../pages/Clinic/ClinicsPage";
+import ClinicDetails from "../pages/Clinic/ClinicDetails";
+import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -45,18 +52,13 @@ export const routes: AppRoute[] = [
         path: "add",
         element: <AddPatient />,
       },
-
-      {
-        path: "all",
-        element: <PatientsPage />,
-      },
       {
         path: "appointments",
         element: <Appointments />,
       },
       {
-        path: "records",
-        element: <PatientsPage />,
+        path: "details/:id",
+        element: <PatientDetails />,
       },
     ],
   },
@@ -66,21 +68,22 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <PatientsPage />,
+        element: <DoctorsPage />,
       },
       {
         path: "add/",
         element: <AddDoctor />,
       },
       {
-        path: "all",
-        element: <PatientsPage />,
+        path: "details/:id",
+        element: <DoctorDetails />,
       },
     ],
   },
+
   {
-    path: "/company",
-    element: <AddCompany />,
+    path: "/employee",
+    element: <MainLayout />,
     children: [
       {
         path: "",
@@ -88,46 +91,111 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <AddDoctor />,
+        element: <AddEmployee />,
+      },
+    ],
+  },
+  {
+    path: "/users",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <UsersPage />,
       },
       {
-        path: "all",
+        path: "add",
+        element: <UsersPage />, /// add use page
+      },
+      {
+        path: "details/:id",
+        element: <UserDetails />,
+      },
+    ],
+  },
+  {
+    path: "/company",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <AddCompany />,
+      },
+      {
+        path: "add",
         element: <AddCompany />,
       },
     ],
   },
   {
-    path: "/ClinicCollection",
-    element: <ClinicCollectionLayout />,
+    path: "/medicalComplex",
+    element: <MainLayout />,
     children: [
       {
+        path: "",
+        element: <MedicalComplexPage />,
+      },
+      {
         path: "add",
-        element: <AddClinicCollection />,
+        element: <MedicalComplexPage />, //// add medicalComlpex Page
+      },
+      {
+        path: "details/:id",
+        element: <MedicalComplexDetails />,
       },
     ],
   },
   {
-    path: "/Employee",
-    element: <EmployeeLayout />,
+    path: "/departement",
+    element: <MainLayout />,
     children: [
       {
-        path: "all",
-        element: <UsersPage />,
-      },
-      {
-        path: "edit",
-        element: <FetchDataForEditEmploy />,
+        path: "",
+        element: <DepartementsPage />,
       },
       {
         path: "add",
-        element: <AddEmployee />,
+        element: <DepartementsPage />, //// add Departement Page
       },
       {
-        path: "user",
-        element: <AddUser />,
+        path: "details/:id",
+        element: <DepartementDetails />,
       },
     ],
   },
+  {
+    path: "/clinic",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <ClinicsPage />,
+      },
+      {
+        path: "add",
+        element: <ClinicsPage />, //// add Clinic Page
+      },
+      {
+        path: "details/:id",
+        element: <ClinicDetails />,
+      },
+    ],
+  },
+  {
+    path: "/speciality",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <SpecialitiesPage />,
+      },
+      {
+        path: "add",
+        element: <ClinicsPage />, //// add speciality Page
+      },
+    ],
+  },
+
   {
     path: "*",
     element: <Dashboard />,
