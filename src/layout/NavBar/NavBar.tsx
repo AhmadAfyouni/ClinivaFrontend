@@ -6,6 +6,7 @@ import {
   Burger,
   Menu,
   UnstyledButton,
+  Button,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconSettings, IconLogout } from "@tabler/icons-react";
@@ -14,16 +15,24 @@ import RTL from "../../Components/RTL";
 import SwitchDarkMode from "../../Components/Dark";
 import usePageTitleStore from "../../store/usePageTitleStore";
 import useDrawerStore from "../../store/useDrawerStore";
-
-function NavBar() {
+interface Props {
+  login: boolean;
+}
+function NavBar({ login }: Props) {
   const title = usePageTitleStore((state) => state.title);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, toggle } = useDrawerStore();
   const navigate = useNavigate();
+  // const location = useLocation();
+  // const isLoginPage = location.pathname === "/register";
 
   const handleLogout = () => {
     console.log("Logging out...");
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
+  };
+  const handleLogin = () => {
     navigate("/login");
   };
 
@@ -44,47 +53,55 @@ function NavBar() {
     >
       <Group gap="md">
         {isMobile && <Burger opened={opened} onClick={toggle} size="sm" />}
-        <Text
-          fw={"700"}
-          size={isMobile ? "1.2rem" : "1.5rem"}
-          style={{ cursor: "pointer" }}
-        >
-          {title}
-        </Text>
+        {login ? (
+          <Text
+            fw={"700"}
+            size={isMobile ? "1.2rem" : "1.5rem"}
+            style={{ cursor: "pointer" }}
+          >
+            {title}
+          </Text>
+        ) : (
+          <Button variant="subtle" onClick={handleLogin}>
+            Login
+          </Button>
+        )}
       </Group>
 
       <Group gap={"lg"} visibleFrom="sm">
         <SwitchDarkMode />
         <RTL />
-        <Menu shadow="md" width={200}>
-          <Menu.Target>
-            <Group gap="sm" style={{ cursor: "pointer" }}>
-              <Avatar radius={"xl"} />
-              <Flex direction={"column"} align={"flex-start"}>
-                <Text fw={"500"}>AbdElwahap</Text>
-                <Text fw={"100"} size="0.8rem">
-                  Dev
-                </Text>
-              </Flex>
-            </Group>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item
-              leftSection={<IconSettings size={14} />}
-              onClick={handleSettings}
-            >
-              Settings
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item
-              leftSection={<IconLogout size={14} />}
-              onClick={handleLogout}
-              color="red"
-            >
-              Logout
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+        {login && (
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <Group gap="sm" style={{ cursor: "pointer" }}>
+                <Avatar radius={"xl"} />
+                <Flex direction={"column"} align={"flex-start"}>
+                  <Text fw={"500"}>AbdElwahap</Text>
+                  <Text fw={"100"} size="0.8rem">
+                    Dev
+                  </Text>
+                </Flex>
+              </Group>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                leftSection={<IconSettings size={14} />}
+                onClick={handleSettings}
+              >
+                Settings
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item
+                leftSection={<IconLogout size={14} />}
+                onClick={handleLogout}
+                color="red"
+              >
+                Logout
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        )}
       </Group>
 
       {/* Mobile view */}

@@ -1,14 +1,28 @@
-import { Anchor, Button, Checkbox, Paper, Text, Title } from "@mantine/core";
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Flex,
+  Paper,
+  Text,
+  Title,
+} from "@mantine/core";
 import classes from "./AuthenticationImage.module.css";
 import InputPropsType from "../../../types/InputsType";
-import { LoginType } from "../../../types/LoginType";
+import { LoginType } from "../../../types/Login/LoginType";
 import { useFormik } from "formik";
 import { LoginSchema } from "../../../schema/LoginSchema";
 import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import useLogin from "../../../hooks/auth/login";
 import LoaderCustom from "../../../Components/Loader";
+import { IconArrowRight } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+
 export function Login() {
-  const loginMutation = useLogin();
+  const navigate = useNavigate();
+  const [saveToken, setSaveToken] = useState(false);
+  const loginMutation = useLogin(saveToken, false);
 
   const formik = useFormik<LoginType>({
     initialValues: {
@@ -52,6 +66,9 @@ export function Login() {
       onBlur: formik.handleBlur,
     },
   ];
+  const handleSetSaveToken = () => {
+    setSaveToken((prev) => !prev);
+  };
   return (
     <form
       onSubmit={(e) => {
@@ -61,16 +78,20 @@ export function Login() {
       className={classes.wrapper}
     >
       {loginMutation.isPending && <LoaderCustom />}
-      <Paper className={classes.form} radius={0} p={30}>
+      <Paper className={classes.form} radius={0} p={30} h={"100%"}>
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-          Welcome back to Clivien !|
+          Welcome back to Cliniva !
         </Title>
-
         <InputBaseCustom base={formFields[0]} />
         <br />
         <InputBaseCustom base={formFields[1]} />
-
-        <Checkbox label="Keep me logged in" mt="xl" size="md" />
+        <Checkbox
+          checked={saveToken}
+          onChange={handleSetSaveToken}
+          label="Keep me logged in"
+          mt="xl"
+          size="md"
+        />
         <Button
           type="submit"
           fullWidth
@@ -88,7 +109,6 @@ export function Login() {
         >
           Login
         </Button>
-
         <Text ta="center" mt="md">
           forget your password?{" "}
           <Anchor<"a">
@@ -100,6 +120,20 @@ export function Login() {
             Reset Password
           </Anchor>
         </Text>
+        <Flex justify={"center"} w="100%" h={"100%"} mt={"xl"}>
+          <Button
+            variant="filled"
+            h={"3rem"}
+            size="1.5rem"
+            style={{ borderRadius: "0 1rem 0 1rem" }}
+            rightSection={<IconArrowRight size={"40"} />}
+            onClick={() => {
+              navigate("/SelectPlan");
+            }}
+          >
+            Get Started
+          </Button>
+        </Flex>
       </Paper>
     </form>
   );
