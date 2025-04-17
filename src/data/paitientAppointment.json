@@ -1,0 +1,38 @@
+[
+  {
+    "scheduleId": "schedule-1",
+    "scheduleStatus": "Scheduled",
+    "scheduleTreatment": "Laser Hair Removal",
+    "scheduleDate": "2028-09-12T12:00:00"
+  },
+  {
+    "scheduleId": "schedule-2",
+    "scheduleStatus": "Scheduled",
+    "scheduleTreatment": "Botox Injection",
+    "scheduleDate": "2028-09-22T10:00:00"
+  },
+  {
+    "scheduleId": "schedule-3",
+    "scheduleStatus": "Scheduled",
+    "scheduleTreatment": "Hydrafacial",
+    "scheduleDate": "2028-10-05T09:30:00"
+  },
+  {
+    "scheduleId": "schedule-4",
+    "scheduleStatus": "Completed",
+    "scheduleTreatment": "Chemical Peel",
+    "scheduleDate": "2024-06-15T13:00:00"
+  },
+  {
+    "scheduleId": "schedule-5",
+    "scheduleStatus": "Completed",
+    "scheduleTreatment": "Microdermabrasion",
+    "scheduleDate": "2024-08-03T13:25:00"
+  },
+  {
+    "scheduleId": "schedule-6",
+    "scheduleStatus": "Completed",
+    "scheduleTreatment": "Skin Tightening",
+    "scheduleDate": "2024-04-12T11:00:00"
+  }
+]
