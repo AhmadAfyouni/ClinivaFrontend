@@ -1,6 +1,4 @@
 import { useFormik } from "formik";
-import { WorkingHoursType } from "../../types/Employee/AddEmployeeType";
-import AddEmployeeSchema from "../../schema/Employee/AddEmployeeSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Button, Center, ScrollArea, Text } from "@mantine/core";
@@ -14,6 +12,7 @@ import GetEmployeeType, {
 } from "../../types/Employee/GetEmployee";
 import useEditEmployee from "../../hooks/employee/useEditEmployee";
 import EditEmployeeSchema from "../../schema/Employee/EditEmployeeSchema";
+import { WorkingHoursType } from "../../types/GeneralAdd";
 
 interface selectSpecializationType {
   [key: string]: string;

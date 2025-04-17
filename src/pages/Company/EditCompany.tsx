@@ -1,10 +1,5 @@
 import { useFormik } from "formik";
-import AddCompanyType, {
-  ContactInfo,
-  Holiday,
-  Specialization,
-  BankAccount,
-} from "../../types/AddCompanyType";
+import AddCompanyType, { Specialization } from "../../types/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
@@ -14,6 +9,11 @@ import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { useMantineTheme } from "@mantine/core";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import {
+  BankAccountType,
+  ContactInfoType,
+  Holiday,
+} from "../../types/GeneralAdd";
 
 function EditCompany() {
   const { id } = useParams();
@@ -264,7 +264,7 @@ function EditCompany() {
             />
           </Box>
 
-          <TableSelection<ContactInfo>
+          <TableSelection<ContactInfoType>
             title="Contact Information"
             fieldName="contactInfos"
             columns={[
@@ -275,6 +275,7 @@ function EditCompany() {
             ]}
             data={formik.values.contactInfos}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
 
           <TableSelection<Holiday>
@@ -287,6 +288,7 @@ function EditCompany() {
             ]}
             data={formik.values.holidays}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
 
           <TableSelection<Specialization>
@@ -298,9 +300,10 @@ function EditCompany() {
             ]}
             data={formik.values.specializations}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
 
-          <TableSelection<BankAccount>
+          <TableSelection<BankAccountType>
             title="Bank Accounts"
             fieldName="bankAccount"
             columns={[
@@ -311,6 +314,7 @@ function EditCompany() {
             ]}
             data={formik.values.bankAccount}
             onFieldChange={formik.setFieldValue}
+            error={""}
           />
 
           <Box mt="md" mb="xl">

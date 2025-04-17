@@ -1,4 +1,4 @@
-const user = {
+export const user = {
   success: true,
   message: "user retrieved successfully",
   data: {

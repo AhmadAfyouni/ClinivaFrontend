@@ -126,7 +126,7 @@ const doctors = ["All Doctors", "Dr. Emily Ross", "Dr. James Wilson"];
 function Appointment() {
   const [searchQuery, setSearchQuery] = useState("");
   const [daysInCalender, setDaysInCalender] = useState(5);
-  const [OpenExtraInfo, setOpenExtraInfo] = useState(true);
+  const [OpenExtraInfo] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
