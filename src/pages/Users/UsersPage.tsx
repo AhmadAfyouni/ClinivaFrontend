@@ -4,11 +4,11 @@ import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
-import useUsersList from "../../hooks/users/useUsersList";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import useUsersList from "../../hooks/users/useUsersList";
 
 const UsersPage = () => {
   const [selection, setSelection] = useState<string[]>([]);
