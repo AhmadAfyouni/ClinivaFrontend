@@ -14,7 +14,7 @@ export default function InputFileBase({ base }: Props) {
   const [image, setImage] = useState<string | null>(
     typeof base.value === "string" ? base.value : null
   );
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLButtonElement>(null);
 
   const handleImageChange = (file: File | null) => {
     if (file) {

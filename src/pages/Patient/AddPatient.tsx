@@ -1,7 +1,5 @@
 import { useFormik } from "formik";
 import AddEmployeeType, {
-  WorkingHoursType,
-  Vacation,
   VacationRecordsType,
 } from "../../types/Employee/AddEmployeeType";
 import AddEmployeeSchema from "../../schema/Employee/AddEmployeeSchema";
@@ -11,6 +9,7 @@ import { Button, ScrollArea } from "@mantine/core";
 import { country } from "../../data/country";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import useAddUser from "../../hooks/users/useAddUser";
+import { WorkingHoursType } from "../../types/GeneralAdd";
 
 function AddPatient() {
   const handleImageChange = (file: File | null) => {
@@ -31,12 +30,22 @@ function AddPatient() {
       notes: "",
       address: "",
       professional_experience: "",
-      specialties: [],
       Languages: [],
       workingHours: [],
-      vacations: [],
-      evaluation: 0,
       employeeType: "Doctor",
+      contactInfos: [],
+      vacationRecords: [],
+      hireDate: "",
+      medicalLicenseNumber: "",
+      certifications: [],
+      jobType: "FULL_TIME",
+      breakTimes: [],
+      isActive: false,
+      clinics: [],
+      specializations: [],
+      companyId: "",
+      clinicCollectionId: "",
+      departmentId: "",
     },
     validationSchema: AddEmployeeSchema,
     validateOnBlur: false,
@@ -177,19 +186,7 @@ function AddPatient() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "evaluation",
-      label: "Evaluation",
-      mandatory: true,
-      type: "number",
-      description: "",
-      error: formik.errors.evaluation,
-      placeholder: "0-10",
-      tooltip: "Enter evaluation score",
-      value: formik.values.evaluation?.toString() || "0",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "notes",
       label: "Notes",
@@ -209,7 +206,7 @@ function AddPatient() {
       mandatory: true,
       type: "multiSelect",
       description: "",
-      error: formik.errors.Languages,
+      error: formik.errors.Languages?.toString(),
       placeholder: "Select Languages",
       tooltip: "Enter your Languages",
       value: formik.values.Languages || [],
@@ -245,13 +242,14 @@ function AddPatient() {
           title="Specialties"
           fieldName="specialties"
           columns={[{ key: "name", label: "Specialty", type: "text" }]}
-          data={formik.values.specialties?.map((s) => ({ name: s })) || []}
+          data={formik.values.specializations?.map((s) => ({ name: s })) || []}
           onFieldChange={(field, value) => {
             formik.setFieldValue(
               field,
               value.map((v) => v.name)
             );
           }}
+          error={""}
         />
 
         <TableSelection<WorkingHoursType>
@@ -269,6 +267,7 @@ function AddPatient() {
           ]}
           data={formik.values.workingHours}
           onFieldChange={formik.setFieldValue}
+          error={""}
         />
 
         <TableSelection<VacationRecordsType>
