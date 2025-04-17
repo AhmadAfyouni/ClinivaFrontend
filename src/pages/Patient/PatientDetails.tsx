@@ -18,6 +18,7 @@ import usePatientDetails from "../../hooks/patient/usePatientDetails";
 import MedicalTreatment from "../../Components/Details/MedicalTreatmentUI";
 import { useParams } from "react-router";
 import TextInfo from "../../Components/Details/TextInfo";
+import dataAppointment from "../../data/paitientAppointment.json";
 const PatientDetails = () => {
   const [day, month, year] = "2-4-2025".split("-").map(Number);
   const date = new Date(year, month - 1, day);
@@ -48,7 +49,7 @@ const PatientDetails = () => {
                 mx="auto"
                 w="100%"
                 mb={10}
-                style={{ backgroundColor: theme.other.bgSubtle }}
+                bg={theme.other.bg}
               >
                 <Flex direction="column" p="0 10px" mb={20} w="100%">
                   <Flex direction="column" mb={20} w="100%">
@@ -135,8 +136,8 @@ const PatientDetails = () => {
           </Grid.Col>
           <Grid.Col span={isMobile || isTablet ? 8 : 2}>
             <MedicalTreatment
-              // upcomingAndHistorySchedule={data}
-              upcomingAndHistorySchedule={["data", "upcoming"]}
+              upcomingAndHistorySchedule={dataAppointment}
+              // upcomingAndHistorySchedule={}
               noteText={data.notes}
             />
           </Grid.Col>

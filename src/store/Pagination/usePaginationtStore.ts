@@ -1,18 +1,20 @@
 import { create } from "zustand";
 import PaginationType from "../../types/PaginationControl";
-
-const usePatientPaginationStore = create<PaginationType>((set) => {
+const defaultState = {
+  withSkelton: false,
+  paramKey: "",
+  perPage: 10,
+  currentPage: 1,
+  current_page: 1,
+  has_next_page: false,
+  has_previous_page: false,
+  total_items: 0,
+  total_pages: 0,
+  items_per_page: 10,
+};
+const usePaginationtStore = create<PaginationType>((set) => {
   return {
-    withSkelton: false,
-    paramKey: "",
-    perPage: 10,
-    currentPage: 1,
-    current_page: 1,
-    has_next_page: false,
-    has_previous_page: false,
-    total_items: 0,
-    total_pages: 0,
-    items_per_page: 10,
+    ...defaultState,
     setCurrent_page(current_page: number) {
       set(() => ({ current_page: current_page }));
     },
@@ -38,7 +40,10 @@ const usePatientPaginationStore = create<PaginationType>((set) => {
     setSearchKey: (key) => {
       set(() => ({ paramKey: key, currentPage: 1 }));
     },
+    resetPagination: () => {
+      set(() => ({ ...defaultState }));
+    },
   };
 });
 
-export default usePatientPaginationStore;
+export default usePaginationtStore;

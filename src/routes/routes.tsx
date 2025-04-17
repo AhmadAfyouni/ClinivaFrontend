@@ -23,6 +23,8 @@ import DepartementDetails from "../pages/Departement/DepartementDetails";
 import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
+import StaffDetails from "../pages/Staff/StaffDetails";
+import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -92,6 +94,10 @@ export const routes: AppRoute[] = [
       {
         path: "add",
         element: <AddEmployee />,
+      },
+      {
+        path: "details/:id",
+        element: <StaffDetails />,
       },
     ],
   },
@@ -192,6 +198,24 @@ export const routes: AppRoute[] = [
       {
         path: "add",
         element: <ClinicsPage />, //// add speciality Page
+      },
+      {
+        path: "details/:id",
+        element: <ClinicsPage />, //// there is no specialty details V2
+      },
+    ],
+  },
+  {
+    path: "/appointment",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <AppointmentsPage />,
+      },
+      {
+        path: "add",
+        element: <Appointments />,
       },
     ],
   },

@@ -1,20 +1,23 @@
 import { useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
+import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import useSortStore from "../../hooks/useSortStore ";
+import CustomPagination from "../../Components/Pagination/Pagination";
 
 const SpecialitiesPage = () => {
-  const { data, isFetched } = useSpecialization();
+  const pagination = usePaginationtStore();
+  const { sortBy, order } = useSortStore();
+  const { data, isFetched } = useSpecialization(false, sortBy, order);
   console.log(data);
-  const [search, setSearch] = useState("");
   const [selection, setSelection] = useState<string[]>([]);
-
   if (!data) return null;
   const handleSearchChange = (event: string) => {
-    setSearch(event);
+    pagination.setSearchKey(event);
   };
 
   const toggleAll = () => {
@@ -29,25 +32,19 @@ const SpecialitiesPage = () => {
 
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => console.log("Specialties")}
+      onClick={() => console.log("there is no speciality details page")}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
       th2={item.createdAt}
-      th3={item.updatedAt}
-      th4={item.requiredStaff.toString()}
+      th3={item.updatedAt.slice(0, 10)}
+      th4={item.statistics.doctors.toString()}
       th5={item.isActive.toString()}
-      // key={item.SpecialityId}
-      // th0={item.SpecialityId}
-      // th1={item.Name}
-      // th2={item.AssignedClinics}
-      // th3={item.LastUpdate}
-      // th4={item.DoctorsNumber.toString()}
-      // th5={item.Status.toString()}
     />
   ));
+
   if (!isFetched || !data)
     return (
       <Center>
@@ -60,15 +57,26 @@ const SpecialitiesPage = () => {
         <Flex w="90%" justify="space-between">
           <SearchInput
             text="Search Speciality"
-            searchValue={search}
+            searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
           />
-          <AddButton text="Add Speciality" />
+          <AddButton
+            text="Add Speciality"
+            handleOnClick={() => console.log("speciality")}
+          />
         </Flex>
-        <ScrollArea>
+        <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
-              sortedBy={["_id", "name", "createdAt"]}
+              sortedBy={[
+                "_id",
+                "name",
+                "createdAt",
+                "updatedAt",
+                "doctors",
+                "isActive",
+                "_id",
+              ]}
               labels={[
                 "Speciality Id",
                 "Speciality Name",
@@ -84,7 +92,8 @@ const SpecialitiesPage = () => {
             />
             {rows}
           </Table>
-        </ScrollArea>
+          <CustomPagination store={pagination} />
+        </Box>
       </>
     );
 };

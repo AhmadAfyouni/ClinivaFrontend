@@ -14,8 +14,8 @@ interface Props {
 const AllergyMedicationCard = ({ allergies, chronicDiseases }: Props) => {
   const theme = useMantineTheme();
   return (
-    <Container size="sm" py="md" bg={theme.other.bgSubtle} w="100%">
-      <Card p="lg" radius="md" bg={theme.other.bgSubtle} h="150px" w="100%">
+    <Container size="sm" py="md" bg={theme.other.bg} w="100%">
+      <Card p="lg" radius="md" bg={theme.other.bg} h="150px" w="100%">
         <ScrollArea>
           <Flex justify="space-between" w="90%">
             <Flex direction="column" w="50%">

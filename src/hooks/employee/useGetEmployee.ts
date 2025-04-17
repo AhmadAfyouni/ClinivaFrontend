@@ -1,7 +1,7 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
-import ResponseDetailsType from "../../types/ResponseDetail";
 import GetEmployeeType from "../../types/Employee/GetEmployee";
+import ResponseDetailsType from "../../types/Responsedetail";
 const useGetEmployee = (id = "67e50dea191e5b9428a7474f") => {
   return useQuery({
     queryKey: ["employeesGet"],

@@ -1,32 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
+import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
 import useSortStore from "../../hooks/useSortStore ";
-import usePatientsList from "../../hooks/patient/usePatientsList";
+import { useNavigate } from "react-router";
+import CustomPagination from "../../Components/Pagination/Pagination";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import useDepatementsList from "../../hooks/departement/useDepartementsList";
 
 const DepartementsPage = () => {
-  const { sortBy, order, setSortBy, setOrder } = useSortStore();
-  const { data, isFetched } = usePatientsList(1, 10, false, sortBy, order);
+  const pagination = usePaginationtStore();
+  const { sortBy, order } = useSortStore();
+  const { data, isFetched } = useDepatementsList(false, sortBy, order);
 
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
 
   const handleSearchChange = (event: string) => {
-    setSearch(event);
+    pagination.setSearchKey(event);
   };
-
-  useEffect(() => {
-    setOrder(order);
-    setSortBy(sortBy);
-
-    // if (role) {
-    //   result = result.filter((p) => p.role === role);
-    // }
-    // setRole(role);
-  }, [order, sortBy]);
 
   if (!data) return null;
 
@@ -42,16 +36,16 @@ const DepartementsPage = () => {
 
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => console.log("department")}
+      onClick={() => navigate(`/departement/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
       th2={item.address}
-      th3={item.name}
-      th4={item.address}
-      th5={item.address}
+      th3={item.address}
+      th4={item.clinicCount.toString()}
+      th5={item.requiredStaff.toString()}
       // th1={item.ComplexName}
       // th2={item.PIC}
       // th3={item.Address}
@@ -63,31 +57,42 @@ const DepartementsPage = () => {
   if (!isFetched)
     return (
       <Center>
-        <Text>No Patients Found</Text>
+        <Text>No Departements Found</Text>
       </Center>
     );
   else
     return (
-      <>
+      <Flex direction="column">
         <Flex w="90%" justify="space-between">
           <SearchInput
             text="Search MedicalComplex"
-            searchValue={search}
+            searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
           />
-          <AddButton text="Add MedicalComplex" />
+          <AddButton
+            text="Add MedicalComplex"
+            handleOnClick={() => navigate(`/departement/add`)}
+          />
         </Flex>
-        <ScrollArea>
+        <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
-              sortedBy={["_id", "name"]}
+              sortedBy={[
+                "_id",
+                "name",
+                "address",
+                "address",
+                "clinicCount",
+                "patientCount",
+                "_id",
+              ]}
               labels={[
                 "Medical Id",
                 "Medical Name",
                 "PIC",
                 "Address",
                 "DepartmentsCount",
-                "StaffCount",
+                "PatientCount",
                 "Medical",
               ]}
               data={data}
@@ -96,8 +101,10 @@ const DepartementsPage = () => {
             />
             {rows}
           </Table>
-        </ScrollArea>
-      </>
+
+          <CustomPagination store={pagination} />
+        </Box>
+      </Flex>
     );
 };
 

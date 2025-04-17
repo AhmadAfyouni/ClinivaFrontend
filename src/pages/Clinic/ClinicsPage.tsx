@@ -1,31 +1,24 @@
-import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Box, Center, Flex, Table, Text } from "@mantine/core";
+import { useState } from "react";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
 import TableHead from "../../Components/Table/TableHead";
 import TableBody from "../../Components/Table/TableBody";
 import useClinicsList from "../../hooks/clinic/useClinicsList";
 import useSortStore from "../../hooks/useSortStore ";
+import { useNavigate } from "react-router";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import CustomPagination from "../../Components/Pagination/Pagination";
 
 const ClinicsPage = () => {
-  const { data, isFetched } = useClinicsList();
-  const [search, setSearch] = useState("");
-  const { sortBy, order, setSortBy, setOrder } = useSortStore();
+  const pagination = usePaginationtStore();
+  const { sortBy, order } = useSortStore();
+  const { data, isFetched } = useClinicsList(false, sortBy, order);
+  const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
-    setSearch(event);
+    pagination.setSearchKey(event);
   };
-
-  useEffect(() => {
-    setOrder(order);
-    setSortBy(sortBy);
-
-    // if (role) {
-    //   result = result.filter((p) => p.role === role);
-    // }
-    // setRole(role);
-  }, [order, sortBy]);
-
   if (!data) return null;
 
   const toggleAll = () => {
@@ -40,22 +33,26 @@ const ClinicsPage = () => {
 
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => void "clinics"}
+      onClick={() => navigate(`/clinic/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.WorkingHours.map((item) => `${item.endTime} - ${item.endTime}`)}
-      th3={item.specializations.join(",")}
-      th4={item.departmentId}
+      th2={
+        item?.WorkingHours?.map(
+          (dayItem) =>
+            dayItem?.timeSlots
+              ?.map((slot) => `${slot.startTime} - ${slot.endTime}`)
+              .join(", ") || ""
+        ).join(" | ") || ""
+      }
+      th3={item.specializations.map((item) => item.name).join(",")}
+      th4={item.statistics.patients.total.toString()}
       th5={item.isActive.toString()}
-      // th2={item.workingHours}
-      // th3={item.specialty}
-      // th4={item.numberoFPatientsTreated}
-      // th5={item.status}
     />
   ));
+
   if (!isFetched)
     return (
       <Center>
@@ -67,13 +64,16 @@ const ClinicsPage = () => {
       <>
         <Flex w="90%" justify="space-between">
           <SearchInput
-            searchValue={search}
+            searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
             text="Search Clinic"
           />
-          <AddButton text="Add Clinic" />
+          <AddButton
+            text="Add Clinic"
+            handleOnClick={() => navigate(`/clinic/add`)}
+          />
         </Flex>
-        <ScrollArea>
+        <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
               labels={[
@@ -88,10 +88,11 @@ const ClinicsPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "",
+                "timeSlots",
                 "specializations",
-                "departmentId",
+                "total",
                 "isActive",
+                "_id",
               ]}
               toggleAll={toggleAll}
               data={data}
@@ -99,7 +100,8 @@ const ClinicsPage = () => {
             />
             {rows}
           </Table>
-        </ScrollArea>
+          <CustomPagination store={pagination} />
+        </Box>
       </>
     );
 };

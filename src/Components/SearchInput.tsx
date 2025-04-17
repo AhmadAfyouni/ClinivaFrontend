@@ -1,5 +1,6 @@
 import { TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
+import { useEffect, useRef } from "react";
 
 interface Props {
   searchValue: string;
@@ -10,6 +11,10 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (searchValue.trim() !== "") inputRef.current?.focus();
+  }, []);
 
   return (
     <TextInput
@@ -21,6 +26,7 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
       value={searchValue}
       onChange={handleSearchChange}
       mr="10px"
+      ref={inputRef}
     />
   );
 };
