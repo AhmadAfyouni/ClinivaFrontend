@@ -1,31 +1,42 @@
-import {Text, useMantineTheme } from "@mantine/core";
-import CircledButton from "./CircledButton";
+import { Button, Text, useMantineTheme } from "@mantine/core";
 interface Props {
-  text :string
+  text: string;
+  handleOnClick: () => void;
 }
-const AddButton = ({text}:Props) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const theme = useMantineTheme()
+const AddButton = ({ text, handleOnClick }: Props) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const theme = useMantineTheme();
   return (
-    <CircledButton bg={theme.other.secondaryDarkColor} w="fit-content" h="35px" margin="5px">
-        <Text
+    <Button
+      bd={theme.other.secondaryDarkColor}
+      onClick={handleOnClick}
+      variant="filled"
+      w="fit-content"
+      h="35px"
+      mr="5px"
+      color="teal"
+      radius="xl"
+      size="35px"
+      p="0"
+    >
+      <Text
         fw="normal"
         fz="20px"
-        p='10px 12px'
+        p="10px 12px"
         c={theme.other?.onSurfacePrimary}
       >
         +
       </Text>
-        <Text
+      <Text
         fw="normal"
         fz="11px"
-        pr='8px'
+        pr="8px"
         c={theme.other?.onSurfacePrimary}
-        visibleFrom="sm"
+        visibleFrom="xs"
       >
         {text}
       </Text>
-    </CircledButton>
+    </Button>
   );
 };
 

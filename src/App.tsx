@@ -16,11 +16,11 @@ import { useRoutes } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDarkThem } from "./store/useDarkThem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoaderCustom from "./Components/Loader";
 import { useEffect } from "react";
 import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import ResetWatcher from "./Components/store/ResetWatcher";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -123,8 +123,8 @@ function App() {
       <ToastContainer />
       <MantineProvider theme={theme}>
         <Notifications />
-
         <BrowserRouter>
+          <ResetWatcher />
           <AppContent />
         </BrowserRouter>
       </MantineProvider>

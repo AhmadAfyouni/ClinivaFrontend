@@ -15,4 +15,5 @@ export default interface PaginationType {
   setHas_next_page: (key: boolean) => void;
   setHas_previous_page: (key: boolean) => void;
   setSearchKey: (key: string) => void;
+  resetPagination?: () => void;
 }

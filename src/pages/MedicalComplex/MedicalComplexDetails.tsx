@@ -7,25 +7,27 @@ import ListComponent from "../../Components/CompanyDetails/ListComponent";
 import GridList from "../../Components/CompanyDetails/GridList";
 import { BiClinic } from "react-icons/bi";
 import useMedicalComplexDetails from "../../hooks/medicalcomplex/useMedicalComplexDetails";
+import { useParams } from "react-router";
 const MedicalComplexDetails = () => {
+  const { id } = useParams();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { data, isFetched } = useMedicalComplexDetails(
-    "67e50d4e191e5b9428a74741"
-  );
+  const { data, isFetched } = useMedicalComplexDetails(id || "-1");
   console.log(data);
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No Specialization Found</Text>
+        <Text>No Medical Details Found</Text>
       </Center>
     );
   const titles = ["Establichment Year", "Vission", "Goals", "OverView"];
   const values = [
-    data.yearOfEstablishment,
+    data.createdAt.slice(0, 10),
     data.vision,
-    data.goals,
-    data.overview,
+    // data.goals,
+    // data.overview,
+    "goals",
+    "overview",
   ];
   const icons = data.contactInfos.map((item) => {
     if (item.type === "email") {
@@ -56,7 +58,8 @@ const MedicalComplexDetails = () => {
     <Flex direction={isComputer ? "row" : "column"}>
       <Flex w={isComputer ? "23%" : "100%"}>
         <InfoSide
-          url={data.logo}
+          // url={data.log}
+          url={"nothing"}
           name={data.name}
           contactInfoIcons={icons}
           iconsMaxWidth=""

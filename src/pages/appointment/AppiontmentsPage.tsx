@@ -2,21 +2,18 @@ import { useState } from "react";
 import { Table, Flex, Center, Text, Box } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import TableHead from "../../Components/Table/TableHead";
-import { useNavigate } from "react-router";
-import usePatientsList from "../../hooks/patient/usePatientsList";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import { SearchInput } from "../../Components/SearchInput";
+import useAppointmentsList from "../../hooks/appointment/useAppointmentsList";
 
-const PatientsPage = () => {
+const AppointmentsPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
-  const { data, isFetched } = usePatientsList(false, sortBy, order);
-  console.log(data);
+  const { data, isFetched } = useAppointmentsList(false, sortBy, order);
+  // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
-  const navigate = useNavigate();
-
   if (!data) return null;
 
   const toggleAll = () => {
@@ -33,27 +30,23 @@ const PatientsPage = () => {
   };
   const rows = data?.map((item) => (
     <TableBody
-      onClick={() => navigate(`/patients/details/${item._id}`)}
+      // onClick={() => navigate(`/appointments/details/${item._id}`)}
+      onClick={() => console.log("appointmentDetails")}
       key={item._id}
       th0={item._id}
-      th1={item.name}
-      // th2={item.date}
-      // th3={item.doctor}
-      // th4={item.treatment}
-      // th5={item.status}
-      th2={item.dateOfBirth.slice(0, 10)}
-      th3={item.gender}
-      th4={item.dateOfBirth.slice(0, 10)}
-      th5={item.isActive.toString()}
+      th1={item.patient.name}
+      th2={`${item.datetime.slice(0, 10)} - ${item.datetime.slice(11, 16)} `}
+      th3={item.clinic?.name || ""}
+      th4={item.doctor?.name || ""}
+      th5={item.status}
       selection={selection}
       setSelection={setSelection}
     />
   ));
-
   if (!isFetched)
     return (
       <Center>
-        <Text>No Patients Found</Text>
+        <Text>No Appointments Found</Text>
       </Center>
     );
   else
@@ -68,27 +61,18 @@ const PatientsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Patint Id",
-                "Name",
+                "Appointment Id",
+                "patient Name",
                 "Last Visist ",
-                "Doctors",
-                "Treatment",
+                "Clinic",
+                "Doctor",
                 "status",
-                "Patient",
+                "Appointment",
               ]}
               data={data}
               selection={selection}
               toggleAll={toggleAll}
-              sortedBy={[
-                "_id",
-                "name",
-                "dateOfBirth",
-                "gender",
-                "address",
-                "dateOfBirth",
-                "isActive",
-                "_id",
-              ]}
+              sortedBy={["_id", "datetime"]}
             />
             {rows}
           </Table>
@@ -98,4 +82,4 @@ const PatientsPage = () => {
     );
 };
 
-export default PatientsPage;
+export default AppointmentsPage;

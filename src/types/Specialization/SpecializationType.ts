@@ -1,3 +1,7 @@
+type statistics = {
+  clinics: number;
+  doctors: number;
+};
 export default interface SpecializationListType {
   _id: string;
   name: string;
@@ -10,4 +14,5 @@ export default interface SpecializationListType {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  statistics: statistics;
 }
