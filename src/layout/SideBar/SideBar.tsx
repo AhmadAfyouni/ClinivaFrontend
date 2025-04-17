@@ -1,11 +1,14 @@
 import {
   IconAdjustments,
+  IconBuildingCommunity,
+  IconBuildingHospital,
+  IconBuildingSkyscraper,
   IconCalendarStats,
   IconFileAnalytics,
   IconGauge,
+  IconHospital,
   IconLock,
-  IconNotes,
-  IconPresentationAnalytics,
+  IconMicroscope,
 } from "@tabler/icons-react";
 import { Group, ScrollArea, Text, Drawer } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -13,6 +16,7 @@ import { LinksGroup } from "./NavbarLinksGroup";
 import { UserButton } from "./UserButton";
 import classes from "./NavbarNested.module.css";
 import useDrawerStore from "../../store/useDrawerStore";
+import { IconStethoscope, IconUsersGroup, IconUser } from "@tabler/icons-react";
 // import { Logo } from "./Logo";
 
 export function SideBar() {
@@ -20,7 +24,7 @@ export function SideBar() {
     { label: "Dashboard", icon: IconGauge, link: "/" },
     {
       label: "Staff",
-      icon: IconPresentationAnalytics,
+      icon: IconUsersGroup,
       initiallyOpened: true,
 
       links: [
@@ -30,19 +34,19 @@ export function SideBar() {
     },
     {
       label: "Patient",
-      icon: IconNotes,
+      icon: IconUser,
       initiallyOpened: true,
 
       links: [
         { label: "Patients", link: "/patients" },
         { label: "Add Patient", link: "/patients/add" },
-        { label: "Appointments", link: "/patients/appointments" },
+        // { label: "Appointments", link: "/patients/appointments" },
         // { label: "Records", link: "/patients/records" },
       ],
     },
     {
       label: "Doctor",
-      icon: IconCalendarStats,
+      icon: IconStethoscope,
       links: [
         { label: "Doctors", link: "/doctors" },
         { label: "Add Doctor", link: "/doctors/add" },
@@ -50,39 +54,47 @@ export function SideBar() {
     },
     {
       label: "User",
-      icon: IconCalendarStats,
+      icon: IconUser,
       links: [
         { label: "Users", link: "/users" },
         { label: "Add User", link: "/users/add" },
       ],
     },
     {
-      label: "Company",
-      icon: IconPresentationAnalytics,
+      label: "Appointment",
+      icon: IconCalendarStats,
       links: [
-        { label: "Company", link: "/company" },
+        { label: "Appointments", link: "/appointment" },
+        { label: "Add Appointment", link: "/appointment/add" },
+      ],
+    },
+    {
+      label: "Company",
+      icon: IconBuildingSkyscraper,
+      links: [
+        { label: "Companies", link: "/company" },
         { label: "Add Company", link: "/company/add" },
       ],
     },
     {
       label: "MedicalComplex",
-      icon: IconPresentationAnalytics,
+      icon: IconBuildingHospital,
       links: [
-        { label: "Company", link: "/medicalComplex" },
+        { label: "MedicalComplexes", link: "/medicalComplex" },
         { label: "Add MedicalComplex", link: "/medicalComplex/add" },
       ],
     },
     {
       label: "Departement",
-      icon: IconPresentationAnalytics,
+      icon: IconBuildingCommunity,
       links: [
-        { label: "Departement", link: "/departement" },
+        { label: "Departements", link: "/departement" },
         { label: "Add Departement", link: "/departement/add" },
       ],
     },
     {
       label: "Clinic",
-      icon: IconPresentationAnalytics,
+      icon: IconHospital,
       links: [
         { label: "Clinics", link: "/clinic" },
         { label: "Add Clinic", link: "/clinic/add" },
@@ -90,7 +102,7 @@ export function SideBar() {
     },
     {
       label: "Speciality",
-      icon: IconPresentationAnalytics,
+      icon: IconMicroscope,
       links: [
         { label: "Specialties", link: "/speciality" },
         { label: "Add Speciality", link: "/speciality/add" },

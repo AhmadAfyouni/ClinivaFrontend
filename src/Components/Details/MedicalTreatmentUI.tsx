@@ -99,82 +99,77 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
   );
 
   return (
-    <Grid columns={6}>
-      {/* Treatment Section */}
-      <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6}>
-        {/* Header Section */}
-        <Text fw={600} size="16px" c={theme.other.onSurfacePrimary}>
-          Treatment
-        </Text>
-        {/* Upcoming Section */}
-        <Text
-          fw={500}
-          size="15px"
-          c={theme.other.onSurfacePrimary}
-          mt={40}
-          mb={10}
-        >
-          Upcoming
-        </Text>
-        <ScrollArea h="250px" mb={10}>
-          {upcoming.map((item) => (
-            <TreatmentCard
-              key={item.scheduleId}
-              scheduleStatus={item.scheduleStatus}
-              scheduleTreatment={item.scheduleTreatment}
-              scheduleDate={item.scheduleDate}
-            />
-          ))}
-        </ScrollArea>
-      </Grid.Col>
-      {/* History Section */}
-      <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6} mt={10}>
-        <Text fw={500} size="15px" c={theme.other.onSurfacePrimary} mb="md">
-          History
-        </Text>
-        <ScrollArea h="250px" mb={10}>
-          {history.map((item) => (
-            <TreatmentCard
-              key={item.scheduleId}
-              scheduleStatus={item.scheduleStatus}
-              scheduleTreatment={item.scheduleTreatment}
-              scheduleDate={item.scheduleDate}
-            />
-          ))}
-        </ScrollArea>
-      </Grid.Col>
-
-      {/* Notes Section */}
-      <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6}>
-        <Box>
-          <Text
-            fw={500}
-            size="sm"
-            mb="xs"
-            c={theme.other.onSurfacePrimary}
-            mt={15}
-          >
-            Notes
+    <>
+      {/* Header Section */}
+      <Text fw={600} size="16px" c={theme.other.onSurfacePrimary}>
+        Treatment
+      </Text>
+      <Grid columns={6}>
+        <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6} mt={10}>
+          {/* Upcoming Section */}
+          <Text fw={500} size="15px" c={theme.other.onSurfacePrimary} mb={15}>
+            Upcoming
           </Text>
-          <Card
-            shadow="sm"
-            p="md"
-            radius="md"
-            withBorder
-            bg={theme.other.bgSubtle}
-          >
-            <Text size="sm" c={theme.other.onSurfaceSecondary} mb="xs">
-              2028/09/12 - 12:00 PM
+          <ScrollArea h="250px" mb={10}>
+            {upcoming.map((item) => (
+              <TreatmentCard
+                key={item.scheduleId}
+                scheduleStatus={item.scheduleStatus}
+                scheduleTreatment={item.scheduleTreatment}
+                scheduleDate={item.scheduleDate}
+              />
+            ))}
+          </ScrollArea>
+        </Grid.Col>
+        {/* History Section */}
+        <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6} mt={10}>
+          <Text fw={500} size="15px" c={theme.other.onSurfacePrimary} mb="md">
+            History
+          </Text>
+          <ScrollArea h="250px" mb={10}>
+            {history.map((item) => (
+              <TreatmentCard
+                key={item.scheduleId}
+                scheduleStatus={item.scheduleStatus}
+                scheduleTreatment={item.scheduleTreatment}
+                scheduleDate={item.scheduleDate}
+              />
+            ))}
+          </ScrollArea>
+        </Grid.Col>
+
+        {/* Notes Section */}
+        <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6}>
+          <Box>
+            <Text
+              fw={500}
+              size="sm"
+              mb="xs"
+              c={theme.other.onSurfacePrimary}
+              mt={15}
+            >
+              Notes
             </Text>
-            <ScrollArea>
-              <Text size="sm" h="100px" c={theme.other.onSurfacePrimary}>
-                {noteText}
+            <Card
+              shadow="sm"
+              p="md"
+              radius="md"
+              withBorder
+              bg={theme.other.bgSubtle}
+            >
+              <Text size="sm" c={theme.other.onSurfaceSecondary} mb="xs">
+                2028/09/12 - 12:00 PM
               </Text>
-            </ScrollArea>
-          </Card>
-        </Box>
-      </Grid.Col>
-    </Grid>
+              <ScrollArea>
+                <Text size="sm" h="100px" c={theme.other.onSurfacePrimary}>
+                  {noteText}
+                </Text>
+              </ScrollArea>
+            </Card>
+          </Box>
+        </Grid.Col>
+      </Grid>
+    </>
   );
 }
 

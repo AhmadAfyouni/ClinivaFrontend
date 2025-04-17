@@ -47,7 +47,7 @@ export function MedicalInfo({ bloodType, hieght, nationality, weight }: Props) {
   ];
 
   return (
-    <Container size="sm" p="md">
+    <Container size="sm" p="md" bg={theme.other.bg}>
       <Text fw={600} size="lg" c={theme.other.onSurfacePrimary} mb={5}>
         Medical Info
       </Text>

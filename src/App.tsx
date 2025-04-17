@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import ResetWatcher from "./Components/store/ResetWatcher";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -128,6 +129,7 @@ function App() {
       <MantineProvider theme={theme}>
         <Notifications />
         <BrowserRouter>
+          <ResetWatcher />
           <AppContent />
         </BrowserRouter>
       </MantineProvider>

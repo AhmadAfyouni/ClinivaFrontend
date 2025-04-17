@@ -1,39 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Box, Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
+import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
-// import Dropdown from "../../Components/Dropdown";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
-import MobileFilters from "../../Components/mobliefilters";
 import useUsersList from "../../hooks/users/useUsersList";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
-import useUserPaginationStore from "../../store/Pagination/useUser";
+import { useNavigate } from "react-router";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 
 const UsersPage = () => {
-  const { data, isFetched } = useUsersList();
-  const [search, setSearch] = useState("");
   const [selection, setSelection] = useState<string[]>([]);
-  const { sortBy, order, setSortBy, setOrder } = useSortStore();
-  const pagination = useUserPaginationStore();
-  useEffect(() => {
-    setOrder(order);
-    setSortBy(sortBy);
+  const { sortBy, order } = useSortStore();
+  const pagination = usePaginationtStore();
 
-    // if (role) {
-    //   result = result.filter((p) => p.role === role);
-    // }
-    // setRole(role);
-  }, [order, sortBy]);
-
-  // const [role, setRole] = useState<string | null>(null);
-  // const [status, setStatus] = useState<string | null>(null);
+  const { data, isFetched } = useUsersList(false, sortBy, order);
+  const navigate = useNavigate();
 
   if (!data) return null;
   const handleSearchChange = (event: string) => {
-    const value = event;
-    setSearch(value);
+    pagination.setSearchKey(event);
   };
 
   const toggleAll = () => {
@@ -46,37 +33,9 @@ const UsersPage = () => {
     );
   };
 
-  // const statusOptions = [...new Set(data.map((p) => p.status))]
-  //   .map((d) => ({ value: d, label: d }))
-  //   .map((option) => option.value);
-
-  // const roleOptions = [...new Set(data.map((p) => p.role))]
-  //   .map((t) => ({ value: t, label: t }))
-  //   .map((option) => option.value);
-  // const handleChangDropDownRole = (e: string | null) => {
-  //   setRole(e);
-  // };
-  // const handleChangDropDownStatus = (e: string | null) => {
-  //   setStatus(e);
-  // };
-
-  // useEffect(() => {
-  //   let result = [...data];
-  //   if (status) {
-  //     result = result.filter((p) => p.status === status);
-  //   }
-
-  //   if (role) {
-  //     result = result.filter((p) => p.role === role);
-  //   }
-  //   setStatus(status);
-  //   setRole(role);
-  //   setSortedData(result);
-  // }, [status, role]);
-
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => console.log("userpage")}
+      onClick={() => navigate(`/users/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
@@ -115,31 +74,22 @@ const UsersPage = () => {
     );
   else
     return (
-      <Box h={"50%"}>
+      <Flex direction="column">
         <Flex w="90%" justify="space-between">
-          <Flex justify="start" visibleFrom="sm">
-            {/* <Dropdown
-            onChange={handleChangDropDownRole}
-            options={roleOptions}
-            placeHolder="Role"
-          />
-          <Dropdown
-            onChange={handleChangDropDownStatus}
-            options={statusOptions}
-            placeHolder="Status"
-          /> */}
-          </Flex>
           <SearchInput
             text="Search User"
-            searchValue={search}
+            searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
           />
-          <Flex justify="end" hiddenFrom="sm">
-            <AddButton text="Add User" />
-            <MobileFilters />
+          <Flex justify="end">
+            <AddButton
+              text="Add User"
+              handleOnClick={() => navigate(`/users/add`)}
+            />
+            {/* <MobileFilters /> */}
           </Flex>
         </Flex>
-        <ScrollArea h={"100%"}>
+        <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
               labels={[
@@ -151,16 +101,24 @@ const UsersPage = () => {
                 "Status",
                 "User",
               ]}
-              sortedBy={["_id", "name", "lastLoginAt", "", ""]}
+              sortedBy={[
+                "_id",
+                "name",
+                "lastLoginAt",
+                "email",
+                "roleIds",
+                "isActive",
+                "_id",
+              ]}
               data={data}
               selection={selection}
               toggleAll={toggleAll}
             />
             {rows}
           </Table>
-        </ScrollArea>
-        <CustomPagination store={pagination} />
-      </Box>
+          <CustomPagination store={pagination} />
+        </Box>
+      </Flex>
     );
 };
 

@@ -1,71 +1,54 @@
-// import axiosInstance from "../../api/ApiCore";
-// import ResponseType from "../../types/ResponseList";
-// import { useQuery } from "@tanstack/react-query";
-// import PatientDetailsType from "../../types/patient/PatientDetailsType";
-// const usePatientsList = (
-//   page = 1,
-//   limit = 10,
-//   allData = false,
-//   sortBy = "_id",
-//   order = "asc"
-// ) => {
-//   console.log("Sorted By " + sortBy);
-//   console.log("order By  " + order);
-//   // console.log("useGetUsers per_page", per_page);
-//   //   const countryStore = useCountriesPaginationStore();
-//   return useQuery({
-//     queryKey: ["patients"],
-//     queryFn: () => {
-//       const url = `/patients?${
-//         "&page=" +
-//         page +
-//         "&limit=" +
-//         limit +
-//         "&allData=" +
-//         allData +
-//         "&sortBy=" +
-//         sortBy +
-//         "&order=" +
-//         order
-//       }`;
-//       return axiosInstance
-//         .get<ResponseType<PatientDetailsType>>(url)
-//         .then((res) => {
-//           //   countryStore.setMeta(res.data.data.meta);
-//           //   countryStore.setLinks(res.data.data.links);
-//           //   countryStore.setReFetch(true);
-//           console.log(res.data);
-//           console.log(res.status);
-//           return res.data.data;
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//           throw error;
-//         });
-//     },
-//   });
-// };
-// export default usePatientsList;
-
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 import PatientDetailsType from "../../types/patient/PatientDetailsType";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 
-const usePatientsList = (
-  page = 1,
-  limit = 10,
-  allData = false,
-  sortBy = "_id",
-  order = "asc"
-) => {
+const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
+  const pagination = usePaginationtStore();
   return useQuery({
-    queryKey: ["patients", page, limit, allData, sortBy, order], // تعتمد على جميع القيم
+    queryKey: [
+      "patients",
+      pagination.current_page,
+      pagination.items_per_page,
+      allData,
+      sortBy,
+      order,
+      pagination.paramKey,
+    ],
     queryFn: () => {
-      const url = `/patients?page=${page}&limit=${limit}&allData=${allData}&sortBy=${sortBy}&order=${order}`;
+      const url = `/patients?${
+        "&page=" +
+        pagination.current_page +
+        "&limit=" +
+        pagination.items_per_page +
+        "&sortBy=" +
+        sortBy +
+        "&order=" +
+        order +
+        "&search=" +
+        pagination.paramKey
+      }`;
       return axiosInstance
         .get<ResponseType<PatientDetailsType>>(url)
-        .then((res) => res.data.data)
+        .then((res) => {
+          //   countryStore.setMeta(res.data.data.meta);
+          //   countryStore.setLinks(res.data.data.links);
+          //   countryStore.setReFetch(true);
+          console.log(res.data);
+          // console.log(res.status);
+          console.log(res.data.pagination.paramKey);
+          pagination.setCurrent_page(res.data.pagination.current_page);
+          pagination.setItems_per_page(res.data.pagination.items_per_page);
+          pagination.setHas_next_page(res.data.pagination.has_next_page);
+          pagination.setTotal_items(res.data.pagination.total_items);
+          pagination.setTotal_pages(res.data.pagination.total_pages);
+          pagination.setHas_previous_page(
+            res.data.pagination.has_previous_page
+          );
+          // pagination.(res.data.pagination.meta);
+          return res.data.data;
+        })
         .catch((error) => {
           console.error("Error fetching patients:", error);
           throw error;

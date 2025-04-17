@@ -23,6 +23,8 @@ import DepartementDetails from "../pages/Departement/DepartementDetails";
 import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
+import StaffDetails from "../pages/Staff/StaffDetails";
+import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
 import SelectPlan from "../pages/auth/Register/SelectPlan";
 import Register from "../pages/auth/Register/Register";
 
@@ -102,6 +104,10 @@ export const routes: AppRoute[] = [
       {
         path: "add",
         element: <AddEmployee />,
+      },
+      {
+        path: "details/:id",
+        element: <StaffDetails />,
       },
     ],
   },
@@ -202,6 +208,24 @@ export const routes: AppRoute[] = [
       {
         path: "add",
         element: <ClinicsPage />, //// add speciality Page
+      },
+      {
+        path: "details/:id",
+        element: <ClinicsPage />, //// there is no specialty details V2
+      },
+    ],
+  },
+  {
+    path: "/appointment",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <AppointmentsPage />,
+      },
+      {
+        path: "add",
+        element: <Appointments />,
       },
     ],
   },

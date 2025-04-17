@@ -1,38 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Center, Flex, ScrollArea, Table, Text } from "@mantine/core";
+import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
-// import Dropdown from "../../Components/Dropdown";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
-import MobileFilters from "../../Components/mobliefilters";
 import useStaffList from "../../hooks/staff/useStaffList";
 import useSortStore from "../../hooks/useSortStore ";
+import { useNavigate } from "react-router";
+import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import CustomPagination from "../../Components/Pagination/Pagination";
 
 const StaffPage = () => {
-  const { data, isFetched } = useStaffList();
+  const { sortBy, order } = useSortStore();
+  const pagination = usePaginationtStore();
+  const { data, isFetched } = useStaffList(false, sortBy, order);
+  const navigate = useNavigate();
   // console.log(data);
-  const [search, setSearch] = useState("");
   const [selection, setSelection] = useState<string[]>([]);
-  console.log(search);
-
-  const { sortBy, order, setSortBy, setOrder } = useSortStore();
-
-  useEffect(() => {
-    setOrder(order);
-    setSortBy(sortBy);
-
-    // if (role) {
-    //   result = result.filter((p) => p.role === role);
-    // }
-    // setRole(role);
-  }, [order, sortBy]);
-
-  // const [role, setRole] = useState<string | null>(null);
-  // const [status, setStatus] = useState<string | null>(null);
-
-  // const [role, setRole] = useState<string | null>(null);
-  // const [department, setDepartment] = useState<string | null>(null);
 
   if (!data) return null;
 
@@ -45,30 +29,17 @@ const StaffPage = () => {
           })
     );
   };
-
-  // const statusOptions = [...new Set(data.map((p) => p.department))]
-  //   .map((d) => ({ value: d, label: d }))
-  //   .map((option) => option.value);
-
-  // const roleOptions = [...new Set(data.map((p) => p.role))]
-  //   .map((t) => ({ value: t, label: t }))
-  //   .map((option) => option.value);
-
-  // const handleChangDropDownRole = (e: string | null) => {
-  //   setRole(e);
-  // };
-  // const handleChangDropDownDepartment = (e: string | null) => {
-  //   setDepartment(e);
-  // };
+  const handleSearchChange = (e: string) => {
+    pagination.setSearchKey(e);
+  };
 
   const rows = data?.map((item) => (
     <TableBody
-      onClick={() => console.log("hee")}
+      onClick={() => navigate(`/employee/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id.toString()}
-      // th0={item.staffId.toString()}
       th1={item.name}
       th2={item.contactInfos.map((item) =>
         item.type === "email" ? item.value : ""
@@ -91,31 +62,21 @@ const StaffPage = () => {
     );
   else
     return (
-      <>
-        <Flex w="90%" justify="space-between">
-          <Flex justify="start" visibleFrom="sm">
-            {/* <Dropdown
-            onChange={handleChangDropDownRole}
-            options={roleOptions}
-            placeHolder="Role"
-          />
-          <Dropdown
-            onChange={handleChangDropDownDepartment}
-            options={statusOptions}
-            placeHolder="Department"
-          /> */}
-          </Flex>
+      <Flex w="100%" direction="column">
+        <Flex w="100%" justify="space-between">
           <SearchInput
-            text="Search Staff"
-            searchValue={search}
-            setSearchValue={setSearch}
+            searchValue={pagination.paramKey}
+            setSearchValue={handleSearchChange}
+            text="Search "
           />
           <Flex justify="end" hiddenFrom="sm">
-            <AddButton text="Add Staff" />
-            <MobileFilters />
+            <AddButton
+              text="Add Staff"
+              handleOnClick={() => navigate(`/employee/add`)}
+            />
           </Flex>
         </Flex>
-        <ScrollArea>
+        <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
               labels={[
@@ -127,15 +88,24 @@ const StaffPage = () => {
                 "Status",
                 "User",
               ]}
-              sortedBy={["_id", "name", "contactInfos", "", ""]}
+              sortedBy={[
+                "_id",
+                "name",
+                "contactInfos",
+                "departmentId",
+                "employeeType",
+                "isActive",
+                "_id",
+              ]}
               data={data}
               selection={selection}
               toggleAll={toggleAll}
             />
             {rows}
           </Table>
-        </ScrollArea>
-      </>
+          <CustomPagination store={pagination} />
+        </Box>
+      </Flex>
     );
 };
 

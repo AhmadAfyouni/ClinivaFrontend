@@ -39,7 +39,15 @@ const TableHead = <T,>({
     fontSize: "12px",
   };
   return (
-    <Table.Thead>
+    <Table.Thead
+      bg={theme.other.bg}
+      style={{
+        position: "sticky",
+        top: 0,
+        backgroundColor: "white",
+        zIndex: 1,
+      }}
+    >
       <Table.Tr>
         <Table.Th>
           <Checkbox
@@ -65,13 +73,13 @@ const TableHead = <T,>({
               <Flex visibleFrom="md" w="25%" justify="space-between">
                 <Box w="70px">
                   <Box style={styles} onClick={() => handleSort(sortedBy[0])}>
-                    {labels[0]}{" "}
+                    {labels[0]}
                     {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
                 <Box w="160px" onClick={() => handleSort(sortedBy[1])}>
                   <Box style={styles}>
-                    {labels[1]}{" "}
+                    {labels[1]}
                     {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
@@ -83,7 +91,7 @@ const TableHead = <T,>({
               <Flex w="150px" align="start" hiddenFrom="md">
                 <Box w="120px" onClick={() => handleSort(sortedBy[6])}>
                   <Box style={styles}>
-                    {labels[6]}{" "}
+                    {labels[6]}
                     {sortBy === sortedBy[6] && (order === "asc" ? "▲" : "▼")}
                   </Box>
                 </Box>
@@ -101,21 +109,21 @@ const TableHead = <T,>({
 
             <Box w="96px" onClick={() => handleSort(sortedBy[3])}>
               <Box style={styles}>
-                {labels[3]}{" "}
+                {labels[3]}
                 {sortBy === sortedBy[3] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
 
             <Box w="106px" onClick={() => handleSort(sortedBy[4])}>
               <Box style={styles}>
-                {labels[4]}{" "}
+                {labels[4]}
                 {sortBy === sortedBy[4] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
 
             <Box w="110px" onClick={() => handleSort(sortedBy[5])}>
               <Box style={styles}>
-                {labels[5]}{" "}
+                {labels[5]}
                 {sortBy === sortedBy[5] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>

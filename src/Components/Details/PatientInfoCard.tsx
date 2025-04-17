@@ -37,7 +37,7 @@ function PatientInfoCard({
       mx="auto"
       styles={{
         root: {
-          backgroundColor: theme.other.bgSubtle,
+          backgroundColor: theme.other.bg,
           boxShadow: "none",
         },
       }}

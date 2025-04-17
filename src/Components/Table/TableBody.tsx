@@ -36,26 +36,36 @@ const TableBody = ({
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-
   const getStatusBadge = (status: string) => {
     const statusColors = {
       true: { bg: theme.other?.secondaryDarkColor },
       false: { bg: theme.primaryColor },
+      cancelled: { bg: theme.primaryColor },
+      scheduled: { bg: theme.colors.myPrimary[2] },
     };
     const { bg } = statusColors[status as keyof typeof statusColors] || {
       bg: theme.other.bg,
     };
-    return (
+
+    const label =
+      th5 === "true" ? "Active" : th5 === "false" ? "Inactive" : th5;
+    return th5 === "true" ||
+      th5 === "false" ||
+      th5 === "cancelled" ||
+      th5 === "scheduled" ? (
       <Badge
         bg={bg}
         c={theme.other?.onSurfacePrimary}
-        ff="Lato"
-        fz="9px"
+        fz="11px"
         p="4px 10px"
         radius="20px"
       >
-        {th5}
+        {label}
       </Badge>
+    ) : (
+      <Text fz="11px" p="0" c={theme.other.onSurfacePrimary}>
+        {label}
+      </Text>
     );
   };
 
