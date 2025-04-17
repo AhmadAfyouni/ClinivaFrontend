@@ -23,6 +23,8 @@ import DepartementDetails from "../pages/Departement/DepartementDetails";
 import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
+import SelectPlan from "../pages/auth/Register/SelectPlan";
+import Register from "../pages/auth/Register/Register";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -39,6 +41,14 @@ export const routes: AppRoute[] = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/SelectPlan",
+    element: <SelectPlan />,
   },
   {
     path: "/patients",

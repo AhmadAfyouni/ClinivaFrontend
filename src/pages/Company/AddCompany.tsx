@@ -12,7 +12,6 @@ import {
   ContactInfoType,
   Holiday,
 } from "../../types/GeneralAdd";
-import CustomPagination from "../../Components/Pagination/Pagination";
 
 function AddCompany() {
   const handleImageChange = (file: File | null) => {
@@ -224,25 +223,6 @@ function AddCompany() {
 
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
-      <CustomPagination
-        store={{
-          currentPage: 5,
-          meta: {
-            current_page: 5,
-            has_next_page: true,
-            has_previous_page: true,
-            items_per_page: 5,
-            total_items: 55,
-            total_pages: 51,
-          },
-          paramKey: "",
-          perPage: 5,
-          setCurrentPage: () => {},
-          setReFetch: () => {},
-          setSearchKey: () => {},
-          withSkelton: true,
-        }}
-      />
       <form
         onSubmit={(e) => {
           console.log("omsubmit");
@@ -345,7 +325,7 @@ function AddCompany() {
               </div>
             )}
           </Box>
-          <Button type="submit" bg={"#9BDABB"} mt="md" w="70%">
+          <Button type="submit" bg={"#9BDABB"} mt="md" w="30%">
             Submit
           </Button>
         </Container>
