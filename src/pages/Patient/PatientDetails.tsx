@@ -49,7 +49,7 @@ const PatientDetails = () => {
                 mx="auto"
                 w="100%"
                 mb={10}
-                style={{ backgroundColor: theme.other.bgSubtle }}
+                bg={theme.other.bg}
               >
                 <Flex direction="column" p="0 10px" mb={20} w="100%">
                   <Flex direction="column" mb={20} w="100%">
@@ -137,7 +137,7 @@ const PatientDetails = () => {
           <Grid.Col span={isMobile || isTablet ? 8 : 2}>
             <MedicalTreatment
               upcomingAndHistorySchedule={dataAppointment}
-              // upcomingAndHistorySchedule={["data", "upcoming"]}
+              // upcomingAndHistorySchedule={}
               noteText={data.notes}
             />
           </Grid.Col>
