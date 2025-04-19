@@ -38,7 +38,8 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: true,
-      port: 80,
+      port: 3000,
+      allowedHosts: ["cliniva-frontend.qnv2oe.easypanel.host"], // ✅ Add this line
     },
   };
 });
