@@ -1,34 +1,34 @@
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-
+  const env = loadEnv(mode, process.cwd(), "");
+  console.log(env);
   return {
-    base: '/',
+    base: "/",
     plugins: [react()],
     build: {
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
+            vendor: ["react", "react-dom", "react-router-dom"],
             ui: [
-              '@mantine/core',
-              '@mantine/hooks',
-              '@mantine/form',
-              '@mantine/dates',
-              '@mantine/notifications',
+              "@mantine/core",
+              "@mantine/hooks",
+              "@mantine/form",
+              "@mantine/dates",
+              "@mantine/notifications",
             ],
-            charts: ['recharts'],
-            utils: ['axios', 'dayjs', 'yup', 'zustand'],
+            charts: ["recharts"],
+            utils: ["axios", "dayjs", "yup", "zustand"],
           },
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name]-[hash][extname]',
+          chunkFileNames: "assets/[name]-[hash].js",
+          assetFileNames: "assets/[name]-[hash][extname]",
         },
       },
       chunkSizeWarningLimit: 1000,
       sourcemap: false,
-      minify: 'terser',
+      minify: "terser",
       terserOptions: {
         compress: {
           drop_console: true,
