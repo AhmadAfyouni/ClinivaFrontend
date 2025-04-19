@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const axiosInstance = axios.create({
-  baseURL: "https://cliniva-backend.qnv2oe.easypanel.host/api/v1",
+  baseURL: BACKEND_URL,
 });
 
 const refreshAccessToken = async () => {
@@ -12,11 +13,10 @@ const refreshAccessToken = async () => {
   }
 
   const response = await axios.post(
-    "https://cliniva-backend.qnv2oe.easypanel.host/api/v1/auth/refresh-token",
-    {
-      refreshToken,
-    }
+    `${BACKEND_URL}/auth/refresh-token`,
+    { refreshToken }
   );
+  
 
   const newAccessToken = response.data.data.accessToken;
   localStorage.setItem("token", newAccessToken);
