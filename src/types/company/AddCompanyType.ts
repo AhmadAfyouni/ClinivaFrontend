@@ -3,8 +3,7 @@ import {
   ContactInfoType,
   Holiday,
   LocationGoogle,
-  WorkingHoursType,
-} from "./GeneralAdd";
+} from "../GeneralAdd";
 
 export interface Specialization {
   name: string;
@@ -37,7 +36,6 @@ export default interface AddCompanyType {
   contactInfos: ContactInfoType[];
   holidays: Holiday[];
   specializations: Specialization[];
-  workingDays: WorkingHoursType[];
   bankAccount: BankAccountType[];
   insuranceCompany: InsuranceCompany[];
   commercialRecord: CommercialRecord;

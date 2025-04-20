@@ -11,9 +11,8 @@ const useAddEmployee = () => {
       return axiosInstance
         .post("/employees", Employee)
         .then((res) => {
-          setTimeout(() => {
-            navigate(`/Employee`);
-          }, 1000);
+          navigate(`/Employee`);
+
           return res.data;
         })
         .catch((error) => {

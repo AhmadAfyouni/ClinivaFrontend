@@ -11,9 +11,8 @@ const useEditEmployee = (id: string) => {
       return axiosInstance
         .put("/employees/" + id, Employee)
         .then((res) => {
-          setTimeout(() => {
-            navigate(`/Employee`);
-          }, 1000);
+          navigate(`/Employee`);
+
           return res.data;
         })
         .catch((error) => {

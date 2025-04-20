@@ -17,10 +17,8 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     if (loginToRegister) {
       localStorage.setItem("loginToRegister", "true");
     } else {
-      setTimeout(() => {
-        localStorage.removeItem("loginToRegister");
-        navigate(`/dashboard`);
-      }, 1000);
+      localStorage.removeItem("loginToRegister");
+      navigate(`/dashboard`);
     }
     return res.data;
   };

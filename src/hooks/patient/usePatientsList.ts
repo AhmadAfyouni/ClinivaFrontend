@@ -15,6 +15,8 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
       sortBy,
       order,
       pagination.paramKey,
+      pagination.filter,
+      // pagination.date,
     ],
     queryFn: () => {
       const url = `/patients?${
@@ -28,6 +30,10 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
         order +
         "&search=" +
         pagination.paramKey
+        // "&isActive=" +
+        // pagination.filter +
+        // "&dateOfBirth=" +
+        // "1990-05-30"
       }`;
       return axiosInstance
         .get<ResponseType<PatientDetailsType>>(url)
@@ -46,6 +52,7 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
           pagination.setHas_previous_page(
             res.data.pagination.has_previous_page
           );
+          // pagination.setFilter(res.data.pagination.filter);
           // pagination.(res.data.pagination.meta);
           return res.data.data;
         })

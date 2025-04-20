@@ -21,6 +21,7 @@ import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ResetWatcher from "./Components/store/ResetWatcher";
+import LoaderCustom from "./Components/Loader";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -91,9 +92,8 @@ function AppContent() {
   // }
 
   return (
-    // {/* <LoaderCustom /> */}
-
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
+      <LoaderCustom />
       {!nonAuth && <SideBar />}
 
       <Flex

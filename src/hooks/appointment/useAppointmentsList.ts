@@ -55,7 +55,8 @@ const useAppointmentsList = (
         .catch((error) => {
           console.error("Error fetching appointments:", error);
           throw error;
-        });
+        })
+        .finally(() => {});
     },
     // keepPreviousData: true, // خيار جيد إذا عندك pagination
   });

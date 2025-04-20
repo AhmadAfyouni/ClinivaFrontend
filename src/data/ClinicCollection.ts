@@ -1,6 +1,6 @@
-import ClinicCollectionType from "../types/ClinicCollection/ClinicCollectionAdd";
+import AddMedicalComplexType from "../types/medicalComplex/MedicalComplexAdd";
 
-export const ClinicCollection: ClinicCollectionType = {
+export const ClinicCollection: AddMedicalComplexType = {
   name: "Saudi Clinics Group",
   overview: "A leading healthcare provider in Saudi Arabia.",
   policies:
@@ -99,4 +99,6 @@ export const ClinicCollection: ClinicCollectionType = {
   },
   companyId: "60f7c7b84f1a2c001c8b4567",
   specializations: ["60f7c7b84f1a2c001c8b4567", "60f7c7b84f1a2c001c8b4568"],
+  phone: "",
+  pic: "",
 };
