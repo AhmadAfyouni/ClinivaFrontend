@@ -3,80 +3,31 @@ import {
   Text,
   Badge,
   useMantineTheme,
-  Box,
-  Table,
   Center,
   ScrollArea,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import ListComponent from "../../Components/CompanyDetails/ListComponent";
 import { FaClinicMedical } from "react-icons/fa";
-import useSortStore from "../../hooks/useSortStore ";
-import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-import useStaffList from "../../hooks/staff/useStaffList";
-import { useNavigate } from "react-router";
-import { useState } from "react";
-import TableBody from "../../Components/Table/TableBody";
-import CustomPagination from "../../Components/Pagination/Pagination";
-import TableHead from "../../Components/Table/TableHead";
-import AddButton from "../../Components/AddButton";
-import { SearchInput } from "../../Components/SearchInput";
 
-const DepartementDetails = () => {
+import useStaffList from "../../hooks/staff/useStaffList";
+
+const ServiceDetails = () => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
-  const title = ["ID", "Name", "ComplexName", "Location"];
+  const title = ["ID", "Name", "Price", "Created at "];
   const content = ["12345", "Clinic 1", "Complex 1", "Location 1"];
-  const title2 = ["Patient Capacity", "Description"];
+  const title2 = ["Description", "Modified at "];
   const content2 = ["3254", "blah blah blah"];
-  //////////////////////////////////////////////////////staff table
-  const { sortBy, order } = useSortStore();
-  const pagination = usePaginationtStore();
-  const { data, isFetched } = useStaffList(false, sortBy, order);
-  const navigate = useNavigate();
+  const { data, isFetched } = useStaffList();
   // console.log(data);
-  const [selection, setSelection] = useState<string[]>([]);
 
   if (!data) return null;
-
-  const toggleAll = () => {
-    setSelection((current) =>
-      current.length === data.length
-        ? []
-        : data.map((item) => {
-            return item._id.toString();
-          })
-    );
-  };
-  const handleSearchChange = (e: string) => {
-    pagination.setSearchKey(e);
-  };
-
-  const rows = data?.map((item) => (
-    <TableBody
-      onClick={() => navigate(`/departements/details/${item._id}`)}
-      selection={selection}
-      setSelection={setSelection}
-      key={item._id}
-      th0={item._id.toString()}
-      th1={item.name}
-      th2={item.contactInfos.map((item) =>
-        item.type === "email" ? item.value : ""
-      )}
-      th3={item.departmentId}
-      th4={item.employeeType}
-      th5={item.isActive.toString()}
-      // th2={item.contact}
-      // th3={item.department}
-      // th4={item.role}
-      // th5={item.status}
-    />
-  ));
 
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No departement Staff Found</Text>
+        <Text>No Service Staff Found</Text>
       </Center>
     );
   else
@@ -131,7 +82,7 @@ const DepartementDetails = () => {
           </Flex>
         </Flex>
         <Text fw={600} fz={20} c={theme.colors.myPrimary[5]}>
-          Clinics & Specialties
+          Doctors & Clinics
         </Text>
         <Flex
           w="100%"
@@ -142,7 +93,7 @@ const DepartementDetails = () => {
             <ListComponent
               key={0}
               minwidth="50%"
-              title="Clinics"
+              title="Doctors"
               listItems={["gf1dsa", "gsgf2sdg", "g3fdsa", "gsg4fsdg", "gf5dsa"]}
               icon={<FaClinicMedical />}
             />
@@ -151,7 +102,7 @@ const DepartementDetails = () => {
             <ListComponent
               key={1}
               minwidth="50%"
-              title="Specialties"
+              title="Clinics"
               listItems={[
                 "fsdgsf0",
                 "sdf09g",
@@ -164,52 +115,8 @@ const DepartementDetails = () => {
             />
           </Flex>
         </Flex>
-        <Flex w="99%" direction="column" h="600px">
-          <Flex w="100%" justify="space-between">
-            <SearchInput
-              searchValue={pagination.paramKey}
-              setSearchValue={handleSearchChange}
-              text="Search "
-            />
-            <Flex justify="end" hiddenFrom="sm">
-              <AddButton
-                text="Add Staff"
-                handleOnClick={() => navigate(`/employee/add`)}
-              />
-            </Flex>
-          </Flex>
-          <Box style={{ height: "auto", overflow: "auto" }}>
-            <Table>
-              <TableHead
-                labels={[
-                  "Staff Id",
-                  "Staff Name",
-                  "Contact Info",
-                  "department",
-                  "Role",
-                  "Status",
-                  "User",
-                ]}
-                sortedBy={[
-                  "_id",
-                  "name",
-                  "contactInfos",
-                  "departmentId",
-                  "employeeType",
-                  "isActive",
-                  "_id",
-                ]}
-                data={data}
-                selection={selection}
-                toggleAll={toggleAll}
-              />
-              {rows}
-            </Table>
-            <CustomPagination store={pagination} />
-          </Box>
-        </Flex>
       </ScrollArea>
     );
 };
 
-export default DepartementDetails;
+export default ServiceDetails;

@@ -3,6 +3,7 @@ import PaginationType from "../../types/PaginationControl";
 const defaultState = {
   withSkelton: false,
   paramKey: "",
+  filter: true,
   perPage: 10,
   currentPage: 1,
   current_page: 1,
@@ -11,6 +12,7 @@ const defaultState = {
   total_items: 0,
   total_pages: 0,
   items_per_page: 10,
+  date: "",
 };
 const usePaginationtStore = create<PaginationType>((set) => {
   return {
@@ -33,12 +35,17 @@ const usePaginationtStore = create<PaginationType>((set) => {
     setTotal_pages(total_pages: number) {
       set(() => ({ total_pages: total_pages }));
     },
-
     setReFetch(withSkelton) {
       set(() => ({ withSkelton: withSkelton }));
     },
     setSearchKey: (key) => {
       set(() => ({ paramKey: key, currentPage: 1 }));
+    },
+    setFilter: (fieldName) => {
+      set(() => ({ filter: fieldName, currentPage: 1 }));
+    },
+    setDate: (Inputdate) => {
+      set(() => ({ date: Inputdate, currentPage: 1 }));
     },
     resetPagination: () => {
       set(() => ({ ...defaultState }));

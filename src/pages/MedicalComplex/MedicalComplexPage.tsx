@@ -36,6 +36,7 @@ const MedicalComplexPage = () => {
       th5={item.departmentCount.toString()}
     />
   ));
+
   const toggleAll = () => {
     if (data) {
       setSelection((current) =>
@@ -62,6 +63,7 @@ const MedicalComplexPage = () => {
             searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
           />
+
           <AddButton
             text="Add MedicalComplex"
             handleOnClick={() => navigate(`/medicalComplex/add`)}
