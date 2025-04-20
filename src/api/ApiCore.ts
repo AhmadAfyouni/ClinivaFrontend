@@ -5,7 +5,7 @@ import useLoadingStore from "../store/useLoader";
 const BACKEND_URL = "https://cliniva-backend.qnv2oe.easypanel.host/api/v1";
 
 const axiosInstance = axios.create({
-  baseURL: "https://cliniva-backend.qnv2oe.easypanel.host/api/v1",
+  baseURL: BACKEND_URL,
 });
 
 const refreshAccessToken = async () => {
@@ -17,6 +17,7 @@ const refreshAccessToken = async () => {
   const response = await axios.post(`${BACKEND_URL}/auth/refresh-token`, {
     refreshToken,
   });
+
 
   const newAccessToken = response.data.data.accessToken;
   localStorage.setItem("token", newAccessToken);
