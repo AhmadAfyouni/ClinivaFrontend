@@ -9,7 +9,7 @@ interface LoginEntry {
   device: string;
 }
 
-export interface UserDetailType {
+export default interface UserDetailType {
   _id: string;
   name: string;
   email: string;

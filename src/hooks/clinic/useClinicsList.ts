@@ -7,6 +7,7 @@ const useClinicsList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
   // console.log("useGetUsers per_page", per_page);
   //   const countryStore = useCountriesPaginationStore();
+
   return useQuery({
     queryKey: [
       "clinics",
@@ -51,7 +52,8 @@ const useClinicsList = (allData = false, sortBy = "_id", order = "desc") => {
         .catch((error) => {
           console.log(error);
           throw error;
-        });
+        })
+        .finally(() => {});
     },
   });
 };

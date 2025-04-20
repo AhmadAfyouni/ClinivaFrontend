@@ -31,7 +31,7 @@ export default interface InputPropsType {
   onBlur?: (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  value?: string | File | string[];
+  value?: string | File | string[] | number;
   radio?: RadioType[];
   selectValue?: string[];
   disabled?: boolean;

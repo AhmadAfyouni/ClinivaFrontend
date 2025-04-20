@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
-import ClinicCollectionType from "../../types/ClinicCollection/ClinicCollectionAdd"; // Import the type
+import AddMedicalComplexType from "../../types/medicalComplex/MedicalComplexAdd"; // Import the type
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Box, Button, Center, Flex, ScrollArea, Text } from "@mantine/core";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
-// import useAddClinicCollection from "../../hooks/clinic/useAddClinicCollection"; // Hook for adding clinic collection
-import AddClinicCollectionSchema from "../../schema/ClinicCollection/AddClinicCollection";
+import AddMedicalComplexSchema from "../../schema/MedicalComplex/AddMedicalComplex";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import {
   BankAccountType,
@@ -14,20 +13,24 @@ import {
   WorkingHoursType,
 } from "../../types/GeneralAdd";
 import LocationPicker from "../../Components/Map/LocationPicker";
+import useAddMedicalComplex from "../../hooks/medicalcomplex/useAddMedicalComplex";
 
 interface selectSpecializationType {
   [key: string]: string;
 }
-function AddClinicCollection() {
-  // const hook = useAddClinicCollection();
+function AddMedicalComplex() {
+  const hook = useAddMedicalComplex();
   const querySpecialization = useSpecialization();
 
-  const formik = useFormik<ClinicCollectionType>({
+  const company = localStorage.getItem("companyId");
+
+  const formik = useFormik<AddMedicalComplexType>({
     initialValues: {
       name: "",
+      phone: "",
       overview: "",
+      pic: "",
       policies: "",
-      isActive: true,
       yearOfEstablishment: "",
       address: "",
       logo: "",
@@ -51,14 +54,16 @@ function AddClinicCollection() {
         x: 0,
         y: 0,
       },
-      companyId: "67e50d1c191e5b9428a7473f",
+      companyId: company || "",
       specializations: [],
+      isActive: true,
     },
-    validationSchema: AddClinicCollectionSchema,
-    validateOnBlur: true,
+    validationSchema: AddMedicalComplexSchema,
+    validateOnBlur: false,
+    isInitialValid: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      // hook.mutate(values);
+      hook.mutate(values);
       // formik.resetForm();
       console.log("Clinic Collection Submitted:", values);
     },
@@ -86,13 +91,25 @@ function AddClinicCollection() {
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
-      label: "Clinic Name",
+      label: "Complex Name",
       mandatory: true,
       type: "text",
       error: formik.errors.name,
       placeholder: "Enter clinic name",
       tooltip: "Enter the name of the clinic",
       value: formik.values.name || "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "phone",
+      label: "Phone Number",
+      mandatory: true,
+      type: "text",
+      error: formik.errors.phone,
+      placeholder: "Enter Phone Number Complex ",
+      tooltip: "Enter the Phone Number of the clinic",
+      value: Number(formik.values.phone) || 963,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -120,21 +137,7 @@ function AddClinicCollection() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "isActive",
-      label: "Is Active",
-      mandatory: true,
-      type: "radio",
-      radio: [
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-      ],
-      error: formik.errors.isActive,
-      // value: formik.values.isActive ? "true" : "false",
-      onChange: (value) =>
-        formik.setFieldValue("isActive", value === "true" ? true : false),
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "yearOfEstablishment",
       label: "Year of Establishment",
@@ -159,18 +162,7 @@ function AddClinicCollection() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "logo",
-      label: "Logo URL",
-      mandatory: false,
-      type: "image",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL of the clinic's logo",
-      value: formik.values.logo || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "vision",
       label: "Vision",
@@ -195,15 +187,28 @@ function AddClinicCollection() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
+    {
+      id: "pic",
+      label: "PIC",
+      mandatory: false,
+      type: "text",
+      error: formik.errors.pic || "",
+      placeholder: "Enter pic",
+      tooltip: "Enter the clinic's pic",
+      value: formik.values.pic || "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
 
     {
       id: "companyId",
       label: "Company ID",
       mandatory: true,
+      disabled: true,
       type: "text",
       error: formik.errors.companyId,
-      placeholder: "Enter company ID",
-      tooltip: "Enter the clinic's company ID",
+      placeholder: "company ID",
+      tooltip: " company ID",
       value: formik.initialValues.companyId,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -226,8 +231,6 @@ function AddClinicCollection() {
           const selectedValues = selectedKeys.map(
             (key) => Specializations[key]
           );
-          console.log("first");
-          console.log(selectedValues);
           handleMultiSelectChange("specializations", selectedValues);
         } else {
           console.error("selectedKeys is not a valid array of strings");
@@ -235,6 +238,18 @@ function AddClinicCollection() {
       },
       onBlur: formik.handleBlur,
       selectValue: Object.keys(Specializations),
+    },
+    {
+      id: "logo",
+      label: "Logo URL",
+      mandatory: false,
+      type: "image",
+      error: formik.errors.logo,
+      placeholder: "Enter logo URL",
+      tooltip: "Enter the URL of the clinic's logo",
+      value: formik.values.logo || "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
     },
   ];
 
@@ -457,4 +472,4 @@ function AddClinicCollection() {
   );
 }
 
-export default AddClinicCollection;
+export default AddMedicalComplex;

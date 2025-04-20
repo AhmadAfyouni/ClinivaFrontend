@@ -1,5 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import useLoadingStore from "../store/useLoader";
+// const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = "https://cliniva-backend.qnv2oe.easypanel.host/api/v1";
 
 const axiosInstance = axios.create({
   baseURL: "https://cliniva-backend.qnv2oe.easypanel.host/api/v1",
@@ -11,12 +14,9 @@ const refreshAccessToken = async () => {
     throw new Error("No refresh token available");
   }
 
-  const response = await axios.post(
-    "https://cliniva-backend.qnv2oe.easypanel.host/api/v1/auth/refresh-token",
-    {
-      refreshToken,
-    }
-  );
+  const response = await axios.post(`${BACKEND_URL}/auth/refresh-token`, {
+    refreshToken,
+  });
 
   const newAccessToken = response.data.data.accessToken;
   localStorage.setItem("token", newAccessToken);
@@ -25,6 +25,11 @@ const refreshAccessToken = async () => {
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    // const loader = useLoadingStore();
+    // loader.setLoading(true);
+    const setLoading = useLoadingStore.getState().setLoading;
+    setLoading(true);
+
     if (config.url !== "/login") {
       const token = localStorage.getItem("token");
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -41,6 +46,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   function (response) {
+    const setLoading = useLoadingStore.getState().setLoading;
+    setLoading(false);
     if (response.data.message) {
       switch (response?.config?.method) {
         case "get":

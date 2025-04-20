@@ -1,13 +1,13 @@
-
-
 import * as Yup from "yup";
 
 const AddDepartmentSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   introduction: Yup.string().required("Introduction is required"),
-  yearOfEstablishment: Yup.string().required("Year of establishment is required"),
+  yearOfEstablishment: Yup.string().required(
+    "Year of establishment is required"
+  ),
   address: Yup.string().required("Address is required"),
-  logo: Yup.string().required("Logo URL is required"),
+  logo: Yup.string(),
   vision: Yup.string().required("Vision is required"),
   details: Yup.string().required("Details are required"),
   contactInfos: Yup.array().of(
@@ -21,4 +21,4 @@ const AddDepartmentSchema = Yup.object().shape({
   clinicCollectionId: Yup.string().required("Clinic Collection ID is required"),
 });
 
-export default AddDepartmentSchema
+export default AddDepartmentSchema;

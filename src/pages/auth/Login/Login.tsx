@@ -14,7 +14,6 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../../../schema/LoginSchema";
 import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import useLogin from "../../../hooks/auth/login";
-import LoaderCustom from "../../../Components/Loader";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -77,7 +76,6 @@ export function Login() {
       }}
       className={classes.wrapper}
     >
-      {loginMutation.isPending && <LoaderCustom />}
       <Paper className={classes.form} radius={0} p={30} h={"100%"}>
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
           Welcome back to Cliniva !
