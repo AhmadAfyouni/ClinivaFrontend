@@ -8,6 +8,8 @@ import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import { SearchInput } from "../../Components/SearchInput";
+import AddButton from "../../Components/AddButton";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const PatientsPage = () => {
   const { sortBy, order } = useSortStore();
@@ -16,9 +18,14 @@ const PatientsPage = () => {
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
   const navigate = useNavigate();
-
   if (!data) return null;
 
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data?.length
@@ -28,8 +35,27 @@ const PatientsPage = () => {
           })
     );
   };
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value;
+    pagination.setFilter(value);
+  };
   const handleSearchChange = (e: string) => {
     pagination.setSearchKey(e);
+  };
+
+  const handleDateChange = (e: Date | null) => {
+    const date = e;
+    if (date && !isNaN(date.getTime())) {
+      console.log(date.getMonth());
+      const month = String(date.getDate()).padStart(2, "0");
+      const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
+      const year = date.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+
+      pagination.setDate(formattedDate); // Assuming pagination is defined
+    } else {
+      pagination.setDate(""); // or null, depending on your logic
+    }
   };
   const rows = data?.map((item) => (
     <TableBody
@@ -49,7 +75,6 @@ const PatientsPage = () => {
       setSelection={setSelection}
     />
   ));
-
   if (!isFetched)
     return (
       <Center>
@@ -59,11 +84,30 @@ const PatientsPage = () => {
   else
     return (
       <Flex w="95%" h="85vh" direction="column">
-        <SearchInput
-          text="Search"
-          searchValue={pagination.paramKey}
-          setSearchValue={handleSearchChange}
-        />
+        <Flex justify="space-between">
+          <Flex>
+            <SearchInput
+              text="Search"
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+            />
+            <CustomFilters
+              IsDateInput={true}
+              IsDropDown1={true}
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
+              placeHolderDropDown1="Status"
+              handleDateChange={handleDateChange}
+              vlaueDateInput={
+                pagination.date ? new Date(pagination.date) : null
+              }
+            />
+          </Flex>
+          <AddButton
+            text="Add Patient"
+            handleOnClick={() => navigate(`/patients/add`)}
+          />
+        </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead

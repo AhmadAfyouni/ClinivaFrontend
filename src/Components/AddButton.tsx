@@ -8,7 +8,7 @@ const AddButton = ({ text, handleOnClick }: Props) => {
   const theme = useMantineTheme();
   return (
     <Button
-      bd={theme.other.secondaryDarkColor}
+      bg={theme.other.secondaryDarkColor}
       onClick={handleOnClick}
       variant="filled"
       w="fit-content"

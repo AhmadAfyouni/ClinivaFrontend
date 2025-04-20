@@ -9,6 +9,7 @@ import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const StaffPage = () => {
   const { sortBy, order } = useSortStore();
@@ -17,9 +18,7 @@ const StaffPage = () => {
   const navigate = useNavigate();
   // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
-
   if (!data) return null;
-
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data.length
@@ -29,9 +28,6 @@ const StaffPage = () => {
           })
     );
   };
-  const handleSearchChange = (e: string) => {
-    pagination.setSearchKey(e);
-  };
 
   const rows = data?.map((item) => (
     <TableBody
@@ -39,12 +35,12 @@ const StaffPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id.toString()}
+      th0={item._id}
       th1={item.name}
       th2={item.contactInfos.map((item) =>
         item.type === "email" ? item.value : ""
       )}
-      th3={item.departmentId}
+      th3={item.gender}
       th4={item.employeeType}
       th5={item.isActive.toString()}
       // th2={item.contact}
@@ -53,6 +49,21 @@ const StaffPage = () => {
       // th5={item.status}
     />
   ));
+
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+
+  const handleSearchChange = (e: string) => {
+    pagination.setSearchKey(e);
+  };
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value;
+    pagination.setFilter(value);
+  };
 
   if (!isFetched || !data)
     return (
@@ -64,17 +75,27 @@ const StaffPage = () => {
     return (
       <Flex w="100%" direction="column">
         <Flex w="100%" justify="space-between">
-          <SearchInput
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-            text="Search "
-          />
-          <Flex justify="end" hiddenFrom="sm">
-            <AddButton
-              text="Add Staff"
-              handleOnClick={() => navigate(`/employee/add`)}
+          <Flex>
+            <SearchInput
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+              text="Search "
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              placeHolderDropDown1={"Status"}
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
+              IsDropDown2={true}
+              placeHolderDropDown2={"department"}
+              OptionsDropDown2={statusOptions.map((item) => item.label)}
+              handlDropDownChange2={handlStatusChange}
             />
           </Flex>
+          <AddButton
+            text="Add Staff"
+            handleOnClick={() => navigate(`/employee/add`)}
+          />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
