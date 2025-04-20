@@ -1,5 +1,8 @@
 import { useFormik } from "formik";
-import AddCompanyType, { Specialization } from "../../types/AddCompanyType";
+import AddCompanyType, {
+  InsuranceCompany,
+  Specialization,
+} from "../../types/company/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
@@ -12,13 +15,15 @@ import {
   ContactInfoType,
   Holiday,
 } from "../../types/GeneralAdd";
-import CustomPagination from "../../Components/Pagination/Pagination";
-
-function AddCompany() {
+import useAddCompany from "../../hooks/company/useAddCompany";
+interface Props {
+  nextStep: (x: number) => void;
+}
+function AddCompany({ nextStep }: Props) {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("logo", file);
   };
-
+  const hook = useAddCompany();
   const formik = useFormik<AddCompanyType>({
     initialValues: {
       name: "",
@@ -31,7 +36,6 @@ function AddCompany() {
       contactInfos: [],
       holidays: [],
       specializations: [],
-      workingDays: [],
       bankAccount: [],
       insuranceCompany: [],
       commercialRecord: {
@@ -50,6 +54,10 @@ function AddCompany() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
+      hook.mutate(values);
+      if (hook.data?.success)
+        localStorage.setItem("companyId", hook.data?.data._id);
+      nextStep(3);
       console.log("Form Submitted::::", values);
     },
   });
@@ -224,28 +232,10 @@ function AddCompany() {
 
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
-      <CustomPagination
-        store={{
-          currentPage: 5,
-          meta: {
-            current_page: 5,
-            has_next_page: true,
-            has_previous_page: true,
-            items_per_page: 5,
-            total_items: 55,
-            total_pages: 51,
-          },
-          paramKey: "",
-          perPage: 5,
-          setCurrentPage: () => {},
-          setReFetch: () => {},
-          setSearchKey: () => {},
-          withSkelton: true,
-        }}
-      />
       <form
         onSubmit={(e) => {
           console.log("omsubmit");
+          console.log(formik.errors);
           formik.handleSubmit(e);
         }}
       >
@@ -253,7 +243,7 @@ function AddCompany() {
           <InputForm
             base={attrb}
             count={0}
-            onSubmit={formik.handleSubmit}
+            onSubmit={() => {}}
             with_submit={false}
           />
           <Box
@@ -271,25 +261,44 @@ function AddCompany() {
             <InputForm
               base={commercialRecord}
               count={0}
-              onSubmit={formik.handleSubmit}
+              onSubmit={() => {}}
               with_submit={false}
             />
           </Box>
 
           <TableSelection<ContactInfoType>
-            key={"contactInfos"}
-            title="Contact Information"
+            title="Contact Infos"
             fieldName="contactInfos"
             columns={[
-              { key: "name", label: "Name", type: "text" },
-              { key: "email", label: "Email", type: "email" },
-              { key: "phone", label: "Phone", type: "phone" },
-              { key: "designation", label: "Designation", type: "text" },
+              {
+                key: "type",
+                label: "Type",
+                type: "select",
+                options: ["email", "phone"],
+              },
+              {
+                key: "isPublic",
+                label: "Is Public",
+                type: "boolean",
+                options: ["yes", "no"],
+              },
+              {
+                key: "value",
+                label: "Value",
+                type: "text",
+              },
+              {
+                key: "subType",
+                label: "Sub Type",
+                type: "text",
+              },
             ]}
-            data={formik.values.contactInfos}
+            key={"contactInfos"}
             onFieldChange={formik.setFieldValue}
-            error={""}
+            data={formik.values.contactInfos}
+            error={formik.errors.contactInfos?.toString() || ""}
           />
+
           <TableSelection<Holiday>
             key={"holidays"}
             title="Holidays"
@@ -303,6 +312,28 @@ function AddCompany() {
             onFieldChange={formik.setFieldValue}
             error={""}
           />
+          {/* <TableSelection<WorkingHoursType>
+            title="Working Days"
+            columns={[
+              { key: "day", label: "Day" },
+              {
+                key: "startTime",
+                label: "Start Time",
+                type: "time",
+              },
+
+              {
+                key: "endTime",
+                label: "End Time",
+                type: "time",
+              },
+            ]}
+            fieldName="workingDays"
+            onFieldChange={formik.setFieldValue}
+            key={"workingDays"}
+            data={formik.values.workingDays}
+            error={formik.errors.workingDays?.toString() || ""}
+          /> */}
           <TableSelection<Specialization>
             key={"specializations"}
             title="Specializations"
@@ -313,7 +344,18 @@ function AddCompany() {
             ]}
             data={formik.values.specializations}
             onFieldChange={formik.setFieldValue}
-            error={""}
+            error={formik.errors.specializations?.toString() || ""}
+          />
+          <TableSelection<InsuranceCompany>
+            title={"Insurance Company"}
+            fieldName={"insuranceCompany"}
+            columns={[
+              { key: "companyName", label: "Company Name", type: "text" },
+              { key: "companyPhone", label: "companyPhone", type: "phone" },
+              { key: "companyEmail", label: "companyEmail", type: "email" },
+            ]}
+            onFieldChange={formik.setFieldValue}
+            error={formik.errors.insuranceCompany?.toString() || ""}
           />
           <TableSelection<BankAccountType>
             key={"bankAccount"}
@@ -327,7 +369,7 @@ function AddCompany() {
             ]}
             data={formik.values.bankAccount}
             onFieldChange={formik.setFieldValue}
-            error={""}
+            error={formik.errors.bankAccount?.toString() || ""}
           />
           <Box mt="md" mb="xl">
             <Flex gap={"xl"}>
@@ -345,7 +387,7 @@ function AddCompany() {
               </div>
             )}
           </Box>
-          <Button type="submit" bg={"#9BDABB"} mt="md" w="70%">
+          <Button type="submit" bg={"#9BDABB"} mt="md" w="30%">
             Submit
           </Button>
         </Container>

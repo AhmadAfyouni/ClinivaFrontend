@@ -25,6 +25,8 @@ import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
 import StaffDetails from "../pages/Staff/StaffDetails";
 import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
+import SelectPlan from "../pages/auth/Register/SelectPlan";
+import Register from "../pages/auth/Register/Register";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -41,6 +43,14 @@ export const routes: AppRoute[] = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/SelectPlan",
+    element: <SelectPlan />,
   },
   {
     path: "/patients",
@@ -125,11 +135,11 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <AddCompany />,
+        element: <AddCompany nextStep={() => {}} />,
       },
       {
         path: "add",
-        element: <AddCompany />,
+        element: <AddCompany nextStep={() => {}} />,
       },
     ],
   },

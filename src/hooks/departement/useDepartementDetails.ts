@@ -1,7 +1,7 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
-import ResponseDetailsType from "../../types/Responsedetail";
 import DepartmentDetailsType from "../../types/department/DepartmentDetailsType";
+import ResponseDetailsType from "../../types/ResponseDetails";
 const useDepartmentDetails = (id: string) => {
   return useQuery({
     queryKey: ["departement"],

@@ -50,16 +50,18 @@ type OnlinePaymentMethod = {
   isActive: boolean;
 };
 
-export default interface ClinicCollectionType {
+export default interface AddMedicalComplexType {
   name: string;
+  phone: string;
+  pic: string;
   overview: string;
   policies: string;
-  isActive: boolean;
   yearOfEstablishment: string;
   address: string;
   logo: string;
   vision: string;
   goals: string;
+  isActive: boolean;
   contactInfos: ContactInfoType[];
   holidays: Holiday[];
   workingDays: WorkingHoursType[];

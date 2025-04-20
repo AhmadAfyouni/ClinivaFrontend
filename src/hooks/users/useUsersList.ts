@@ -1,8 +1,8 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
-import { UserDetailType } from "../../types/user/UserDetailType";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import UserDetailType from "../../types/users/UserDetailType";
 const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
 

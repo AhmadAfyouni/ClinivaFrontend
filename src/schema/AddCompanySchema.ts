@@ -25,19 +25,18 @@ const AddCompanySchema = Yup.object().shape({
     }),
   vision: Yup.string().required("Vision is required"),
   details: Yup.string().required("Details are required"),
-  contactInfos: Yup.array().of(
-    Yup.object().shape({
-      type: Yup.string().oneOf(["phone", "email"]).required(),
-      value: Yup.string().when("type", {
-        is: "email",
-        then: (schema) => schema.email("Invalid email format"),
-        otherwise: (schema) =>
-          schema.matches(/^[0-9]{10,15}$/, "Invalid phone number"),
-      }),
-      isPublic: Yup.boolean(),
-      subtype: Yup.string().oneOf(["work", "corporate"]),
-    })
-  ),
+  contactInfos: Yup.array()
+    .of(
+      Yup.object().shape({
+        type: Yup.string()
+          .oneOf(["email", "phone"])
+          .required("Type is required"),
+        isPublic: Yup.boolean().required("Public status is required"),
+        value: Yup.string().required("Value is required"),
+        subType: Yup.string().optional(),
+      })
+    )
+    .required("Contact information is required"),
   holidays: Yup.array().of(
     Yup.object().shape({
       name: Yup.string().required(),
@@ -51,27 +50,27 @@ const AddCompanySchema = Yup.object().shape({
       description: Yup.string().required(),
     })
   ),
-  workingDays: Yup.array().of(
-    Yup.object().shape({
-      day: Yup.string()
-        .oneOf([
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ])
-        .required(),
-      timeSlots: Yup.array().of(
-        Yup.object().shape({
-          startTime: Yup.string().required(),
-          endTime: Yup.string().required(),
-        })
-      ),
-    })
-  ),
+  // workingDays: Yup.array().of(
+  //   Yup.object().shape({
+  //     day: Yup.string()
+  //       .oneOf([
+  //         "Monday",
+  //         "Tuesday",
+  //         "Wednesday",
+  //         "Thursday",
+  //         "Friday",
+  //         "Saturday",
+  //         "Sunday",
+  //       ])
+  //       .required(),
+  //     timeSlots: Yup.array().of(
+  //       Yup.object().shape({
+  //         startTime: Yup.string().required(),
+  //         endTime: Yup.string().required(),
+  //       })
+  //     ),
+  //   })
+  // ),
   bankAccount: Yup.array().of(
     Yup.object().shape({
       accountName: Yup.string().required(),

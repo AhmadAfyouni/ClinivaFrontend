@@ -21,6 +21,7 @@ import { Notifications } from "@mantine/notifications";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ResetWatcher from "./Components/store/ResetWatcher";
+import LoaderCustom from "./Components/Loader";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -66,46 +67,50 @@ function AppContent() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const isLoginPage = location.pathname === "/login";
-
+  const isRegisterPage = location.pathname === "/register";
+  const isSelectPlan = location.pathname === "/SelectPlan";
+  const nonAuth = isRegisterPage || isSelectPlan || isLoginPage;
   useEffect(() => {
     const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+      !localStorage.getItem("loginToRegister") &&
+      (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
-    if (!token && !isLoginPage) {
-      navigate("/login");
-    } else if (token && isLoginPage) {
+    if (!token) {
+      if (isRegisterPage) navigate("/register");
+      else if (isSelectPlan) navigate("/SelectPlan");
+      else if (!isLoginPage) navigate("/login");
+    } else if (token && nonAuth) {
       navigate("/");
     }
-  }, [navigate, isLoginPage]);
+  }, [navigate, isLoginPage, isRegisterPage, isSelectPlan, nonAuth]);
 
-  if (isLoginPage) {
-    return element;
-  }
+  // if (isLoginPage || isRegisterPage) {
+  //   return element;
+  // }
 
   return (
-    <>
-      {/* <LoaderCustom /> */}
+    <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
+      <LoaderCustom />
+      {!nonAuth && <SideBar />}
 
-      <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
-        <SideBar />
-
-        <Flex
-          w={"100%"}
-          direction={"column"}
-          justify={"start"}
-          align={"center"}
-          style={{ marginLeft: isMobile ? 0 : "15%" }}
-        >
-          <NavBar />
-          <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
-            {element}
-          </Card>
-        </Flex>
+      <Flex
+        w={"100%"}
+        direction={"column"}
+        justify={"start"}
+        align={"center"}
+        style={{
+          marginLeft: isMobile || nonAuth ? 0 : "15%",
+        }}
+      >
+        <NavBar login={!nonAuth} />
+        <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
+          {element}
+        </Card>
       </Flex>
-    </>
+    </Flex>
   );
 }
 

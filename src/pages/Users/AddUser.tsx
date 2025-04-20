@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
-import AddUserType from "../../types/User/AddUser";
 import AddUserSchema from "../../schema/User/AddUser";
 import InputPropsType from "../../types/InputsType";
 import InputForm from "../../Components/Inputs/InputForm";
 import { Button, ScrollArea } from "@mantine/core";
 import useRoles from "../../hooks/Role/useRoles";
+import AddUserType from "../../types/users/AddUser";
 interface selectRoleType {
   [key: string]: string;
 }
