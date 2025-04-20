@@ -18,7 +18,7 @@ export default interface PaginationType {
   setHas_next_page: (key: boolean) => void;
   setHas_previous_page: (key: boolean) => void;
   setSearchKey: (key: string) => void;
-  setFilter: (fieldName: boolean | undefined) => void;
+  setFilter: (fieldName: boolean | undefined | string) => void;
   resetPagination?: () => void;
   setDate: (date: string | undefined) => void;
 }
