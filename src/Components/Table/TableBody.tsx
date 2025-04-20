@@ -40,8 +40,9 @@ const TableBody = ({
     const statusColors = {
       true: { bg: theme.other?.secondaryDarkColor },
       false: { bg: theme.primaryColor },
-      cancelled: { bg: theme.primaryColor },
+      cancelled: { bg: theme.colors.myPrimary[6] },
       scheduled: { bg: theme.colors.myPrimary[2] },
+      completed: { bg: theme.other.secondaryDarkColor },
     };
     const { bg } = statusColors[status as keyof typeof statusColors] || {
       bg: theme.other.bg,
@@ -52,6 +53,7 @@ const TableBody = ({
     return th5 === "true" ||
       th5 === "false" ||
       th5 === "cancelled" ||
+      th5 === "completed" ||
       th5 === "scheduled" ? (
       <Badge
         bg={bg}

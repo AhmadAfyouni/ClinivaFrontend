@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const DepartementsPage = () => {
   const pagination = usePaginationtStore();
@@ -34,6 +35,10 @@ const DepartementsPage = () => {
     );
   };
 
+  const PICOptions = [""];
+  const handlPICChange = (e: string | null) => {
+    console.log(e);
+  };
   const rows = data.map((item) => (
     <TableBody
       onClick={() => navigate(`/departement/details/${item._id}`)}
@@ -64,11 +69,19 @@ const DepartementsPage = () => {
     return (
       <Flex direction="column">
         <Flex w="90%" justify="space-between">
-          <SearchInput
-            text="Search MedicalComplex"
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-          />
+          <Flex>
+            <SearchInput
+              text="Search MedicalComplex"
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              placeHolderDropDown1="PIC"
+              OptionsDropDown1={PICOptions}
+              handlDropDownChange1={handlPICChange}
+            />
+          </Flex>
           <AddButton
             text="Add MedicalComplex"
             handleOnClick={() => navigate(`/departement/add`)}

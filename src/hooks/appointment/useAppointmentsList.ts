@@ -19,6 +19,7 @@ const useAppointmentsList = (
       sortBy,
       order,
       pagination.paramKey,
+      // pagination.filter,
     ],
     queryFn: () => {
       const url = `/appointments?${
@@ -32,6 +33,8 @@ const useAppointmentsList = (
         order
         // "&search=" +
         // pagination.paramKey
+        // "&status=" +
+        // pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<AppointementDetailsType>>(url)

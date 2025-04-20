@@ -9,6 +9,7 @@ import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const ClinicsPage = () => {
   const pagination = usePaginationtStore();
@@ -30,7 +31,10 @@ const ClinicsPage = () => {
           })
     );
   };
-
+  const SpecialtiesOptions = [""];
+  const handlSpecialtyChange = (e: string | null) => {
+    console.log(e);
+  };
   const rows = data.map((item) => (
     <TableBody
       onClick={() => navigate(`/clinic/details/${item._id}`)}
@@ -63,11 +67,19 @@ const ClinicsPage = () => {
     return (
       <>
         <Flex w="90%" justify="space-between">
-          <SearchInput
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-            text="Search Clinic"
-          />
+          <Flex>
+            <SearchInput
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+              text="Search Clinic"
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              placeHolderDropDown1="Speciality"
+              OptionsDropDown1={SpecialtiesOptions}
+              handlDropDownChange1={handlSpecialtyChange}
+            />
+          </Flex>
           <AddButton
             text="Add Clinic"
             handleOnClick={() => navigate(`/clinic/add`)}
