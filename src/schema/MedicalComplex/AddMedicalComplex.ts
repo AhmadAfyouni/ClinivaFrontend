@@ -1,10 +1,11 @@
 import * as Yup from "yup";
 
-const AddClinicCollectionSchema = Yup.object().shape({
+const AddMedicalComplexSchema = Yup.object().shape({
   name: Yup.string().required("Clinic name is required"),
+  phone: Yup.string().required("Clinic Phone Number is required").min(10),
+  pic: Yup.string(),
   overview: Yup.string().required("Overview is required"),
   policies: Yup.string().required("Policies are required"),
-  isActive: Yup.boolean().required("Active status is required"),
   yearOfEstablishment: Yup.date().required("Year of establishment is required"),
   address: Yup.string().required("Address is required"),
   logo: Yup.string().url("Must be a valid URL"),
@@ -127,8 +128,8 @@ const AddClinicCollectionSchema = Yup.object().shape({
     x: Yup.number().required("X coordinate is required"),
     y: Yup.number().required("Y coordinate is required"),
   }),
-  companyId: Yup.string().required("Company ID is required"),
+  companyId: Yup.string(),
   specializations: Yup.array().of(Yup.string()).optional(),
 });
 
-export default AddClinicCollectionSchema;
+export default AddMedicalComplexSchema;

@@ -1,4 +1,4 @@
-import { InsuranceCompany, Specialization } from "../AddCompanyType";
+import { InsuranceCompany, Specialization } from "../company/AddCompanyType";
 import CashBox from "../common/CashBox";
 import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
 import { BankAccount } from "../Employee/GetEmployee";

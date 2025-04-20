@@ -135,11 +135,11 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <AddCompany />,
+        element: <AddCompany nextStep={() => {}} />,
       },
       {
         path: "add",
-        element: <AddCompany />,
+        element: <AddCompany nextStep={() => {}} />,
       },
     ],
   },

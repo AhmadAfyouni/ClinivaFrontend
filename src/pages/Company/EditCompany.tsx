@@ -1,5 +1,7 @@
 import { useFormik } from "formik";
-import AddCompanyType, { Specialization } from "../../types/AddCompanyType";
+import AddCompanyType, {
+  Specialization,
+} from "../../types/company/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
@@ -37,7 +39,6 @@ function EditCompany() {
       contactInfos: [],
       holidays: [],
       specializations: [],
-      workingDays: [],
       bankAccount: [],
       insuranceCompany: [],
       commercialRecord: {

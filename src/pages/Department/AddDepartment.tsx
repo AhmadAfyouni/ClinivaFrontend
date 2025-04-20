@@ -6,9 +6,10 @@ import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { ContactInfoType } from "../../types/GeneralAdd";
 import AddDepartmentType from "../../types/department/AddDepartment";
 import AddDepartmentSchema from "../../schema/department/AddDepartment";
-
+import useAddDepartment from "../../hooks/departement/useDepartement";
 
 function AddDepartment() {
+  const hook = useAddDepartment();
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
       name: "",
@@ -19,12 +20,13 @@ function AddDepartment() {
       vision: "",
       details: "",
       contactInfos: [],
-      clinicCollectionId: "67e50d4e191e5b9428a74741", 
+      clinicCollectionId: "67e50d4e191e5b9428a74741",
     },
     validationSchema: AddDepartmentSchema,
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
+      hook.mutate(values);
       console.log("Department Submitted:", values);
       // Add your API call here
     },
@@ -80,18 +82,6 @@ function AddDepartment() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "logo",
-      label: "Logo URL",
-      mandatory: true,
-      type: "text",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL for the department's logo",
-      value: formik.values.logo || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
-    {
       id: "vision",
       label: "Vision",
       mandatory: true,
@@ -103,6 +93,7 @@ function AddDepartment() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
+
     {
       id: "details",
       label: "Details",
@@ -112,6 +103,18 @@ function AddDepartment() {
       placeholder: "Enter details",
       tooltip: "Enter detailed information about the department",
       value: formik.values.details || "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "logo",
+      label: "",
+      mandatory: true,
+      type: "image",
+      error: formik.errors.logo,
+      placeholder: "Enter logo URL",
+      tooltip: "Enter the URL for the department's logo",
+      value: formik.values.logo || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -163,7 +166,9 @@ function AddDepartment() {
           />
         </Box>
 
-        <Button type="submit" mt="md"  w="30%">Submit</Button>
+        <Button type="submit" mt="md" w="30%">
+          Submit
+        </Button>
       </form>
     </ScrollArea>
   );

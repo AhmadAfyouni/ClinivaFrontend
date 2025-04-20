@@ -3,11 +3,14 @@ import CustomStepper from "../../../Components/Stepper/CustomStepper";
 import AddCompany from "../../Company/AddCompany";
 import { useEffect, useState } from "react";
 import LoginToRegister from "./LoginToRegister";
-import AddClinicCollection from "../../ClinicCollection/AddClinicCollection";
 import AddDepartment from "../../Department/AddDepartment";
 import AddClinic from "../../Clinic/AddClinic";
+import AddMedicalComplex from "../../MedicalComplex/AddMedicalComplex";
+import { useNavigate } from "react-router";
 
 function Register() {
+  const navigate = useNavigate();
+
   const plan = localStorage.getItem("plan");
   const selectedPlan = plan ? Number(plan) : 1;
 
@@ -52,6 +55,11 @@ function Register() {
     },
   ];
   const handleNextStep = () => {
+    if (step === steps.length) {
+      localStorage.removeItem("loginToRegister");
+      localStorage.removeItem("plan");
+      navigate("/");
+    }
     setStep(step + 1);
   };
   const handlePrevStep = () => {
@@ -80,9 +88,9 @@ function Register() {
             }}
           />
         ) : step === 2 ? (
-          <AddCompany />
+          <AddCompany nextStep={setStep} />
         ) : step === 3 ? (
-          <AddClinicCollection />
+          <AddMedicalComplex />
         ) : step === 4 ? (
           <AddDepartment />
         ) : (
@@ -91,17 +99,14 @@ function Register() {
       </Flex>
       <Flex justify={"flex-end"} gap={"lg"} px={"lg"} pt={"lg"}>
         <Button
-          disabled={step === 2 || step - 1 < selectedPlan}
+          disabled={step <= 3 || step - 1 < selectedPlan}
           onClick={handlePrevStep}
         >
           Prev
         </Button>
 
-        <Button
-          disabled={step <= 2 || step === steps.length}
-          onClick={handleNextStep}
-        >
-          Next
+        <Button disabled={step <= 2} onClick={handleNextStep}>
+          {step === steps.length ? "Finish" : "Next"}
         </Button>
       </Flex>
     </Box>
