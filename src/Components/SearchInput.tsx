@@ -27,6 +27,7 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
       onChange={handleSearchChange}
       mr="10px"
       ref={inputRef}
+      radius="md"
     />
   );
 };

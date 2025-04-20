@@ -14,6 +14,7 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
       <Select
         w="110px"
         mr="5px"
+        mb="10px"
         placeholder={placeHolder}
         onChange={onChange}
         color={theme.other.onSurfacePrimary}
@@ -28,7 +29,7 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
             fontSize: "10px",
             borderRadius: "50px",
             "::placeholder": {
-              color: theme.other.onSurfacePrimary,
+              c: theme.other.onSurfacePrimary,
             },
           },
 
@@ -37,10 +38,11 @@ const Dropdown = ({ placeHolder, options, onChange }: Props) => {
             padding: "8px 4px",
             "&[dataSelected]": {
               backgroundColor: theme.other.bgSubtle,
-              color: "#2A9D8F",
+              c: theme.other.secondaryColor,
             },
             "&[dataHovered]": {
               backgroundColor: theme.other.bgSubtle,
+              c: theme.other.secondaryColor,
             },
           },
           dropdown: {
