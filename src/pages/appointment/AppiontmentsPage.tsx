@@ -7,13 +7,16 @@ import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import { SearchInput } from "../../Components/SearchInput";
 import useAppointmentsList from "../../hooks/appointment/useAppointmentsList";
+import CustomFilters from "../../Components/filters/CustomFilters";
+import AddButton from "../../Components/AddButton";
+import { useNavigate } from "react-router";
 
 const AppointmentsPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useAppointmentsList(false, sortBy, order);
-  // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
+  const navigate = useNavigate();
   if (!data) return null;
 
   const toggleAll = () => {
@@ -27,6 +30,29 @@ const AppointmentsPage = () => {
   };
   const handleSearchChange = (e: string) => {
     pagination.setSearchKey(e);
+  };
+
+  const statusOptions = ["scheduled", "cancelled", "completed"];
+
+  const handlStatusChange = (e: string | null) => {
+    console.log(e);
+    // const value = statusOptions.find((item) => item.label === e)?.value;
+    pagination.setFilter(e || "");
+  };
+
+  const handleDateChange = (e: Date | null) => {
+    const date = e;
+    if (date && !isNaN(date.getTime())) {
+      console.log(date.getMonth());
+      const month = String(date.getDate()).padStart(2, "0");
+      const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
+      const year = date.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+
+      pagination.setDate(formattedDate);
+    } else {
+      pagination.setDate("");
+    }
   };
   const rows = data?.map((item) => (
     <TableBody
@@ -52,11 +78,30 @@ const AppointmentsPage = () => {
   else
     return (
       <Flex w="95%" h="85vh" direction="column">
-        <SearchInput
-          text="Search"
-          searchValue={pagination.paramKey}
-          setSearchValue={handleSearchChange}
-        />
+        <Flex justify="space-between">
+          <Flex>
+            <SearchInput
+              text="Search"
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              IsDateInput={true}
+              OptionsDropDown1={statusOptions}
+              handlDropDownChange1={handlStatusChange}
+              placeHolderDropDown1="Status"
+              vlaueDateInput={
+                pagination.date ? new Date(pagination.date) : null
+              }
+              handleDateChange={handleDateChange}
+            />
+          </Flex>
+          <AddButton
+            handleOnClick={() => navigate(`/appointment/add`)}
+            text="add appointment"
+          />
+        </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead

@@ -52,9 +52,9 @@ const PatientsPage = () => {
       const year = date.getFullYear();
       const formattedDate = `${day}-${month}-${year}`;
 
-      pagination.setDate(formattedDate); // Assuming pagination is defined
+      pagination.setDate(formattedDate);
     } else {
-      pagination.setDate(""); // or null, depending on your logic
+      pagination.setDate("");
     }
   };
   const rows = data?.map((item) => (
@@ -63,10 +63,6 @@ const PatientsPage = () => {
       key={item._id}
       th0={item._id}
       th1={item.name}
-      // th2={item.date}
-      // th3={item.doctor}
-      // th4={item.treatment}
-      // th5={item.status}
       th2={item.dateOfBirth.slice(0, 10)}
       th3={item.gender}
       th4={item.dateOfBirth.slice(0, 10)}

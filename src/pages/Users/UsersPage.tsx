@@ -9,6 +9,7 @@ import CustomPagination from "../../Components/Pagination/Pagination";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useUsersList from "../../hooks/users/useUsersList";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const UsersPage = () => {
   const [selection, setSelection] = useState<string[]>([]);
@@ -23,6 +24,30 @@ const UsersPage = () => {
     pagination.setSearchKey(event);
   };
 
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value;
+    pagination.setFilter(value);
+  };
+  const handleDateChange = (e: Date | null) => {
+    const date = e;
+    if (date && !isNaN(date.getTime())) {
+      console.log(date.getMonth());
+      const month = String(date.getDate()).padStart(2, "0");
+      const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
+      const year = date.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+
+      pagination.setDate(formattedDate);
+    } else {
+      pagination.setDate("");
+    }
+  };
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data.length
@@ -52,17 +77,7 @@ const UsersPage = () => {
       th3={item.email}
       th4={item.roleIds.toString()}
       th5={item.isActive.toString()}
-      // th2={new Date(item.createdDate).toLocaleString("en-US", {
-      //   year: "numeric",
-      //   month: "numeric",
-      //   day: "numeric",
-      //   hour: "2-digit",
-      //   minute: "2-digit",
-      //   hour12: true,
-      // })}
-      // th3={item.email}
       // th4={item.role}
-      // th5={item.status}
     />
   ));
 
@@ -76,17 +91,29 @@ const UsersPage = () => {
     return (
       <Flex direction="column">
         <Flex w="90%" justify="space-between">
-          <SearchInput
-            text="Search User"
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-          />
+          <Flex>
+            <SearchInput
+              text="Search User"
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              IsDateInput={true}
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
+              placeHolderDropDown1="Status"
+              vlaueDateInput={
+                pagination.date ? new Date(pagination.date) : null
+              }
+              handleDateChange={handleDateChange}
+            />
+          </Flex>
           <Flex justify="end">
             <AddButton
               text="Add User"
               handleOnClick={() => navigate(`/users/add`)}
             />
-            {/* <MobileFilters /> */}
           </Flex>
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>

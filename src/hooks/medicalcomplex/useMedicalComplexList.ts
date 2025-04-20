@@ -30,9 +30,9 @@ const useMedicalComplexList = (
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order +
-        "&search=" +
-        pagination.paramKey
+        order
+        // "&search=" +
+        // pagination.paramKey
       }`;
       return axiosInstance
         .get<ResponseType<MedicalComplexDetailsType>>(url)
