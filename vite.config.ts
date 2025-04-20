@@ -1,45 +1,45 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
-  console.log(env);
-  return {
-    base: "/",
-    plugins: [react()],
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ["react", "react-dom", "react-router-dom"],
-            ui: [
-              "@mantine/core",
-              "@mantine/hooks",
-              "@mantine/form",
-              "@mantine/dates",
-              "@mantine/notifications",
-            ],
-            charts: ["recharts"],
-            utils: ["axios", "dayjs", "yup", "zustand"],
-          },
-          chunkFileNames: "assets/[name]-[hash].js",
-          assetFileNames: "assets/[name]-[hash][extname]",
+// https://vite.dev/config/
+// export default defineConfig({
+//   base: "./",
+//   plugins: [react()],
+
+export default defineConfig({
+  base: "/",
+  plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom"],
+          ui: [
+            "@mantine/core",
+            "@mantine/hooks",
+            "@mantine/form",
+            "@mantine/dates",
+            "@mantine/notifications",
+          ],
+          charts: ["recharts"],
+          utils: ["axios", "dayjs", "yup", "zustand"],
         },
-      },
-      chunkSizeWarningLimit: 1000,
-      sourcemap: false,
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-        },
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
       },
     },
-    server: {
-      host: true,
-      port: 3000,
-      allowedHosts: ["cliniva-frontend.qnv2oe.easypanel.host"], // ✅ Add this line
+    chunkSizeWarningLimit: 1000,
+    sourcemap: false,
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
     },
-  };
+  },
+  server: {
+    host: true,
+    port: 3000,
+  },
 });
