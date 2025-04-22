@@ -312,6 +312,7 @@ function AddEmployee() {
       placeholder: "Select Specialties",
       tooltip: "Enter your Specialties",
       value: getKeysByValue(Specializations, formik.values.specializations),
+
       onChange: (selectedKeys) => {
         if (
           Array.isArray(selectedKeys) &&
