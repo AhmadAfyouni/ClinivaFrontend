@@ -1,11 +1,11 @@
 export default interface ServiceDetailsType {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;
   clinicAssociation: string[];
   associatedDoctors: string[];
-  status: "Active" | "Inactive";
+  isActive: "Active" | "Inactive";
   creationDate: Date | string;
   lastModified: Date | string;
 }

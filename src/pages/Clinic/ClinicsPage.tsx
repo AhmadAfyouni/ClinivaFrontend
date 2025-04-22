@@ -37,7 +37,7 @@ const ClinicsPage = () => {
   };
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => navigate(`/clinic/details/${item._id}`)}
+      onClick={() => navigate(`/clinics/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
@@ -82,7 +82,7 @@ const ClinicsPage = () => {
           </Flex>
           <AddButton
             text="Add Clinic"
-            handleOnClick={() => navigate(`/clinic/add`)}
+            handleOnClick={() => navigate(`/clinics/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>

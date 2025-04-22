@@ -1,28 +1,25 @@
-import { useState } from "react";
-import TableHead from "../../Components/Table/TableHead";
 import { Box, Center, Flex, Table, Text } from "@mantine/core";
-import TableBody from "../../Components/Table/TableBody";
+import { useState } from "react";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
+import TableHead from "../../Components/Table/TableHead";
+import TableBody from "../../Components/Table/TableBody";
 import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
-import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-import useDepatementsList from "../../hooks/departement/useDepartementsList";
+import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useServicesList from "../../hooks/serviceH/useServicesList";
 
-const DepartementsPage = () => {
+const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
-  const { data, isFetched } = useDepatementsList(false, sortBy, order);
-
+  const { data, isFetched } = useServicesList(false, sortBy, order);
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
-
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
   };
-
   if (!data) return null;
 
   const toggleAll = () => {
@@ -34,91 +31,84 @@ const DepartementsPage = () => {
           })
     );
   };
-
-  const PICOptions = [""];
-  const handlPICChange = (e: string | null) => {
+  const SpecialtiesOptions = [""];
+  const handlSpecialtyChange = (e: string | null) => {
     console.log(e);
   };
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => navigate(`/departements/details/${item._id}`)}
+      onClick={() => navigate(`/services/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.clinicCollectionId?.name}
-      th3={item.address}
-      th4={item.clinicCount.toString()}
-      th5={item.requiredStaff.toString()}
-      // th1={item.ComplexName}
-      // th2={item.PIC}
-      // th3={item.Address}
-      // th4={item.DepartmentsCount.toString()}
-      // th5={item.StaffCount.toString()}
+      th2={item.description}
+      th3={item.price.toString()}
+      th4={item.clinicAssociation.join("-")}
+      th5={item.isActive.toString()}
     />
   ));
 
   if (!isFetched)
     return (
       <Center>
-        <Text>No Departements Found</Text>
+        <Text>No Clinics Found</Text>
       </Center>
     );
   else
     return (
-      <Flex direction="column">
+      <>
         <Flex w="90%" justify="space-between">
           <Flex>
             <SearchInput
-              text="Search MedicalComplex"
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
+              text="Search Clinic"
             />
             <CustomFilters
               IsDropDown1={true}
-              placeHolderDropDown1="PIC"
-              OptionsDropDown1={PICOptions}
-              handlDropDownChange1={handlPICChange}
+              placeHolderDropDown1="Speciality"
+              OptionsDropDown1={SpecialtiesOptions}
+              handlDropDownChange1={handlSpecialtyChange}
             />
           </Flex>
           <AddButton
-            text="Add MedicalComplex"
-            handleOnClick={() => navigate(`/departement/add`)}
+            text="Add Clinic"
+            handleOnClick={() => navigate(`/clinics/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
+              labels={[
+                "Service Id",
+                "Service Name",
+                "Description",
+                "Price",
+                "Clinics",
+                "Status",
+                "Clinic",
+              ]}
               sortedBy={[
                 "_id",
                 "name",
-                "address",
-                "address",
-                "clinicCount",
-                "patientCount",
+                "timeSlots",
+                "specializations",
+                "total",
+                "isActive",
                 "_id",
               ]}
-              labels={[
-                "Medical Id",
-                "Medical Name",
-                "PIC",
-                "Address",
-                "DepartmentsCount",
-                "PatientCount",
-                "Medical",
-              ]}
+              toggleAll={toggleAll}
               data={data}
               selection={selection}
-              toggleAll={toggleAll}
             />
             {rows}
           </Table>
-
           <CustomPagination store={pagination} />
         </Box>
-      </Flex>
+      </>
     );
 };
 
-export default DepartementsPage;
+export default ServicesPage;

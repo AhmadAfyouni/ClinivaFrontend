@@ -17,6 +17,12 @@ interface BreakTime {
   startTime: string;
   endTime: string;
 }
+interface DepartmentId {
+  name: string;
+}
+interface ClinicCollectionId {
+  name: string;
+}
 
 export default interface StaffDetailsType {
   _id: string;
@@ -44,8 +50,8 @@ export default interface StaffDetailsType {
   breakTimes: BreakTime[];
   isActive: boolean;
   companyId: string;
-  clinicCollectionId: string;
-  departmentId: string;
+  clinicCollectionId: ClinicCollectionId | null;
+  departmentId: DepartmentId | null;
   clinics: string[];
   specializations: string[];
 }

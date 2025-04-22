@@ -9,6 +9,10 @@ import {
   IconHospital,
   IconLock,
   IconMicroscope,
+  IconStethoscope,
+  IconUsersGroup,
+  IconUser,
+  IconReportMedical,
 } from "@tabler/icons-react";
 import { Group, ScrollArea, Text, Drawer } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -16,7 +20,7 @@ import { LinksGroup } from "./NavbarLinksGroup";
 import { UserButton } from "./UserButton";
 import classes from "./NavbarNested.module.css";
 import useDrawerStore from "../../store/useDrawerStore";
-import { IconStethoscope, IconUsersGroup, IconUser } from "@tabler/icons-react";
+
 // import { Logo } from "./Logo";
 
 export function SideBar() {
@@ -28,8 +32,8 @@ export function SideBar() {
       initiallyOpened: true,
 
       links: [
-        { label: "Staff", link: "/employee" },
-        { label: "Add Staff", link: "/employee/add" },
+        { label: "Staff", link: "/employees" },
+        { label: "Add Staff", link: "/employees/add" },
       ],
     },
     {
@@ -64,48 +68,56 @@ export function SideBar() {
       label: "Appointment",
       icon: IconCalendarStats,
       links: [
-        { label: "Appointments", link: "/appointment" },
-        { label: "Add Appointment", link: "/appointment/add" },
+        { label: "Appointments", link: "/appointments" },
+        { label: "Add Appointment", link: "/appointments/add" },
       ],
     },
     {
       label: "Company",
       icon: IconBuildingSkyscraper,
       links: [
-        { label: "Companies", link: "/company" },
-        { label: "Add Company", link: "/company/add" },
+        { label: "Companies", link: "/companies" },
+        { label: "Add Company", link: "/companies/add" },
       ],
     },
     {
       label: "MedicalComplex",
       icon: IconBuildingHospital,
       links: [
-        { label: "MedicalComplexes", link: "/medicalComplex" },
-        { label: "Add MedicalComplex", link: "/medicalComplex/add" },
+        { label: "MedicalComplexes", link: "/medicalComplexes" },
+        { label: "Add MedicalComplex", link: "/medicalComplexes/add" },
       ],
     },
     {
       label: "Departement",
       icon: IconBuildingCommunity,
       links: [
-        { label: "Departements", link: "/departement" },
-        { label: "Add Departement", link: "/departement/add" },
+        { label: "Departements", link: "/departements" },
+        { label: "Add Departement", link: "/departements/add" },
       ],
     },
     {
       label: "Clinic",
       icon: IconHospital,
       links: [
-        { label: "Clinics", link: "/clinic" },
-        { label: "Add Clinic", link: "/clinic/add" },
+        { label: "Clinics", link: "/clinics" },
+        { label: "Add Clinic", link: "/clinics/add" },
+      ],
+    },
+    {
+      label: "Service",
+      icon: IconReportMedical,
+      links: [
+        { label: "Service", link: "/services" },
+        { label: "Add Service", link: "/services/add" },
       ],
     },
     {
       label: "Speciality",
       icon: IconMicroscope,
       links: [
-        { label: "Specialties", link: "/speciality" },
-        { label: "Add Speciality", link: "/speciality/add" },
+        { label: "Specialties", link: "/specialities" },
+        { label: "Add Speciality", link: "/specialities/add" },
       ],
     },
 

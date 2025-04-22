@@ -11,7 +11,6 @@ import {
 import { IconChevronRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import classes from "./NavbarLinksGroup.module.css";
-import usePageTitleStore from "../../store/usePageTitleStore";
 
 interface LinksGroupProps {
   icon: React.ComponentType<{
@@ -33,12 +32,10 @@ export function LinksGroup({
   link,
 }: LinksGroupProps) {
   const navigate = useNavigate();
-  const setTitle = usePageTitleStore((state) => state.setTitle);
   const [opened, setOpened] = useState(initiallyOpened || false);
 
-  const handleClick = (targetLink: string, targetLabel: string) => {
+  const handleClick = (targetLink: string) => {
     navigate(targetLink);
-    setTitle(targetLabel);
   };
 
   const items = (links || []).map((link) => (
@@ -46,7 +43,7 @@ export function LinksGroup({
       component="a"
       className={classes.link}
       key={link.label}
-      onClick={() => handleClick(link.link, link.label)}
+      onClick={() => handleClick(link.link)}
     >
       {link.label}
     </Text>
@@ -59,7 +56,7 @@ export function LinksGroup({
           if (links) {
             setOpened((o) => !o);
           } else if (link) {
-            handleClick(link, label);
+            handleClick(link);
           }
         }}
         className={classes.control}
