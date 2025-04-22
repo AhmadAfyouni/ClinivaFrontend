@@ -41,13 +41,13 @@ const DepartementsPage = () => {
   };
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => navigate(`/departement/details/${item._id}`)}
+      onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.address}
+      th2={item.clinicCollectionId?.name}
       th3={item.address}
       th4={item.clinicCount.toString()}
       th5={item.requiredStaff.toString()}

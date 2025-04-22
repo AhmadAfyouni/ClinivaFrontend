@@ -10,14 +10,19 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useDepatementsList from "../../hooks/departement/useDepartementsList";
 
 const StaffPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useStaffList(false, sortBy, order);
+  const { data: departments } = useDepatementsList(true, sortBy, order);
   const navigate = useNavigate();
   // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
+  if (!departments) return null;
+  const deps = Array.from(new Set(departments.map((item) => item.name)));
+  console.log(deps);
   if (!data) return null;
   const toggleAll = () => {
     setSelection((current) =>
@@ -37,16 +42,12 @@ const StaffPage = () => {
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.contactInfos.map((item) =>
-        item.type === "email" ? item.value : ""
-      )}
-      th3={item.gender}
-      th4={item.employeeType}
-      th5={item.isActive.toString()}
-      // th2={item.contact}
+      th2={item.employeeType}
+      th3={item.clinicCollectionId !== null ? item.clinicCollectionId.name : ""}
       // th3={item.department}
-      // th4={item.role}
-      // th5={item.status}
+      th4={item.departmentId !== null ? item.departmentId.name : ""}
+      // th4={item.medicalcomplexs}
+      th5={item.isActive.toString()}
     />
   ));
 
@@ -88,7 +89,7 @@ const StaffPage = () => {
               handlDropDownChange1={handlStatusChange}
               IsDropDown2={true}
               placeHolderDropDown2={"department"}
-              OptionsDropDown2={statusOptions.map((item) => item.label)}
+              OptionsDropDown2={deps}
               handlDropDownChange2={handlStatusChange}
             />
           </Flex>
@@ -103,18 +104,18 @@ const StaffPage = () => {
               labels={[
                 "Staff Id",
                 "Staff Name",
-                "Contact Info",
-                "department",
-                "Role",
+                "Job Title",
+                "MedicalComplex",
+                "Departement",
                 "Status",
-                "User",
+                "Staff",
               ]}
               sortedBy={[
                 "_id",
                 "name",
-                "contactInfos",
-                "departmentId",
                 "employeeType",
+                "cliniccollectionId",
+                "departmentId",
                 "isActive",
                 "_id",
               ]}

@@ -63,7 +63,7 @@ const DepartementDetails = () => {
       th2={item.contactInfos.map((item) =>
         item.type === "email" ? item.value : ""
       )}
-      th3={item.departmentId}
+      th3={item.departmentId?.name || ""}
       th4={item.employeeType}
       th5={item.isActive.toString()}
       // th2={item.contact}

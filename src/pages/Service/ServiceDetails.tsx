@@ -15,10 +15,16 @@ import useStaffList from "../../hooks/staff/useStaffList";
 const ServiceDetails = () => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
-  const title = ["ID", "Name", "Price", "Created at "];
-  const content = ["12345", "Clinic 1", "Complex 1", "Location 1"];
-  const title2 = ["Description", "Modified at "];
-  const content2 = ["3254", "blah blah blah"];
+  const info = [
+    { title: "ID", content: "12345" },
+    { title: "Name", content: "Service 1" },
+    { title: "Price", content: "324  " },
+    { title: "Created at ", content: "12/5/2025" },
+  ];
+  const info1 = [
+    { title: "Description", content: "3254" },
+    { title: "Modified at", content: "blah blah blah" },
+  ];
   const { data, isFetched } = useStaffList();
   // console.log(data);
 
@@ -27,7 +33,7 @@ const ServiceDetails = () => {
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No Service Staff Found</Text>
+        <Text>No Service Details Found</Text>
       </Center>
     );
   else
@@ -36,7 +42,7 @@ const ServiceDetails = () => {
         <Flex direction="row">
           <Flex w="100%" direction="column" mb="lg" gap="md">
             <Text fz={20} fw={600} c={theme.colors.myPrimary[5]}>
-              Departement
+              Service
             </Text>
             <Flex direction={isMobile ? "column" : "row"}>
               <Flex
@@ -45,14 +51,12 @@ const ServiceDetails = () => {
                 mb="lg"
                 gap="md"
               >
-                {title.map((item, index) => (
+                {info.map((item, index) => (
                   <Flex key={index}>
                     <Text w={200} c={theme.other.onSurfaceTertiary}>
-                      {item}
+                      {item.title}
                     </Text>
-                    <Text c={theme.other.onSurfacePrimary}>
-                      {content[index]}
-                    </Text>
+                    <Text c={theme.other.onSurfacePrimary}>{item.content}</Text>
                   </Flex>
                 ))}
               </Flex>
@@ -66,13 +70,13 @@ const ServiceDetails = () => {
                   </Badge>
                 </Flex>
                 <Flex w="100%" direction="column" mb="lg" gap="lg">
-                  {title2.map((item, index) => (
+                  {info1.map((item, index) => (
                     <Flex key={index}>
                       <Text w={200} c={theme.other.onSurfaceTertiary}>
-                        {item}
+                        {item.title}
                       </Text>
                       <Text c={theme.other.onSurfacePrimary}>
-                        {content2[index]}
+                        {item.content}
                       </Text>
                     </Flex>
                   ))}
