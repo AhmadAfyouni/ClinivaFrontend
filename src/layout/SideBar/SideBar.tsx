@@ -31,94 +31,62 @@ export function SideBar() {
       icon: IconUsersGroup,
       initiallyOpened: true,
 
-      links: [
-        { label: "Staff", link: "/employees" },
-        { label: "Add Staff", link: "/employees/add" },
-      ],
+      links: [{ label: "Staff", link: "/employees" }],
     },
     {
       label: "Patient",
       icon: IconUser,
       initiallyOpened: true,
 
-      links: [
-        { label: "Patients", link: "/patients" },
-        { label: "Add Patient", link: "/patients/add" },
-        // { label: "Appointments", link: "/patients/appointments" },
-        // { label: "Records", link: "/patients/records" },
-      ],
+      links: [{ label: "Patients", link: "/patients" }],
     },
     {
       label: "Doctor",
       icon: IconStethoscope,
-      links: [
-        { label: "Doctors", link: "/doctors" },
-        { label: "Add Doctor", link: "/doctors/add" },
-      ],
+      links: [{ label: "Doctors", link: "/doctors" }],
     },
     {
       label: "User",
       icon: IconUser,
-      links: [
-        { label: "Users", link: "/users" },
-        { label: "Add User", link: "/users/add" },
-      ],
+      links: [{ label: "Users", link: "/users" }],
     },
     {
       label: "Appointment",
       icon: IconCalendarStats,
       links: [
         { label: "Appointments", link: "/appointments" },
-        { label: "Add Appointment", link: "/appointments/add" },
+        { label: "Add Appointments", link: "/appointments/add" },
       ],
     },
     {
       label: "Company",
       icon: IconBuildingSkyscraper,
-      links: [
-        { label: "Companies", link: "/companies" },
-        { label: "Add Company", link: "/companies/add" },
-      ],
+      links: [{ label: "Add Company", link: "/companies/add" }],
     },
     {
       label: "MedicalComplex",
       icon: IconBuildingHospital,
-      links: [
-        { label: "MedicalComplexes", link: "/medicalComplexes" },
-        { label: "Add MedicalComplex", link: "/medicalComplexes/add" },
-      ],
+      links: [{ label: "MedicalComplexes", link: "/medicalComplexes" }],
     },
     {
       label: "Departement",
       icon: IconBuildingCommunity,
-      links: [
-        { label: "Departements", link: "/departements" },
-        { label: "Add Departement", link: "/departements/add" },
-      ],
+      links: [{ label: "Departements", link: "/departements" }],
     },
     {
       label: "Clinic",
       icon: IconHospital,
-      links: [
-        { label: "Clinics", link: "/clinics" },
-        { label: "Add Clinic", link: "/clinics/add" },
-      ],
+      links: [{ label: "Clinics", link: "/clinics" }],
     },
     {
       label: "Service",
       icon: IconReportMedical,
-      links: [
-        { label: "Service", link: "/services" },
-        { label: "Add Service", link: "/services/add" },
-      ],
+      links: [{ label: "Services", link: "/services" }],
     },
     {
       label: "Speciality",
       icon: IconMicroscope,
-      links: [
-        { label: "Specialties", link: "/specialities" },
-        { label: "Add Speciality", link: "/specialities/add" },
-      ],
+      links: [{ label: "Specialties", link: "/specialities" }],
     },
 
     { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },

@@ -13,7 +13,6 @@ import DoctorDetails from "../pages/Doctor/DoctorDetails";
 import DoctorsPage from "../pages/Doctor/DoctorsPage";
 import StaffPage from "../pages/Staff/StaffPage";
 import UsersPage from "../pages/Users/UsersPage";
-import UserDetails from "../pages/Users/UserDetails";
 import MainLayout from "../layout/MainLayout";
 import MedicalComplexDetails from "../pages/MedicalComplex/MedicalComplexDetails";
 import DepartementsPage from "../pages/Departement/DepartementsPage";
@@ -21,7 +20,6 @@ import DepartementDetails from "../pages/Departement/DepartementDetails";
 import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
-import StaffDetails from "../pages/Staff/StaffDetails";
 import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
 import SelectPlan from "../pages/auth/Register/SelectPlan";
 import Register from "../pages/auth/Register/Register";
@@ -32,6 +30,9 @@ import ServicesPage from "../pages/Service/ServicesPage";
 import AddUser from "../pages/Users/AddUser";
 import AddMedicalComplex from "../pages/MedicalComplex/AddMedicalComplex";
 import AddDepartment from "../pages/Department/AddDepartment";
+import UpdateService from "../pages/Service/UpdateService";
+import StaffDetails from "../pages/Staff/StaffDetails";
+import UserDetails from "../pages/Users/UserDetails";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -213,6 +214,10 @@ export const routes: AppRoute[] = [
       {
         path: "add",
         element: <AddService />,
+      },
+      {
+        path: "update",
+        element: <UpdateService />,
       },
       {
         path: "details/:id",
