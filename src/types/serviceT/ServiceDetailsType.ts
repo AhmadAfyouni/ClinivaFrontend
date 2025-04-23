@@ -3,9 +3,9 @@ export default interface ServiceDetailsType {
   name: string;
   description: string;
   price: number;
-  clinicAssociation: string[];
-  associatedDoctors: string[];
-  isActive: "Active" | "Inactive";
+  clinicsAssociated: string[];
+  doctorsAssociated: string[];
+  isActive: boolean;
   creationDate: Date | string;
   lastModified: Date | string;
 }
