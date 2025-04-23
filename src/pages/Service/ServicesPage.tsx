@@ -45,7 +45,7 @@ const ServicesPage = () => {
       th1={item.name}
       th2={item.description}
       th3={item.price.toString()}
-      th4={item.clinicAssociation.join("-")}
+      th4={item.clinicsAssociated.join("-")}
       th5={item.isActive.toString()}
     />
   ));
@@ -68,7 +68,7 @@ const ServicesPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              placeHolderDropDown1="Speciality"
+              placeHolderDropDown1="clinicAssociation"
               OptionsDropDown1={SpecialtiesOptions}
               handlDropDownChange1={handlSpecialtyChange}
             />
@@ -93,9 +93,9 @@ const ServicesPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "timeSlots",
-                "specializations",
-                "total",
+                "description",
+                "price",
+                "clinics",
                 "isActive",
                 "_id",
               ]}

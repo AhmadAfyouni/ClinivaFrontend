@@ -6,14 +6,17 @@ import { useMediaQuery } from "@mantine/hooks";
 
 interface Props {
   IsDropDown1?: boolean;
+  dropdownName1?: string;
   placeHolderDropDown1?: string;
   OptionsDropDown1: string[];
   handlDropDownChange1: (value: string | null) => void;
   IsDropDown2?: boolean;
+  dropdownName2?: string;
   placeHolderDropDown2?: string;
   OptionsDropDown2?: string[];
   handlDropDownChange2?: (value: string | null) => void;
   IsDropDown3?: boolean;
+  dropdownName3?: string;
   placeHolderDropDown3?: string;
   OptionsDropDown3?: string[];
   handlDropDownChange3?: (value: string | null) => void;
@@ -24,14 +27,17 @@ interface Props {
 }
 const CustomFilters = ({
   IsDropDown1 = false,
+  dropdownName1 = "",
   placeHolderDropDown1,
   OptionsDropDown1,
   handlDropDownChange1,
   IsDropDown2 = false,
+  dropdownName2 = "",
   placeHolderDropDown2,
   OptionsDropDown2,
   handlDropDownChange2,
   IsDropDown3 = false,
+  dropdownName3 = "",
   placeHolderDropDown3,
   OptionsDropDown3,
   handlDropDownChange3,
@@ -48,6 +54,7 @@ const CustomFilters = ({
         <Flex>
           {IsDropDown1 && (
             <Dropdown
+              dropDownName={dropdownName1}
               onChange={handlDropDownChange1}
               options={OptionsDropDown1}
               placeHolder={placeHolderDropDown1 || ""}
@@ -55,6 +62,7 @@ const CustomFilters = ({
           )}
           {IsDropDown2 && (
             <Dropdown
+              dropDownName={dropdownName2}
               onChange={handlDropDownChange2 || (() => {})}
               options={OptionsDropDown2 || []}
               placeHolder={placeHolderDropDown2 || ""}
@@ -62,6 +70,7 @@ const CustomFilters = ({
           )}
           {IsDropDown3 && (
             <Dropdown
+              dropDownName={dropdownName3}
               onChange={handlDropDownChange3 || (() => {})}
               options={OptionsDropDown3 || []}
               placeHolder={placeHolderDropDown3 || ""}
@@ -94,6 +103,7 @@ const CustomFilters = ({
           <Popover.Dropdown>
             {IsDropDown1 && (
               <Dropdown
+                dropDownName="dropdownName1"
                 onChange={handlDropDownChange1}
                 options={OptionsDropDown1}
                 placeHolder={placeHolderDropDown1 || ""}
@@ -101,6 +111,7 @@ const CustomFilters = ({
             )}
             {IsDropDown2 && (
               <Dropdown
+                dropDownName="dropdownName2"
                 onChange={handlDropDownChange2 || (() => {})}
                 options={OptionsDropDown2 || []}
                 placeHolder={placeHolderDropDown2 || ""}
@@ -108,6 +119,7 @@ const CustomFilters = ({
             )}
             {IsDropDown3 && (
               <Dropdown
+                dropDownName="dropdownName3"
                 onChange={handlDropDownChange3 || (() => {})}
                 options={OptionsDropDown3 || []}
                 placeHolder={placeHolderDropDown3 || ""}

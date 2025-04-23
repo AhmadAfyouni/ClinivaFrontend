@@ -66,10 +66,6 @@ const DepartementDetails = () => {
       th3={item.departmentId?.name || ""}
       th4={item.employeeType}
       th5={item.isActive.toString()}
-      // th2={item.contact}
-      // th3={item.department}
-      // th4={item.role}
-      // th5={item.status}
     />
   ));
 
@@ -81,7 +77,7 @@ const DepartementDetails = () => {
     );
   else
     return (
-      <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg}>
+      <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg} pb={90}>
         <Flex direction="row">
           <Flex w="100%" direction="column" mb="lg" gap="md">
             <Text fz={20} fw={600} c={theme.colors.myPrimary[5]}>

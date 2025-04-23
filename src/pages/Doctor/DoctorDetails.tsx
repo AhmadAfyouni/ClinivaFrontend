@@ -1,4 +1,4 @@
-import { Flex, ScrollArea } from "@mantine/core";
+import { Center, Flex, ScrollArea, Text } from "@mantine/core";
 import DoctorProfileCard from "../../Components/DoctorsDetails/DoctorProfileCard ";
 import PatientStatisticsChart from "../../Components/DoctorsDetails/PatientStatisticsChart ";
 import AppointmentSchedule from "../../Components/DoctorsDetails/AppointmentSchedule";
@@ -7,8 +7,10 @@ import PercentageTable from "../../Components/DoctorsDetails/PercentageTable";
 import Cards from "../../Components/DoctorsDetails/Cards";
 import { useMediaQuery } from "@mantine/hooks";
 import useDoctorDetails from "../../hooks/doctor/useDoctorDetails";
+import { useParams } from "react-router";
 const DoctorDetails = () => {
-  const { data } = useDoctorDetails("546356");
+  const { id: DoctorId } = useParams();
+  const { data, isFetched } = useDoctorDetails(DoctorId!);
   console.log(data);
   const thPatient = ["Name", "Date", "Treatment"];
   const patients = [
@@ -94,98 +96,111 @@ const DoctorDetails = () => {
   // const theme = useMantineTheme();
   const titleCards = ["Identity", "Nationality", "Total Patients"];
   const valueCards = ["3543654", "Syrian", "1245"];
-
-  return (
-    <ScrollArea>
-      <Flex direction="column">
-        <Flex direction={isMobile || isTablet ? "column" : "row"}>
-          <Flex
-            direction="column"
-            h={{ sm: 300 }}
-            w={isMobile || isTablet ? "100%" : "25%"}
-          >
-            <DoctorProfileCard
-              birthday={new Date()}
-              childrenNum={0}
-              gender="Male"
-              languages={["english", "arabic"]}
-              name="Mohammed"
-              specialty={["deter", "ch"]}
-              status="single"
-              about="A highly skilled dermatologist with over 15 years of experience in"
-              hireDate={new Date()}
-              certification="10 years of experience in emergency medicine ."
-              experience="emergency medicine and consultation."
-              phone="(253) 346542"
-              email="olivia.grant@clinic.com"
-              socialMedia="olivia.grant@clinic.com"
-              address="78 Beauty Boulevard, Suite 4 New York"
-            />
-          </Flex>
-          <Flex direction="column" w={isMobile || isTablet ? "100%" : "75%"}>
-            <Flex direction={isMobile || isTablet ? "column" : "row"}>
-              <Flex
-                w={isMobile || isTablet ? "100%" : "65%"}
-                direction="column"
-              >
-                <Cards title={titleCards} value={valueCards} />
-                <PatientStatisticsChart />
-              </Flex>
-              <Flex w={isMobile || isTablet ? "100%" : "35%"} justify="center">
-                <AppointmentSchedule />
-              </Flex>
-            </Flex>
+  if (!isFetched || !data)
+    return (
+      <Center>
+        <Text>No Doctors Found</Text>
+      </Center>
+    );
+  else
+    return (
+      <ScrollArea h="100vh">
+        <Flex direction="column">
+          <Flex direction={isMobile || isTablet ? "column" : "row"}>
             <Flex
-              w="100%"
-              mb={30}
-              direction={isMobile ? "column" : "row"}
-              gap={isMobile ? "5px" : 0}
+              direction="column"
+              h={{ sm: 300 }}
+              w={isMobile || isTablet ? "100%" : "25%"}
             >
-              <Flex w={isMobile ? "100%" : "75%"}>
-                <PercentageTable
-                  mah="250px"
-                  visibleButton={true}
-                  buttonValue="View All "
-                  tableTitle="All Patients"
-                  th={thPatient}
-                  tb={patients}
+              <DoctorProfileCard
+                birthday={new Date(data.dateOfBirth)}
+                childrenNum={data.number_children}
+                gender={data.gender}
+                languages={data.Languages.map((item) => item)}
+                name={data.name}
+                specialty={data.specialties}
+                status={data.marital_status}
+                about="A highly skilled  Doctor..."
+                hireDate={new Date(data.hireDate)}
+                certification={data.certifications.join(",")}
+                experience={data.professional_experience}
+                phone={data.contactInfos
+                  .map((item) => (item.type === "Phone" ? item.value : ""))
+                  .join(",")}
+                email={data.contactInfos
+                  .map((item) => (item.type === "Email" ? item.value : ""))
+                  .join(",")}
+                socialMedia="olivia.grant@clinic.com"
+                address={data.address}
+              />
+            </Flex>
+            <Flex direction="column" w={isMobile || isTablet ? "100%" : "75%"}>
+              <Flex direction={isMobile || isTablet ? "column" : "row"}>
+                <Flex
+                  w={isMobile || isTablet ? "100%" : "65%"}
+                  direction="column"
+                >
+                  <Cards title={titleCards} value={valueCards} />
+                  <PatientStatisticsChart />
+                </Flex>
+                <Flex
+                  w={isMobile || isTablet ? "100%" : "35%"}
+                  justify="center"
+                >
+                  <AppointmentSchedule />
+                </Flex>
+              </Flex>
+              <Flex
+                w="100%"
+                mb={30}
+                direction={isMobile ? "column" : "row"}
+                gap={isMobile ? "5px" : 0}
+              >
+                <Flex w={isMobile ? "100%" : "75%"}>
+                  <PercentageTable
+                    mah="250px"
+                    visibleButton={true}
+                    buttonValue="View All "
+                    tableTitle="All Patients"
+                    th={thPatient}
+                    tb={patients}
+                  />
+                </Flex>
+                <Workplaces
+                  companyName="hadi fsnvoafv"
+                  medicalComplexName="adjaovd fsegbtrs"
+                  deptName="gvbdsg segbvrsf"
+                  clinicName="grsbtfr fesgr"
+                  startTime={new Date()}
+                  endTime={new Date()}
                 />
               </Flex>
-              <Workplaces
-                companyName="hadi fsnvoafv"
-                medicalComplexName="adjaovd fsegbtrs"
-                deptName="gvbdsg segbvrsf"
-                clinicName="grsbtfr fesgr"
-                startTime={new Date()}
-                endTime={new Date()}
+            </Flex>
+          </Flex>
+          <Flex w="100%" h="100%" direction={isMobile ? "column" : "row"}>
+            <Flex w={isMobile ? "95%" : "50%"} gap={isMobile ? "5px" : 0}>
+              <PercentageTable
+                mah="250px"
+                visibleButton={false}
+                buttonValue="View All "
+                tableTitle="Working Hours"
+                th={day}
+                tb={times}
+              />
+            </Flex>
+            <Flex w={isMobile ? "95%" : "50%"}>
+              <PercentageTable
+                mah="250px"
+                visibleButton={true}
+                buttonValue="Add Vication "
+                tableTitle="Vications"
+                th={thVication}
+                tb={vication}
               />
             </Flex>
           </Flex>
         </Flex>
-        <Flex w="100%" h="100%" direction={isMobile ? "column" : "row"}>
-          <Flex w={isMobile ? "95%" : "50%"} gap={isMobile ? "5px" : 0}>
-            <PercentageTable
-              mah="250px"
-              visibleButton={false}
-              buttonValue="View All "
-              tableTitle="Working Hours"
-              th={day}
-              tb={times}
-            />
-          </Flex>
-          <Flex w={isMobile ? "95%" : "50%"}>
-            <PercentageTable
-              mah="250px"
-              visibleButton={true}
-              buttonValue="Add Vication "
-              tableTitle="Vications"
-              th={thVication}
-              tb={vication}
-            />
-          </Flex>
-        </Flex>
-      </Flex>
-    </ScrollArea>
-  );
+      </ScrollArea>
+    );
 };
 export default DoctorDetails;

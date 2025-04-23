@@ -75,7 +75,7 @@ const MedicalComplexPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "address",
+                "PIC",
                 "address",
                 "employeeCount",
                 "departmentCount",

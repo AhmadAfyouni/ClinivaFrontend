@@ -8,10 +8,10 @@ import {
   Flex,
   UnstyledButton,
   Skeleton,
-  Box,
   Badge,
 } from "@mantine/core";
 import DoctorDetailsType from "../types/doctor/DoctorDetailsType";
+import { BsPersonCircle } from "react-icons/bs";
 import { useState } from "react";
 interface Props {
   doctor: DoctorDetailsType;
@@ -46,12 +46,13 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
                 style={{ display: loaded ? "block" : "none" }}
               />
             ) : error ? (
-              <Box w={150} h={150} mb={12}>
-                <Text c={theme.colors.myPrimary[9]}>
-                  An error occurred while loading the image.
-                </Text>
-              </Box>
+              // <Box w={150} h={150} mb={12}>
+              <BsPersonCircle
+                size={150}
+                color={theme.other.onSurfaceSecondary}
+              />
             ) : (
+              // </Box>
               <Flex
                 justify="center"
                 bg={theme.other.bg}
@@ -81,17 +82,14 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
             </Badge>
             <Flex direction="column" gap={8} align="center">
               <Text size="xs" c={theme.other.onSurfaceSecondary}>
-                {/* {doctor.id} */}
-                {doctor.identity}
+                {doctor._id}
               </Text>
               <Text size="xs" c={theme.other.onSurfacePrimary}>
-                {/* {doctor.specialty} */}
                 {doctor.specialties.map((item) => item).join(" - ")}
               </Text>
             </Flex>
             <Text size="sm" c={theme.other.onSurfaceSecondary}>
-              {/* {doctor.department} */}
-              {doctor.address}
+              {doctor.departmentId?.name || ""}
             </Text>
           </Stack>
         </Card>

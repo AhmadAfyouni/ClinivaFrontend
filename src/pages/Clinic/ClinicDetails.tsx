@@ -6,29 +6,29 @@ import CardsInfo from "../../Components/CompanyDetails/CardsInfo";
 import GridList from "../../Components/CompanyDetails/GridList";
 import WorkingSchedule from "../../Components/UserDetails/WorkingSchedule";
 import useClinicDetails from "../../hooks/clinic/useClinicDetails";
-
-const titles = ["specialty", "Working Hours", "Description"];
-const values = ["dedsaf", "30 min ", "bla bla bla"];
+import { useParams } from "react-router";
+import usePatientCount from "../../hooks/clinic/usePatientCount";
 
 const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
-const workingHours = [
-  { day: "Monday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Monday", startTime: "07:00 PM", endTime: "09:00 PM" },
-  { day: "Tuesday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Wednesday", startTime: "09:00 AM", endTime: "02:00 PM" },
-  { day: "Wednesday", startTime: "03:00 PM", endTime: "05:00 PM" },
-  { day: "Friday", startTime: "09:00 AM", endTime: "02:00 PM" },
-];
 const ClinicDetails = () => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { data, isFetched } = useClinicDetails("661f2a1b8d3c4b001c4f7a5e");
+  const { id: ClinicId } = useParams();
+  const { data, isFetched } = useClinicDetails(ClinicId!);
+  const { data: patientCount } = usePatientCount(ClinicId!);
+  console.log(ClinicId);
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No Specialization Found</Text>
+        <Text>No Clinic Details Found</Text>
       </Center>
     );
+  const titles = ["specialty", "Working Hours", "Goals"];
+  const values = [
+    data.specializations?.map((item) => item).join(","),
+    "30 min",
+    data.goals ?? "",
+  ];
   const icons = data.contactInfos.map((item) => {
     if (item.type === "email") {
       return {
@@ -61,19 +61,23 @@ const ClinicDetails = () => {
           hasSocialMedia={false}
           socialMediaIcons={icons}
           hasActivation={true}
-          isActive={true}
+          isActive={data.isActive}
         />
       </Flex>
       <Flex w={isComputer ? "73%" : "100%"} direction="column">
         <Flex w="100%">
           <CardsInfo
-            titles={["Clinics Number", "Patient Number", "Doctors Number"]}
-            values={["235", "32", "435"]}
+            titles={["Staff Number", "Patient Number", "Doctors Number"]}
+            values={[
+              data.employeeCounts.total.toString(),
+              patientCount?.patientCount.toString() || "0",
+              data.employeeCounts.doctors.toString(),
+            ]}
           />
         </Flex>
         <Flex w="100%" direction={isComputer ? "row" : "column"}>
           <Flex w={isComputer ? "66%" : "100%"} direction="column">
-            <WorkingSchedule workingHours={workingHours} />
+            <WorkingSchedule workingHours={data.WorkingHours} />
             <Text>Services</Text>
           </Flex>
           <Flex
