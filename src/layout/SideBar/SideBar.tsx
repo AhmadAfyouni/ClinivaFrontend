@@ -26,30 +26,10 @@ import useDrawerStore from "../../store/useDrawerStore";
 export function SideBar() {
   const mockdata = [
     { label: "Dashboard", icon: IconGauge, link: "/" },
-    {
-      label: "Staff",
-      icon: IconUsersGroup,
-      initiallyOpened: true,
-
-      links: [{ label: "Staff", link: "/employees" }],
-    },
-    {
-      label: "Patient",
-      icon: IconUser,
-      initiallyOpened: true,
-
-      links: [{ label: "Patients", link: "/patients" }],
-    },
-    {
-      label: "Doctor",
-      icon: IconStethoscope,
-      links: [{ label: "Doctors", link: "/doctors" }],
-    },
-    {
-      label: "User",
-      icon: IconUser,
-      links: [{ label: "Users", link: "/users" }],
-    },
+    { label: "Staff", icon: IconUsersGroup, link: "/employees" },
+    { label: "Patient", icon: IconUser, link: "/patients" },
+    { label: "Doctors", icon: IconStethoscope, link: "/doctors" },
+    { label: "User", icon: IconUser, link: "/users" },
     {
       label: "Appointment",
       icon: IconCalendarStats,
@@ -64,31 +44,30 @@ export function SideBar() {
       links: [{ label: "Add Company", link: "/companies/add" }],
     },
     {
-      label: "MedicalComplex",
+      label: "MedicalComplexes",
       icon: IconBuildingHospital,
-      links: [{ label: "MedicalComplexes", link: "/medicalComplexes" }],
+      link: "/medicalComplexes",
     },
     {
-      label: "Departement",
+      label: "Departements",
       icon: IconBuildingCommunity,
-      links: [{ label: "Departements", link: "/departements" }],
+      link: "/departements",
     },
     {
-      label: "Clinic",
+      label: "Clinics",
       icon: IconHospital,
-      links: [{ label: "Clinics", link: "/clinics" }],
+      link: "/clinics",
     },
     {
-      label: "Service",
+      label: "Services",
       icon: IconReportMedical,
-      links: [{ label: "Services", link: "/services" }],
+      link: "/services",
     },
     {
-      label: "Speciality",
+      label: "Specialities",
       icon: IconMicroscope,
-      links: [{ label: "Specialties", link: "/specialities" }],
+      link: "/specialities",
     },
-
     { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
     { label: "Settings", icon: IconAdjustments, link: "/settings" },
     {
