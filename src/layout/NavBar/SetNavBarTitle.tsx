@@ -24,7 +24,7 @@ const SetNavBarTitle = () => {
     "/medicalComplexes/add": "Add MedicalComplex",
     "/departements": "Departements",
     "/departements/add": "Add Departement",
-    "/clinics": "Clinic",
+    "/clinics": "Clinics",
     "/clinics/add": "AddClinic",
     "/clinics/details": "Clinic Details",
     "/services": "Services",

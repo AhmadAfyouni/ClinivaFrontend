@@ -27,9 +27,9 @@ export function SideBar() {
   const mockdata = [
     { label: "Dashboard", icon: IconGauge, link: "/" },
     { label: "Staff", icon: IconUsersGroup, link: "/employees" },
-    { label: "Patient", icon: IconUser, link: "/patients" },
+    { label: "Patients", icon: IconUser, link: "/patients" },
     { label: "Doctors", icon: IconStethoscope, link: "/doctors" },
-    { label: "User", icon: IconUser, link: "/users" },
+    { label: "Users", icon: IconUser, link: "/users" },
     {
       label: "Appointment",
       icon: IconCalendarStats,
