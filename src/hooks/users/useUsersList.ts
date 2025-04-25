@@ -16,6 +16,9 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
       allData,
       sortBy,
       order,
+      pagination.paramKey,
+      pagination.filter,
+      pagination.date,
     ],
     queryFn: () => {
       const url = `/users?${
@@ -26,7 +29,13 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
+        order +
+        "&search=" +
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter +
+        "&createdAt=" +
+        pagination.date
       }`;
       return axiosInstance
         .get<ResponseType<UserDetailType>>(url)

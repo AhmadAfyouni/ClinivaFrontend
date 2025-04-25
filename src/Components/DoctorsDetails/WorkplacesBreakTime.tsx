@@ -28,7 +28,12 @@ const WorkplacesBreakTime = ({
         Break Time
       </Text>
       {breakTimeTitle.map((item, index) => (
-        <Flex h={{ sm: 30, md: 20 }} justify="start" align="centers">
+        <Flex
+          h={{ sm: 30, md: 20 }}
+          justify="start"
+          align="centers"
+          key={index}
+        >
           <Text
             size="sm"
             fw={500}
@@ -53,7 +58,12 @@ const WorkplacesBreakTime = ({
         Work Places
       </Text>
       {workPlaceTitle.map((item, index) => (
-        <Flex h={{ sm: 30, md: 20 }} justify="start" align="centers">
+        <Flex
+          h={{ sm: 30, md: 20 }}
+          justify="start"
+          align="centers"
+          key={index}
+        >
           <Text
             size="sm"
             fw={500}

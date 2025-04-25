@@ -4,7 +4,7 @@ import ResponseDetailsType from "../../types/ResponseDetails";
 import CompanyDetailsType from "../../types/company/CompanyDetailsType";
 const useCompanyDetails = (id: string) => {
   return useQuery({
-    queryKey: ["companyDetails"],
+    queryKey: ["companyDetails", id],
     queryFn: () => {
       const url = `/companies/` + id;
       return axiosInstance

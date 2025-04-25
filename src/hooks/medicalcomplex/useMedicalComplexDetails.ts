@@ -1,10 +1,10 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
-import { MedicalComplexDetailsType } from "../../types/medicalComplex/MedicalComplexDetailsType";
 import ResponseDetailsType from "../../types/ResponseDetails";
+import MedicalComplexDetailsType from "../../types/medicalComplex/MedicalComplexDetailsType";
 const useMedicalComplexDetails = (id: string) => {
   return useQuery({
-    queryKey: ["medicalComplexDetails"],
+    queryKey: ["medicalComplexDetails", id],
     queryFn: () => {
       const url = `/cliniccollections/` + id;
       return axiosInstance

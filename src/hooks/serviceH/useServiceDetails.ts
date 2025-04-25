@@ -4,7 +4,7 @@ import ServiceDetailsType from "../../types/serviceT/ServiceDetailsType";
 import ResponseDetailsType from "../../types/ResponseDetails";
 const useServiceDetails = (id: string) => {
   return useQuery({
-    queryKey: ["service"],
+    queryKey: ["service", id],
     queryFn: () => {
       const url = `/departements/` + id;
       return axiosInstance

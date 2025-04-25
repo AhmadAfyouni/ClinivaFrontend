@@ -11,17 +11,18 @@ import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const StaffPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
+  const { data: departments } = useDepatementsList(true);
+  const deps = Array.from(new Set(departments?.map((item) => item.name)));
   const { data, isFetched } = useStaffList(false, sortBy, order);
-  const { data: departments } = useDepatementsList(true, sortBy, order);
   const navigate = useNavigate();
   // console.log(data);
+  const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
-  if (!departments) return null;
-  const deps = Array.from(new Set(departments.map((item) => item.name)));
   console.log(deps);
   if (!data) return null;
   const toggleAll = () => {
@@ -36,7 +37,7 @@ const StaffPage = () => {
 
   const rows = data?.map((item) => (
     <TableBody
-      onClick={() => navigate(`/employee/details/${item._id}`)}
+      onClick={() => navigate(`/employees/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
@@ -44,9 +45,7 @@ const StaffPage = () => {
       th1={item.name}
       th2={item.employeeType}
       th3={item.clinicCollectionId !== null ? item.clinicCollectionId.name : ""}
-      // th3={item.department}
       th4={item.departmentId !== null ? item.departmentId.name : ""}
-      // th4={item.medicalcomplexs}
       th5={item.isActive.toString()}
     />
   ));
@@ -62,8 +61,9 @@ const StaffPage = () => {
     pagination.setSearchKey(e);
   };
   const handlStatusChange = (e: string | null) => {
-    const value = statusOptions.find((item) => item.label === e)?.value;
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
     pagination.setFilter(value);
+    setSelectedOption("StaStatus", e);
   };
 
   if (!isFetched || !data)
@@ -84,7 +84,8 @@ const StaffPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              placeHolderDropDown1={"Status"}
+              placeHolderDropDown1="Status"
+              dropdownName1="StaStatus"
               OptionsDropDown1={statusOptions.map((item) => item.label)}
               handlDropDownChange1={handlStatusChange}
               IsDropDown2={true}
@@ -114,8 +115,8 @@ const StaffPage = () => {
                 "_id",
                 "name",
                 "employeeType",
-                "cliniccollectionId",
-                "departmentId",
+                "clinicCollectionId.name",
+                "departmentId.name",
                 "isActive",
                 "_id",
               ]}

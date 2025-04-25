@@ -1,86 +1,15 @@
 import CashBox from "../common/CashBox";
 import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
+import { InsuranceCompany } from "../company/AddCompanyType";
+import { BankAccount } from "../Employee/GetEmployee";
 
-interface TimeSlot {
-  startTime: string;
-  endTime: string;
+export interface ClinicResponse {
+  success: boolean;
+  message: string;
+  data: Clinic;
 }
 
-interface WorkingDay {
-  day: string;
-  timeSlots: TimeSlot[];
-}
-
-interface ContactInfo {
-  type: string;
-  value: string;
-  isPublic: boolean;
-  subType: string;
-}
-
-interface Holiday {
-  name: string;
-  date: string;
-  reason: string;
-}
-
-interface Specialization {
-  name: string;
-  description: string;
-}
-
-interface BankAccount {
-  accountName: string;
-  swiftCode: string;
-  bankName: string;
-  accountNumber: string;
-}
-
-interface InsuranceCompany {
-  companyName: string;
-  companyPhone: string;
-  companyEmail: string;
-}
-
-interface CommercialRecord {
-  recordNumber: string;
-  grantDate: string;
-  issueDate: string;
-  expirationDate: string;
-  taxNumber: string;
-}
-
-interface LocationGoogle {
-  x: number;
-  y: number;
-}
-
-interface Company {
-  contactInfos: ContactInfo[];
-  cashBoxes: CashBox[];
-  onlinePaymentMethods: OnlinePaymentMethod[];
-  _id: string;
-  name: string;
-  intro: string;
-  yearOfEstablishment: string;
-  address: string;
-  logo: string;
-  vision: string;
-  details: string;
-  ContactInfos: ContactInfo[];
-  holidays: Holiday[];
-  specialization: Specialization[];
-  workingDays: WorkingDay[];
-  bankAccount: BankAccount[];
-  insuranceCompany: InsuranceCompany[];
-  commercialRecord: CommercialRecord;
-  locationGoogl: LocationGoogle;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-export interface MedicalComplexDetailsType {
+export default interface Clinic {
   isActive: boolean;
   contactInfos: ContactInfo[];
   cashBoxes: CashBox[];
@@ -97,11 +26,39 @@ export interface MedicalComplexDetailsType {
   workingDays: WorkingDay[];
   bankAccount: BankAccount[];
   insuranceCompany: InsuranceCompany[];
-  companyId: Company;
+  companyId: string | null;
   createdAt: string;
   updatedAt: string;
   __v: number;
   id: string;
   employeeCount: number;
   departmentCount: number;
+}
+
+export interface ContactInfo {
+  type: "phone" | "email" | string;
+  value: string;
+  isPublic: boolean;
+  subType: string;
+}
+
+export interface Holiday {
+  name: string;
+  date: string; // ISO format date
+  reason: string;
+}
+
+export interface Specialization {
+  name: string;
+  description: string;
+}
+
+export interface WorkingDay {
+  day: string;
+  timeSlots: TimeSlot[];
+}
+
+export interface TimeSlot {
+  startTime: string; // e.g., "09:00 AM"
+  endTime: string; // e.g., "05:00 PM"
 }

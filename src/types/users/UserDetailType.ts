@@ -1,3 +1,6 @@
+import ContactInfo from "../common/ContactInfo";
+import RolesType from "../Role/Role";
+
 interface ActivityLog {
   activityDate: string;
   description: string;
@@ -15,10 +18,11 @@ export default interface UserDetailType {
   email: string;
   password: string;
   isActive: boolean;
-  roleIds: string[];
+  roleIds: RolesType[];
   employeeId: string;
   lastLoginAt: string;
   lastPasswordUpdate: string;
   activityLogs: ActivityLog[];
   loginHistory: LoginEntry[];
+  contactInfos: ContactInfo[];
 }

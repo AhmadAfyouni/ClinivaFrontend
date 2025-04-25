@@ -22,16 +22,12 @@ const useDepatementsList = (
       order,
     ],
     queryFn: () => {
-      const url = `/departments?${
-        "&page=" +
-        pagination.current_page +
-        "&limit=" +
-        pagination.items_per_page +
-        "&sortBy=" +
-        sortBy +
-        "&order=" +
-        order
-      }`;
+      let url = `/departments?sortBy=${sortBy}&order=${order}`;
+
+      if (!allData) {
+        url += `&page=${pagination.current_page}&limit=${pagination.items_per_page}`;
+      }
+
       return axiosInstance
         .get<ResponseType<DepartmentDetailsType>>(url)
         .then((res) => {
@@ -40,14 +36,16 @@ const useDepatementsList = (
           //   countryStore.setReFetch(true);
           console.log(res.data);
           console.log(res.status);
-          pagination.setCurrent_page(res.data.pagination.current_page);
-          pagination.setItems_per_page(res.data.pagination.items_per_page);
-          pagination.setHas_next_page(res.data.pagination.has_next_page);
-          pagination.setTotal_items(res.data.pagination.total_items);
-          pagination.setTotal_pages(res.data.pagination.total_pages);
-          pagination.setHas_previous_page(
-            res.data.pagination.has_previous_page
-          );
+          if (!allData) {
+            pagination.setCurrent_page(res.data.pagination.current_page);
+            pagination.setItems_per_page(res.data.pagination.items_per_page);
+            pagination.setHas_next_page(res.data.pagination.has_next_page);
+            pagination.setTotal_items(res.data.pagination.total_items);
+            pagination.setTotal_pages(res.data.pagination.total_pages);
+            pagination.setHas_previous_page(
+              res.data.pagination.has_previous_page
+            );
+          }
           // pagination.(res.data.pagination.meta);
           return res.data.data;
         })

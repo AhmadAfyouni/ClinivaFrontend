@@ -8,11 +8,12 @@ import GridList from "../../Components/CompanyDetails/GridList";
 import { BiClinic } from "react-icons/bi";
 import useMedicalComplexDetails from "../../hooks/medicalcomplex/useMedicalComplexDetails";
 import { useParams } from "react-router";
+import ContactInfo from "../../types/common/ContactInfo";
 const MedicalComplexDetails = () => {
-  const { id } = useParams();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { data, isFetched } = useMedicalComplexDetails(id || "-1");
+  const { id } = useParams();
+  const { data, isFetched } = useMedicalComplexDetails(id!);
   console.log(data);
   if (!isFetched || !data)
     return (
@@ -24,12 +25,10 @@ const MedicalComplexDetails = () => {
   const values = [
     data.createdAt.slice(0, 10),
     data.vision,
-    // data.goals,
-    // data.overview,
-    "goals",
-    "overview",
+    data.details,
+    data.vision,
   ];
-  const icons = data.contactInfos.map((item) => {
+  const icons = data.contactInfos.map((item: ContactInfo) => {
     if (item.type === "email") {
       return {
         icon: <Mail size={24} />,

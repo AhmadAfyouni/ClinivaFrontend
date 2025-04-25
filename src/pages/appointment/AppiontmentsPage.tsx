@@ -10,6 +10,7 @@ import useAppointmentsList from "../../hooks/appointment/useAppointmentsList";
 import CustomFilters from "../../Components/filters/CustomFilters";
 import AddButton from "../../Components/AddButton";
 import { useNavigate } from "react-router";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const AppointmentsPage = () => {
   const { sortBy, order } = useSortStore();
@@ -17,6 +18,8 @@ const AppointmentsPage = () => {
   const { data, isFetched } = useAppointmentsList(false, sortBy, order);
   const [selection, setSelection] = useState<string[]>([]);
   const navigate = useNavigate();
+
+  const { setSelectedOption } = useDropDownStore();
   if (!data) return null;
 
   const toggleAll = () => {
@@ -35,9 +38,9 @@ const AppointmentsPage = () => {
   const statusOptions = ["scheduled", "cancelled", "completed"];
 
   const handlStatusChange = (e: string | null) => {
-    console.log(e);
-    // const value = statusOptions.find((item) => item.label === e)?.value;
-    pagination.setFilter(e || "");
+    // console.log(pagination.filter);
+    setSelectedOption("AppStatus", e);
+    pagination.setFilter(e);
   };
 
   const handleDateChange = (e: Date | null) => {
@@ -59,12 +62,12 @@ const AppointmentsPage = () => {
       // onClick={() => navigate(`/appointments/details/${item._id}`)}
       onClick={() => console.log("appointmentDetails")}
       key={item._id}
-      th0={item._id}
-      th1={item.patient.name}
+      th0={item._id || ""}
+      th1={item.patient?.name || ""}
       th2={`${item.datetime.slice(0, 10)} - ${item.datetime.slice(11, 16)} `}
       th3={item.clinic?.name || ""}
       th4={item.doctor?.name || ""}
-      th5={item.status}
+      th5={item.status || ""}
       selection={selection}
       setSelection={setSelection}
     />
@@ -88,6 +91,7 @@ const AppointmentsPage = () => {
             <CustomFilters
               IsDropDown1={true}
               IsDateInput={true}
+              dropdownName1="AppStatus"
               OptionsDropDown1={statusOptions}
               handlDropDownChange1={handlStatusChange}
               placeHolderDropDown1="Status"

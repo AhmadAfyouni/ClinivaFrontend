@@ -1,9 +1,4 @@
-interface ContactInfo {
-  type: string;
-  value: string;
-  isPublic: boolean;
-  subType: string;
-}
+import ContactInfo from "../common/ContactInfo";
 
 interface WorkingHour {
   day: string;
@@ -21,6 +16,12 @@ interface VacationRecord {
 interface BreakTime {
   startTime: string;
   endTime: string;
+}
+interface DepartmentId {
+  name: string;
+}
+interface ClinicCollectionId {
+  name: string;
 }
 
 export default interface DoctorDetailsType {
@@ -49,8 +50,8 @@ export default interface DoctorDetailsType {
   breakTimes: BreakTime[];
   isActive: boolean;
   companyId: string;
-  clinicCollectionId: string;
-  departmentId: string;
+  clinicCollectionId: ClinicCollectionId | null;
+  departmentId: DepartmentId | null;
   clinics: string[];
   specializations: string[];
 }

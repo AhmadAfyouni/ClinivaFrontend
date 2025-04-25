@@ -30,11 +30,11 @@ const useStaffList = (allData = false, sortBy = "_id", order = "desc") => {
         "&order=" +
         order +
         "&search=" +
-        pagination.paramKey
-        // "&isActive=" +
-        // pagination.filter +
-        // "&dateOfBirth=" +
-        // pagination.date
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter +
+        "&dateOfBirth=" +
+        pagination.date
       }`;
       return axiosInstance
         .get<ResponseType<StaffDetailsType>>(url)

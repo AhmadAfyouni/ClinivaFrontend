@@ -1,14 +1,13 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
-import DepartmentDetailsType from "../../types/department/DepartmentDetailsType";
 import ResponseDetailsType from "../../types/ResponseDetails";
-const useDepartmentDetails = (id: string) => {
+const usePatientCount = (id: string) => {
   return useQuery({
-    queryKey: ["departement", id],
+    queryKey: ["PatientCount", id],
     queryFn: () => {
-      const url = `/departements/` + id;
+      const url = `/clinics/` + id + `/patient-count`;
       return axiosInstance
-        .get<ResponseDetailsType<DepartmentDetailsType>>(url)
+        .get<ResponseDetailsType<{ patientCount: number }>>(url)
         .then((res) => {
           console.log(res.data);
           console.log(res.status);
@@ -21,4 +20,4 @@ const useDepartmentDetails = (id: string) => {
     },
   });
 };
-export default useDepartmentDetails;
+export default usePatientCount;
