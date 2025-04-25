@@ -43,7 +43,7 @@ const MedicalComplexPage = () => {
         current.length === data.length
           ? []
           : data.map((item) => {
-              return item.companyId.toString();
+              return item.companyId?.toString() || "";
             })
       );
     }
