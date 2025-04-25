@@ -16,7 +16,7 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
       order,
       pagination.paramKey,
       pagination.filter,
-      // pagination.date,
+      pagination.date,
     ],
     queryFn: () => {
       const url = `/patients?${
@@ -29,11 +29,11 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
         "&order=" +
         order +
         "&search=" +
-        pagination.paramKey
-        // "&isActive=" +
-        // pagination.filter +
-        // "&dateOfBirth=" +
-        // "1990-05-30"
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter +
+        "&dateOfBirth=" +
+        pagination.date
       }`;
       return axiosInstance
         .get<ResponseType<PatientDetailsType>>(url)

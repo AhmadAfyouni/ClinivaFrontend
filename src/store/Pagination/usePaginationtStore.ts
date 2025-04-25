@@ -3,7 +3,7 @@ import PaginationType from "../../types/PaginationControl";
 const defaultState = {
   withSkelton: false,
   paramKey: "",
-  filter: true,
+  filter: null,
   perPage: 10,
   currentPage: 1,
   current_page: 1,

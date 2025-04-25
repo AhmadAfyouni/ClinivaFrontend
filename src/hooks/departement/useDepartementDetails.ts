@@ -4,7 +4,7 @@ import DepartmentDetailsType from "../../types/department/DepartmentDetailsType"
 import ResponseDetailsType from "../../types/ResponseDetails";
 const useDepartmentDetails = (id: string) => {
   return useQuery({
-    queryKey: ["departement"],
+    queryKey: ["departement", id],
     queryFn: () => {
       const url = `/departements/` + id;
       return axiosInstance

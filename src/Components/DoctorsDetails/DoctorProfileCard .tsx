@@ -157,13 +157,15 @@ const DoctorProfileCard = ({
                 </Text>
               </ScrollArea>
             </Flex>
-            <Divider
-              w="80%"
-              h={5}
-              m="10px 0 10px"
-              visibleFrom="lg"
-              c={theme.other.borderDefault}
-            />
+            {index !== sectionTitle.length - 1 && (
+              <Divider
+                w="80%"
+                h={5}
+                m="10px 0 10px"
+                visibleFrom="lg"
+                c={theme.other.borderDefault}
+              />
+            )}
           </Flex>
         ))}
       </Card.Section>
@@ -174,7 +176,7 @@ const DoctorProfileCard = ({
         w={isMobile ? "100%" : isTablet ? "30%" : "100%"}
         mt={isDesktop ? 20 : 0}
       >
-        <Text fw={600} mb="35px" c={theme.other.onSurfacePrimary}>
+        <Text fw={600} mb="25px" mt="10px" c={theme.other.onSurfacePrimary}>
           Contact Info
         </Text>
         <Flex direction="column" gap="sm">

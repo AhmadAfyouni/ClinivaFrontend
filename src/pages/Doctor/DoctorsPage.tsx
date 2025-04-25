@@ -15,12 +15,15 @@ import { SearchInput } from "../../Components/SearchInput";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const DoctorsPage = () => {
   const theme = useMantineTheme();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useDoctorsCards();
   console.log(data);
+  const { setSelectedOption } = useDropDownStore();
+
   const navigate = useNavigate();
 
   const handleSearchChange = (e: string) => {
@@ -34,7 +37,8 @@ const DoctorsPage = () => {
       : { label: "INACTIVE", value: false }
   );
   const handlStatusChange = (e: string | null) => {
-    const value = statusOptions.find((item) => item.label === e)?.value;
+    setSelectedOption("DoStatus", e);
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
     pagination.setFilter(value);
   };
 
@@ -57,6 +61,7 @@ const DoctorsPage = () => {
               />
               <CustomFilters
                 IsDropDown1={true}
+                dropdownName1="DoStatus"
                 placeHolderDropDown1="Status"
                 OptionsDropDown1={statusOptions.map((item) => item.label)}
                 handlDropDownChange1={handlStatusChange}

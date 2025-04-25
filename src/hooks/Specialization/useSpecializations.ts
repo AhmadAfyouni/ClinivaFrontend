@@ -15,6 +15,8 @@ const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
       allData,
       sortBy,
       order,
+      pagination.paramKey,
+      pagination.filter,
     ],
     queryFn: () => {
       const url = `/specializations?${
@@ -25,7 +27,11 @@ const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
+        order +
+        "&search=" +
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<SpecializationListType>>(url)

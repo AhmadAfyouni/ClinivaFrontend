@@ -10,12 +10,13 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useUsersList from "../../hooks/users/useUsersList";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const UsersPage = () => {
   const [selection, setSelection] = useState<string[]>([]);
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
-
+  const { setSelectedOption } = useDropDownStore();
   const { data, isFetched } = useUsersList(false, sortBy, order);
   const navigate = useNavigate();
 
@@ -31,7 +32,8 @@ const UsersPage = () => {
       : { label: "INACTIVE", value: false }
   );
   const handlStatusChange = (e: string | null) => {
-    const value = statusOptions.find((item) => item.label === e)?.value;
+    setSelectedOption("useStatus", e);
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
     pagination.setFilter(value);
   };
   const handleDateChange = (e: Date | null) => {
@@ -75,7 +77,7 @@ const UsersPage = () => {
         hour12: true,
       })}
       th3={item.email}
-      th4={item.roleIds.toString()}
+      th4={item.roleIds.map((item) => item.name).toString()}
       th5={item.isActive.toString()}
       // th4={item.role}
     />
@@ -100,6 +102,7 @@ const UsersPage = () => {
             <CustomFilters
               IsDropDown1={true}
               IsDateInput={true}
+              dropdownName1="useStatus"
               OptionsDropDown1={statusOptions.map((item) => item.label)}
               handlDropDownChange1={handlStatusChange}
               placeHolderDropDown1="Status"
@@ -133,7 +136,7 @@ const UsersPage = () => {
                 "name",
                 "lastLoginAt",
                 "email",
-                "roleIds",
+                "roleIds.name",
                 "isActive",
                 "_id",
               ]}

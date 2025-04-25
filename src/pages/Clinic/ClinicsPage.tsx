@@ -10,12 +10,14 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const ClinicsPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useClinicsList(false, sortBy, order);
   const navigate = useNavigate();
+  const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -33,6 +35,7 @@ const ClinicsPage = () => {
   };
   const SpecialtiesOptions = [""];
   const handlSpecialtyChange = (e: string | null) => {
+    setSelectedOption("CliSpeciality", e);
     console.log(e);
   };
   const rows = data.map((item) => (
@@ -44,15 +47,12 @@ const ClinicsPage = () => {
       th0={item._id}
       th1={item.name}
       th2={
-        item?.WorkingHours?.map(
-          (dayItem) =>
-            dayItem?.timeSlots
-              ?.map((slot) => `${slot.startTime} - ${slot.endTime}`)
-              .join(", ") || ""
-        ).join(" | ") || ""
+        item?.WorkingHours?.[0]
+          ? `${item.WorkingHours[0].startTime} - ${item.WorkingHours[0].endTime}`
+          : ""
       }
       th3={item.specializations.map((item) => item.name).join(",")}
-      th4={item.statistics.patients.total.toString()}
+      th4={item.treatedPatientCount.toString() || "0"}
       th5={item.isActive.toString()}
     />
   ));
@@ -75,6 +75,7 @@ const ClinicsPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
+              dropdownName1="CliSpeciality"
               placeHolderDropDown1="Speciality"
               OptionsDropDown1={SpecialtiesOptions}
               handlDropDownChange1={handlSpecialtyChange}

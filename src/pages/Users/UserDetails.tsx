@@ -1,59 +1,97 @@
-import { Flex, Text, useMantineTheme } from "@mantine/core";
+import { Center, Flex, Text, useMantineTheme } from "@mantine/core";
 import InfoCard from "../../Components/UserDetails/InfoCard";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
-import WorkingSchedule from "../../Components/UserDetails/WorkingSchedule";
-import { Mail, Phone } from "lucide-react";
+import { Mail, PhoneCall } from "lucide-react";
+import { useParams } from "react-router";
+import useUserDetails from "../../hooks/users/useUserDetails";
 
-// Your new working hours format
-const workingHours = [
-  { day: "Monday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Monday", startTime: "07:00 PM", endTime: "09:00 PM" },
-  { day: "Tuesday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Wednesday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Thursday", startTime: "09:00 AM", endTime: "05:00 PM" },
-  { day: "Friday", startTime: "09:00 AM", endTime: "02:00 PM" },
-];
 const UserDetails = () => {
   const theme = useMantineTheme();
+  const { id: userId } = useParams();
+  const { data, isFetched } = useUserDetails(userId!);
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const icons = [
-    {
-      icon: <Phone size={24} />,
-      onClick: () => console.log("Clicked on Email"),
-    },
-    {
-      icon: <Mail size={24} />,
-      onClick: () => console.log("Clicked on Email"),
-    },
-  ];
+  if (!isFetched || !data)
+    return (
+      <Center>
+        <Text>No User Details Found</Text>
+      </Center>
+    );
+
+  // const icons = [
+  //   {
+  //     icon: <Phone size={24} />,
+  //     onClick: () => console.log("Clicked on Email"),
+  //   },
+  //   {
+  //     icon: <Mail size={24} />,
+  //     onClick: () => console.log("Clicked on Email"),
+  //   },
+  //   {
+  //     icon: <MapPin size={24} />,
+  //     onClick: () => console.log("Clicked on Email"),
+  //   },
+  //   {
+  //     icon: <Globe size={24} />,
+  //     onClick: () => console.log("Clicked on Email"),
+  //   },
+  // ];
+  const icons = data.contactInfos.map((item) => {
+    if (item.type === "email")
+      return {
+        icon: <Mail size={24} />,
+        href: `mailto:${item.value}`,
+      };
+    else
+      return {
+        icon: <PhoneCall size={24} />,
+        href: `tel:${item.value}`,
+      };
+  });
   return (
     <Flex direction={isComputer ? "row" : "column"}>
       <Flex w={isComputer ? "25%" : "100%"}>
         <InfoCard
-          iconsMaxWidth="200px"
+          iconsMaxWidth="150px"
           contactInfoIcons={icons}
           isActive={true}
-          name="Maurice Galley"
-          id="46"
-          birthday="20/3/2024"
-          gender="Male"
-          address="23,Damas,Syria"
+          name={data.name}
+          id={data._id}
+          birthday="2/3/2004"
+          gender="male"
+          address="address"
           nationalId="344353645"
         />
       </Flex>
-      <Flex direction="column">
-        <Flex direction="column">
-          <Text
-            fz={18}
-            fw={600}
-            c={theme.other.onSurfacePrimary}
-            ml={isComputer ? 40 : 0}
-          >
-            Working Schedule
+      <Flex direction="column" w="100%">
+        <Flex
+          mb={isComputer ? "100px" : 30}
+          w="100%"
+          direction="column"
+          pl={isMobile ? "0px" : "50px"}
+        >
+          <Text fw={600} mb={20} fz={18} c={theme.other.onSurfacePrimary}>
+            Account Info
           </Text>
-          <WorkingSchedule workingHours={workingHours} />
+          <GroupText
+            direction="row"
+            titlewidth={300}
+            titles={[
+              "User Name",
+              "Account Creation ",
+              "Last Modied ",
+              "Last Login",
+              "Two-factor Authentication Enabled",
+            ]}
+            values={[
+              data.name,
+              data.loginHistory[0].loginDate.toString(),
+              "20/2/2027",
+              data.lastLoginAt,
+              "Yes",
+            ]}
+          />
         </Flex>
         <Flex
           direction={isMobile ? "column" : "row"}
@@ -66,23 +104,34 @@ const UserDetails = () => {
             mb={30}
           >
             <Text fw={600} mb={20} fz={18} c={theme.other.onSurfacePrimary}>
-              Employment Details
+              Role and Permissions
             </Text>
             <GroupText
               direction="row"
               titlewidth={130}
-              titles={["Date of Hire", "Employment type", "Employment End"]}
-              values={["20/2/2025", "Doctor", "20/2/2027"]}
+              titles={["assigned Role", "Assigned permissions"]}
+              values={[
+                data.roleIds
+                  .map((item) => item.permissionGroups.map((item) => item))
+                  .join(","),
+                data.roleIds.map((item) => item.name).join(","),
+              ]}
             />
           </Flex>
           <Flex w="50%" direction="column" mb={60}>
             <Text fw={600} mb={20} fz={18} c={theme.other.onSurfacePrimary}>
-              Work assignment
+              Employment Details
             </Text>
             <GroupText
               direction="row"
               titlewidth={120}
-              titles={["assigned Department", "assigned Clinic", "Supervisor"]}
+              titles={[
+                "Job title",
+                "Complex",
+                "Department",
+                "Empolyment date",
+                "Empolyment status",
+              ]}
               values={["dental", "dental", "supervisor"]}
             />
           </Flex>

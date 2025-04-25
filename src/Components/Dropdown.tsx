@@ -1,17 +1,21 @@
 import { Select, useMantineTheme } from "@mantine/core";
+import useDropDownStore from "../store/Dropdown/useDropDownStore ";
 
 interface Props {
   options: string[];
   placeHolder: string;
   onChange: (value: string | null) => void;
+  dropDownName: string;
 }
 
-const Dropdown = ({ placeHolder, options, onChange }: Props) => {
+const Dropdown = ({ placeHolder, options, onChange, dropDownName }: Props) => {
   const theme = useMantineTheme();
-
+  const { selectedOption } = useDropDownStore();
+  const value = selectedOption[dropDownName] ?? null;
   return (
     <>
       <Select
+        value={value}
         w="110px"
         mr="5px"
         mb="10px"

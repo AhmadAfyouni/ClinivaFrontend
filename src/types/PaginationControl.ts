@@ -2,7 +2,7 @@ export default interface PaginationType {
   date: string | undefined;
   withSkelton: boolean;
   paramKey: string;
-  filter: boolean | null;
+  filter: string | boolean | null;
   current_page: number;
   total_pages: number;
   total_items: number;
@@ -18,7 +18,7 @@ export default interface PaginationType {
   setHas_next_page: (key: boolean) => void;
   setHas_previous_page: (key: boolean) => void;
   setSearchKey: (key: string) => void;
-  setFilter: (fieldName: boolean | undefined | string) => void;
+  setFilter: (fieldName: boolean | null | string) => void;
   resetPagination?: () => void;
   setDate: (date: string | undefined) => void;
 }
