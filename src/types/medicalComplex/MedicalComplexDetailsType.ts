@@ -9,7 +9,7 @@ export interface ClinicResponse {
   data: Clinic;
 }
 
-export interface Clinic {
+export default interface Clinic {
   isActive: boolean;
   contactInfos: ContactInfo[];
   cashBoxes: CashBox[];
