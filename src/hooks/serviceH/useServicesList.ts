@@ -1,25 +1,25 @@
 import axiosInstance from "../../api/ApiCore";
-import SpecializationListType from "../../types/Specialization/SpecializationType";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
+import ServiceDetailsType from "../../types/serviceT/ServiceDetailsType";
+const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
   // console.log("useGetUsers per_page", per_page);
   //   const countryStore = useCountriesPaginationStore();
+
   return useQuery({
     queryKey: [
-      "specializations",
+      "services",
       pagination.current_page,
       pagination.items_per_page,
       allData,
       sortBy,
       order,
       pagination.paramKey,
-      pagination.filter,
     ],
     queryFn: () => {
-      const url = `/specializations?${
+      const url = `/services?${
         "&page=" +
         pagination.current_page +
         "&limit=" +
@@ -27,14 +27,12 @@ const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order +
-        "&search=" +
-        pagination.paramKey +
-        "&isActive=" +
-        pagination.filter
+        order
+        // "&search=" +
+        // pagination.paramKey
       }`;
       return axiosInstance
-        .get<ResponseType<SpecializationListType>>(url)
+        .get<ResponseType<ServiceDetailsType>>(url)
         .then((res) => {
           //   countryStore.setMeta(res.data.data.meta);
           //   countryStore.setLinks(res.data.data.links);
@@ -54,8 +52,9 @@ const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
         .catch((error) => {
           console.log(error);
           throw error;
-        });
+        })
+        .finally(() => {});
     },
   });
 };
-export default useSpecialization;
+export default useServicesList;

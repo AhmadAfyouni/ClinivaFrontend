@@ -10,22 +10,18 @@ import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const PatientsPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = usePatientsList(false, sortBy, order);
+  const { setSelectedOption } = useDropDownStore();
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
   const navigate = useNavigate();
   if (!data) return null;
 
-  const statusOptionsboolean = [true, false];
-  const statusOptions = statusOptionsboolean.map((item) =>
-    item
-      ? { label: "ACTIVE", value: true }
-      : { label: "INACTIVE", value: false }
-  );
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data?.length
@@ -35,8 +31,15 @@ const PatientsPage = () => {
           })
     );
   };
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
   const handlStatusChange = (e: string | null) => {
-    const value = statusOptions.find((item) => item.label === e)?.value;
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    setSelectedOption("PatStatus", e);
     pagination.setFilter(value);
   };
   const handleSearchChange = (e: string) => {
@@ -65,7 +68,7 @@ const PatientsPage = () => {
       th1={item.name}
       th2={item.dateOfBirth.slice(0, 10)}
       th3={item.gender}
-      th4={item.dateOfBirth.slice(0, 10)}
+      th4={item.lastVisit ? item.lastVisit.slice(0, 10) : "no date"} //Last visit
       th5={item.isActive.toString()}
       selection={selection}
       setSelection={setSelection}
@@ -90,6 +93,7 @@ const PatientsPage = () => {
             <CustomFilters
               IsDateInput={true}
               IsDropDown1={true}
+              dropdownName1="PatStatus"
               OptionsDropDown1={statusOptions.map((item) => item.label)}
               handlDropDownChange1={handlStatusChange}
               placeHolderDropDown1="Status"
@@ -110,9 +114,9 @@ const PatientsPage = () => {
               labels={[
                 "Patint Id",
                 "Name",
+                "Birthday",
+                "Gender",
                 "Last Visist ",
-                "Doctors",
-                "Treatment",
                 "status",
                 "Patient",
               ]}
@@ -124,8 +128,7 @@ const PatientsPage = () => {
                 "name",
                 "dateOfBirth",
                 "gender",
-                "address",
-                "dateOfBirth",
+                "lastVisit",
                 "isActive",
                 "_id",
               ]}

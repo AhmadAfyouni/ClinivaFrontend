@@ -2,8 +2,6 @@ import { RouteObject } from "react-router-dom";
 import AddDoctor from "../pages/Doctor/AddDoctor";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
-import DoctorLayout from "../layout/DoctorLayout";
-import PatientLayout from "../layout/PatientLayout";
 import AddCompany from "../pages/Company/AddCompany";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/Appointments";
@@ -15,7 +13,6 @@ import DoctorDetails from "../pages/Doctor/DoctorDetails";
 import DoctorsPage from "../pages/Doctor/DoctorsPage";
 import StaffPage from "../pages/Staff/StaffPage";
 import UsersPage from "../pages/Users/UsersPage";
-import UserDetails from "../pages/Users/UserDetails";
 import MainLayout from "../layout/MainLayout";
 import MedicalComplexDetails from "../pages/MedicalComplex/MedicalComplexDetails";
 import DepartementsPage from "../pages/Departement/DepartementsPage";
@@ -23,10 +20,19 @@ import DepartementDetails from "../pages/Departement/DepartementDetails";
 import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
-import StaffDetails from "../pages/Staff/StaffDetails";
 import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
 import SelectPlan from "../pages/auth/Register/SelectPlan";
 import Register from "../pages/auth/Register/Register";
+import AddClinic from "../pages/Clinic/AddClinic";
+import AddService from "../pages/Service/AddService";
+import ServiceDetails from "../pages/Service/ServiceDetails";
+import ServicesPage from "../pages/Service/ServicesPage";
+import AddUser from "../pages/Users/AddUser";
+import AddMedicalComplex from "../pages/MedicalComplex/AddMedicalComplex";
+import AddDepartment from "../pages/Department/AddDepartment";
+import UpdateService from "../pages/Service/UpdateService";
+import StaffDetails from "../pages/Staff/StaffDetails";
+import UserDetails from "../pages/Users/UserDetails";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -54,7 +60,7 @@ export const routes: AppRoute[] = [
   },
   {
     path: "/patients",
-    element: <PatientLayout />,
+    element: <MainLayout />,
     children: [
       {
         path: "",
@@ -76,7 +82,7 @@ export const routes: AppRoute[] = [
   },
   {
     path: "/doctors",
-    element: <DoctorLayout />,
+    element: <MainLayout />,
     children: [
       {
         path: "",
@@ -94,7 +100,7 @@ export const routes: AppRoute[] = [
   },
 
   {
-    path: "/employee",
+    path: "/employees",
     element: <MainLayout />,
     children: [
       {
@@ -121,7 +127,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <UsersPage />, /// add use page
+        element: <AddUser />,
       },
       {
         path: "details/:id",
@@ -130,7 +136,7 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/company",
+    path: "/companies",
     element: <MainLayout />,
     children: [
       {
@@ -144,7 +150,7 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/medicalComplex",
+    path: "/medicalComplexes",
     element: <MainLayout />,
     children: [
       {
@@ -153,7 +159,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <MedicalComplexPage />, //// add medicalComlpex Page
+        element: <AddMedicalComplex />,
       },
       {
         path: "details/:id",
@@ -162,7 +168,7 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/departement",
+    path: "/departements",
     element: <MainLayout />,
     children: [
       {
@@ -171,7 +177,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <DepartementsPage />, //// add Departement Page
+        element: <AddDepartment />, //// add Departement Page
       },
       {
         path: "details/:id",
@@ -180,7 +186,7 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/clinic",
+    path: "/clinics",
     element: <MainLayout />,
     children: [
       {
@@ -189,7 +195,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <ClinicsPage />, //// add Clinic Page
+        element: <AddClinic />,
       },
       {
         path: "details/:id",
@@ -198,7 +204,29 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/speciality",
+    path: "/services",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "",
+        element: <ServicesPage />,
+      },
+      {
+        path: "add",
+        element: <AddService />,
+      },
+      {
+        path: "update",
+        element: <UpdateService />,
+      },
+      {
+        path: "details/:id",
+        element: <ServiceDetails />,
+      },
+    ],
+  },
+  {
+    path: "/specialities",
     element: <MainLayout />,
     children: [
       {
@@ -216,7 +244,7 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/appointment",
+    path: "/appointments",
     element: <MainLayout />,
     children: [
       {

@@ -25,8 +25,8 @@ const PatientDetails = () => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
-  const { id } = useParams();
-  const { data, isFetched } = usePatientDetails(id ? id : "-1");
+  const { id: PatientId } = useParams();
+  const { data, isFetched } = usePatientDetails(PatientId!);
   console.log(data);
   if (!isFetched || !data)
     return (
@@ -126,7 +126,9 @@ const PatientDetails = () => {
                       ?.value || ""
                   }
                   adress={data.address}
-                  emergencyContact={`${data?.emergencyContact?.phone} - ${data?.emergencyContact?.name} - ${data.emergencyContact.relationToPatient}`}
+                  emergencyContact={`${data?.emergencyContact?.phone || ""} - ${
+                    data?.emergencyContact?.name || ""
+                  } - ${data?.emergencyContact?.relationToPatient || ""}`}
                 />
               </Grid.Col>
               <Grid.Col span={isMobile ? 2 : 1}>

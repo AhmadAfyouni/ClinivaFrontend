@@ -12,7 +12,7 @@ import { ReactElement } from "react";
 
 interface IconItem {
   icon: ReactElement;
-  onClick: () => void;
+  href: string;
 }
 interface Props {
   name: string;
@@ -91,7 +91,7 @@ const InfoCard = ({
           {contactInfoIcons.map((item, index) => (
             <ActionIcon
               m="0 5px"
-              onClick={item.onClick}
+              onClick={() => window.open(item.href, "_blank")}
               key={index}
               size="xl"
               radius="xl"

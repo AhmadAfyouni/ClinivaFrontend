@@ -19,7 +19,9 @@ const useDoctorsCards = (sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
+        order +
+        "&employeeType=" +
+        "Doctor"
       }`;
       return axiosInstance
         .get<ResponseType<DoctorDetailsType>>(url)

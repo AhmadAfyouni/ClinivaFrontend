@@ -4,7 +4,7 @@ import ClinicDetailsType from "../../types/clinic/ClinicDetailsType";
 import ResponseDetailsType from "../../types/ResponseDetails";
 const useClinicDetails = (id: string) => {
   return useQuery({
-    queryKey: ["clinicDetails"],
+    queryKey: ["clinicDetails", id],
     queryFn: () => {
       const url = `/clinics/` + id;
       return axiosInstance

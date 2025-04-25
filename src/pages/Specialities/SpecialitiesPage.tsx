@@ -8,6 +8,8 @@ import useSpecialization from "../../hooks/Specialization/useSpecializations";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
+import CustomFilters from "../../Components/filters/CustomFilters";
 
 const SpecialitiesPage = () => {
   const pagination = usePaginationtStore();
@@ -15,6 +17,7 @@ const SpecialitiesPage = () => {
   const { data, isFetched } = useSpecialization(false, sortBy, order);
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
+  const { setSelectedOption } = useDropDownStore();
   if (!data) return null;
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -29,7 +32,17 @@ const SpecialitiesPage = () => {
           })
     );
   };
-
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    setSelectedOption("SpeStatus", e);
+    pagination.setFilter(value);
+  };
   const rows = data.map((item) => (
     <TableBody
       onClick={() => console.log("there is no speciality details page")}
@@ -38,7 +51,7 @@ const SpecialitiesPage = () => {
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.createdAt}
+      th2={item.statistics.clinics.toString()} //must be clinics name
       th3={item.updatedAt.slice(0, 10)}
       th4={item.statistics.doctors.toString()}
       th5={item.isActive.toString()}
@@ -55,11 +68,20 @@ const SpecialitiesPage = () => {
     return (
       <>
         <Flex w="90%" justify="space-between">
-          <SearchInput
-            text="Search Speciality"
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-          />
+          <Flex>
+            <SearchInput
+              text="Search Speciality"
+              searchValue={pagination.paramKey}
+              setSearchValue={handleSearchChange}
+            />
+            <CustomFilters
+              IsDropDown1={true}
+              dropdownName1="SpeStatus"
+              placeHolderDropDown1="Status"
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
+            />
+          </Flex>
           <AddButton
             text="Add Speciality"
             handleOnClick={() => console.log("speciality")}

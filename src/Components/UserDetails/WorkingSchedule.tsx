@@ -7,11 +7,13 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import React from "react";
+
 interface WorkingHour {
   day: string;
   startTime: string;
   endTime: string;
 }
+
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const dayMap: Record<string, string> = {
   Mon: "Monday",
@@ -23,30 +25,46 @@ const dayMap: Record<string, string> = {
   Sun: "Sunday",
 };
 
-// Hours from 8 AM to 11 PM
-const generateHoursArray = (start: number, end: number) => {
-  return Array.from({ length: end - start }, (_, i) => start + i);
+const generateHoursArray = (startHour: number, endHour: number) => {
+  const hours = [];
+  let current = startHour;
+  while (true) {
+    hours.push(current);
+    if (current === endHour) break;
+    current = (current + 1) % 24;
+  }
+  return hours;
 };
-const allHours = generateHoursArray(8, 24);
 
-// Convert 24-hour int to formatted time
-const formatHour = (hour: number) =>
-  `${hour % 12 || 12}${hour >= 12 ? "PM" : "AM"}`;
+const formatHour = (hour: number) => {
+  const twelveHour = hour % 12 || 12;
+  const period = hour < 12 ? "AM" : "PM";
+  return `${twelveHour} ${period}`;
+};
 
-// Convert "09:00 AM" to 24-hour int
 const parseHour = (timeStr: string): number => {
   const [time, period] = timeStr.split(" ");
-  let [hour] = time.split(":").map(Number);
+  const [hourStr] = time.split(":");
+  let hour = parseInt(hourStr, 10);
+
   if (period === "PM" && hour !== 12) hour += 12;
   if (period === "AM" && hour === 12) hour = 0;
+
   return hour;
 };
 
 interface Props {
   workingHours: WorkingHour[];
 }
+
 const WorkingSchedule = ({ workingHours }: Props) => {
   const theme = useMantineTheme();
+
+  if (workingHours.length === 0) return null;
+
+  const starthour = parseHour(workingHours[0].startTime);
+  const endhours = parseHour(workingHours[0].endTime);
+  const allHours = generateHoursArray(starthour, endhours);
 
   const getHourStyle = (
     theme: MantineTheme,
@@ -55,9 +73,11 @@ const WorkingSchedule = ({ workingHours }: Props) => {
   ): React.CSSProperties => {
     const fullDay = dayMap[day];
     const ranges = workingHours.filter((wh) => wh.day === fullDay);
+
     for (const range of ranges) {
       const start = parseHour(range.startTime);
       const end = parseHour(range.endTime);
+
       if (hour >= start && hour < end) {
         const isStart = hour === start;
         const isEnd = hour === end - 1;
@@ -73,6 +93,7 @@ const WorkingSchedule = ({ workingHours }: Props) => {
     }
     return {};
   };
+
   return (
     <Container size="md" w="95%" bg={theme.other.bg}>
       <Paper p="lg" bg={theme.other.bgSubtle} w="95%">
@@ -101,12 +122,9 @@ const WorkingSchedule = ({ workingHours }: Props) => {
                     <Table.Td
                       h={40}
                       p={0}
-                      c={theme.other.onSurfaceSecondary}
                       pos="relative"
                       key={`${day}-${hour}`}
-                      style={{
-                        ...getHourStyle(theme, day, hour),
-                      }}
+                      style={getHourStyle(theme, day, hour)}
                     ></Table.Td>
                   ))}
                 </Table.Tr>

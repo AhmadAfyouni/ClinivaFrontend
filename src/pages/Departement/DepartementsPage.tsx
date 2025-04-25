@@ -9,13 +9,12 @@ import { useNavigate } from "react-router";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
-import CustomFilters from "../../Components/filters/CustomFilters";
 
 const DepartementsPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useDepatementsList(false, sortBy, order);
-
+  // const { setSelectedOption } = useDropDownStore();
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
 
@@ -35,27 +34,23 @@ const DepartementsPage = () => {
     );
   };
 
-  const PICOptions = [""];
-  const handlPICChange = (e: string | null) => {
-    console.log(e);
-  };
+  // const PICOptions = [""];
+  // const handlPICChange = (e: string | null) => {
+  //   setSelectedOption("DepPIC", e);
+  //   console.log(e);
+  // };
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => navigate(`/departement/details/${item._id}`)}
+      onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={item.address}
+      th2={item.clinicCollectionId?.name}
       th3={item.address}
       th4={item.clinicCount.toString()}
       th5={item.requiredStaff.toString()}
-      // th1={item.ComplexName}
-      // th2={item.PIC}
-      // th3={item.Address}
-      // th4={item.DepartmentsCount.toString()}
-      // th5={item.StaffCount.toString()}
     />
   ));
 
@@ -71,16 +66,17 @@ const DepartementsPage = () => {
         <Flex w="90%" justify="space-between">
           <Flex>
             <SearchInput
-              text="Search MedicalComplex"
+              text="Search "
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
             />
-            <CustomFilters
+            {/* <CustomFilters
               IsDropDown1={true}
+              dropdownName1="DepPIC"
               placeHolderDropDown1="PIC"
               OptionsDropDown1={PICOptions}
               handlDropDownChange1={handlPICChange}
-            />
+            /> */}
           </Flex>
           <AddButton
             text="Add MedicalComplex"
@@ -93,20 +89,20 @@ const DepartementsPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "address",
+                "clinicCollectionId?.name",
                 "address",
                 "clinicCount",
-                "patientCount",
+                "requiredStaff",
                 "_id",
               ]}
               labels={[
-                "Medical Id",
-                "Medical Name",
+                "Departement Id",
+                "Name",
                 "PIC",
                 "Address",
                 "DepartmentsCount",
                 "PatientCount",
-                "Medical",
+                "Departement",
               ]}
               data={data}
               selection={selection}

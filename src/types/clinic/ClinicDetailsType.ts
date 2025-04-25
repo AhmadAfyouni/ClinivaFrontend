@@ -1,29 +1,55 @@
-interface Location {
-  x: number;
-  y: number;
+import { Specialization } from "../company/AddCompanyType";
+
+export default interface ClinicDetailsType {
+  _id: string;
+  isActive: boolean;
+  AverageDurationOfVisit: number;
+  overview: string;
+  yearOfEstablishment: Date | string;
+  address: string;
+  logo: string;
+  vision: string;
+  goals: string;
+  contactInfos: ContactInfo[];
+  holidays: Holiday[];
+  name: string;
+  WorkingHours: WorkingHour[];
+  bankAccount: BankAccount[];
+  insuranceCompany: InsuranceCompany[];
+  cashBoxes: CashBox[];
+  onlinePaymentMethods: OnlinePaymentMethod[];
+  commercialRecord: CommercialRecord;
+  locationGoogle: LocationGoogle;
+  departmentId: string | null;
+  specializations: Specialization[];
+  publicId: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  __v: number;
+  id: string;
+  patientCount: number;
+  treatedPatientCount: number;
+  employeeCounts: EmployeeCounts;
 }
 
+// Supporting interfaces
 interface ContactInfo {
-  type: string;
+  type: "phone" | "email" | "fax" | "other";
   value: string;
   isPublic: boolean;
-  subType: string;
+  subType: "work" | "personal" | "emergency";
 }
 
 interface Holiday {
   name: string;
-  date: string;
+  date: Date | string;
   reason: string;
 }
 
-interface TimeSlot {
+interface WorkingHour {
+  day: DayOfWeek;
   startTime: string;
   endTime: string;
-}
-
-interface WorkingHour {
-  day: string;
-  timeSlots: TimeSlot[];
 }
 
 interface BankAccount {
@@ -32,7 +58,7 @@ interface BankAccount {
   bankName: string;
   bankAddress: string;
   accountNumber: string;
-  accountType: string;
+  accountType: "personal" | "business";
   isActive: boolean;
 }
 
@@ -42,8 +68,8 @@ interface InsuranceCompany {
   termsAndConditions: string;
   coverageDetails: string[];
   coveragePercentage: number;
-  contractStartDate: string;
-  contractEndDate: string;
+  contractStartDate: Date | string;
+  contractEndDate: Date | string;
   contactPerson: string;
   companyPhone: string;
   companyEmail: string;
@@ -51,27 +77,21 @@ interface InsuranceCompany {
   isActive: boolean;
 }
 
-interface Transaction {
-  date: string;
-  amount: number;
-  description: string;
-}
-
 interface CashBox {
   name: string;
   isActive: boolean;
   location: string;
-  currency: string;
+  currency: "SAR" | "USD" | "EUR" | string;
   pic: string;
   totalBalance: number;
   createdBy: string;
-  transactionHistory: Transaction[];
+  transactionHistory: string[];
 }
 
 interface OnlinePaymentMethod {
   companyName: string;
-  transactionType: string;
-  type: string;
+  transactionType: "deposit" | "withdrawal" | "both";
+  type: "credit_card" | "digital_wallet" | "bank_transfer";
   supportedCurrencies: string[];
   processingFees: number;
   securityFeatures: string[];
@@ -80,99 +100,30 @@ interface OnlinePaymentMethod {
 
 interface CommercialRecord {
   recordNumber: string;
-  grantDate: string;
-  issueDate: string;
-  expirationDate: string;
+  grantDate: Date | string;
+  issueDate: Date | string;
+  expirationDate: Date | string;
   taxNumber: string;
 }
 
-interface Specialization {
-  _id: string;
-  name: string;
-  description: string;
-  requiredEquipment: string[];
-  requiredStaff: string[];
-  medicalProcedures: string[];
-  certificationRequirements: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+interface LocationGoogle {
+  x: number;
+  y: number;
 }
 
-interface Department {
-  _id: string;
-  isActive: boolean;
-  name: string;
-  introduction?: string;
-  yearOfEstablishment: string;
-  address: string;
-  logo: string;
-  vision: string;
-  details?: string;
-  ContactInfos: ContactInfo[];
-  clinicCollectionId: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  requiredStaff?: string[];
-  specializations?: string[];
-}
-
-interface AppointmentStats {
-  total: number;
-  active: number;
-  byStatus: {
-    scheduled: number;
-    completed: number;
-    cancelled: number;
-  };
-}
-
-interface PatientStats {
+interface EmployeeCounts {
+  doctors: number;
+  nurses: number;
+  technicians: number;
+  administrative: number;
   total: number;
 }
 
-interface Activity {
-  date: string;
-  status: string;
-}
-
-interface Statistics {
-  appointments: AppointmentStats;
-  patients: PatientStats;
-  recentActivity: Activity[];
-}
-
-export default interface ClinicDetailsType {
-  _id: string;
-  id: string;
-  isActive: boolean;
-  name: string;
-  overview?: string;
-  introduction?: string;
-  goals?: string;
-  details?: string;
-  vision?: string;
-  AverageDurationOfVisit: number;
-  yearOfEstablishment: string;
-  address: string;
-  logo: string;
-  contactInfos: ContactInfo[];
-  ContactInfos?: ContactInfo[]; // optional duplicate field in one sample
-  holidays: Holiday[];
-  WorkingHours: WorkingHour[];
-  bankAccount: BankAccount[];
-  insuranceCompany: InsuranceCompany[];
-  cashBoxes: CashBox[];
-  onlinePaymentMethods: OnlinePaymentMethod[];
-  commercialRecord?: CommercialRecord;
-  locationGoogl: Location;
-  departmentId: Department;
-  specializations: Specialization[];
-  specialization?: object[]; // fallback for malformed data
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  statistics: Statistics;
-}
+type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";

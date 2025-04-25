@@ -24,7 +24,7 @@ const MedicalComplexPage = () => {
   };
   const rows = data?.map((item) => (
     <TableBody
-      onClick={() => navigate(`/medicalComplex/details/${item._id}`)}
+      onClick={() => navigate(`/medicalComplexes/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
@@ -66,7 +66,7 @@ const MedicalComplexPage = () => {
 
           <AddButton
             text="Add MedicalComplex"
-            handleOnClick={() => navigate(`/medicalComplex/add`)}
+            handleOnClick={() => navigate(`/medicalComplexes/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
@@ -75,7 +75,7 @@ const MedicalComplexPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "address",
+                "PIC",
                 "address",
                 "employeeCount",
                 "departmentCount",

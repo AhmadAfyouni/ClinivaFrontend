@@ -4,20 +4,18 @@ import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
 import TableHead from "../../Components/Table/TableHead";
 import TableBody from "../../Components/Table/TableBody";
-import useClinicsList from "../../hooks/clinic/useClinicsList";
 import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
-import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
+import useServicesList from "../../hooks/serviceH/useServicesList";
 
-const ClinicsPage = () => {
+const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
-  const { data, isFetched } = useClinicsList(false, sortBy, order);
+  const { data, isFetched } = useServicesList(false, sortBy, order);
   const navigate = useNavigate();
-  const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -35,24 +33,19 @@ const ClinicsPage = () => {
   };
   const SpecialtiesOptions = [""];
   const handlSpecialtyChange = (e: string | null) => {
-    setSelectedOption("CliSpeciality", e);
     console.log(e);
   };
   const rows = data.map((item) => (
     <TableBody
-      onClick={() => navigate(`/clinics/details/${item._id}`)}
+      onClick={() => navigate(`/services/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
       th1={item.name}
-      th2={
-        item?.WorkingHours?.[0]
-          ? `${item.WorkingHours[0].startTime} - ${item.WorkingHours[0].endTime}`
-          : ""
-      }
-      th3={item.specializations.map((item) => item.name).join(",")}
-      th4={item.treatedPatientCount.toString() || "0"}
+      th2={item.description}
+      th3={item.price.toString()}
+      th4={item.clinicsAssociated.join("-")}
       th5={item.isActive.toString()}
     />
   ));
@@ -75,8 +68,7 @@ const ClinicsPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              dropdownName1="CliSpeciality"
-              placeHolderDropDown1="Speciality"
+              placeHolderDropDown1="clinicAssociation"
               OptionsDropDown1={SpecialtiesOptions}
               handlDropDownChange1={handlSpecialtyChange}
             />
@@ -90,20 +82,20 @@ const ClinicsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Clinic Id",
-                "Clinic Name",
-                "workingHours",
-                "Speciality",
-                "NumberOfPatients",
+                "Service Id",
+                "Service Name",
+                "Description",
+                "Price",
+                "Clinics",
                 "Status",
                 "Clinic",
               ]}
               sortedBy={[
                 "_id",
                 "name",
-                "timeSlots",
-                "specializations",
-                "total",
+                "description",
+                "price",
+                "clinics",
                 "isActive",
                 "_id",
               ]}
@@ -119,4 +111,4 @@ const ClinicsPage = () => {
     );
 };
 
-export default ClinicsPage;
+export default ServicesPage;

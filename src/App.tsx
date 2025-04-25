@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ResetWatcher from "./Components/store/ResetWatcher";
 import LoaderCustom from "./Components/Loader";
+import SetNavBarTitle from "./layout/NavBar/SetNavBarTitle";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -129,6 +130,7 @@ function App() {
       <MantineProvider theme={theme}>
         <Notifications />
         <BrowserRouter>
+          <SetNavBarTitle />
           <ResetWatcher />
           <AppContent />
         </BrowserRouter>

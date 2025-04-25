@@ -14,21 +14,23 @@ import { FaClinicMedical } from "react-icons/fa";
 import useSortStore from "../../hooks/useSortStore ";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useStaffList from "../../hooks/staff/useStaffList";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useState } from "react";
 import TableBody from "../../Components/Table/TableBody";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import TableHead from "../../Components/Table/TableHead";
 import AddButton from "../../Components/AddButton";
 import { SearchInput } from "../../Components/SearchInput";
+import { useTranslation } from "react-i18next";
+import useDepartmentDetails from "../../hooks/departement/useDepartementDetails";
 
 const DepartementDetails = () => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
+  const { id: deptID } = useParams();
+  const { data: departementData } = useDepartmentDetails(deptID!);
   const isMobile = useMediaQuery("(max-width: 576px)");
-  const title = ["ID", "Name", "ComplexName", "Location"];
-  const content = ["12345", "Clinic 1", "Complex 1", "Location 1"];
-  const title2 = ["Patient Capacity", "Description"];
-  const content2 = ["3254", "blah blah blah"];
+
   //////////////////////////////////////////////////////staff table
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
@@ -36,7 +38,6 @@ const DepartementDetails = () => {
   const navigate = useNavigate();
   // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
-
   if (!data) return null;
 
   const toggleAll = () => {
@@ -60,19 +61,23 @@ const DepartementDetails = () => {
       key={item._id}
       th0={item._id.toString()}
       th1={item.name}
-      th2={item.contactInfos.map((item) =>
-        item.type === "email" ? item.value : ""
-      )}
-      th3={item.departmentId}
+      th2={item.contactInfos
+        .map((item) => (item.type === "email" ? item.value : ""))
+        .join("")}
+      th3={item.departmentId?.name || ""}
       th4={item.employeeType}
       th5={item.isActive.toString()}
-      // th2={item.contact}
-      // th3={item.department}
-      // th4={item.role}
-      // th5={item.status}
     />
   ));
-
+  const title = ["ID", "Name", "ComplexName", "Location"];
+  const content = [
+    departementData?._id,
+    departementData?.name,
+    departementData?.clinicCollectionId?.name,
+    departementData?.address,
+  ];
+  const title2 = ["Patient Capacity", "Description"];
+  const content2 = ["3254", departementData?.details];
   if (!isFetched || !data)
     return (
       <Center>
@@ -81,11 +86,11 @@ const DepartementDetails = () => {
     );
   else
     return (
-      <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg}>
+      <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg} pb={90}>
         <Flex direction="row">
           <Flex w="100%" direction="column" mb="lg" gap="md">
             <Text fz={20} fw={600} c={theme.colors.myPrimary[5]}>
-              Departement
+              {t("Departement")}
             </Text>
             <Flex direction={isMobile ? "column" : "row"}>
               <Flex
@@ -97,7 +102,7 @@ const DepartementDetails = () => {
                 {title.map((item, index) => (
                   <Flex key={index}>
                     <Text w={200} c={theme.other.onSurfaceTertiary}>
-                      {item}
+                      {t(item)}
                     </Text>
                     <Text c={theme.other.onSurfacePrimary}>
                       {content[index]}
@@ -109,9 +114,10 @@ const DepartementDetails = () => {
                 <Flex>
                   <Text w={200} c={theme.other.onSurfaceTertiary}>
                     Status
+                    {t("Status")}
                   </Text>
                   <Badge size="14px" p="sm">
-                    Active
+                    {departementData?.isActive}
                   </Badge>
                 </Flex>
                 <Flex w="100%" direction="column" mb="lg" gap="lg">
@@ -131,7 +137,7 @@ const DepartementDetails = () => {
           </Flex>
         </Flex>
         <Text fw={600} fz={20} c={theme.colors.myPrimary[5]}>
-          Clinics & Specialties
+          {t("Clinics & Specialties")}
         </Text>
         <Flex
           w="100%"
