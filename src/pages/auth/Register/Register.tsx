@@ -3,7 +3,7 @@ import CustomStepper from "../../../Components/Stepper/CustomStepper";
 import AddCompany from "../../Company/AddCompany";
 import { useEffect, useState } from "react";
 import LoginToRegister from "./LoginToRegister";
-import AddDepartment from "../../Department/AddDepartment";
+import AddDepartment from "../../Departement/AddDepartment";
 import AddClinic from "../../Clinic/AddClinic";
 import AddMedicalComplex from "../../MedicalComplex/AddMedicalComplex";
 import { useNavigate } from "react-router";
