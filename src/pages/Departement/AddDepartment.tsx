@@ -68,11 +68,12 @@ function AddDepartment() {
       placeholder: "selct clinic Collection ",
       // tooltip: "Enter the name of the department",
       value: formik.values.clinicCollectionId || "",
-      onChange: (selectedKeys) => {
-        formik.setFieldValue(
-          "clinicCollectionId",
-          complexName[selectedKeys.toString()]
-        );
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === 'string') {
+          formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue]);
+        } else if (Array.isArray(selectedValue) && selectedValue.length > 0) {
+          formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue[0]]);
+        }
       },
       onBlur: formik.handleBlur,
       selectValue: complexName,

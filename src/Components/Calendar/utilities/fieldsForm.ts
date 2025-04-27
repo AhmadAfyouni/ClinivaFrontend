@@ -1,91 +1,78 @@
 import InputPropsType from "../../../types/InputsType";
 import { FormikProps } from "formik";
 import AppointmentType from "../../../types/Appointment/AppointmentType";
-
+export interface doctorsSelectType {
+  [key: string]: string;
+}
 export const fieldsForm: (
   formik: FormikProps<AppointmentType>,
-  doctors: string[]
-) => InputPropsType[] = (formik, doctors) => [
+  doctors: doctorsSelectType,
+) =>
+ InputPropsType[] = (formik, doctors) => [
   {
-    id: "patientName",
+    id: "datetime",
+    label: "Date & Time",
+    mandatory: true,
+    type: "text",
+    description: "",
+    error: undefined,
+    placeholder: "",
+    tooltip: "Appointment date and time",
+    value: new Date(formik.values.datetime).toLocaleString(),
+    onChange: () => {},
+    onBlur: () => {},
+    disabled: true,
+  },
+  {
+    id: "patient.name",
     label: "Patient Name",
     mandatory: true,
     type: "text",
     description: "",
-    error: formik.errors.patientName,
+    error: formik.errors.patient?.name as string | undefined,
     placeholder: "Enter patient name",
     tooltip: "Enter the patient's name",
-    value: formik.values.patientName || "",
+    value: formik.values.patient.name,
     onChange: formik.handleChange,
     onBlur: formik.handleBlur,
   },
   {
-    id: "treatment",
-    label: "Treatment",
+    id: "reason",
+    label: "Reason",
     mandatory: true,
     type: "text",
     description: "",
-    error: formik.errors.treatment,
-    placeholder: "Enter treatment",
-    tooltip: "Enter the treatment",
-    value: formik.values.treatment || "",
+    error: formik.errors.reason as string | undefined,
+    placeholder: "Enter reason",
+    tooltip: "Enter appointment reason",
+    value: formik.values.reason,
     onChange: formik.handleChange,
     onBlur: formik.handleBlur,
   },
   {
-    id: "time",
-    label: "Time",
-    mandatory: true,
-    type: "text",
-    description: "",
-    error: formik.errors.time,
-    placeholder: "Enter time",
-    tooltip: "Enter the appointment time",
-    value: formik.values.time || "",
-    onChange: formik.handleChange,
-    onBlur: formik.handleBlur,
-    disabled: true, // Disable time input if cell is selected
-  },
-  {
-    id: "date",
-    label: "Date",
-    mandatory: true,
-    type: "text",
-    description: "",
-    error:
-      typeof formik.errors.date === "string" ? formik.errors.date : undefined,
-    placeholder: "Select date",
-    tooltip: "Select the appointment date",
-    onChange: formik.handleChange,
-    onBlur: formik.handleBlur,
-    disabled: true, // Disable date input if cell is selected
-    value: formik.values.date.toLocaleDateString() || "",
-  },
-  {
-    id: "doctor",
+    id: "doctor.name",
     label: "Doctor",
     mandatory: true,
     type: "select",
     description: "",
-    error: formik.errors.doctor,
+    error: formik.errors.doctor?.name as string | undefined,
     placeholder: "Select doctor",
     tooltip: "Select the doctor",
-    value: formik.values.doctor || "",
-    onChange: formik.handleChange,
+    value: formik.values.doctor.name,
+    onChange:  (selectedKeys) => {
+      if (
+        Array.isArray(selectedKeys) &&
+        selectedKeys.every((item) => typeof item === "string")
+      ) {
+        const selectedValues = selectedKeys.map(
+          (key) => doctors[key]
+        );
+        formik.setFieldValue("doctor", selectedValues);
+      } else {
+        console.error("selectedKeys is not a valid array of strings");
+      }
+    },
     onBlur: formik.handleBlur,
-    selectValue: doctors.filter((d) => d !== "All Doctors"),
-  },
-  {
-    id: "notes",
-    label: "Notes",
-    mandatory: false,
-    type: "areaText",
-    description: "",
-    error: formik.errors.notes,
-    placeholder: "Enter notes",
-    tooltip: "Enter any additional notes",
-    value: formik.values.notes || "",
-    onChange: formik.handleChange,
-    onBlur: formik.handleBlur,
+    selectValue: Object.keys(doctors),
   },
 ];
