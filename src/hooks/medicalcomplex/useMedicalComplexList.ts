@@ -2,7 +2,7 @@ import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-import { MedicalComplexDetailsType } from "../../types/medicalComplex/MedicalComplexDetailsType";
+import MedicalComplexDetailsType from "../../types/medicalComplex/MedicalComplexDetailsType";
 const useMedicalComplexList = (
   allData = false,
   sortBy = "_id",

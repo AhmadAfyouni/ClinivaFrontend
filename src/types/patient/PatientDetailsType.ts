@@ -48,4 +48,5 @@ export default interface PatientDetailsType {
   lifestyleFactors: string;
   familyMedicalHistory: string[];
   lastVisit: string;
+  publicId: string;
 }

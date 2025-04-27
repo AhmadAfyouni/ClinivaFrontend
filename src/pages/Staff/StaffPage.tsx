@@ -20,7 +20,6 @@ const StaffPage = () => {
   const deps = Array.from(new Set(departments?.map((item) => item.name)));
   const { data, isFetched } = useStaffList(false, sortBy, order);
   const navigate = useNavigate();
-  // console.log(data);
   const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   console.log(deps);
@@ -41,7 +40,7 @@ const StaffPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
       th2={item.employeeType}
       th3={item.clinicCollectionId !== null ? item.clinicCollectionId.name : ""}
@@ -74,13 +73,13 @@ const StaffPage = () => {
     );
   else
     return (
-      <Flex w="100%" direction="column">
+      <Flex w="97%" direction="column">
         <Flex w="100%" justify="space-between">
           <Flex>
             <SearchInput
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
-              text="Search "
+              text="Search"
             />
             <CustomFilters
               IsDropDown1={true}
@@ -88,15 +87,15 @@ const StaffPage = () => {
               dropdownName1="StaStatus"
               OptionsDropDown1={statusOptions.map((item) => item.label)}
               handlDropDownChange1={handlStatusChange}
-              IsDropDown2={true}
-              placeHolderDropDown2={"department"}
-              OptionsDropDown2={deps}
-              handlDropDownChange2={handlStatusChange}
+              // IsDropDown2={true}
+              // placeHolderDropDown2={"department"}
+              // OptionsDropDown2={deps}
+              // handlDropDownChange2={handlStatusChange}
             />
           </Flex>
           <AddButton
-            text="Add Staff"
-            handleOnClick={() => navigate(`/employee/add`)}
+            text={"Add Staff"}
+            handleOnClick={() => navigate(`/employees/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>

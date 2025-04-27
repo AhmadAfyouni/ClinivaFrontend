@@ -10,6 +10,7 @@ import useAddDepartment from "../../hooks/departement/useDepartement";
 
 function AddDepartment() {
   const hook = useAddDepartment();
+
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
       name: "",
@@ -121,7 +122,7 @@ function AddDepartment() {
   ];
 
   return (
-    <ScrollArea>
+    <ScrollArea h="100vh">
       <form onSubmit={formik.handleSubmit}>
         <InputForm
           base={primaryFields}
@@ -166,7 +167,7 @@ function AddDepartment() {
           />
         </Box>
 
-        <Button type="submit" mt="md" w="30%">
+        <Button type="submit" mt="md" w="30%" mb="110px">
           Submit
         </Button>
       </form>

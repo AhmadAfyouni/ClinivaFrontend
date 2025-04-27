@@ -7,11 +7,13 @@ import {
   ScrollArea,
   Flex,
 } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 interface Props {
   allergies: string[];
   chronicDiseases: string[];
 }
 const AllergyMedicationCard = ({ allergies, chronicDiseases }: Props) => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   return (
     <Container size="sm" py="md" bg={theme.other.bg} w="100%">
@@ -25,7 +27,7 @@ const AllergyMedicationCard = ({ allergies, chronicDiseases }: Props) => {
                 mb="md"
                 c={theme.other.onSurfaceTertiary}
               >
-                Allergies
+                {t("Allergies")}
               </Title>
               <List>
                 {allergies.map((allergy, index) => (
@@ -43,7 +45,7 @@ const AllergyMedicationCard = ({ allergies, chronicDiseases }: Props) => {
                 c={theme.other.onSurfaceTertiary}
                 size="16px"
               >
-                Chronic diseases
+                {t("Chronic diseases")}
               </Title>
               <List>
                 {chronicDiseases.map((allergy, index) => (

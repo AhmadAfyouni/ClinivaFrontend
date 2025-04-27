@@ -9,7 +9,13 @@ const useDoctorsCards = (sortBy = "_id", order = "desc") => {
   // console.log("useGetUsers per_page", per_page);
   //   const countryStore = useCountriesPaginationStore();
   return useQuery({
-    queryKey: ["employees", pagination.current_page, pagination.items_per_page],
+    queryKey: [
+      "employees",
+      pagination.current_page,
+      pagination.items_per_page,
+      pagination.paramKey,
+      pagination.filter,
+    ],
     queryFn: () => {
       const url = `/employees?${
         "&page=" +
@@ -21,7 +27,11 @@ const useDoctorsCards = (sortBy = "_id", order = "desc") => {
         "&order=" +
         order +
         "&employeeType=" +
-        "Doctor"
+        "Doctor" +
+        "&search=" +
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<DoctorDetailsType>>(url)

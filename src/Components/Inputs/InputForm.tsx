@@ -8,13 +8,13 @@ interface Props {
   title?: string;
   with_submit?: boolean;
 }
-function InputForm({ base, title, with_submit = true }: Props) {
+function InputForm({ base, title, onSubmit, with_submit = true }: Props) {
   const theme = useMantineTheme();
   return (
     <form
       onSubmit={(e) => {
         console.log("omsubmit", e);
-        // onSubmit(e);
+        onSubmit(e);
       }}
     >
       <Flex

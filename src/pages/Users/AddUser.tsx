@@ -16,7 +16,7 @@ function AddUser() {
       password: "",
       isActive: false,
       roleIds: "",
-      clinicCollectionId: "",
+      // clinicCollectionId: "",
       employeeId: "",
     },
     validationSchema: AddUserSchema,
@@ -121,20 +121,20 @@ function AddUser() {
       selectValue: Object.keys(roles) || [""],
       onBlur: formik.handleBlur,
     },
-    {
-      id: "clinicCollectionId",
-      label: "Clinic Collection",
-      mandatory: true,
-      type: "select",
+    // {
+    //   id: "clinicCollectionId",
+    //   label: "Clinic Collection",
+    //   mandatory: true,
+    //   type: "select",
 
-      description: "",
-      error: formik.errors.clinicCollectionId,
-      placeholder: "",
-      tooltip: "Choose Clinic CollectionId for user",
-      value: formik.values.clinicCollectionId,
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+    //   description: "",
+    //   error: formik.errors.clinicCollectionId,
+    //   placeholder: "",
+    //   tooltip: "Choose Clinic CollectionId for user",
+    //   value: formik.values.clinicCollectionId,
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
   ];
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">

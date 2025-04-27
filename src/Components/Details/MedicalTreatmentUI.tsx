@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconCalendar } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 interface TreatmentProps {
   scheduleStatus: string;
   scheduleTreatment: string;
@@ -27,6 +28,7 @@ interface Props {
   noteText?: string;
 }
 function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
@@ -102,13 +104,13 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
     <>
       {/* Header Section */}
       <Text fw={600} size="16px" c={theme.other.onSurfacePrimary}>
-        Treatment
+        {t("Treatment")}
       </Text>
       <Grid columns={6}>
         <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6} mt={10}>
           {/* Upcoming Section */}
           <Text fw={500} size="15px" c={theme.other.onSurfacePrimary} mb={15}>
-            Upcoming
+            {t("Upcoming")}
           </Text>
           <ScrollArea h="250px" mb={10}>
             {upcoming.map((item) => (
@@ -124,7 +126,7 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
         {/* History Section */}
         <Grid.Col span={isMobile ? 6 : isTablet ? 2 : 6} mt={10}>
           <Text fw={500} size="15px" c={theme.other.onSurfacePrimary} mb="md">
-            History
+            {t("History")}
           </Text>
           <ScrollArea h="250px" mb={10}>
             {history.map((item) => (
@@ -148,7 +150,7 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
               c={theme.other.onSurfacePrimary}
               mt={15}
             >
-              Notes
+              {t("Notes")}
             </Text>
             <Card
               shadow="sm"

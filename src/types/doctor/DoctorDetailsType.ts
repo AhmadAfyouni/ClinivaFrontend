@@ -54,4 +54,5 @@ export default interface DoctorDetailsType {
   departmentId: DepartmentId | null;
   clinics: string[];
   specializations: string[];
+  publicId: string;
 }

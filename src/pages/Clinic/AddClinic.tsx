@@ -3,7 +3,11 @@ import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Box, Button, ScrollArea } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
-import { ContactInfoType, Holiday, BankAccountType } from "../../types/GeneralAdd";
+import {
+  ContactInfoType,
+  Holiday,
+  BankAccountType,
+} from "../../types/GeneralAdd";
 import AddClinicType from "../../types/clinic/AddClinic";
 import AddClinicSchema from "../../schema/clinic/AddClinic";
 import LocationPicker from "../../Components/Map/LocationPicker";
@@ -226,7 +230,7 @@ function AddClinic() {
   ];
 
   return (
-    <ScrollArea>
+    <ScrollArea h="100vh">
       <form onSubmit={formik.handleSubmit}>
         <InputForm
           base={primaryFields}
@@ -344,7 +348,7 @@ function AddClinic() {
           )}
         </Box>
 
-        <Button type="submit" mt="md" w="30%">
+        <Button type="submit" mt="md" w="30%" mb="110px">
           Submit
         </Button>
       </form>

@@ -19,7 +19,9 @@ import MedicalTreatment from "../../Components/Details/MedicalTreatmentUI";
 import { useParams } from "react-router";
 import TextInfo from "../../Components/Details/TextInfo";
 import dataAppointment from "../../data/paitientAppointment.json";
+import { useTranslation } from "react-i18next";
 const PatientDetails = () => {
+  const { t } = useTranslation();
   const [day, month, year] = "2-4-2025".split("-").map(Number);
   const date = new Date(year, month - 1, day);
   const theme = useMantineTheme();
@@ -59,15 +61,15 @@ const PatientDetails = () => {
                       size="lg"
                       c={theme.other.onSurfacePrimary}
                     >
-                      Patient Info
+                      {t("patient_info")}
                     </Text>
                     <TextInfo
                       titles={[
-                        " person Name",
-                        " person Id",
-                        "familyMedicalHistory",
-                        "lifestyleFactors",
-                        "preferredLanguage",
+                        t("person_name"),
+                        t("person_id"),
+                        t("family_medical_history"),
+                        t("lifestyle_factors"),
+                        t("preferred_language"),
                       ]}
                       contents={[
                         data.name,
@@ -82,7 +84,7 @@ const PatientDetails = () => {
                   <InsuranceCard
                     expiryDate={date}
                     HPI="HPT-24325425"
-                    insuranceType="Health Plus"
+                    insuranceType={t("health_plus")}
                     isActive={data.isActive}
                     personName={data.name}
                     ID={data.identity}
@@ -93,7 +95,7 @@ const PatientDetails = () => {
                 </Flex>
               </Box>
               <PatientInfoCard
-                aboutPatient="A regular patient at the clinic"
+                aboutPatient={"A regular patient at the clinic"}
                 maritalStatus={data.marital_status}
                 birthday={data.dateOfBirth}
                 gender={data.gender}
@@ -101,6 +103,7 @@ const PatientDetails = () => {
               />
             </Flex>
           </Grid.Col>
+
           <Grid.Col span={isMobile || isTablet ? 8 : 4}>
             <MedicalInfo
               bloodType={data.blood_type}
@@ -136,10 +139,10 @@ const PatientDetails = () => {
               </Grid.Col>
             </Grid>
           </Grid.Col>
+
           <Grid.Col span={isMobile || isTablet ? 8 : 2}>
             <MedicalTreatment
               upcomingAndHistorySchedule={dataAppointment}
-              // upcomingAndHistorySchedule={}
               noteText={data.notes}
             />
           </Grid.Col>

@@ -10,6 +10,7 @@ import {
   Box,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { useTranslation } from "react-i18next";
 interface Props {
   name: string;
   specialty: string[];
@@ -44,6 +45,7 @@ const DoctorProfileCard = ({
   socialMedia,
   address,
 }: Props) => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
@@ -54,13 +56,13 @@ const DoctorProfileCard = ({
   const bithdayStr = birthday.toLocaleDateString("en-US");
   const hireDateStr = hireDate.toLocaleDateString("en-US");
   const titleInfo = [
-    "Name",
-    "Specialties",
-    "Birthday",
-    "Gender",
-    "Status",
-    "ChildrenNum",
-    "Languages",
+    t("name"),
+    t("specialties"),
+    t("birthday"),
+    t("gender"),
+    t("status"),
+    t("childrenNum"),
+    t("languages"),
   ];
   const textInfo = [
     name,
@@ -71,9 +73,19 @@ const DoctorProfileCard = ({
     childrenNum,
     languagesStr,
   ];
-  const sectionTitle = ["About", "Hire Date", "Experience", "Certification"];
+  const sectionTitle = [
+    t("About"),
+    t("Hire Date"),
+    t("Experience"),
+    t("Certification"),
+  ];
   const sectionText = [about, hireDateStr, experience, certification];
-  const contactInfoTitle = ["Phone", "Email", "Social Media", "Address"];
+  const contactInfoTitle = [
+    t("Phone"),
+    t("Email"),
+    t("socialMedia"),
+    t("Address"),
+  ];
   const contactInfoText = [phone, email, socialMedia, address];
 
   return (
@@ -177,7 +189,7 @@ const DoctorProfileCard = ({
         mt={isDesktop ? 20 : 0}
       >
         <Text fw={600} mb="25px" mt="10px" c={theme.other.onSurfacePrimary}>
-          Contact Info
+          {t("contactInfo")}
         </Text>
         <Flex direction="column" gap="sm">
           {contactInfoTitle.map((item, index) => (

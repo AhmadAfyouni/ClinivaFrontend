@@ -1,5 +1,6 @@
 import {
   Card,
+  DirectionProvider,
   Flex,
   MantineProvider,
   MantineThemeOverride,
@@ -23,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import ResetWatcher from "./Components/store/ResetWatcher";
 import LoaderCustom from "./Components/Loader";
 import SetNavBarTitle from "./layout/NavBar/SetNavBarTitle";
+import { useTranslation } from "react-i18next";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -117,24 +119,33 @@ function AppContent() {
 
 function App() {
   const { dark } = useDarkThem();
-  const theme = createAppTheme(dark);
+  const { i18n } = useTranslation(); // ✅ access language
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 * 2 },
     },
   });
 
+  const direction = i18n.language === "ar" ? "rtl" : "ltr";
+
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", direction);
+  }, [direction]);
+
+  const theme = createAppTheme(dark);
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
-      <MantineProvider theme={theme}>
-        <Notifications />
-        <BrowserRouter>
-          <SetNavBarTitle />
-          <ResetWatcher />
-          <AppContent />
-        </BrowserRouter>
-      </MantineProvider>
+      <DirectionProvider>
+        <MantineProvider theme={theme}>
+          <Notifications />
+          <BrowserRouter>
+            <SetNavBarTitle />
+            <ResetWatcher />
+            <AppContent />
+          </BrowserRouter>
+        </MantineProvider>
+      </DirectionProvider>
     </QueryClientProvider>
   );
 }
