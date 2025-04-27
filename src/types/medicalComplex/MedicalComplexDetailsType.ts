@@ -3,13 +3,13 @@ import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
 import { InsuranceCompany } from "../company/AddCompanyType";
 import { BankAccount } from "../Employee/GetEmployee";
 
-export interface ClinicResponse {
-  success: boolean;
-  message: string;
-  data: Clinic;
-}
+// export interface ClinicResponse {
+//   success: boolean;
+//   message: string;
+//   data: Clinic;
+// }
 
-export default interface Clinic {
+export default interface MedicalComplexDetailsType {
   isActive: boolean;
   contactInfos: ContactInfo[];
   cashBoxes: CashBox[];
@@ -33,6 +33,7 @@ export default interface Clinic {
   id: string;
   employeeCount: number;
   departmentCount: number;
+  publicId: string;
 }
 
 export interface ContactInfo {

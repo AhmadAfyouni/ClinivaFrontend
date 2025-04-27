@@ -6,7 +6,7 @@ const useDepartmentDetails = (id: string) => {
   return useQuery({
     queryKey: ["departement", id],
     queryFn: () => {
-      const url = `/departements/` + id;
+      const url = `/departments/` + id;
       return axiosInstance
         .get<ResponseDetailsType<DepartmentDetailsType>>(url)
         .then((res) => {

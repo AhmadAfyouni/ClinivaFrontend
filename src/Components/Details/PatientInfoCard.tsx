@@ -12,6 +12,7 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { IconDotsVertical } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 interface Props {
   aboutPatient: string;
   patientId: string;
@@ -26,6 +27,7 @@ function PatientInfoCard({
   birthday,
   gender,
 }: Props) {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const birthda = birthday.slice(0, 10);
   return (
@@ -61,7 +63,7 @@ function PatientInfoCard({
             style={{ lineHeight: 1.8 }}
             c={theme.other.onSurfacePrimary}
           >
-            {aboutPatient}
+            {t(aboutPatient)}
           </Text>
         </ScrollArea>
       </Stack>
@@ -70,7 +72,7 @@ function PatientInfoCard({
         <Grid.Col span={12}>
           <Flex justify="space-between" mb={18}>
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              Patient Id
+              {t("patient Id")}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
               {patientId}
@@ -80,7 +82,7 @@ function PatientInfoCard({
         <Grid.Col span={12}>
           <Flex justify="space-between" mb={18}>
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              Gender
+              {t("Gender")}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
               {gender}
@@ -90,7 +92,7 @@ function PatientInfoCard({
         <Grid.Col span={12} mb={18}>
           <Flex justify="space-between">
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              Birthday
+              {t("Birthday")}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
               {birthda}
@@ -100,10 +102,10 @@ function PatientInfoCard({
         <Grid.Col span={12} mb={18}>
           <Flex justify="space-between">
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              maritalStatus
+              {t(maritalStatus)}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
-              {maritalStatus}
+              maritalStatus
             </Text>
           </Flex>
         </Grid.Col>

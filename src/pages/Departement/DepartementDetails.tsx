@@ -29,6 +29,7 @@ const DepartementDetails = () => {
   const theme = useMantineTheme();
   const { id: deptID } = useParams();
   const { data: departementData } = useDepartmentDetails(deptID!);
+  console.log(departementData);
   const isMobile = useMediaQuery("(max-width: 576px)");
 
   //////////////////////////////////////////////////////staff table
@@ -113,7 +114,6 @@ const DepartementDetails = () => {
               <Flex direction="column" w={isMobile ? "100%" : "48%"} gap="md">
                 <Flex>
                   <Text w={200} c={theme.other.onSurfaceTertiary}>
-                    Status
                     {t("Status")}
                   </Text>
                   <Badge size="14px" p="sm">
@@ -124,7 +124,7 @@ const DepartementDetails = () => {
                   {title2.map((item, index) => (
                     <Flex key={index}>
                       <Text w={200} c={theme.other.onSurfaceTertiary}>
-                        {item}
+                        {t(item)}
                       </Text>
                       <Text c={theme.other.onSurfacePrimary}>
                         {content2[index]}
@@ -148,7 +148,7 @@ const DepartementDetails = () => {
             <ListComponent
               key={0}
               minwidth="50%"
-              title="Clinics"
+              title={t("Clinics")}
               listItems={["gf1dsa", "gsgf2sdg", "g3fdsa", "gsg4fsdg", "gf5dsa"]}
               icon={<FaClinicMedical />}
             />
@@ -157,7 +157,7 @@ const DepartementDetails = () => {
             <ListComponent
               key={1}
               minwidth="50%"
-              title="Specialties"
+              title={t("Specialties")}
               listItems={[
                 "fsdgsf0",
                 "sdf09g",

@@ -1,67 +1,70 @@
 import { useLocation } from "react-router-dom";
 import usePageTitleStore from "../../store/usePageTitleStore";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const SetNavBarTitle = () => {
   const location = useLocation();
-  // console.log(location.pathname); const location = useLocation();
   const setTitle = usePageTitleStore((state) => state.setTitle);
+  const { t } = useTranslation();
+
   const pageTitles: Record<string, string> = {
-    "/": "Dashboard",
-    "/employees": "Staff",
-    "/employees/add": "Add Staff",
-    "/patients": "Patients",
-    "/patients/add": "Add Patient",
-    "/doctors": "Doctors",
-    "/doctors/add": "Add Doctor",
-    "/users": "Users",
-    "/users/add": "AddUser",
-    "/appointments": "Appointments",
-    "/appointments/add": "Add Appointment",
+    "/": "dashboard",
+    "/employees": "staff",
+    "/employees/add": "addStaff",
+    "/patients": "patients",
+    "/patients/add": "addPatient",
+    "/doctors": "doctors",
+    "/doctors/add": "addDoctor",
+    "/users": "users",
+    "/users/add": "addUser",
+    "/appointments": "appointments",
+    "/appointments/add": "addAppointment",
     "/companies": "Companies",
-    "/companies/add": "Add Company",
-    "/medicalComplexes": "Medical Complexes",
-    "/medicalComplexes/add": "Add MedicalComplex",
-    "/departements": "Departements",
-    "/departements/add": "Add Departement",
-    "/clinics": "Clinics",
-    "/clinics/add": "AddClinic",
-    "/clinics/details": "Clinic Details",
-    "/services": "Services",
-    "/services/add": "Add Service",
-    "/services/update": "Update Service",
-    "/specialities": "Specialties",
-    "/specialities/add": "Add Speciality",
-    "/settings": "Settings",
-    "/security": "Security",
+    "/company": "Company",
+    "/companies/add": "addCompany",
+    "/medicalComplexes": "medicalComplexes",
+    "/medicalComplexes/add": "addMedicalComplex",
+    "/departements": "departements",
+    "/departements/add": "addDepartement",
+    "/clinics": "clinics",
+    "/clinics/add": "addClinic",
+    "/clinics/details": "clinicDetails",
+    "/services": "services",
+    "/services/add": "addService",
+    "/services/update": "updateService",
+    "/specialities": "specialities",
+    "/specialities/add": "addSpeciality",
+    "/settings": "settings",
+    "/security": "security",
   };
 
-  const dynamicPaths: { path: string; title: string }[] = [
-    { path: "/patients/details", title: "Patient Details" },
-    { path: "/staff/details", title: "staff Details" },
-    { path: "/doctors/details", title: "Doctor Details" },
-    { path: "/users/details", title: "User Details" },
-    { path: "/companies/details", title: "Company Details" },
-    { path: "/medicalComplexes/details", title: "medicalComplex Details" },
-    { path: "/departements/details", title: "Departement Details" },
-    { path: "/clinics/details", title: "Clinic Details" },
-    { path: "/specialities/details", title: "Speciality Details" },
-    { path: "/services/details", title: "Service Details" },
-    // add more as needed
+  const dynamicPaths: { path: string; key: string }[] = [
+    { path: "/patients/details", key: "patientDetails" },
+    { path: "/staff/details", key: "staffDetails" },
+    { path: "/doctors/details", key: "doctorDetails" },
+    { path: "/users/details", key: "userDetails" },
+    { path: "/companies/details", key: "companyDetails" },
+    { path: "/medicalComplexes/details", key: "medicalComplexDetails" },
+    { path: "/departements/details", key: "departementDetails" },
+    { path: "/clinics/details", key: "clinicDetails" },
+    { path: "/specialities/details", key: "specialityDetails" },
+    { path: "/services/details", key: "serviceDetails" },
   ];
 
   useEffect(() => {
-    const exactTitle = pageTitles[location.pathname];
-    if (exactTitle) {
-      setTitle(exactTitle);
+    const exactKey = pageTitles[location.pathname];
+    if (exactKey) {
+      setTitle(t(exactKey));
     } else {
       const matched = dynamicPaths.find((item) =>
         location.pathname.startsWith(item.path)
       );
-      setTitle(matched?.title || "");
+      setTitle(matched ? t(matched.key) : "");
     }
-  }, [location.pathname]);
+  }, [location.pathname, t, setTitle]);
 
   return null;
 };
+
 export default SetNavBarTitle;

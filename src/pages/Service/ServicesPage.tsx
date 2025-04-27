@@ -42,10 +42,10 @@ const ServicesPage = () => {
       setSelection={setSelection}
       key={item._id}
       th0={item._id}
-      th1={item.name}
+      th1={item.name || ""}
       th2={item.description}
       th3={item.price.toString()}
-      th4={item.clinicsAssociated.join("-")}
+      th4={item.clinic !== null ? item.clinic.name : ""}
       th5={item.isActive.toString()}
     />
   ));
@@ -59,12 +59,12 @@ const ServicesPage = () => {
   else
     return (
       <>
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <Flex>
             <SearchInput
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
-              text="Search Clinic"
+              text="Search"
             />
             <CustomFilters
               IsDropDown1={true}
@@ -74,21 +74,21 @@ const ServicesPage = () => {
             />
           </Flex>
           <AddButton
-            text="Add Clinic"
-            handleOnClick={() => navigate(`/clinics/add`)}
+            text="Add Service"
+            handleOnClick={() => navigate(`/services/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
           <Table>
             <TableHead
               labels={[
-                "Service Id",
-                "Service Name",
-                "Description",
-                "Price",
-                "Clinics",
-                "Status",
-                "Clinic",
+                "serviceId",
+                "serviceName",
+                "description",
+                "price",
+                "clinics",
+                "status",
+                "clinic",
               ]}
               sortedBy={[
                 "_id",

@@ -45,11 +45,11 @@ const DepartementsPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
-      th2={item.clinicCollectionId?.name}
+      th2={item.clinicCollectionId?.name || ""}
       th3={item.address}
-      th4={item.clinicCount.toString()}
+      th4={item.clinicCollectionId?.name || ""}
       th5={item.requiredStaff.toString()}
     />
   ));
@@ -63,7 +63,7 @@ const DepartementsPage = () => {
   else
     return (
       <Flex direction="column">
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <Flex>
             <SearchInput
               text="Search "
@@ -79,8 +79,8 @@ const DepartementsPage = () => {
             /> */}
           </Flex>
           <AddButton
-            text="Add MedicalComplex"
-            handleOnClick={() => navigate(`/departement/add`)}
+            text="addDepartement"
+            handleOnClick={() => navigate(`/departements/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
@@ -96,13 +96,13 @@ const DepartementsPage = () => {
                 "_id",
               ]}
               labels={[
-                "Departement Id",
-                "Name",
-                "PIC",
-                "Address",
-                "DepartmentsCount",
-                "PatientCount",
-                "Departement",
+                "departmentId",
+                "name",
+                "pic",
+                "address",
+                "departmentsCount",
+                "patientCount",
+                "departement",
               ]}
               data={data}
               selection={selection}

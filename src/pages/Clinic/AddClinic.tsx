@@ -221,7 +221,7 @@ function AddClinic() {
   ];
   // console.log(formik.errors);
   return (
-    <ScrollArea>
+    <ScrollArea h="100vh">
       <form onSubmit={formik.handleSubmit}>
         <InputForm
           base={primaryFields}
@@ -339,7 +339,7 @@ function AddClinic() {
           )}
         </Box>
 
-        <Button type="submit" mt="md" w="30%">
+        <Button type="submit" mt="md" w="30%" mb="110px">
           Submit
         </Button>
       </form>

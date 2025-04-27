@@ -220,4 +220,5 @@ export default interface StaffDetailsType {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  publicId: string;
 }

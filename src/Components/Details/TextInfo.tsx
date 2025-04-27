@@ -1,5 +1,6 @@
 import { Flex, Text, Tooltip, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   titles: string[];
@@ -7,6 +8,7 @@ interface Props {
   width: number;
 }
 const TextInfo = ({ titles, contents, width }: Props) => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   return (
@@ -14,7 +16,7 @@ const TextInfo = ({ titles, contents, width }: Props) => {
       {titles.map((item, index) => (
         <Flex justify="start" key={index}>
           <Text w={width} c={theme.other.onSurfaceTertiary}>
-            {item}
+            {t(item)}
           </Text>
           <Tooltip label={contents[index]}>
             <Text c={theme.other.onSurfacePrimary} truncate>

@@ -1,10 +1,11 @@
 import { Button, Text, useMantineTheme } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 interface Props {
   text: string;
   handleOnClick: () => void;
 }
 const AddButton = ({ text, handleOnClick }: Props) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   return (
     <Button
@@ -17,7 +18,7 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       color="teal"
       radius="xl"
       size="35px"
-      p="0"
+      p="0 "
     >
       <Text
         fw="normal"
@@ -30,11 +31,11 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       <Text
         fw="normal"
         fz="11px"
-        pr="8px"
+        p="0 8px"
         c={theme.other?.onSurfacePrimary}
         visibleFrom="xs"
       >
-        {text}
+        {t(text)}
       </Text>
     </Button>
   );

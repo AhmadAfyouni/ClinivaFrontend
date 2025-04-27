@@ -39,7 +39,6 @@ const UsersPage = () => {
   const handleDateChange = (e: Date | null) => {
     const date = e;
     if (date && !isNaN(date.getTime())) {
-      console.log(date.getMonth());
       const month = String(date.getDate()).padStart(2, "0");
       const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
       const year = date.getFullYear();
@@ -66,9 +65,9 @@ const UsersPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
-      th2={new Date(item.lastLoginAt).toLocaleString("en-US", {
+      th2={new Date(item.createdAt || "").toLocaleString("en-US", {
         year: "numeric",
         month: "numeric",
         day: "numeric",
@@ -79,7 +78,6 @@ const UsersPage = () => {
       th3={item.email}
       th4={item.roleIds.map((item) => item.name).toString()}
       th5={item.isActive.toString()}
-      // th4={item.role}
     />
   ));
 
@@ -92,10 +90,10 @@ const UsersPage = () => {
   else
     return (
       <Flex direction="column">
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <Flex>
             <SearchInput
-              text="Search User"
+              text="Search"
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
             />
@@ -123,18 +121,18 @@ const UsersPage = () => {
           <Table>
             <TableHead
               labels={[
-                "User Id",
-                "User Name",
-                "Created Date",
-                "Email",
-                "Role",
-                "Status",
-                "User",
+                "userId",
+                "name",
+                "createdDate",
+                "email",
+                "role",
+                "status",
+                "user",
               ]}
               sortedBy={[
                 "_id",
                 "name",
-                "lastLoginAt",
+                "createdAt",
                 "email",
                 "roleIds.name",
                 "isActive",

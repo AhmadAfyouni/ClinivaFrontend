@@ -8,8 +8,10 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { IconClock } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 const AppointmentSchedule = () => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const appointments = [
     {
@@ -59,7 +61,7 @@ const AppointmentSchedule = () => {
   return (
     <Box w="100%" maw="400px" m="0 20px" bg={theme.other.bg}>
       <Text fw={600} fz="lg" c={theme.other.onSurfacePrimary} mb="20px">
-        Schedule
+        {t("schedule")}
       </Text>
       <ScrollArea h={480} w="100%">
         <Flex direction="column">

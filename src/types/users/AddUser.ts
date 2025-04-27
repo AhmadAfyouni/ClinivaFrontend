@@ -4,6 +4,6 @@ export default interface AddUserType {
   password: string;
   isActive: boolean;
   roleIds: string;
-  clinicCollectionId: string;
+  // clinicCollectionId: string;
   employeeId: string;
 }

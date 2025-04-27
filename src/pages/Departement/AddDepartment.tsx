@@ -13,6 +13,7 @@ interface selectRoleType {
 }
 function AddDepartment() {
   const hook = useAddDepartment();
+
   const complex = useMedicalComplexList(true);
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
@@ -69,10 +70,13 @@ function AddDepartment() {
       // tooltip: "Enter the name of the department",
       value: formik.values.clinicCollectionId || "",
       onChange: (selectedValue) => {
-        if (typeof selectedValue === 'string') {
+        if (typeof selectedValue === "string") {
           formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue]);
         } else if (Array.isArray(selectedValue) && selectedValue.length > 0) {
-          formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue[0]]);
+          formik.setFieldValue(
+            "clinicCollectionId",
+            nameIdMap[selectedValue[0]]
+          );
         }
       },
       onBlur: formik.handleBlur,
@@ -154,7 +158,7 @@ function AddDepartment() {
   ];
 
   return (
-    <ScrollArea>
+    <ScrollArea h="100vh">
       <form onSubmit={formik.handleSubmit}>
         <InputForm
           base={primaryFields}
@@ -199,7 +203,7 @@ function AddDepartment() {
           />
         </Box>
 
-        <Button type="submit" mt="md" w="30%">
+        <Button type="submit" mt="md" w="30%" mb="110px">
           Submit
         </Button>
       </form>

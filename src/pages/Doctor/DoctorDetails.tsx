@@ -8,11 +8,16 @@ import Cards from "../../Components/DoctorsDetails/Cards";
 import { useMediaQuery } from "@mantine/hooks";
 import useDoctorDetails from "../../hooks/doctor/useDoctorDetails";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 const DoctorDetails = () => {
+  const { t } = useTranslation();
   const { id: DoctorId } = useParams();
+  const isMobile = useMediaQuery("(max-width: 576px)");
+  const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const { data, isFetched } = useDoctorDetails(DoctorId!);
+  if (!data) return null;
   console.log(data);
-  const thPatient = ["Name", "Date", "Treatment"];
+  const thPatient = [t("Name"), t("Date"), t("Treatment")];
   const patients = [
     {
       name: "Sarah Miller",
@@ -35,7 +40,7 @@ const DoctorDetails = () => {
       treatment: "Treatment",
     },
   ];
-  const day = ["Day", "Start", "End"];
+  const day = [t("Day"), t("Start"), t("End")];
   const times = [
     {
       day: "Sun",
@@ -58,7 +63,12 @@ const DoctorDetails = () => {
       end: "12:00 PM",
     },
   ];
-  const thVication = ["leaveStartDate", "leaveEndDate", "leaveType", "status"];
+  const thVication = [
+    t("leaveStartDate"),
+    t("leaveEndDate"),
+    t("leaveType"),
+    t("status"),
+  ];
   const vication = [
     {
       leavestartdate: "Sarah Miller",
@@ -91,11 +101,10 @@ const DoctorDetails = () => {
       status: "active",
     },
   ];
-  const isMobile = useMediaQuery("(max-width: 576px)");
-  const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
+
   // const theme = useMantineTheme();
-  const titleCards = ["Identity", "Nationality", "Total Patients"];
-  const valueCards = ["3543654", "Syrian", "1245"];
+  const titleCards = [t("Identity"), t("Nationality"), t("Total Patients")];
+  const valueCards = [data?.identity, data?.nationality, "1245"];
   if (!isFetched || !data)
     return (
       <Center>
@@ -160,8 +169,8 @@ const DoctorDetails = () => {
                   <PercentageTable
                     mah="250px"
                     visibleButton={true}
-                    buttonValue="View All "
-                    tableTitle="All Patients"
+                    buttonValue={t("viewAll")}
+                    tableTitle={t("allPatients")}
                     th={thPatient}
                     tb={patients}
                   />
@@ -182,8 +191,8 @@ const DoctorDetails = () => {
               <PercentageTable
                 mah="250px"
                 visibleButton={false}
-                buttonValue="View All "
-                tableTitle="Working Hours"
+                buttonValue={t("viewAll")}
+                tableTitle={t("WorkingHours")}
                 th={day}
                 tb={times}
               />
@@ -192,8 +201,8 @@ const DoctorDetails = () => {
               <PercentageTable
                 mah="250px"
                 visibleButton={true}
-                buttonValue="Add Vication "
-                tableTitle="Vications"
+                buttonValue={t("addVication")}
+                tableTitle={t("vacations")}
                 th={thVication}
                 tb={vication}
               />

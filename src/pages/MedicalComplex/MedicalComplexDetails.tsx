@@ -9,19 +9,28 @@ import { BiClinic } from "react-icons/bi";
 import useMedicalComplexDetails from "../../hooks/medicalcomplex/useMedicalComplexDetails";
 import { useParams } from "react-router";
 import ContactInfo from "../../types/common/ContactInfo";
+import { useTranslation } from "react-i18next";
+
 const MedicalComplexDetails = () => {
+  const { t } = useTranslation();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const { id } = useParams();
   const { data, isFetched } = useMedicalComplexDetails(id!);
-  console.log(data);
+
   if (!isFetched || !data)
     return (
       <Center>
-        <Text>No Medical Details Found</Text>
+        <Text>{t("noMedicalDetailsFound")}</Text>
       </Center>
     );
-  const titles = ["Establichment Year", "Vission", "Goals", "OverView"];
+
+  const titles = [
+    t("establishmentYear"),
+    t("vision"),
+    t("goals"),
+    t("overview"),
+  ];
   const values = [
     data.createdAt.slice(0, 10),
     data.vision,
@@ -46,18 +55,17 @@ const MedicalComplexDetails = () => {
       };
     }
   });
-  const items = ["Item 1 Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+  const items = ["item1", "item2", "item3", "item4", "item5"];
   const itemsList = [
-    "Clone or download Clone or download Clone or download Clone",
-    "Install dependencies",
-    "Install dependencies",
-    "Install dependencies",
+    "cloneOrDownload",
+    "installDependencies",
+    "installDependencies",
+    "installDependencies",
   ];
   return (
     <Flex direction={isComputer ? "row" : "column"}>
       <Flex w={isComputer ? "23%" : "100%"}>
         <InfoSide
-          // url={data.log}
           url={"nothing"}
           name={data.name}
           contactInfoIcons={icons}
@@ -74,7 +82,11 @@ const MedicalComplexDetails = () => {
       <Flex w={isComputer ? "73%" : "100%"} direction="column">
         <Flex w="100%">
           <CardsInfo
-            titles={["Clinics Number", "Patient Number", "Doctors Number"]}
+            titles={[
+              t("clinicsNumber"),
+              t("patientsNumber"),
+              t("doctorsNumber"),
+            ]}
             values={["235", "32", "435"]}
           />
         </Flex>
@@ -85,14 +97,14 @@ const MedicalComplexDetails = () => {
                 <ListComponent
                   icon={<BiClinic size={16} />}
                   listItems={itemsList}
-                  title="Departments"
+                  title={t("departments")}
                 />
               </Flex>
               <Flex w="49%">
                 <ListComponent
                   icon={<BiClinic size={16} />}
                   listItems={itemsList}
-                  title="Clinics"
+                  title={t("clinics")}
                 />
               </Flex>
             </Flex>
@@ -100,7 +112,7 @@ const MedicalComplexDetails = () => {
               <ListComponent
                 icon={<BrainCog size={16} />}
                 listItems={itemsList}
-                title="Specialities"
+                title={t("specialties")}
               />
             </Flex>
           </Flex>
@@ -108,8 +120,8 @@ const MedicalComplexDetails = () => {
             w={isComputer ? "33%" : "100%"}
             direction={isTablet ? "row" : "column"}
           >
-            <GridList girdItems={items} title="Doctors" />
-            <GridList girdItems={items} title="Staff" />
+            <GridList girdItems={items} title={t("doctors")} />
+            <GridList girdItems={items} title={t("staff")} />
           </Flex>
         </Flex>
       </Flex>

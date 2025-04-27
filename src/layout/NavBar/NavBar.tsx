@@ -39,6 +39,7 @@ function NavBar({ login }: Props) {
   const handleSettings = () => {
     console.log("Navigating to settings...");
   };
+  const userName = localStorage.getItem("userName");
 
   return (
     <Flex
@@ -77,10 +78,10 @@ function NavBar({ login }: Props) {
               <Group gap="sm" style={{ cursor: "pointer" }}>
                 <Avatar radius={"xl"} />
                 <Flex direction={"column"} align={"flex-start"}>
-                  <Text fw={"500"}>AbdElwahap</Text>
-                  <Text fw={"100"} size="0.8rem">
+                  <Text fw={"500"}>{userName}</Text>
+                  {/* <Text fw={"100"} size="0.8rem">
                     Dev
-                  </Text>
+                  </Text> */}
                 </Flex>
               </Group>
             </Menu.Target>

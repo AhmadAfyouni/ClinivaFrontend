@@ -13,6 +13,7 @@ import {
   IconMail,
   IconAlertCircle,
 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 interface Props {
   phoneNumber: string;
   adress: string;
@@ -25,25 +26,26 @@ export function ContactPersonInfo({
   emergencyContact,
   phoneNumber,
 }: Props) {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const contactInfo = [
     {
-      label: "Phone",
+      label: t("Phone"),
       value: phoneNumber,
       icon: IconPhone,
     },
     {
-      label: "Address",
+      label: t("Address"),
       value: adress,
       icon: IconHome2,
     },
     {
-      label: "Email",
+      label: t("Email"),
       value: email,
       icon: IconMail,
     },
     {
-      label: "Emergency Contact",
+      label: t("Emergency Contact"),
       value: emergencyContact,
       icon: IconAlertCircle,
     },
@@ -58,7 +60,7 @@ export function ContactPersonInfo({
         bg={theme.other.bgSubtle}
       >
         <Text fw={600} size="lg" c={theme.other.onSurfacePrimary}>
-          Contact Person
+          {t("Contact Person")}
         </Text>
       </Flex>
 

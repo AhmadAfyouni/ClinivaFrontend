@@ -9,6 +9,7 @@ import {
 import { MdOutlineBloodtype } from "react-icons/md";
 import { GiBodyHeight, GiWeightScale } from "react-icons/gi";
 import { CiFlag1 } from "react-icons/ci";
+import { useTranslation } from "react-i18next";
 interface Props {
   bloodType: string;
   weight: number;
@@ -16,30 +17,31 @@ interface Props {
   nationality: string;
 }
 export function MedicalInfo({ bloodType, hieght, nationality, weight }: Props) {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const vitalSigns = [
     {
-      title: "Blood Type",
+      title: t("Blood Type"),
       value: bloodType,
       icon: MdOutlineBloodtype,
       color: theme.other.secondaryColor,
     },
     {
-      title: "Hieght",
+      title: t("Hieght"),
       value: hieght,
       unit: " M",
       icon: GiBodyHeight,
       color: theme.primaryColor,
     },
     {
-      title: "Weight",
+      title: t("Weight"),
       value: weight,
       unit: " Kg",
       icon: GiWeightScale,
       color: theme.primaryColor,
     },
     {
-      title: "Nationality",
+      title: t("Nationality"),
       value: nationality,
       icon: CiFlag1,
       color: theme.other.secondaryColor,
@@ -49,7 +51,7 @@ export function MedicalInfo({ bloodType, hieght, nationality, weight }: Props) {
   return (
     <Container size="sm" p="md" bg={theme.other.bg}>
       <Text fw={600} size="lg" c={theme.other.onSurfacePrimary} mb={5}>
-        Medical Info
+        {t("Medical Info")}
       </Text>
 
       <SimpleGrid cols={2} spacing="md">
