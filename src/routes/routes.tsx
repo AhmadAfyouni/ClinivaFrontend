@@ -44,7 +44,7 @@ export type AppRoute = RouteObject & {
 export const routes: AppRoute[] = [
   {
     path: "/",
-    element: <Dashboard />,
+    element: <UsersPage />,
   },
   {
     path: "/login",

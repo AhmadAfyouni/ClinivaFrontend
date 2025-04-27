@@ -29,7 +29,7 @@ export function SideBar() {
   const { dir } = useDirection();
   const mockdata = [
     // { label: t("Dashboard"), icon: IconGauge, link: "/" },
-    { label: t("Users"), icon: IconUser, link: "/users" },
+    { label: t("Users"), icon: IconUser, link: "/" },
 
     {
       label: t("MedicalComplexes"),
