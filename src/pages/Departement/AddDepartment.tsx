@@ -7,9 +7,13 @@ import { ContactInfoType } from "../../types/GeneralAdd";
 import AddDepartmentType from "../../types/department/AddDepartment";
 import AddDepartmentSchema from "../../schema/department/AddDepartment";
 import useAddDepartment from "../../hooks/departement/useDepartement";
-
+import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
+interface selectRoleType {
+  [key: string]: string;
+}
 function AddDepartment() {
   const hook = useAddDepartment();
+  const complex = useMedicalComplexList(true);
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
       name: "",
@@ -28,10 +32,20 @@ function AddDepartment() {
     onSubmit: (values) => {
       hook.mutate(values);
       console.log("Department Submitted:", values);
-      // Add your API call here
     },
   });
-
+  if (!complex.isSuccess) {
+    return <>get medical complex</>;
+  }
+  const complexName = [...new Set(complex.data.map((obj) => obj.name))];
+  const nameIdMap: selectRoleType = complex.data.reduce<selectRoleType>(
+    (acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    },
+    {}
+  );
+  console.log(nameIdMap);
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -44,6 +58,25 @@ function AddDepartment() {
       value: formik.values.name || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+    },
+    {
+      id: "clinicCollectionId",
+      label: "clinic Collection",
+      mandatory: true,
+      type: "select",
+      error: formik.errors.clinicCollectionId,
+      placeholder: "selct clinic Collection ",
+      // tooltip: "Enter the name of the department",
+      value: formik.values.clinicCollectionId || "",
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === 'string') {
+          formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue]);
+        } else if (Array.isArray(selectedValue) && selectedValue.length > 0) {
+          formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue[0]]);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: complexName,
     },
     {
       id: "introduction",

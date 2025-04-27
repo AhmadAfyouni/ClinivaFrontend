@@ -3,12 +3,18 @@ import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Box, Button, ScrollArea } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
-import { ContactInfoType, Holiday, BankAccountType } from "../../types/GeneralAdd";
+import {
+  ContactInfoType,
+  Holiday,
+  BankAccountType,
+} from "../../types/GeneralAdd";
 import AddClinicType from "../../types/clinic/AddClinic";
 import AddClinicSchema from "../../schema/clinic/AddClinic";
 import LocationPicker from "../../Components/Map/LocationPicker";
+import useAddClinic from "../../hooks/clinic/useAddClinic";
 
 function AddClinic() {
+  const hook = useAddClinic();
   const formik = useFormik<AddClinicType>({
     initialValues: {
       isActive: true,
@@ -46,6 +52,8 @@ function AddClinic() {
     validateOnChange: true,
     onSubmit: (values) => {
       console.log("Clinic Submitted:", values);
+      hook.mutate(values);
+      formik.setValues({} as AddClinicType);
       // Add your API call here
     },
   });
@@ -67,20 +75,7 @@ function AddClinic() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "isActive",
-      label: "Status",
-      mandatory: true,
-      type: "radio",
-      error: formik.errors.isActive,
-      radio: [
-        { label: "Active", value: "true" },
-        { label: "Inactive", value: "false" },
-      ],
-      value: formik.values.isActive.toString(),
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "AverageDurationOfVisit",
       label: "Average Visit Duration (minutes)",
@@ -224,7 +219,7 @@ function AddClinic() {
       onBlur: formik.handleBlur,
     },
   ];
-
+  // console.log(formik.errors);
   return (
     <ScrollArea>
       <form onSubmit={formik.handleSubmit}>
