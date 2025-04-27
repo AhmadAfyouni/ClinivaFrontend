@@ -1,12 +1,11 @@
 export default interface AppointementDetailsType {
   _id: string;
-  patient: Patient | null;
-  clinic: Clinic | null;
-  doctor: Doctor | null;
+  patient: Patient ;
+  doctor: Doctor ;
   datetime: string;
   startTime?: string;
   endTime?: string;
-  reason?: string;
+  reason: string;
   status: "scheduled" | "cancelled" | "completed";
   cancellationReason?: string;
   cancellationDate?: string;

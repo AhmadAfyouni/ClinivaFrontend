@@ -7,11 +7,13 @@ const useDoctors = (
   page = 1,
   allData = false,
   sortBy = "_id",
-  order = "desc"
+  order = "desc",
+  
 ) => {
   return useQuery({
     queryKey: ["doctorsS"],
     queryFn: () => {
+      
       const url = `/employees?${
         "&page=" +
         page +
@@ -22,7 +24,8 @@ const useDoctors = (
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
+        order +
+        "&employeeType=Doctor"
       }`;
       return axiosInstance
         .get<ResponseType<ServiceDetailsType>>(url)

@@ -45,6 +45,7 @@ const MedicalComplexPage = () => {
           : data.map((item) => {
               // return item.companyId.toString() ;
               return item._id.toString();
+              // return item.companyId?.toString() || "";
             })
       );
     }

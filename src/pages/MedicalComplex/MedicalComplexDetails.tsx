@@ -34,8 +34,8 @@ const MedicalComplexDetails = () => {
   const values = [
     data.createdAt.slice(0, 10),
     data.vision,
-    data.goals,
-    data.overview,
+    data.details,
+    data.vision,
   ];
   const icons = data.contactInfos.map((item: ContactInfo) => {
     if (item.type === "email") {

@@ -28,11 +28,11 @@ import ServiceDetails from "../pages/Service/ServiceDetails";
 import ServicesPage from "../pages/Service/ServicesPage";
 import AddUser from "../pages/Users/AddUser";
 import AddMedicalComplex from "../pages/MedicalComplex/AddMedicalComplex";
-import AddDepartment from "../pages/Department/AddDepartment";
 import UpdateService from "../pages/Service/UpdateService";
 import StaffDetails from "../pages/Staff/StaffDetails";
 import UserDetails from "../pages/Users/UserDetails";
 import CompanyDetails from "../pages/Company/CompanyDetails";
+import AddDepartment from "../pages/Departement/AddDepartment";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {

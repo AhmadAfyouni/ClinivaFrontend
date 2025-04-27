@@ -1,6 +1,7 @@
 import { TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   searchValue: string;
@@ -8,6 +9,8 @@ interface Props {
   text: string;
 }
 export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
+  const { t } = useTranslation();
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
@@ -20,10 +23,10 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
     <TextInput
       w="180px"
       fz="10px"
-      placeholder={text}
+      placeholder={t(text)}
       mb="md"
       leftSection={<IconSearch size={16} stroke={1.5} />}
-      value={searchValue}
+      value={t(searchValue)}
       onChange={handleSearchChange}
       mr="10px"
       ref={inputRef}
