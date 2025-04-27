@@ -1,17 +1,23 @@
-import { ActionIcon, Text, Tooltip, useDirection } from "@mantine/core";
+import { ActionIcon, Text, Tooltip } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 
 export default function RTL() {
-  const { toggleDirection, dir } = useDirection();
+  const { i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(isRTL ? "en" : "ar");
+  };
+
   return (
-    <Tooltip label={dir === "rtl" ? "Arabic" : "English"}>
+    <Tooltip label={isRTL ? "العربية" : "English"}>
       <ActionIcon
-        onClick={() => toggleDirection()}
+        onClick={toggleLanguage}
         variant="subtle"
         radius="md"
         size="lg"
       >
-        {/* <MdOutlineLanguage size={"1.5rem"} /> */}
-        <Text>{dir === "rtl" ? "Ar" : "En"}</Text>
+        <Text>{isRTL ? "AR" : "EN"}</Text>
       </ActionIcon>
     </Tooltip>
   );

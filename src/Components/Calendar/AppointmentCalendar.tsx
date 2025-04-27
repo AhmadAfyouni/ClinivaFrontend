@@ -88,14 +88,12 @@ function AppointmentCalendar({
                   <Center w={"100%"}>
                     {getAppointments(day.day, time).map((appointment) => (
                       <AppointmentCard
-                        key={`${appointment.patientName}-${appointment.time}`}
-                        patientName={appointment.patientName}
-                        treatment={appointment.treatment}
-                        time={appointment.time}
+                        key={appointment._id}
+                        patientName={appointment.patient.name}
+                        treatment={appointment.reason}
+                        time={time}
                         variant="pink"
-                        onClick={() => {
-                          handleAppointmentClick(appointment);
-                        }}
+                        onClick={() => handleAppointmentClick(appointment)}
                       />
                     ))}
                   </Center>

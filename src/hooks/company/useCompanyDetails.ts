@@ -1,14 +1,14 @@
 import axiosInstance from "../../api/ApiCore";
 import { useQuery } from "@tanstack/react-query";
-import ResponseDetailsType from "../../types/ResponseDetails";
 import CompanyDetailsType from "../../types/company/CompanyDetailsType";
-const useCompanyDetails = (id: string) => {
+import ResponseType from "../../types/ResponseList";
+const useCompanyDetails = () => {
   return useQuery({
-    queryKey: ["companyDetails", id],
+    queryKey: ["companyDetails"],
     queryFn: () => {
-      const url = `/companies/` + id;
+      const url = `/companies/`;
       return axiosInstance
-        .get<ResponseDetailsType<CompanyDetailsType>>(url)
+        .get<ResponseType<CompanyDetailsType>>(url)
         .then((res) => {
           console.log(res.data);
           console.log(res.status);

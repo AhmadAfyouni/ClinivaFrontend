@@ -1,4 +1,5 @@
 import { Card, Text, Group, Badge, Box, useMantineTheme } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   insuranceType: string;
@@ -11,6 +12,7 @@ interface Props {
   lifestyleFactors: string;
   preferredLanguage: string;
 }
+
 function InsuranceCard({
   insuranceType,
   HPI,
@@ -19,11 +21,14 @@ function InsuranceCard({
   personName,
 }: Props) {
   const theme = useMantineTheme();
+  const { t } = useTranslation("index");
+
   const date = expiryDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
+
   return (
     <Card bg={theme.other.secondaryColor} radius="md" p="md">
       {/* Insurance header */}
@@ -41,7 +46,7 @@ function InsuranceCard({
           >
             ▲
           </Box>
-          {insuranceType}
+          {t(insuranceType)}
         </Text>
       </Group>
 
@@ -56,7 +61,7 @@ function InsuranceCard({
       <Group justify="space-between" align="center">
         <Box>
           <Text size="xs" c={theme.other.onSurfaceSecondary}>
-            Expiry Date
+            {t("expiry_date")}
           </Text>
           <Text size="sm" c={theme.other.onSurfacePrimary}>
             {date}
@@ -76,7 +81,7 @@ function InsuranceCard({
             },
           }}
         >
-          {isActive ? "Active" : "InActive"}
+          {isActive ? t("active") : t("inactive")}
         </Badge>
       </Group>
     </Card>

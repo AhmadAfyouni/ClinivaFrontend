@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import InputPropsType from "../../types/InputsType";
 import InputForm from "../../Components/Inputs/InputForm";
-import { Button, ScrollArea } from "@mantine/core";
+import { ScrollArea } from "@mantine/core";
 import AddServiceType from "../../types/serviceT/AddServiceType";
 import AddServiceSchema from "../../schema/service/AddServiceSchema";
 import useAddService from "../../hooks/serviceH/useAddService";
@@ -28,6 +28,7 @@ function AddService() {
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
+      console.log("values " + values);
       hook.mutate(values);
       formik.resetForm();
       console.log("Form Submitted:", values);
@@ -75,9 +76,9 @@ function AddService() {
     const keys = Object.entries(Clinics)
       .filter(([, id]) => selectedIds.includes(id))
       .map(([name]) => name);
-    console.log(Clinics);
-    console.log(selectedIds);
-    console.log(formik.values.clinics);
+    // console.log(Clinics);
+    // console.log(selectedIds);
+    // console.log(formik.values.clinics);
     return keys;
   }
   // console.log(formik.values.clinics);
@@ -177,17 +178,17 @@ function AddService() {
   ];
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
-      <form onSubmit={formik.handleSubmit}>
-        <InputForm
-          base={primaryFields}
-          count={0}
-          onSubmit={() => {}}
-          with_submit={false}
-          key={"AddService"}
-          title="Add Service"
-        />
-        <Button type="submit">Add Service</Button>
-      </form>
+      {/* <form> */}
+      <InputForm
+        base={primaryFields}
+        count={0}
+        onSubmit={formik.handleSubmit}
+        with_submit={true}
+        key={"AddService"}
+        title="Add Service"
+      />
+      {/* <Button type="submit">Add Service</Button> */}
+      {/* </form> */}
     </ScrollArea>
   );
 }

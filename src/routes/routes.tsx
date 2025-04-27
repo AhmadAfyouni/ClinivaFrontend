@@ -2,7 +2,6 @@ import { RouteObject } from "react-router-dom";
 import AddDoctor from "../pages/Doctor/AddDoctor";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
-import AddCompany from "../pages/Company/AddCompany";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/Appointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
@@ -32,6 +31,7 @@ import AddMedicalComplex from "../pages/MedicalComplex/AddMedicalComplex";
 import UpdateService from "../pages/Service/UpdateService";
 import StaffDetails from "../pages/Staff/StaffDetails";
 import UserDetails from "../pages/Users/UserDetails";
+import CompanyDetails from "../pages/Company/CompanyDetails";
 import AddDepartment from "../pages/Departement/AddDepartment";
 
 // Define route types for better type safety
@@ -44,7 +44,7 @@ export type AppRoute = RouteObject & {
 export const routes: AppRoute[] = [
   {
     path: "/",
-    element: <Dashboard />,
+    element: <UsersPage />,
   },
   {
     path: "/login",
@@ -68,7 +68,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <AddPatient />,
+        element: <AddDoctor />,
       },
       {
         path: "appointments",
@@ -90,7 +90,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add/",
-        element: <AddDoctor />,
+        element: <AddPatient />,
       },
       {
         path: "details/:id",
@@ -136,16 +136,12 @@ export const routes: AppRoute[] = [
     ],
   },
   {
-    path: "/companies",
+    path: "/company",
     element: <MainLayout />,
     children: [
       {
         path: "",
-        element: <AddCompany nextStep={() => {}} />,
-      },
-      {
-        path: "add",
-        element: <AddCompany nextStep={() => {}} />,
+        element: <CompanyDetails />,
       },
     ],
   },

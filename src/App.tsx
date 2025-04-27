@@ -1,5 +1,6 @@
 import {
   Card,
+  DirectionProvider,
   Flex,
   MantineProvider,
   MantineThemeOverride,
@@ -14,6 +15,7 @@ import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
+import { useDirection } from "@mantine/core";
 import { useDarkThem } from "./store/useDarkThem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -23,6 +25,7 @@ import { ToastContainer } from "react-toastify";
 import ResetWatcher from "./Components/store/ResetWatcher";
 import LoaderCustom from "./Components/Loader";
 import SetNavBarTitle from "./layout/NavBar/SetNavBarTitle";
+import { useTranslation } from "react-i18next";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -66,6 +69,7 @@ const createAppTheme = (
 function AppContent() {
   const element = useRoutes(routes);
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const { dir } = useDirection();
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
   const navigate = useNavigate();
@@ -95,15 +99,15 @@ function AppContent() {
   return (
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <LoaderCustom />
-      {!nonAuth && <SideBar />}
-
+      {!nonAuth && dir === "ltr" && <SideBar />}
       <Flex
         w={"100%"}
         direction={"column"}
         justify={"start"}
         align={"center"}
         style={{
-          marginLeft: isMobile || nonAuth ? 0 : "15%",
+          marginLeft: dir === "ltr" && !isMobile && !nonAuth ? "15%" : 0,
+          marginRight: dir === "rtl" && !isMobile && !nonAuth ? "15%" : 0,
         }}
       >
         <NavBar login={!nonAuth} />
@@ -111,30 +115,40 @@ function AppContent() {
           {element}
         </Card>
       </Flex>
+      {!nonAuth && dir === "rtl" && <SideBar />}
     </Flex>
   );
 }
 
 function App() {
   const { dark } = useDarkThem();
-  const theme = createAppTheme(dark);
+  const { i18n } = useTranslation(); // ✅ access language
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { refetchOnWindowFocus: false, staleTime: 1000 * 60 * 2 },
     },
   });
 
+  const direction = i18n.language === "ar" ? "rtl" : "ltr";
+
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", direction);
+  }, [direction]);
+
+  const theme = createAppTheme(dark);
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
-      <MantineProvider theme={theme}>
-        <Notifications />
-        <BrowserRouter>
-          <SetNavBarTitle />
-          <ResetWatcher />
-          <AppContent />
-        </BrowserRouter>
-      </MantineProvider>
+      <DirectionProvider>
+        <MantineProvider theme={theme}>
+          <Notifications />
+          <BrowserRouter>
+            <SetNavBarTitle />
+            <ResetWatcher />
+            <AppContent />
+          </BrowserRouter>
+        </MantineProvider>
+      </DirectionProvider>
     </QueryClientProvider>
   );
 }

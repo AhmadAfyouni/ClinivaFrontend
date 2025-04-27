@@ -11,10 +11,10 @@ const useDepatementsList = (
 ) => {
   const pagination = usePaginationtStore();
   // console.log("useGetUsers per_page", per_page);
-  //   const countryStore = useCountriesPaginationStore();
+  // const countryStore = useCountriesPaginationStore();
   return useQuery({
     queryKey: [
-      "departements",
+      "departments",
       pagination.current_page,
       pagination.items_per_page,
       allData,

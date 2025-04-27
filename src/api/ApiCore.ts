@@ -24,11 +24,11 @@ const refreshAccessToken = async () => {
   return newAccessToken;
 };
 
+const setLoading = useLoadingStore.getState().setLoading;
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const loader = useLoadingStore();
-    // loader.setLoading(true);
-    const setLoading = useLoadingStore.getState().setLoading;
+
+
     setLoading(true);
 
     if (config.url !== "/login") {
@@ -41,13 +41,14 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    setLoading(false);
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   function (response) {
-    const setLoading = useLoadingStore.getState().setLoading;
+    // const setLoading = useLoadingStore.getState().setLoading;
     setLoading(false);
     if (response.data.message) {
       switch (response?.config?.method) {
@@ -76,6 +77,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
+    setLoading(false);
     console.log(error.response?.data?.message?.message);
     if (error.response) {
       const status = error.response.status;
