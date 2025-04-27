@@ -14,6 +14,10 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     if (saveToken) {
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
     }
+    const userName = res.data.data.user.name;
+    if (userName) {
+      localStorage.setItem("userName", userName);
+    }
     if (loginToRegister) {
       localStorage.setItem("loginToRegister", "true");
     } else {

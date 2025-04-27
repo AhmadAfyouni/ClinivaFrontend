@@ -3,6 +3,7 @@ import Dropdown from "../Dropdown";
 import { DatePickerInput } from "@mantine/dates";
 import { CiSliderHorizontal } from "react-icons/ci";
 import { useMediaQuery } from "@mantine/hooks";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   IsDropDown1?: boolean;
@@ -47,6 +48,7 @@ const CustomFilters = ({
   handleDateChange,
 }: Props) => {
   const theme = useMantineTheme();
+  const { t } = useTranslation();
   const isMobile = useMediaQuery("(max-width: 576px)");
   return (
     <Flex>
@@ -57,7 +59,7 @@ const CustomFilters = ({
               dropDownName={dropdownName1}
               onChange={handlDropDownChange1}
               options={OptionsDropDown1}
-              placeHolder={placeHolderDropDown1 || ""}
+              placeHolder={t(placeHolderDropDown1 || "")}
             />
           )}
           {IsDropDown2 && (
@@ -65,7 +67,7 @@ const CustomFilters = ({
               dropDownName={dropdownName2}
               onChange={handlDropDownChange2 || (() => {})}
               options={OptionsDropDown2 || []}
-              placeHolder={placeHolderDropDown2 || ""}
+              placeHolder={t(placeHolderDropDown2 || "")}
             />
           )}
           {IsDropDown3 && (
@@ -73,14 +75,14 @@ const CustomFilters = ({
               dropDownName={dropdownName3}
               onChange={handlDropDownChange3 || (() => {})}
               options={OptionsDropDown3 || []}
-              placeHolder={placeHolderDropDown3 || ""}
+              placeHolder={t(placeHolderDropDown3 || "")}
             />
           )}
           {IsDateInput && (
             <DatePickerInput
               value={vlaueDateInput}
               onChange={handleDateChange}
-              placeholder={placeHolderDateInput || "Date"}
+              placeholder={t(placeHolderDateInput || "Date")}
               radius={30}
               w="140px"
               styles={{

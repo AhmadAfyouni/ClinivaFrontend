@@ -7,13 +7,12 @@ import {
   Box,
   Tooltip,
 } from "@mantine/core";
-import { ReactNode } from "react";
 import CheckBox from "./CheckBox";
 import { useMediaQuery } from "@mantine/hooks";
 interface Props {
   th0: string;
   th1: string;
-  th2: ReactNode;
+  th2: string;
   th3: string;
   th4: string;
   th5: string;
@@ -50,11 +49,7 @@ const TableBody = ({
 
     const label =
       th5 === "true" ? "Active" : th5 === "false" ? "Inactive" : th5;
-    return th5 === "true" ||
-      th5 === "false" ||
-      th5 === "cancelled" ||
-      th5 === "completed" ||
-      th5 === "scheduled" ? (
+    return th5 === "true" || th5 === "false" ? (
       <Badge
         bg={bg}
         c={theme.other?.onSurfacePrimary}

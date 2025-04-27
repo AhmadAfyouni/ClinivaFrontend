@@ -64,7 +64,7 @@ const PatientsPage = () => {
     <TableBody
       onClick={() => navigate(`/patients/details/${item._id}`)}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
       th2={item.dateOfBirth.slice(0, 10)}
       th3={item.gender}
@@ -82,7 +82,7 @@ const PatientsPage = () => {
     );
   else
     return (
-      <Flex w="95%" h="85vh" direction="column">
+      <Flex w="97%" h="85vh" direction="column">
         <Flex justify="space-between">
           <Flex>
             <SearchInput
@@ -112,7 +112,7 @@ const PatientsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Patint Id",
+                "patient Id",
                 "Name",
                 "Birthday",
                 "Gender",

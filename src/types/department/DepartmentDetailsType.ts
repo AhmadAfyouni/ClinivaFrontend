@@ -74,4 +74,5 @@ export default interface DepartmentDetailsType {
   __v: number;
   clinicCount: number;
   patientCount: number;
+  publicId: string;
 }

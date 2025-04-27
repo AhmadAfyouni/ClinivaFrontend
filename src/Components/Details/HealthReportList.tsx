@@ -12,8 +12,10 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { IconDotsVertical, IconFileText } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 export function HealthReportList() {
+  const { t } = useTranslation();
   const [reports] = useState([
     { id: 1, title: "Skin Test Report", type: "PDF", size: "1 MB", file: null },
     {
@@ -37,7 +39,7 @@ export function HealthReportList() {
     <Container size="sm" p="md" bg={theme.other.bgSubtle}>
       <Flex justify="space-between" align="center" mb="md">
         <Text fw={600} size="lg" c={theme.other.onSurfacePrimary}>
-          Health Reports
+          {t("Health Reports")}
         </Text>
         <Menu width={200}>
           <Menu.Target>

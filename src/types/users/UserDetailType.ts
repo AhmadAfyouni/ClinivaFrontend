@@ -25,4 +25,6 @@ export default interface UserDetailType {
   activityLogs: ActivityLog[];
   loginHistory: LoginEntry[];
   contactInfos: ContactInfo[];
+  createdAt: string;
+  publicId: string;
 }

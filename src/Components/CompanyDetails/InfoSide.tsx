@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ReactElement, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface IconItem {
   icon: ReactElement;
@@ -42,6 +43,7 @@ const InfoSide = ({
   hasActivation,
   isActive,
 }: Props) => {
+  const { t } = useTranslation();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const theme = useMantineTheme();
@@ -97,7 +99,7 @@ const InfoSide = ({
           )}
         </Flex>
         <Text m="10px auto 0" fw={600} fz={18} c={theme.other.onSurfacePrimary}>
-          Contact Info
+          {t("contactInfo")}
         </Text>
         <Flex m="0 auto" justify="space-between" maw={iconsMaxWidth}>
           {contactInfoIcons.map((item, index) => (
@@ -124,7 +126,7 @@ const InfoSide = ({
       )}
       <Flex direction="column" gap="sm" w={isComputer ? "100%" : "50%"}>
         <Text fw={600} fz={18} mb={20} c={theme.other.onSurfacePrimary}>
-          General Info
+          {t("generalInfo")}
         </Text>
         <Flex direction="column" gap="md" ml={10}>
           {titles.map((item, index) => (
@@ -141,7 +143,7 @@ const InfoSide = ({
           {hasSocialMedia && (
             <>
               <Text fw={500} fz={16} mb={10} c={theme.other.onSurfacePrimary}>
-                Social Media Accocunts :
+                {t("socialMediaAccocunts:")}
               </Text>
               <Flex m="0 auto" justify="space-between" maw={iconsMaxWidth}>
                 {socialMediaIcons.map((item, index) => (

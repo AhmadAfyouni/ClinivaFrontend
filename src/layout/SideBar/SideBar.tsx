@@ -5,7 +5,6 @@ import {
   IconBuildingSkyscraper,
   IconCalendarStats,
   IconFileAnalytics,
-  IconGauge,
   IconHospital,
   IconLock,
   IconMicroscope,
@@ -21,64 +20,68 @@ import { LinksGroup } from "./NavbarLinksGroup";
 import { UserButton } from "./UserButton";
 import classes from "./NavbarNested.module.css";
 import useDrawerStore from "../../store/useDrawerStore";
+import { useTranslation } from "react-i18next";
 
 // import { Logo } from "./Logo";
 
 export function SideBar() {
+  const { t } = useTranslation();
   const { dir } = useDirection();
   const mockdata = [
-    { label: "Dashboard", icon: IconGauge, link: "/" },
-    { label: "Staff", icon: IconUsersGroup, link: "/employees" },
-    { label: "Patients", icon: IconUser, link: "/patients" },
-    { label: "Doctors", icon: IconStethoscope, link: "/doctors" },
-    { label: "Users", icon: IconUser, link: "/users" },
+    // { label: t("Dashboard"), icon: IconGauge, link: "/" },
+    { label: t("Users"), icon: IconUser, link: "/users" },
+
     {
-      label: "Appointment",
-      icon: IconCalendarStats,
-      links: [
-        { label: "Appointments", link: "/appointments" },
-        { label: "Add Appointments", link: "/appointments/add" },
-      ],
-    },
-    {
-      label: "Company",
-      icon: IconBuildingSkyscraper,
-      links: [{ label: "Add Company", link: "/companies/add" }],
-    },
-    {
-      label: "MedicalComplexes",
+      label: t("MedicalComplexes"),
       icon: IconBuildingHospital,
       link: "/medicalComplexes",
     },
     {
-      label: "Departements",
+      label: t("Departements"),
       icon: IconBuildingCommunity,
       link: "/departements",
     },
     {
-      label: "Clinics",
+      label: t("Specialities"),
+      icon: IconMicroscope,
+      link: "/specialities",
+    },
+    {
+      label: t("Clinics"),
       icon: IconHospital,
       link: "/clinics",
     },
     {
-      label: "Services",
+      label: t("Appointment"),
+      icon: IconCalendarStats,
+      links: [
+        { label: t("Appointments"), link: "/appointments" },
+        { label: t("Add Appointments"), link: "/appointments/add" },
+      ],
+    },
+    { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
+    { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
+    { label: t("Patients"), icon: IconUser, link: "/patients" },
+    {
+      label: t("Services"),
       icon: IconReportMedical,
       link: "/services",
     },
     {
-      label: "Specialities",
-      icon: IconMicroscope,
-      link: "/specialities",
+      label: t("companyInfo"),
+      icon: IconBuildingSkyscraper,
+      link: "/company",
     },
-    { label: "Contracts", icon: IconFileAnalytics, link: "/contracts" },
-    { label: "Settings", icon: IconAdjustments, link: "/settings" },
+
+    { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
+    { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
     {
-      label: "Security",
+      label: t("Security"),
       icon: IconLock,
       links: [
-        { label: "Enable 2FA", link: "/security/2fa" },
-        { label: "Change password", link: "/security/password" },
-        { label: "Recovery codes", link: "/security/recovery" },
+        { label: t("Enable 2FA"), link: "/security/2fa" },
+        { label: t("Change password"), link: "/security/password" },
+        { label: t("Recovery codes"), link: "/security/recovery" },
       ],
     },
   ];
@@ -91,7 +94,10 @@ export function SideBar() {
   const NavbarContent = () => (
     <nav
       className={classes.navbar}
-      style={{ left: dir === "ltr" ? 0 : "auto", right: dir === "rtl" ? 0 : "auto" }}
+      style={{
+        left: dir === "ltr" ? 0 : "auto",
+        right: dir === "rtl" ? 0 : "auto",
+      }}
     >
       <div className={classes.header}>
         <Group justify="space-between">

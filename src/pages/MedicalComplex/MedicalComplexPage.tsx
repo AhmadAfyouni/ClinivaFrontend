@@ -28,7 +28,7 @@ const MedicalComplexPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
       th2={item.address}
       th3={item.address}
@@ -43,7 +43,9 @@ const MedicalComplexPage = () => {
         current.length === data.length
           ? []
           : data.map((item) => {
-              return item.companyId?.toString() || "";
+              // return item.companyId.toString() ;
+              return item._id.toString();
+              // return item.companyId?.toString() || "";
             })
       );
     }
@@ -57,15 +59,15 @@ const MedicalComplexPage = () => {
   else
     return (
       <Flex direction="column">
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <SearchInput
-            text="Search "
+            text="Search"
             searchValue={pagination.paramKey}
             setSearchValue={handleSearchChange}
           />
 
           <AddButton
-            text="Add MedicalComplex"
+            text="addMedicalComplex"
             handleOnClick={() => navigate(`/medicalComplexes/add`)}
           />
         </Flex>
@@ -82,13 +84,13 @@ const MedicalComplexPage = () => {
                 "_id",
               ]}
               labels={[
-                "MedicalId",
-                "Medical Name",
-                "PIC",
-                "Address",
-                "DepartmentsCount",
-                "StaffCount",
-                "Medical",
+                "complexId",
+                "complexName",
+                "pic",
+                "address",
+                "departmentsCount",
+                "staffCount",
+                "medicalcomplex",
               ]}
               data={data}
               selection={selection}

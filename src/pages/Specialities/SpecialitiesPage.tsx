@@ -49,9 +49,9 @@ const SpecialitiesPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
-      th2={item.statistics.clinics.toString()} //must be clinics name
+      th2={item.statistics.clinics.toString()} // Must be clinics name
       th3={item.updatedAt.slice(0, 10)}
       th4={item.statistics.doctors.toString()}
       th5={item.isActive.toString()}
@@ -67,10 +67,10 @@ const SpecialitiesPage = () => {
   else
     return (
       <>
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <Flex>
             <SearchInput
-              text="Search Speciality"
+              text="Search"
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
             />
@@ -83,7 +83,7 @@ const SpecialitiesPage = () => {
             />
           </Flex>
           <AddButton
-            text="Add Speciality"
+            text="addSpeciality"
             handleOnClick={() => console.log("speciality")}
           />
         </Flex>
@@ -100,13 +100,13 @@ const SpecialitiesPage = () => {
                 "_id",
               ]}
               labels={[
-                "Speciality Id",
-                "Speciality Name",
-                "AssignedClinics",
-                "LastUpdate",
-                "DoctorsNumber",
-                "Status",
-                "Speciality",
+                "specialityId",
+                "specialityName",
+                "assignedClinics",
+                "lastUpdate",
+                "doctorsNumber",
+                "status",
+                "speciality",
               ]}
               data={data}
               selection={selection}

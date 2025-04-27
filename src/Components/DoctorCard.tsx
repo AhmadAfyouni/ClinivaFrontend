@@ -82,7 +82,7 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
             </Badge>
             <Flex direction="column" gap={8} align="center">
               <Text size="xs" c={theme.other.onSurfaceSecondary}>
-                {doctor._id}
+                {doctor.publicId}
               </Text>
               <Text size="xs" c={theme.other.onSurfacePrimary}>
                 {doctor.specialties.map((item) => item).join(" - ")}

@@ -1,4 +1,5 @@
 import { Divider, Flex, Text, useMantineTheme } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 interface Props {
   companyName: string;
   medicalComplexName: string;
@@ -15,17 +16,23 @@ const WorkplacesBreakTime = ({
   startTime,
   endTime,
 }: Props) => {
+  const { t } = useTranslation();
   const startTimeStr = startTime.toLocaleTimeString("en-US");
   const endTimeStr = endTime.toLocaleTimeString("en-US");
-  const workPlaceTitle = ["Company", "MedicalComplex", "Department", "Clinic"];
+  const workPlaceTitle = [
+    t("company"),
+    t("medicalComplex"),
+    t("department"),
+    t("clinic"),
+  ];
   const workPlaceText = [companyName, medicalComplexName, deptName, clinicName];
-  const breakTimeTitle = ["Start Time", "End Time"];
+  const breakTimeTitle = [t("startTime"), t("endTime")];
   const breakTimeDate = [startTimeStr, endTimeStr];
   const theme = useMantineTheme();
   return (
     <Flex direction="column" gap="5px" m="0 auto">
       <Text fz={16} fw={600} mb={3} c={theme.other.onSurfacePrimary}>
-        Break Time
+        {t("breakTime")}
       </Text>
       {breakTimeTitle.map((item, index) => (
         <Flex
@@ -55,7 +62,7 @@ const WorkplacesBreakTime = ({
         c={theme.other.borderDefault}
       />
       <Text fz={16} fw={600} mb={3} c={theme.other.onSurfacePrimary}>
-        Work Places
+        {t("workPlaces")}
       </Text>
       {workPlaceTitle.map((item, index) => (
         <Flex

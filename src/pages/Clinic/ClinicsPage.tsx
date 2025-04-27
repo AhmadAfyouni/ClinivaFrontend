@@ -44,7 +44,7 @@ const ClinicsPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name}
       th2={
         item?.WorkingHours?.[0]
@@ -66,12 +66,12 @@ const ClinicsPage = () => {
   else
     return (
       <>
-        <Flex w="90%" justify="space-between">
+        <Flex w="97%" justify="space-between">
           <Flex>
             <SearchInput
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
-              text="Search Clinic"
+              text="Search"
             />
             <CustomFilters
               IsDropDown1={true}
@@ -82,7 +82,7 @@ const ClinicsPage = () => {
             />
           </Flex>
           <AddButton
-            text="Add Clinic"
+            text="addClinic"
             handleOnClick={() => navigate(`/clinics/add`)}
           />
         </Flex>
@@ -90,13 +90,13 @@ const ClinicsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Clinic Id",
-                "Clinic Name",
+                "clinicId",
+                "name",
                 "workingHours",
-                "Speciality",
-                "NumberOfPatients",
-                "Status",
-                "Clinic",
+                "speciality",
+                "numberOfPatients",
+                "status",
+                "clinic",
               ]}
               sortedBy={[
                 "_id",

@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useTranslation } from "react-i18next";
 
 interface PatientData {
   date: string;
@@ -17,6 +18,7 @@ interface PatientData {
 }
 
 const PatientStatisticsChart = () => {
+  const { t } = useTranslation();
   const [timePeriod, setTimePeriod] = useState<string>("Last 7 Days");
   const theme = useMantineTheme();
   const allData: Record<string, PatientData[]> = {
@@ -75,7 +77,7 @@ const PatientStatisticsChart = () => {
     <Card radius="md" h={450} mt={10} bg={theme.other.bg}>
       <Group justify="space-between" align="center" mb="md">
         <Text fw={700} size="xl" c={theme.other.onSurfacePrimary}>
-          Patients Statistics
+          {t("PatientsStatistics")}
         </Text>
         <Select
           value={timePeriod}
@@ -97,7 +99,7 @@ const PatientStatisticsChart = () => {
       <Group justify="space-between" mb="md">
         <Card shadow="xs" radius="md" w="30%" bg={theme.other.bgSubtle}>
           <Text c={theme.other.onSurfaceSecondary} size="sm">
-            Total Patient
+            {t("totalPatient")}
           </Text>
           <Text fw={700} size="xl" c={theme.other.onSurfacePrimary}>
             {summaryStats.total}
@@ -105,7 +107,7 @@ const PatientStatisticsChart = () => {
         </Card>
         <Card shadow="xs" radius="md" w="30%" bg={theme.other.bgSubtle}>
           <Text c={theme.other.onSurfaceSecondary} size="sm">
-            Disactive
+            {t("active")}
           </Text>
           <Text fw={700} size="xl" c={theme.other.onSurfacePrimary}>
             {summaryStats.newPatients}
@@ -113,7 +115,7 @@ const PatientStatisticsChart = () => {
         </Card>
         <Card shadow="xs" radius="md" w="30%" bg={theme.other.bgSubtle}>
           <Text c={theme.other.onSurfaceSecondary} size="sm">
-            Dis Active
+            {t("disActive")}
           </Text>
           <Text fw={700} size="xl" c={theme.other.onSurfacePrimary}>
             {summaryStats.recovered}
