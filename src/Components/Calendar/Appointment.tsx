@@ -1,4 +1,4 @@
-import { Box, Button, Card, Flex } from "@mantine/core";
+import { Box, Button, Card, Center, Flex, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import AppointmentType from "../../types/Appointment/AppointmentType";
@@ -7,121 +7,19 @@ import InputForm from "../Inputs/InputForm";
 import AppointmentHeader from "./AppointmentHeader";
 import AppointmentCalendar from "./AppointmentCalendar";
 import { getNextXDays } from "./utilities/getNext7Days";
-import { fieldsForm } from "./utilities/fieldsForm";
+import { doctorsSelectType } from "./utilities/fieldsForm";
 import { handleMoveWeek } from "./utilities/handleMoveWeek";
 import { TIME_SLOTS } from "./utilities/timeSlots";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import AppointmentExtraInfo from "./AppointmentMoreInfo";
-
-const sampleAppointments: AppointmentType[] = [
-  {
-    patientName: "Sarah Miller",
-    treatment: "Facial Rejuvenation",
-    time: "12:00",
-    date: new Date("2025-03-31"),
-    doctor: "Dr. Emily Ross",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "10:30",
-    date: new Date("2025-03-25"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "10:00",
-    date: new Date("2025-03-27"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "10:00",
-    date: new Date("2025-03-28"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "15:00",
-    date: new Date("2025-03-22"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "12:00",
-    date: new Date("2025-03-22"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "9:00",
-    date: new Date("2025-03-23"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "9:00",
-    date: new Date("2025-03-30"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "9:00",
-    date: new Date("2025-03-28"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "11:00",
-    date: new Date("2025-03-30"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "12:00",
-    date: new Date("2025-03-28"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "15:00",
-    date: new Date("2025-03-27"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "9:00",
-    date: new Date("2025-03-29"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "11:00",
-    date: new Date("2025-03-31"),
-    doctor: "Dr. James Wilson",
-  },
-  {
-    patientName: "Grace Parker",
-    treatment: "Scar Removal Surgery",
-    time: "12:00",
-    date: new Date("2025-03-29"),
-    doctor: "Dr. James Wilson",
-  },
-];
-
-const doctors = ["All Doctors", "Dr. Emily Ross", "Dr. James Wilson"];
+import useAppointmentsList from "../../hooks/appointment/useAppointmentsList";
+import useAddAppointment from "../../hooks/appointment/useAddAppointment";
+import AddAppointmentType from "../../types/Appointment/AddAppointment";
+import useDoctors from "../../hooks/doctor/useDoctors";
+import usePatientsList from "../../hooks/patient/usePatientsList";
+import InputPropsType from "../../types/InputsType";
+import useServicesList from "../../hooks/serviceH/useServicesList";
+import useClinics from "../../hooks/clinic/useClinics";
 
 function Appointment() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -134,53 +32,74 @@ function Appointment() {
     date: string;
     time: string;
   } | null>(null);
-  const [appointments, setAppointments] =
-    useState<AppointmentType[]>(sampleAppointments);
+  const doctorsHook = useDoctors(0, 0, true);
+  const patientsHook = usePatientsList(true);
+  const serviceHook = useServicesList(true);
+  const hook = useAppointmentsList();
+  const clinicsHook = useClinics(0, 0, true);
+  const addAppointmentMutation = useAddAppointment();
 
-  const formik = useFormik<AppointmentType>({
+  const formik = useFormik<AddAppointmentType>({
     initialValues: {
-      patientName: "",
-      treatment: "",
-      time: OpenForm?.time || "",
-      date: OpenForm ? new Date(OpenForm.date) : new Date(),
-      doctor: "",
-      notes: "",
+      service: "",
+      datetime: "",
+      reason: "",
       status: "scheduled",
+      cancellationReason: "",
+      reminderSent: false,
+      patient: "",
+      clinic: "",
+      doctor: "",
     },
     validationSchema: AppointmentSchema,
-    validateOnBlur: false,
-    validateOnChange: false,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: (values) => {
-      // Add the new appointment to the list
+      console.log("values", values);
+      addAppointmentMutation.mutate(values);
 
-      console.log("values");
-
-      setAppointments([...appointments, values]);
-      // Reset the selected cell
-      setOenForm(null);
+      if (addAppointmentMutation.isSuccess) {
+        handleCloseForm();
+        formik.resetForm();
+        hook.refetch();
+      }
     },
   });
-  // Update formik values when selectedCell changes
   useEffect(() => {
     if (OpenForm) {
+      if (OpenForm.time.length === 4) OpenForm.time = "0" + OpenForm.time;
+      const Dtime = OpenForm.date + "T" + OpenForm.time + ":00.000Z";
       formik.setValues({
         ...formik.values,
-        time: OpenForm.time,
-        date: new Date(OpenForm.date),
+        datetime: Dtime,
       });
     }
   }, [OpenForm]);
+
+  if (
+    !hook.data ||
+    !doctorsHook.data ||
+    !patientsHook.data ||
+    !serviceHook.data ||
+    !clinicsHook.data
+  ) {
+    return <div>Loading...</div>;
+  }
+
   // Get appointments for a specific day and time with filtering
   const getAppointments = (day: string, time: string) => {
-    return appointments.filter((app) => {
-      const matchesDateTime =
-        app.date.toISOString().split("T")[0] === day && app.time === time;
+    return hook.data.filter((app) => {
+      const [dateStr, timeRest] = app.datetime.split("T");
+      const timeStr = timeRest.slice(0, 5);
+      const matchesDateTime = dateStr === day && timeStr === time;
       const matchesSearch = searchQuery
-        ? app.patientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          app.treatment.toLowerCase().includes(searchQuery.toLowerCase())
+        ? app.patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          app.reason.toLowerCase().includes(searchQuery.toLowerCase())
         : true;
       const matchesDoctor =
-        selectedDoctor === "All Doctors" ? true : app.doctor === selectedDoctor;
+        selectedDoctor === "All Doctors"
+          ? true
+          : app.doctor.name === selectedDoctor;
 
       return matchesDateTime && matchesSearch && matchesDoctor;
     });
@@ -192,6 +111,7 @@ function Appointment() {
   };
 
   const handleCellClick = (day: string, time: string) => {
+    console.log("handleCellClick");
     setOenForm({ date: day, time });
     setDaysInCalender(4);
   };
@@ -201,7 +121,116 @@ function Appointment() {
   };
 
   const days = getNextXDays(startDate, daysInCalender);
-
+  const doctors = doctorsHook.data.reduce<doctorsSelectType>((acc, item) => {
+    acc[item.name] = item._id;
+    return acc;
+  }, {});
+  const patients = patientsHook.data.reduce<doctorsSelectType>((acc, item) => {
+    acc[item.name] = item._id;
+    return acc;
+  }, {});
+  const services = serviceHook.data.reduce<doctorsSelectType>((acc, item) => {
+    acc[item.name] = item._id;
+    return acc;
+  }, {});
+  const clinics = clinicsHook.data.reduce<doctorsSelectType>((acc, item) => {
+    acc[item.name] = item._id;
+    return acc;
+  }, {});
+  const addFields: InputPropsType[] = [
+    {
+      id: "datetime",
+      label: "Date & Time",
+      mandatory: true,
+      type: "text",
+      description: "",
+      error: undefined,
+      placeholder: "",
+      tooltip: "Appointment date and time",
+      value: new Date(formik.values.datetime).toLocaleString(),
+      onChange: () => {},
+      onBlur: () => {},
+      disabled: true,
+    },
+    {
+      id: "patient",
+      label: "Patient",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.patient as string | undefined,
+      placeholder: "Select patient",
+      tooltip: "Select the patient",
+      // value: formik.values.patient,
+      onChange: (key) => {
+        formik.setFieldValue("patient", patients[key as string]);
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(patients),
+    },
+    {
+      id: "reason",
+      label: "Reason",
+      mandatory: true,
+      type: "text",
+      description: "",
+      error: formik.errors.reason as string | undefined,
+      placeholder: "Enter reason",
+      tooltip: "Enter appointment reason",
+      value: formik.values.reason,
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "service",
+      label: "Service",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.service as string | undefined,
+      placeholder: "Enter service",
+      tooltip: "Enter appointment service",
+      // value: formik.values.service,
+      onChange: (key) => {
+        formik.setFieldValue("service", services[key as string]);
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(services),
+    },
+    {
+      id: "clinic",
+      label: "Clinic",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.clinic as string | undefined,
+      placeholder: "Enter clinic",
+      tooltip: "Enter appointment clinic",
+      // value: formik.values.clinic,
+      onChange: (key) => {
+        formik.setFieldValue("clinic", clinics[key as string]);
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(clinics),
+    },
+    {
+      id: "doctor",
+      label: "Doctor",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.doctor as string | undefined,
+      placeholder: "Select doctor",
+      tooltip: "Select the doctor",
+      onChange: (selectedKeys) => {
+        formik.setFieldValue("doctor", doctors[selectedKeys as string]);
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(doctors),
+    },
+  ];
+  // console.log("@@@@@@values@@@@@@@", formik.values);
+  // console.log("@@@@@@errors@@@@@@@", formik.errors);
   return (
     <Box py="md">
       <Flex gap={0} justify={"start"}>
@@ -225,13 +254,13 @@ function Appointment() {
             handleNextWeek={() =>
               handleMoveWeek(daysInCalender, startDate, setStartDate, "next")
             }
-            doctors={doctors}
+            doctors={doctorsHook.data?.map((doc) => doc.name)}
           />
 
           <AppointmentCalendar
             days={days}
             timeSlots={TIME_SLOTS(9, 18)}
-            appointments={appointments}
+            appointments={hook.data as AppointmentType[]}
             selectedCell={OpenForm}
             handleCellClick={handleCellClick}
             handleAppointmentClick={handleAppointmentClick}
@@ -240,22 +269,37 @@ function Appointment() {
         </Flex>
         {OpenForm && (
           <Card ml={"xs"}>
-            <Flex
-              direction={"column"}
-              justify={"center"}
-              w={"100%"}
-              align={"center"}
-            >
-              <Button variant="subtle" onClick={handleCloseForm}>
-                <IoMdCloseCircleOutline size={"xl"} />
-              </Button>
-              <InputForm
-                base={fieldsForm(formik, doctors)}
-                with_submit={true}
-                count={0}
-                onSubmit={formik.handleSubmit}
-              />
-            </Flex>
+            <form onSubmit={formik.handleSubmit}>
+              <Flex
+                direction={"column"}
+                justify={"center"}
+                w={"100%"}
+                align={"center"}
+              >
+                <Button variant="subtle" onClick={handleCloseForm}>
+                  <IoMdCloseCircleOutline size={"xl"} />
+                </Button>
+                <InputForm
+                  base={addFields}
+                  with_submit={false}
+                  count={0}
+                  onSubmit={() => {}}
+                />
+              </Flex>
+              <Button type="submit">Add Appointment</Button>
+              <Center>
+                {addAppointmentMutation.error && (
+                  <Text c={"red"}>
+                    {
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                      addAppointmentMutation.error?.response?.data?.message
+                        ?.message
+                    }
+                  </Text>
+                )}
+              </Center>
+            </form>
           </Card>
         )}
         {OpenExtraInfo && !OpenForm && <AppointmentExtraInfo />}

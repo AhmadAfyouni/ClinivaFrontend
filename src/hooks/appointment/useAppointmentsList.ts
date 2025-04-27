@@ -1,16 +1,16 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-import AppointementDetailsType from "../../types/Appointment/AppointementDetailsType";
+import AppointmentType from "../../types/Appointment/AppointmentType";
 
 const useAppointmentsList = (
   allData = false,
   sortBy = "_id",
   order = "desc"
-) => {
+): UseQueryResult<AppointmentType[], Error> => {
   const pagination = usePaginationtStore();
-  return useQuery({
+  return useQuery<AppointmentType[], Error>({
     queryKey: [
       "appointments",
       pagination.current_page,
@@ -37,13 +37,9 @@ const useAppointmentsList = (
         pagination.filter
       }`;
       return axiosInstance
-        .get<ResponseType<AppointementDetailsType>>(url)
+        .get<ResponseType<AppointmentType>>(url)
         .then((res) => {
-          //   countryStore.setMeta(res.data.data.meta);
-          //   countryStore.setLinks(res.data.data.links);
-          //   countryStore.setReFetch(true);
           console.log(res.data);
-          // console.log(res.status);
           pagination.setCurrent_page(res.data.pagination.current_page);
           pagination.setItems_per_page(res.data.pagination.items_per_page);
           pagination.setHas_next_page(res.data.pagination.has_next_page);
@@ -52,7 +48,6 @@ const useAppointmentsList = (
           pagination.setHas_previous_page(
             res.data.pagination.has_previous_page
           );
-          // pagination.(res.data.pagination.meta);
           return res.data.data;
         })
         .catch((error) => {
@@ -61,7 +56,6 @@ const useAppointmentsList = (
         })
         .finally(() => {});
     },
-    // keepPreviousData: true, // خيار جيد إذا عندك pagination
   });
 };
 
