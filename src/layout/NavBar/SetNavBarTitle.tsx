@@ -9,7 +9,7 @@ const SetNavBarTitle = () => {
   const { t } = useTranslation();
 
   const pageTitles: Record<string, string> = {
-    "/": "dashboard",
+    "/": "Users",
     "/employees": "staff",
     "/employees/add": "addStaff",
     "/patients": "patients",
