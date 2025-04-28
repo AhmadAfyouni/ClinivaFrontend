@@ -58,7 +58,6 @@ const DoctorDetails = () => {
     "leave type": vic.leaveType,
     status: vic.status,
   }));
-  console.log(vics);
   // const vication = [
   //   {
   //     leavestartdate: "31/3/2025",
