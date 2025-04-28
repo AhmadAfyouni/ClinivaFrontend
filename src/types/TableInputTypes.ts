@@ -10,7 +10,8 @@ export interface TableColumn {
     | "select"
     | "time"
     | "checkBox"
-    | "boolean";
+    | "boolean"
+    | "day";
   step?: string;
   options?: string[];
   error?: string;

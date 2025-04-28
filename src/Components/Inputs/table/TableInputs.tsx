@@ -23,6 +23,17 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
       />
     );
   }
+  if (column.type === "day") {
+    return (
+      <DateInput
+        placeholder={column.label}
+        value={value as Date}
+        onChange={(date) => onChange(date || new Date())}
+        valueFormat="DD"
+        error={t(column.error || "")}
+      />
+    );
+  }
   if (column.type === "select") {
     return (
       <Select

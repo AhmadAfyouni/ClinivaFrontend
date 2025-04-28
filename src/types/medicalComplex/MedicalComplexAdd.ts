@@ -71,6 +71,6 @@ export default interface AddMedicalComplexType {
   cashBoxes: CashBox[] | null;
   onlinePaymentMethods: OnlinePaymentMethod[];
   locationGoogl: LocationGoogle;
-  companyId: string;
+  companyId?: string;
   specializations: string[];
 }

@@ -5,9 +5,9 @@ interface TimeSlot {
   endTime: string;
 }
 
-interface WorkingHour {
+export interface WorkingHourAddClinic {
   day: string;
-  timeSlots: TimeSlot[];
+  timeSlots: TimeSlot;
 }
 
 interface InsuranceCompany {
@@ -71,19 +71,19 @@ export default interface AddClinicType {
   overview: string;
   yearOfEstablishment: string;
   address: string;
-  logo: string;
+  logo?: string;
   vision: string;
   goals: string;
   contactInfos: ContactInfoType[];
   holidays: Holiday[];
   name: string;
-  WorkingHours: WorkingHour[];
+  WorkingHours: WorkingHourAddClinic[];
   bankAccount: BankAccountType[];
   insuranceCompany: InsuranceCompany[];
   cashBoxes: CashBox[];
   onlinePaymentMethods: OnlinePaymentMethod[];
   commercialRecord: CommercialRecord;
   locationGoogl: LocationGoogle;
-  departmentId: string;
+  departmentId?: string;
   specializations: string[];
 }

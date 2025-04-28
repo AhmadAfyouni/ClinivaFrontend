@@ -18,7 +18,6 @@ const refreshAccessToken = async () => {
     refreshToken,
   });
 
-
   const newAccessToken = response.data.data.accessToken;
   localStorage.setItem("token", newAccessToken);
   return newAccessToken;
@@ -27,8 +26,6 @@ const refreshAccessToken = async () => {
 const setLoading = useLoadingStore.getState().setLoading;
 axiosInstance.interceptors.request.use(
   (config) => {
-
-
     setLoading(true);
 
     if (config.url !== "/login") {
@@ -53,7 +50,7 @@ axiosInstance.interceptors.response.use(
     if (response.data.message) {
       switch (response?.config?.method) {
         case "get":
-          showToast(response.data.message, "success");
+          // showToast(response.data.message, "success");
           break;
         case "post":
           showToast(

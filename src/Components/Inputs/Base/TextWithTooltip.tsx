@@ -7,7 +7,7 @@ interface Props {
   base: InputPropsType;
 }
 export default function InputTooltipBase(props: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -22,6 +22,7 @@ export default function InputTooltipBase(props: Props) {
   const rightSection = (
     <Tooltip
       label={t(props.base.tooltip || "")}
+      // label={t(props.base.tooltip || "")}
       withArrow
       position="top-end"
       transitionProps={{ transition: "pop-bottom-right" }}
