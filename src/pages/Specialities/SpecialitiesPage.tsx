@@ -10,10 +10,12 @@ import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import { useNavigate } from "react-router";
 
 const SpecialitiesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
+  const navigate = useNavigate();
   const { data, isFetched } = useSpecialization(false, sortBy, order);
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
@@ -84,7 +86,7 @@ const SpecialitiesPage = () => {
           </Flex>
           <AddButton
             text="addSpeciality"
-            handleOnClick={() => console.log("speciality")}
+            handleOnClick={() => navigate(`/specialities/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>
