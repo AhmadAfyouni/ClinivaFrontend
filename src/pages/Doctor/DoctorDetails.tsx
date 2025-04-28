@@ -41,70 +41,42 @@ const DoctorDetails = () => {
     },
   ];
   const day = [t("Day"), t("Start"), t("End")];
-  const times = [
-    {
-      day: "Sun",
-      start: "9:00 AM",
-      end: "01:00 PM",
-    },
-    {
-      day: "Sun",
-      start: "9:00 AM",
-      end: "01:00 PM",
-    },
-    {
-      day: "Mon",
-      start: "8:00 AM",
-      end: "11:00 PM",
-    },
-    {
-      day: "Wed",
-      start: "9:00 AM",
-      end: "12:00 PM",
-    },
-  ];
+  const wh = data.workingHours.map((wh) => ({
+    day: wh.day,
+    start: wh.startTime,
+    end: wh.endTime,
+  }));
   const thVication = [
     t("leaveStartDate"),
     t("leaveEndDate"),
     t("leaveType"),
     t("status"),
   ];
-  const vication = [
-    {
-      leavestartdate: "Sarah Miller",
-      leaveenddate: "2028-09-12, 9:00 AM",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
-      leavestartdate: "31/3/2025",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
-      leavestartdate: "31/3/2025",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
-      leavestartdate: "31/3/2025",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "Pending",
-    },
-    {
-      leavestartdate: "Sarah Miller",
-      leaveenddate: "2/4/2025",
-      leavetype: "Vic",
-      status: "active",
-    },
-  ];
+  const vics = data.vacationRecords.map((vic) => ({
+    "leave start date": vic.leaveStartDate.slice(0, 10),
+    "leave end date": vic.leaveEndDate.slice(0, 10),
+    "leave type": vic.leaveType,
+    status: vic.status,
+  }));
+  console.log(vics);
+  // const vication = [
+  //   {
+  //     leavestartdate: "31/3/2025",
+  //     leaveenddate: "2/4/2025",
+  //     leavetype: "Vic",
+  //     status: "Pending",
+  //   },
+  //   {
+  //     leavestartdate: "31/3/2025",
+  //     leaveenddate: "2/4/2025",
+  //     leavetype: "Vic",
+  //     status: "Pending",
+  //   },
+  // ];
 
-  // const theme = useMantineTheme();
   const titleCards = [t("Identity"), t("Nationality"), t("Total Patients")];
   const valueCards = [data?.identity, data?.nationality, "1245"];
+
   if (!isFetched || !data)
     return (
       <Center>
@@ -194,7 +166,7 @@ const DoctorDetails = () => {
                 buttonValue={t("viewAll")}
                 tableTitle={t("WorkingHours")}
                 th={day}
-                tb={times}
+                tb={wh}
               />
             </Flex>
             <Flex w={isMobile ? "95%" : "50%"}>
@@ -204,7 +176,7 @@ const DoctorDetails = () => {
                 buttonValue={t("addVication")}
                 tableTitle={t("vacations")}
                 th={thVication}
-                tb={vication}
+                tb={vics}
               />
             </Flex>
           </Flex>
