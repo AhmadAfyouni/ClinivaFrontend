@@ -20,12 +20,13 @@ const useDepatementsList = (
       allData,
       sortBy,
       order,
+      pagination.paramKey,
     ],
     queryFn: () => {
       let url = `/departments?sortBy=${sortBy}&order=${order}`;
 
       if (!allData) {
-        url += `&page=${pagination.current_page}&limit=${pagination.items_per_page}`;
+        url += `&page=${pagination.current_page}&limit=${pagination.items_per_page}&search=${pagination.paramKey}`;
       }
 
       return axiosInstance
