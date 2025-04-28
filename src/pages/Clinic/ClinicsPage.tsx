@@ -15,9 +15,10 @@ import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 const ClinicsPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
+  const { setSelectedOption } = useDropDownStore();
   const { data, isFetched } = useClinicsList(false, sortBy, order);
   const navigate = useNavigate();
-  const { setSelectedOption } = useDropDownStore();
+  // const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -33,10 +34,21 @@ const ClinicsPage = () => {
           })
     );
   };
-  const SpecialtiesOptions = [""];
-  const handlSpecialtyChange = (e: string | null) => {
-    setSelectedOption("CliSpeciality", e);
-    console.log(e);
+  // const SpecialtiesOptions = [""];
+  // const handlSpecialtyChange = (e: string | null) => {
+  //   setSelectedOption("CliSpeciality", e);
+  //   console.log(e);
+  // };
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    setSelectedOption("CliStatus", e);
+    pagination.setFilter(value);
   };
   const rows = data.map((item) => (
     <TableBody
@@ -75,10 +87,10 @@ const ClinicsPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              dropdownName1="CliSpeciality"
-              placeHolderDropDown1="Speciality"
-              OptionsDropDown1={SpecialtiesOptions}
-              handlDropDownChange1={handlSpecialtyChange}
+              dropdownName1="CliStatus"
+              placeHolderDropDown1="Status"
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
             />
           </Flex>
           <AddButton

@@ -50,13 +50,18 @@ export function SideBar() {
       link: "/clinics",
     },
     {
-      label: t("Appointment"),
+      label: t("Appointments"),
       icon: IconCalendarStats,
-      links: [
-        { label: t("Appointments"), link: "/appointments" },
-        { label: t("Add Appointments"), link: "/appointments/add" },
-      ],
+      link: "/appointments",
     },
+    // {
+    //   label: t("Appointment"),
+    //   icon: IconCalendarStats,
+    //   links: [
+    //     { label: t("Appointments"), link: "/appointments" },
+    //     { label: t("Add Appointments"), link: "/appointments/add" },
+    //   ],
+    // },
     { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
     { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
     { label: t("Patients"), icon: IconUser, link: "/patients" },

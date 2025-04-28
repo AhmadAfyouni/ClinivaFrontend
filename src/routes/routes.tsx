@@ -33,6 +33,7 @@ import StaffDetails from "../pages/Staff/StaffDetails";
 import UserDetails from "../pages/Users/UserDetails";
 import CompanyDetails from "../pages/Company/CompanyDetails";
 import AddDepartment from "../pages/Departement/AddDepartment";
+import AddSpeciality from "../pages/Specialities/AddSpeciality";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -231,7 +232,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <ClinicsPage />, //// add speciality Page
+        element: <AddSpeciality />,
       },
       {
         path: "details/:id",
