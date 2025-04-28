@@ -25,13 +25,16 @@ function AddDepartment() {
       vision: "",
       details: "",
       contactInfos: [],
-      clinicCollectionId: "67e50d4e191e5b9428a74741",
+      clinicCollectionId: "",
     },
     validationSchema: AddDepartmentSchema,
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      hook.mutate(values);
+      const { clinicCollectionId, ...rest } = values;
+      const payload = clinicCollectionId === "" ? rest : values;
+      hook.mutate(payload);
+      formik.resetForm();
       console.log("Department Submitted:", values);
     },
   });
@@ -63,12 +66,10 @@ function AddDepartment() {
     {
       id: "clinicCollectionId",
       label: "clinic Collection",
-      mandatory: true,
+      mandatory: false,
       type: "select",
       error: formik.errors.clinicCollectionId,
       placeholder: "selct clinic Collection ",
-      // tooltip: "Enter the name of the department",
-      value: formik.values.clinicCollectionId || "",
       onChange: (selectedValue) => {
         if (typeof selectedValue === "string") {
           formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue]);

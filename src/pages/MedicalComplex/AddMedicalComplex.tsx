@@ -63,8 +63,10 @@ function AddMedicalComplex() {
     isInitialValid: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      hook.mutate(values);
-      // formik.resetForm();
+      const { companyId, ...rest } = values;
+      const payload = companyId === "" ? rest : values;
+      hook.mutate(payload);
+      formik.resetForm();
       console.log("Clinic Collection Submitted:", values);
     },
   });
