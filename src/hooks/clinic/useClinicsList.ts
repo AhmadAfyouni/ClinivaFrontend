@@ -17,6 +17,7 @@ const useClinicsList = (allData = false, sortBy = "_id", order = "desc") => {
       sortBy,
       order,
       pagination.paramKey,
+      pagination.filter,
     ],
     queryFn: () => {
       const url = `/clinics?${
@@ -27,9 +28,11 @@ const useClinicsList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
-        // "&search=" +
-        // pagination.paramKey
+        order +
+        "&search=" +
+        pagination.paramKey +
+        "&isActive=" +
+        pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<ClinicDetailsType>>(url)
