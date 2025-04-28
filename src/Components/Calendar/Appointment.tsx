@@ -26,6 +26,7 @@ function Appointment() {
   const [daysInCalender, setDaysInCalender] = useState(5);
   const [OpenExtraInfo] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
+  const [selectedClinic, setSelectedClinic] = useState("All Clinics");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [OpenForm, setOenForm] = useState<{
@@ -35,10 +36,9 @@ function Appointment() {
   const doctorsHook = useDoctors(0, 0, true);
   const patientsHook = usePatientsList(true);
   const serviceHook = useServicesList(true);
-  const hook = useAppointmentsList();
   const clinicsHook = useClinics(0, 0, true);
+  const hook = useAppointmentsList(false);
   const addAppointmentMutation = useAddAppointment();
-
   const formik = useFormik<AddAppointmentType>({
     initialValues: {
       service: "",
@@ -57,14 +57,15 @@ function Appointment() {
     onSubmit: (values) => {
       console.log("values", values);
       addAppointmentMutation.mutate(values);
-
-      if (addAppointmentMutation.isSuccess) {
-        handleCloseForm();
-        formik.resetForm();
-        hook.refetch();
-      }
     },
   });
+  useEffect(() => {
+    if (addAppointmentMutation.isSuccess) {
+      handleCloseForm();
+      formik.resetForm();
+      hook.refetch();
+    }
+  }, [addAppointmentMutation.isSuccess]);
   useEffect(() => {
     if (OpenForm) {
       if (OpenForm.time.length === 4) OpenForm.time = "0" + OpenForm.time;
@@ -83,10 +84,20 @@ function Appointment() {
     !serviceHook.data ||
     !clinicsHook.data
   ) {
-    return <div>Loading...</div>;
+    return <Center>Loading...</Center>;
   }
 
-  // Get appointments for a specific day and time with filtering
+  const day = new Date(formik.values.datetime).getUTCDate();
+  const month = new Date(formik.values.datetime).getUTCMonth() + 1;
+  const year = new Date(formik.values.datetime).getUTCFullYear();
+  const hours = String(new Date(formik.values.datetime).getUTCHours()).padStart(
+    2,
+    "0"
+  );
+  const minutes = String(
+    new Date(formik.values.datetime).getUTCMinutes()
+  ).padStart(2, "0");
+
   const getAppointments = (day: string, time: string) => {
     return hook.data.filter((app) => {
       const [dateStr, timeRest] = app.datetime.split("T");
@@ -147,7 +158,7 @@ function Appointment() {
       error: undefined,
       placeholder: "",
       tooltip: "Appointment date and time",
-      value: new Date(formik.values.datetime).toLocaleString(),
+      value: day + "/" + month + "/" + year + " " + hours + ":" + minutes,
       onChange: () => {},
       onBlur: () => {},
       disabled: true,
@@ -240,6 +251,8 @@ function Appointment() {
             setSearchQuery={setSearchQuery}
             selectedDoctor={selectedDoctor}
             setSelectedDoctor={setSelectedDoctor}
+            selectedClinic={selectedClinic}
+            setSelectedClinic={setSelectedClinic}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             setStartDate={setStartDate}
@@ -255,6 +268,7 @@ function Appointment() {
               handleMoveWeek(daysInCalender, startDate, setStartDate, "next")
             }
             doctors={doctorsHook.data?.map((doc) => doc.name)}
+            clinics={clinics}
           />
 
           <AppointmentCalendar
