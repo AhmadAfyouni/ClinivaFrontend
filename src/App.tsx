@@ -15,7 +15,6 @@ import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { useRoutes } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
-import { useDirection } from "@mantine/core";
 import { useDarkThem } from "./store/useDarkThem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -69,7 +68,7 @@ const createAppTheme = (
 function AppContent() {
   const element = useRoutes(routes);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { dir } = useDirection();
+  const { i18n } = useTranslation();
   const { dark } = useDarkThem();
   const theme = createAppTheme(dark);
   const navigate = useNavigate();
@@ -95,19 +94,22 @@ function AppContent() {
   // if (isLoginPage || isRegisterPage) {
   //   return element;
   // }
+  console.log("dir", i18n);
 
   return (
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <LoaderCustom />
-      {!nonAuth && dir === "ltr" && <SideBar />}
+      {!nonAuth && <SideBar />}
       <Flex
         w={"100%"}
         direction={"column"}
         justify={"start"}
         align={"center"}
         style={{
-          marginLeft: dir === "ltr" && !isMobile && !nonAuth ? "15%" : 0,
-          marginRight: dir === "rtl" && !isMobile && !nonAuth ? "15%" : 0,
+          marginLeft:
+            i18n.language === "en" && !isMobile && !nonAuth ? "15%" : 0,
+          marginRight:
+            i18n.language === "ar" && !isMobile && !nonAuth ? "15%" : 0,
         }}
       >
         <NavBar login={!nonAuth} />
@@ -115,7 +117,7 @@ function AppContent() {
           {element}
         </Card>
       </Flex>
-      {!nonAuth && dir === "rtl" && <SideBar />}
+      {!nonAuth && i18n.language === "ar" && <SideBar />}
     </Flex>
   );
 }
@@ -129,7 +131,7 @@ function App() {
     },
   });
 
-  const direction = i18n.language === "ar" ? "rtl" : "ltr";
+  const direction = i18n.language === "ar" ? "ar" : "en";
 
   useEffect(() => {
     document.documentElement.setAttribute("dir", direction);

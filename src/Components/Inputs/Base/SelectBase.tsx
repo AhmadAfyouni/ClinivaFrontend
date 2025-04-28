@@ -6,7 +6,7 @@ interface Props {
   base: InputPropsType;
 }
 function SelectBaseCustom({ base }: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   return (
     <Select

@@ -15,7 +15,6 @@ import {
 } from "@tabler/icons-react";
 import { Group, ScrollArea, Text, Drawer } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { useDirection } from "@mantine/core";
 import { LinksGroup } from "./NavbarLinksGroup";
 import { UserButton } from "./UserButton";
 import classes from "./NavbarNested.module.css";
@@ -25,8 +24,7 @@ import { useTranslation } from "react-i18next";
 // import { Logo } from "./Logo";
 
 export function SideBar() {
-  const { t } = useTranslation();
-  const { dir } = useDirection();
+  const { t, i18n } = useTranslation();
   const mockdata = [
     // { label: t("Dashboard"), icon: IconGauge, link: "/" },
     { label: t("Users"), icon: IconUser, link: "/" },
@@ -90,13 +88,13 @@ export function SideBar() {
   const links = mockdata.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
-
+  console.log("@!@", i18n.language);
   const NavbarContent = () => (
     <nav
       className={classes.navbar}
       style={{
-        left: dir === "ltr" ? 0 : "auto",
-        right: dir === "rtl" ? 0 : "auto",
+        left: i18n.language === "en" ? 0 : "auto",
+        right: i18n.language === "ar" ? 0 : "auto",
       }}
     >
       <div className={classes.header}>
@@ -146,7 +144,7 @@ export function SideBar() {
   if (isMobile) {
     return (
       <Drawer
-        position={dir === "rtl" ? "right" : "left"}
+        position={i18n.language === "ar" ? "right" : "left"}
         opened={opened}
         onClose={close}
         size="100%"

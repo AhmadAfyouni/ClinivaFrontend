@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function RadioBase(props: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const handleChange = (value: string) => {
     if (props.base.onChange) {
