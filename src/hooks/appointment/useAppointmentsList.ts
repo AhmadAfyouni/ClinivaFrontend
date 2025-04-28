@@ -1,7 +1,7 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 import AppointmentType from "../../types/Appointment/AppointmentType";
 
 const useAppointmentsList = (
@@ -9,7 +9,7 @@ const useAppointmentsList = (
   sortBy = "_id",
   order = "desc"
 ): UseQueryResult<AppointmentType[], Error> => {
-  const pagination = usePaginationtStore();
+  const pagination = usePageinationtStore();
   return useQuery<AppointmentType[], Error>({
     queryKey: [
       "appointments",
@@ -20,6 +20,7 @@ const useAppointmentsList = (
       order,
       pagination.paramKey,
       pagination.filter,
+      pagination.GeneralFilter,
     ],
     queryFn: () => {
       const url = `/appointments?${
@@ -34,7 +35,8 @@ const useAppointmentsList = (
         "&search=" +
         pagination.paramKey +
         "&status=" +
-        pagination.filter
+        pagination.filter +
+        pagination.GeneralFilter
       }`;
       return axiosInstance
         .get<ResponseType<AppointmentType>>(url)

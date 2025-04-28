@@ -7,11 +7,9 @@
   "preferred_language": "Preferred Language",
   "health_plus": "Health Plus",
   "about_patient_description": "A regular patient at the clinic",
-
   "expiry_date": "Expiry Date",
   "active": "Active",
   "inactive": "Inactive",
-
   "general_info": "General Info",
   "about_patient": "About Patient",
   "patient_id": "Patient ID",
@@ -23,29 +21,23 @@
   "female": "Female",
   "single": "Single",
   "married": "Married",
-
   "Medical Info": "Medical Info",
   "Blood Type": "Blood Type",
   "Hieght": "Height",
   "Weight": "Weight",
   "Nationality": "Nationality",
-
   "Allergies": "Allergies",
   "Chronic diseases": "Chronic diseases",
-
   "Contact Person": "Contact Person",
   "Phone": "Phone",
   "Address": "Address",
   "Email": "Email",
   "Emergency Contact": "Emergency Contact",
-
   "Health Reports": "Health Reports",
-
   "Treatment": "Treatment",
   "Upcoming": "Upcoming",
   "History": "History",
   "Notes": "Notes",
-
   "Departement": "Department",
   "ID": "ID",
   "Name": "Name",
@@ -57,7 +49,6 @@
   "Clinics & Specialties": "Clinics & Specialties",
   "Clinics": "Clinics",
   "Specialties": "Specialties",
-
   "Dashboard": "Dashboard",
   "Staff": "Staff",
   "Patients": "Patients",
@@ -75,13 +66,11 @@
   "Contracts": "Contracts",
   "Settings": "Settings",
   "Security": "Security",
-
   "Staff Id": "Staff Id",
   "Staff Name": "Staff Name",
   "Job Title": "Job Title",
   "MedicalComplex": "Medical Complex",
   "Add Staff": "Add Staff",
-
   "patient Id": "Patient ID",
   "name": "Name",
   "Birthday": "Birthday",
@@ -93,14 +82,12 @@
   "Search": "Search",
   "Date": "Date",
   "AddDoctors": "Add Doctors",
-
   "userId": "User ID",
   "createdDate": "Created Date",
   "email": "Email",
   "role": "Role",
   "user": "User",
   "Add User": "Add User",
-
   "complexId": "Medical ID",
   "complexName": "Complex Name",
   "pic": "PIC",
@@ -109,12 +96,10 @@
   "staffCount": "Staff Count",
   "medicalcomplex": "Medical Complex",
   "addMedicalComplex": "Add MedicalComplex",
-
   "departmentId": "Department ID",
   "patientCount": "Patient Count",
   "department": "Department",
   "addDepartement": "Add Departement",
-
   "clinicId": "Clinic ID",
   "clinicName": "Clinic Name",
   "workingHours": "Working Hours",
@@ -122,21 +107,18 @@
   "numberOfPatients": "Number of Patients",
   "clinic": "Clinic",
   "addClinic": "Add Clinic",
-
   "serviceId": "Service ID",
   "serviceName": "Service Name",
   "description": "Description",
   "price": "Price",
   "clinics": "Clinics",
   "addService": "Add Service",
-
   "specialityId": "Speciality ID",
   "specialityName": "Speciality Name",
   "assignedClinics": "Assigned Clinics",
   "lastUpdate": "Last Update",
   "doctorsNumber": "Number of Doctors",
   "addSpeciality": "Add Speciality",
-
   "dashboard": "Dashboard",
   "staff": "Staff",
   "addStaff": "Add Staff",
@@ -182,7 +164,6 @@
   "iD": "ID",
   "nationalId": "National ID",
   "companyInfo": "Company Info",
-
   "Day": "Day",
   "Start": "Start",
   "End": "End",

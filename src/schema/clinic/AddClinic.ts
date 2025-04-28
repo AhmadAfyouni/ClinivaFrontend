@@ -6,7 +6,7 @@ const AddClinicSchema = Yup.object().shape({
   overview: Yup.string().required("Overview is required"),
   yearOfEstablishment: Yup.string().required("Year of establishment is required"),
   address: Yup.string().required("Address is required"),
-  logo: Yup.string().required("Logo URL is required"),
+  logo: Yup.string(),
   vision: Yup.string().required("Vision is required"),
   goals: Yup.string().required("Goals are required"),
   name: Yup.string().required("Name is required"),
@@ -103,7 +103,7 @@ const AddClinicSchema = Yup.object().shape({
     x: Yup.number().required("Latitude is required"),
     y: Yup.number().required("Longitude is required"),
   }),
-  departmentId: Yup.string().required("Department ID is required"),
+  departmentId: Yup.string(),
   specializations: Yup.array().of(Yup.string()).required("Specializations are required"),
 });
 

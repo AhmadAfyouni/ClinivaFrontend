@@ -1,20 +1,27 @@
 import { useFormik } from "formik";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
-import { Box, Button, ScrollArea } from "@mantine/core";
+import { Box, Button, Center, ScrollArea } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import {
   ContactInfoType,
   Holiday,
   BankAccountType,
 } from "../../types/GeneralAdd";
-import AddClinicType from "../../types/clinic/AddClinic";
+import AddClinicType, {
+  WorkingHourAddClinic,
+} from "../../types/clinic/AddClinic";
 import AddClinicSchema from "../../schema/clinic/AddClinic";
 import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
+import useDepatementsList from "../../hooks/departement/useDepartementsList";
 
+interface selectRoleType {
+  [key: string]: string;
+}
 function AddClinic() {
   const hook = useAddClinic();
+  const  departments = useDepatementsList();
   const formik = useFormik<AddClinicType>({
     initialValues: {
       isActive: true,
@@ -22,7 +29,7 @@ function AddClinic() {
       overview: "",
       yearOfEstablishment: "",
       address: "",
-      logo: "",
+      // logo: "",
       vision: "",
       goals: "",
       contactInfos: [],
@@ -44,7 +51,7 @@ function AddClinic() {
         x: 0,
         y: 0,
       },
-      departmentId: "67e50d71191e5b9428a74747",
+      // departmentId: "",
       specializations: [],
     },
     validationSchema: AddClinicSchema,
@@ -53,15 +60,24 @@ function AddClinic() {
     onSubmit: (values) => {
       console.log("Clinic Submitted:", values);
       hook.mutate(values);
-      formik.setValues({} as AddClinicType);
-      // Add your API call here
+      formik.resetForm();
+      // formik.setValues({} as AddClinicType);
     },
   });
 
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogl", location);
   };
-
+  
+  if (!departments.data) return <Center>Loading...</Center>;
+  const departmentName = [...new Set(departments.data.map((obj) => obj.name))];
+  const nameIdMap: selectRoleType = departments.data.reduce<selectRoleType>(
+    (acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    },
+    {}
+  );
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -86,6 +102,21 @@ function AddClinic() {
       tooltip: "Enter the average duration of a visit in minutes",
       value: formik.values.AverageDurationOfVisit.toString(),
       onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "departmentId",
+      label: "Department",
+      mandatory: true,
+      type: "select",
+      error: formik.errors.departmentId,
+      placeholder: "Select department",
+      selectValue:departmentName,
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === "string") {
+          formik.setFieldValue("departmentId", nameIdMap[selectedValue]);
+        } 
+      },
       onBlur: formik.handleBlur,
     },
     {
@@ -128,7 +159,7 @@ function AddClinic() {
       id: "logo",
       label: "Logo URL",
       mandatory: true,
-      type: "text",
+      type: "image",
       error: formik.errors.logo,
       placeholder: "Enter logo URL",
       tooltip: "Enter the URL for the clinic's logo",
@@ -219,7 +250,8 @@ function AddClinic() {
       onBlur: formik.handleBlur,
     },
   ];
-  // console.log(formik.errors);
+  console.log("error", formik.errors);
+  console.log("value", formik.values);
   return (
     <ScrollArea h="100vh">
       <form onSubmit={formik.handleSubmit}>
@@ -300,6 +332,31 @@ function AddClinic() {
             error={formik.errors.holidays?.toString() || ""}
           />
         </Box>
+        <Box m={"xs"} p={"xs"}>
+          <TableSelection<WorkingHourAddClinic>
+            title="Working Hours"
+            columns={[
+              { key: "day", label: "Day", type: "select", options: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] },
+              {
+                key: "startTime",
+                label: "Start Time",
+                type: "time",
+              },
+              {
+                key: "endTime",
+                label: "End Time",
+                type: "time",
+              },
+            ]}
+            fieldName="WorkingHours"
+            // onFieldChange={formik.setFieldValue}
+            onFieldChange={(field, value) => formik.setFieldValue(field, value)}
+
+            key={"WorkingHours"}
+            data={formik.values.WorkingHours}
+            error={formik.errors.WorkingHours?.toString() || ""}
+          />
+        </Box>
 
         <Box m={"xs"} p={"xs"}>
           <TableSelection<BankAccountType>
@@ -348,3 +405,4 @@ function AddClinic() {
 }
 
 export default AddClinic;
+

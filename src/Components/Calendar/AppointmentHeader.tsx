@@ -11,12 +11,16 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdArrowForwardIos, MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
+import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 
 interface AppointmentHeaderProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   selectedDoctor: string;
   setSelectedDoctor: (doctor: string) => void;
+  selectedClinic: string;
+  setSelectedClinic: (clinic: string) => void;
+  clinics: Record<string, string>;
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
   setStartDate: (date: Date) => void;
@@ -30,6 +34,9 @@ function AppointmentHeader({
   setSearchQuery,
   selectedDoctor,
   setSelectedDoctor,
+  selectedClinic,
+  setSelectedClinic,
+  clinics,
   selectedDate,
   setSelectedDate,
   setStartDate,
@@ -38,12 +45,16 @@ function AppointmentHeader({
   doctors,
 }: AppointmentHeaderProps) {
   const theme = useMantineTheme();
-
+  const pagination = usePageinationtStore();
   const handleDateChange = (date: Date | null) => {
     if (date) {
       setSelectedDate(date);
       setStartDate(date);
     }
+  };
+  const handleSelectClinic = (clinicName: string) => {
+    setSelectedClinic(clinicName);
+    pagination.setGeneralFilter("&clinic=" + clinics[clinicName]);
   };
 
   return (
@@ -112,6 +123,36 @@ function AppointmentHeader({
                 }}
               >
                 {doctor}
+              </Menu.Item>
+            ))}
+          </Menu.Dropdown>
+        </Menu>
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <Button
+              c={theme.other.onSurfacePrimary}
+              bg={theme.other.secondaryColor}
+              radius={"lg"}
+              rightSection={<MdKeyboardArrowDown size={20} />}
+            >
+              <Text>{selectedClinic}</Text>
+            </Button>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            {Object.keys(clinics).map((clinicName) => (
+              <Menu.Item
+                key={clinicName}
+                onClick={() => handleSelectClinic(clinicName)}
+                style={{
+                  backgroundColor:
+                    selectedClinic === clinicName
+                      ? theme.other.secondaryColor
+                      : "transparent",
+                  color: theme.other.onSurfacePrimary,
+                }}
+              >
+                {clinicName}
               </Menu.Item>
             ))}
           </Menu.Dropdown>

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function InputFileBase({ base }: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const [image, setImage] = useState<string | null>(
     typeof base.value === "string" ? base.value : null
