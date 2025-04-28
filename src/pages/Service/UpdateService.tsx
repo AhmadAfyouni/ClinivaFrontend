@@ -48,17 +48,24 @@ function UpdateService() {
       description: serviceData?.description || "",
       price: serviceData?.price || null,
       isActive: serviceData?.isActive ?? true,
-      clinics: serviceData?.clinicsAssociated || [],
-      doctors: serviceData?.doctorsAssociated || [],
+      // clinics: serviceData?.clinic.name || [],
+      // doctors: serviceData?.doctors.map((item) => item.name) || [],
+      clinics: serviceData?.clinic?._id ? [serviceData.clinic._id] : [],
+      doctors: serviceData?.doctors?.map((item) => item._id) || [],
     },
     enableReinitialize: true,
     validationSchema: AddServiceSchema,
     onSubmit: (values) => {
+      if (!serviceId) return;
       updateHook.mutate({
-        id: serviceId!,
-        ...values,
+        id: serviceId,
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        isActive: values.isActive,
+        clinic: values.clinics[0],
+        doctors: values.doctors,
       });
-      console.log("Service Updated:", values);
     },
   });
 

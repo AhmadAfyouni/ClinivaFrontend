@@ -53,6 +53,7 @@ const UserDetails = () => {
     <Flex direction={isComputer ? "row" : "column"}>
       <Flex w={isComputer ? "25%" : "100%"}>
         <InfoCard
+          imgUrl=""
           iconsMaxWidth="150px"
           contactInfoIcons={icons}
           isActive={true}
