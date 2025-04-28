@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function DateBase(props: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const handleChange = (value: DateValue) => {
     if (props.base.onChange) {
