@@ -99,7 +99,7 @@ function AppContent() {
   return (
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <LoaderCustom />
-      { !nonAuth && dir === "ltr" && <SideBar /> }
+      {!nonAuth && dir === "ltr" && <SideBar />}
       <Flex
         w={"100%"}
         direction={"column"}
@@ -115,7 +115,7 @@ function AppContent() {
           {element}
         </Card>
       </Flex>
-      { !nonAuth && dir === "rtl" && <SideBar /> }
+      {!nonAuth && dir === "rtl" && <SideBar />}
     </Flex>
   );
 }
