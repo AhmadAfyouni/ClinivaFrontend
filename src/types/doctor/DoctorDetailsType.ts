@@ -23,6 +23,14 @@ interface DepartmentId {
 interface ClinicCollectionId {
   name: string;
 }
+interface Company {
+  name: string;
+  id: string;
+}
+interface Clinic {
+  name: string;
+  id: string;
+}
 
 export default interface DoctorDetailsType {
   _id: string;
@@ -49,10 +57,10 @@ export default interface DoctorDetailsType {
   jobType: string;
   breakTimes: BreakTime[];
   isActive: boolean;
-  companyId: string;
+  companyId: Company;
   clinicCollectionId: ClinicCollectionId | null;
   departmentId: DepartmentId | null;
-  clinics: string[];
+  clinics: Clinic[];
   specializations: string[];
   publicId: string;
 }
