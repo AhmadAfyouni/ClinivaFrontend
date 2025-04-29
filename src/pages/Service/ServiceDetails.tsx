@@ -5,30 +5,42 @@ import {
   useMantineTheme,
   Center,
   ScrollArea,
+  Button,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import ListComponent from "../../Components/CompanyDetails/ListComponent";
-import { FaClinicMedical } from "react-icons/fa";
-
 import useStaffList from "../../hooks/staff/useStaffList";
+import useServiceDetails from "../../hooks/serviceH/useServiceDetails";
+import { useParams } from "react-router";
+import { BsPerson } from "react-icons/bs";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 
 const ServiceDetails = () => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
+  const { mutate } = useDeleteById({
+    endpoint: "services",
+    mutationKey: "delete-services",
+    navigationUrl: "/services",
+  });
+  const { id: ServiceId } = useParams();
+  const { data } = useServiceDetails(ServiceId!);
   const info = [
-    { title: "ID", content: "12345" },
-    { title: "Name", content: "Service 1" },
-    { title: "Price", content: "324  " },
-    { title: "Created at ", content: "12/5/2025" },
+    { title: "ID", content: data?.publicId },
+    { title: "Name", content: data?.name },
+    { title: "Price", content: data?.price },
+    { title: "Created at ", content: data?.createdAt.slice(0, 10) },
   ];
   const info1 = [
-    { title: "Description", content: "3254" },
-    { title: "Modified at", content: "blah blah blah" },
+    { title: "Description", content: data?.description },
+    { title: "Modified at", content: data?.updatedAt.slice(0, 10) },
   ];
-  const { data, isFetched } = useStaffList();
-  // console.log(data);
-
-  if (!data) return null;
+  const { data: Staff, isFetched } = useStaffList();
+  console.log(data?.isActive);
+  const handleDeleteEvent = () => {
+    mutate(data?._id ?? "-1");
+  };
+  if (!Staff) return null;
 
   if (!isFetched || !data)
     return (
@@ -65,8 +77,16 @@ const ServiceDetails = () => {
                   <Text w={200} c={theme.other.onSurfaceTertiary}>
                     Status
                   </Text>
-                  <Badge size="14px" p="sm">
-                    Active
+                  <Badge
+                    size="14px"
+                    p="sm"
+                    bg={
+                      data.isActive === true
+                        ? theme.colors.myPrimary[4]
+                        : theme.other.secondaryColor
+                    }
+                  >
+                    {data.isActive === true ? "Active" : "InActive"}
                   </Badge>
                 </Flex>
                 <Flex w="100%" direction="column" mb="lg" gap="lg">
@@ -98,27 +118,29 @@ const ServiceDetails = () => {
               key={0}
               minwidth="50%"
               title="Doctors"
-              listItems={["gf1dsa", "gsgf2sdg", "g3fdsa", "gsg4fsdg", "gf5dsa"]}
-              icon={<FaClinicMedical />}
+              listItems={data.doctors.map((item) => item.name)}
+              icon={<BsPerson />}
             />
           </Flex>
           <Flex w="50%">
-            <ListComponent
+            {/* <ListComponent
               key={1}
               minwidth="50%"
               title="Clinics"
-              listItems={[
-                "fsdgsf0",
-                "sdf09g",
-                "g00fdsa",
-                "gsg9fsdg",
-                "gfds8a",
-                "gsg7fsdg",
-              ]}
+              listItems={data.clinic.name}
               icon={<FaClinicMedical />}
-            />
+            /> */}
           </Flex>
         </Flex>
+        <Button
+          variant="filled"
+          color="red"
+          radius="xl"
+          mb="110px"
+          onClick={handleDeleteEvent}
+        >
+          Delete
+        </Button>
       </ScrollArea>
     );
 };

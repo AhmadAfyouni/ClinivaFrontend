@@ -49,8 +49,8 @@ const DepartementsPage = () => {
       th1={item.name}
       th2={item.clinicCollectionId?.name || ""}
       th3={item.address}
-      th4={item.clinicCollectionId?.name || ""}
-      th5={item.requiredStaff.toString()}
+      th4={item.clinicCount.toString()}
+      th5={item.patientCount.toString()}
     />
   ));
 
@@ -92,7 +92,7 @@ const DepartementsPage = () => {
                 "clinicCollectionId?.name",
                 "address",
                 "clinicCount",
-                "requiredStaff",
+                "patientCount",
                 "_id",
               ]}
               labels={[
@@ -100,8 +100,8 @@ const DepartementsPage = () => {
                 "name",
                 "pic",
                 "address",
-                "departmentsCount",
-                "patientCount",
+                "Clinics Count",
+                "patients Count",
                 "departement",
               ]}
               data={data}
