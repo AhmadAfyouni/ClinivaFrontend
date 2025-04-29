@@ -43,9 +43,7 @@ const MedicalComplexPage = () => {
         current.length === data.length
           ? []
           : data.map((item) => {
-              // return item.companyId.toString() ;
               return item._id.toString();
-              // return item.companyId?.toString() || "";
             })
       );
     }
@@ -88,8 +86,8 @@ const MedicalComplexPage = () => {
                 "complexName",
                 "pic",
                 "address",
-                "departmentsCount",
                 "staffCount",
+                "departmentsCount",
                 "medicalcomplex",
               ]}
               data={data}

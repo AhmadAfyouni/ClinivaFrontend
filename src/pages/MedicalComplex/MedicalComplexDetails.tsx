@@ -10,14 +10,18 @@ import useMedicalComplexDetails from "../../hooks/medicalcomplex/useMedicalCompl
 import { useParams } from "react-router";
 import ContactInfo from "../../types/common/ContactInfo";
 import { useTranslation } from "react-i18next";
-import useDeleteMedicalComplex from "../../hooks/medicalcomplex/useDeleteMedicalComplex";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 
 const MedicalComplexDetails = () => {
-  const deleteComplex = useDeleteMedicalComplex();
   const { t } = useTranslation();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const { id } = useParams();
+  const deleteMedcalComplex = useDeleteById({
+    endpoint: "cliniccollections",
+    mutationKey: "delete-cliniccollection",
+    navigationUrl: "/medicalComplexes",
+  });
   const { data, isFetched } = useMedicalComplexDetails(id!);
 
   if (!isFetched || !data)
@@ -65,7 +69,7 @@ const MedicalComplexDetails = () => {
     "installDependencies",
   ];
   const handleDeleteEvent = () => {
-    deleteComplex.mutate(id!);
+    deleteMedcalComplex.mutate(id!);
   };
   return (
     <ScrollArea h="100vh">

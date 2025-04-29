@@ -15,8 +15,8 @@ import { useTranslation } from "react-i18next";
 import { BsPersonCircle } from "react-icons/bs";
 
 interface IconItem {
-  icon: ReactElement;
-  href: string;
+  icon?: ReactElement;
+  href?: string;
 }
 interface Props {
   name: string;

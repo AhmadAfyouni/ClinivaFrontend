@@ -1,6 +1,7 @@
 import { Mail, MapPin, PhoneCall, Sparkles } from "lucide-react";
 import InfoSide from "../../Components/CompanyDetails/InfoSide";
 import {
+  Button,
   Center,
   Flex,
   ScrollArea,
@@ -13,9 +14,11 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
+import { useNavigate } from "react-router";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
@@ -54,7 +57,9 @@ const CompanyDetails = () => {
   });
   const content =
     "transform your data into actionable insights. Our platform helps you make informed decisions faster and with greater confidence.";
-
+  const handleEditEvent = () => {
+    navigate("/company/edit");
+  };
   return (
     <ScrollArea h="100vh">
       <Flex
@@ -62,7 +67,7 @@ const CompanyDetails = () => {
         justify="space-between"
         direction={isComputer ? "row" : "column"}
       >
-        <Flex w={isComputer ? "23%" : "100%"}>
+        <Flex w={isComputer ? "23%" : "100%"} direction="column">
           <InfoSide
             name={companies[0].name}
             contactInfoIcons={icons}
@@ -75,6 +80,16 @@ const CompanyDetails = () => {
             socialMediaIcons={icons}
             hasActivation={false}
           />
+          <Button
+            variant="filled"
+            color="green"
+            radius="xl"
+            mb="110px"
+            ml="30px"
+            onClick={handleEditEvent}
+          >
+            Edit
+          </Button>
         </Flex>
         <Flex w={isComputer ? "46%" : "100%"} direction="column" gap="xl">
           <TextList
