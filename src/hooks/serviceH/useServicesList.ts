@@ -55,6 +55,8 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         })
         .finally(() => {});
     },
+    refetchOnWindowFocus: true,
+    staleTime: 0,
   });
 };
 export default useServicesList;
