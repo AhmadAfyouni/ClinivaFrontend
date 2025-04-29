@@ -80,6 +80,7 @@ const CustomFilters = ({
           )}
           {IsDateInput && (
             <DatePickerInput
+              clearable
               value={vlaueDateInput}
               onChange={handleDateChange}
               placeholder={t(placeHolderDateInput || "Date")}

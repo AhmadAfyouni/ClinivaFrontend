@@ -29,17 +29,18 @@ const PatientDetails = () => {
     mutationKey: "delete-patient",
     navigationUrl: "/patients",
   });
-  const [day, month, year] = "2-4-2025".split("-").map(Number);
-  const date = new Date(year, month - 1, day);
+  // const [day, month, year] = data?.insurances[0]?.expiryDate?.split("-").map(Number) ||'';
+
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const { id: PatientId } = useParams();
   const { data, isFetched } = usePatientDetails(PatientId!);
-  console.log(data);
+  console.log(new Date("2020-2-3"));
   const handleDeleteEvent = () => {
     mutate(PatientId!);
   };
+  const insuranceDate = data?.insurances[0]?.expiryDate?.slice(0, 10) || "";
   if (!isFetched || !data)
     return (
       <Center>
@@ -92,9 +93,8 @@ const PatientDetails = () => {
                     />
                   </Flex>
                   <InsuranceCard
-                    expiryDate={date}
-                    HPI="HPT-24325425"
-                    insuranceType={t("health_plus")}
+                    expiryDate={new Date(insuranceDate)}
+                    insuranceType={data.insurances[0]?.insuranceType || ""}
                     isActive={data.isActive}
                     personName={data.name}
                     ID={data.identity}

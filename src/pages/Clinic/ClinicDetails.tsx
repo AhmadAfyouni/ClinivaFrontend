@@ -32,7 +32,7 @@ const ClinicDetails = () => {
   const titles = ["specialty", "Working Hours", "Goals"];
   const values = [
     data.specializations?.map((item) => item).join(","),
-    "30 min",
+    data.AverageDurationOfVisit.toString(),
     data.goals ?? "",
   ];
   const icons = data.contactInfos.map((item) => {
@@ -88,13 +88,19 @@ const ClinicDetails = () => {
           <Flex w="100%" direction={isComputer ? "row" : "column"}>
             <Flex w={isComputer ? "66%" : "100%"} direction="column">
               <WorkingSchedule workingHours={data.WorkingHours} />
-              <Text>Services</Text>
+              <GridList
+                girdItems={data.services.map((item) => item.name)}
+                title="Services"
+              />
             </Flex>
             <Flex
               w={isComputer ? "33%" : "100%"}
               direction={isTablet ? "row" : "column"}
             >
-              <GridList girdItems={items} title="Doctors" />
+              <GridList
+                girdItems={data.doctors.map((item) => item.name)}
+                title="Doctors"
+              />
               <GridList girdItems={items} title="Staff" />
             </Flex>
           </Flex>

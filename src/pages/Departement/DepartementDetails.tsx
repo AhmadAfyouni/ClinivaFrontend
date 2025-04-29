@@ -43,7 +43,6 @@ const DepartementDetails = () => {
   const pagination = usePaginationtStore();
   const { data, isFetched } = useStaffList(false, sortBy, order);
   const navigate = useNavigate();
-  // console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
   if (!data) return null;
 
@@ -166,7 +165,7 @@ const DepartementDetails = () => {
               key={0}
               minwidth="50%"
               title={t("Clinics")}
-              listItems={["gf1dsa", "gsgf2sdg", "g3fdsa", "gsg4fsdg", "gf5dsa"]}
+              listItems={data.map((item) => item.name)}
               icon={<FaClinicMedical />}
             />
           </Flex>

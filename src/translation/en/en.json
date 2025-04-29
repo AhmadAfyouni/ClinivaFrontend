@@ -209,5 +209,8 @@
   "patientsNumber": "Patients Number",
   "departments": "Departments",
   "cloneOrDownload": "Clone or Download",
-  "installDependencies": "Install Dependencies"
+  "installDependencies": "Install Dependencies",
+  "primaryphone": "Primary Phone",
+  "secandaryPhone": "Secondary Phone",
+  "phone": "phone"
 }
