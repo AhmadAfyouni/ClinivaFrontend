@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Flex,
   Grid,
@@ -20,8 +21,14 @@ import { useParams } from "react-router";
 import TextInfo from "../../Components/Details/TextInfo";
 import dataAppointment from "../../data/paitientAppointment.json";
 import { useTranslation } from "react-i18next";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 const PatientDetails = () => {
   const { t } = useTranslation();
+  const { mutate } = useDeleteById({
+    endpoint: "patients",
+    mutationKey: "delete-patient",
+    navigationUrl: "/patients",
+  });
   const [day, month, year] = "2-4-2025".split("-").map(Number);
   const date = new Date(year, month - 1, day);
   const theme = useMantineTheme();
@@ -30,6 +37,9 @@ const PatientDetails = () => {
   const { id: PatientId } = useParams();
   const { data, isFetched } = usePatientDetails(PatientId!);
   console.log(data);
+  const handleDeleteEvent = () => {
+    mutate(PatientId!);
+  };
   if (!isFetched || !data)
     return (
       <Center>
@@ -73,7 +83,7 @@ const PatientDetails = () => {
                       ]}
                       contents={[
                         data.name,
-                        data._id,
+                        data.publicId,
                         data.familyMedicalHistory.join(","),
                         data.lifestyleFactors,
                         data.preferredLanguage,
@@ -147,6 +157,15 @@ const PatientDetails = () => {
             />
           </Grid.Col>
         </Grid>
+        <Button
+          variant="filled"
+          color="red"
+          radius="xl"
+          mb="110px"
+          onClick={handleDeleteEvent}
+        >
+          Delete
+        </Button>
       </ScrollArea>
     );
 };

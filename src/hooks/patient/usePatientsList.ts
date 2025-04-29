@@ -1,11 +1,13 @@
+import axios from "axios";
 import axiosInstance from "../../api/ApiCore";
-import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
-import PatientDetailsType from "../../types/patient/PatientDetailsType";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
+import ResponseType from "../../types/ResponseList";
+import PatientDetailsType from "../../types/patient/PatientDetailsType";
 
 const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
+
   return useQuery({
     queryKey: [
       "patients",
@@ -18,32 +20,19 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
       pagination.filter,
       pagination.date,
     ],
-    queryFn: () => {
-      const url = `/patients?${
-        "&page=" +
-        pagination.current_page +
-        "&limit=" +
-        pagination.items_per_page +
-        "&sortBy=" +
-        sortBy +
-        "&order=" +
-        order +
-        "&search=" +
-        pagination.paramKey +
-        "&isActive=" +
-        pagination.filter +
-        "&dateOfBirth=" +
-        pagination.date
-      }`;
-      return axiosInstance
-        .get<ResponseType<PatientDetailsType>>(url)
-        .then((res) => {
-          //   countryStore.setMeta(res.data.data.meta);
-          //   countryStore.setLinks(res.data.data.links);
-          //   countryStore.setReFetch(true);
-          console.log(res.data);
-          // console.log(res.status);
-          console.log(res.data.pagination.paramKey);
+    queryFn: async () => {
+      try {
+        let url = `/patients?sortBy=${sortBy}&order=${order}`;
+
+        if (!allData) {
+          url += `&page=${pagination.current_page}&limit=${pagination.items_per_page}&search=${pagination.paramKey}&isActive=${pagination.filter}&dateOfBirth=${pagination.date}`;
+        }
+
+        const res = await axiosInstance.get<ResponseType<PatientDetailsType>>(
+          url
+        );
+
+        if (!allData) {
           pagination.setCurrent_page(res.data.pagination.current_page);
           pagination.setItems_per_page(res.data.pagination.items_per_page);
           pagination.setHas_next_page(res.data.pagination.has_next_page);
@@ -52,16 +41,21 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
           pagination.setHas_previous_page(
             res.data.pagination.has_previous_page
           );
-          // pagination.setFilter(res.data.pagination.filter);
-          // pagination.(res.data.pagination.meta);
-          return res.data.data;
-        })
-        .catch((error) => {
+        }
+
+        return res.data.data;
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
           console.error("Error fetching patients:", error);
-          throw error;
-        });
+        }
+        throw error;
+      }
     },
-    // keepPreviousData: true, // خيار جيد إذا عندك pagination
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    enabled: true,
   });
 };
 

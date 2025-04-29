@@ -1,4 +1,4 @@
-import { Center, Flex, ScrollArea, Text } from "@mantine/core";
+import { Button, Center, Flex, ScrollArea, Text } from "@mantine/core";
 import DoctorProfileCard from "../../Components/DoctorsDetails/DoctorProfileCard ";
 import PatientStatisticsChart from "../../Components/DoctorsDetails/PatientStatisticsChart ";
 import AppointmentSchedule from "../../Components/DoctorsDetails/AppointmentSchedule";
@@ -9,9 +9,15 @@ import { useMediaQuery } from "@mantine/hooks";
 import useDoctorDetails from "../../hooks/doctor/useDoctorDetails";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 const DoctorDetails = () => {
   const { t } = useTranslation();
   const { id: DoctorId } = useParams();
+  const deleteDoctor = useDeleteById({
+    endpoint: "employees",
+    mutationKey: "delete-doctor",
+    navigationUrl: "/doctors",
+  });
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const { data, isFetched } = useDoctorDetails(DoctorId!);
@@ -28,16 +34,6 @@ const DoctorDetails = () => {
       name: "Claire Thompson",
       date: "2028-09-14, 10:00 AM",
       treatment: "Fillers",
-    },
-    {
-      name: "Ethan Hughes",
-      date: "2028-09-15, 2:00 PM",
-      treatment: "Removal",
-    },
-    {
-      name: "Hannah Lee",
-      date: "2028-09-16, 11:00 AM",
-      treatment: "Treatment",
     },
   ];
   const day = [t("Day"), t("Start"), t("End")];
@@ -58,24 +54,12 @@ const DoctorDetails = () => {
     "leave type": vic.leaveType,
     status: vic.status,
   }));
-  // const vication = [
-  //   {
-  //     leavestartdate: "31/3/2025",
-  //     leaveenddate: "2/4/2025",
-  //     leavetype: "Vic",
-  //     status: "Pending",
-  //   },
-  //   {
-  //     leavestartdate: "31/3/2025",
-  //     leaveenddate: "2/4/2025",
-  //     leavetype: "Vic",
-  //     status: "Pending",
-  //   },
-  // ];
 
   const titleCards = [t("Identity"), t("Nationality"), t("Total Patients")];
   const valueCards = [data?.identity, data?.nationality, "1245"];
-
+  const handleDeleteEvent = () => {
+    deleteDoctor.mutate(DoctorId!);
+  };
   if (!isFetched || !data)
     return (
       <Center>
@@ -93,6 +77,7 @@ const DoctorDetails = () => {
               w={isMobile || isTablet ? "100%" : "25%"}
             >
               <DoctorProfileCard
+                imgUrl={data.image}
                 birthday={new Date(data.dateOfBirth)}
                 childrenNum={data.number_children}
                 gender={data.gender}
@@ -147,20 +132,24 @@ const DoctorDetails = () => {
                   />
                 </Flex>
                 <Workplaces
-                  companyName="hadi fsnvoafv"
-                  medicalComplexName="adjaovd fsegbtrs"
-                  deptName="gvbdsg segbvrsf"
-                  clinicName="grsbtfr fesgr"
+                  companyName={data.companyId?.name || ""}
+                  medicalComplexName={data.clinicCollectionId?.name || ""}
+                  deptName={data.departmentId?.name || ""}
+                  clinicName={data.clinics.map((item) => item.name).join(",")}
                   startTime={new Date()}
                   endTime={new Date()}
                 />
               </Flex>
             </Flex>
           </Flex>
-          <Flex w="100%" h="100%" direction={isMobile ? "column" : "row"}>
+          <Flex
+            w="100%"
+            h="fit-content"
+            direction={isMobile ? "column" : "row"}
+          >
             <Flex w={isMobile ? "95%" : "50%"} gap={isMobile ? "5px" : 0}>
               <PercentageTable
-                mah="250px"
+                mah="fit-content"
                 visibleButton={false}
                 buttonValue={t("viewAll")}
                 tableTitle={t("WorkingHours")}
@@ -170,7 +159,7 @@ const DoctorDetails = () => {
             </Flex>
             <Flex w={isMobile ? "95%" : "50%"}>
               <PercentageTable
-                mah="250px"
+                mah="fit-content"
                 visibleButton={true}
                 buttonValue={t("addVication")}
                 tableTitle={t("vacations")}
@@ -180,6 +169,16 @@ const DoctorDetails = () => {
             </Flex>
           </Flex>
         </Flex>
+        <Button
+          variant="filled"
+          color="red"
+          radius="xl"
+          mt="50px"
+          mb="110px"
+          onClick={handleDeleteEvent}
+        >
+          Delete
+        </Button>
       </ScrollArea>
     );
 };

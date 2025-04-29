@@ -7,6 +7,7 @@ import {
   Table,
   Center,
   ScrollArea,
+  Button,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import ListComponent from "../../Components/CompanyDetails/ListComponent";
@@ -23,6 +24,7 @@ import AddButton from "../../Components/AddButton";
 import { SearchInput } from "../../Components/SearchInput";
 import { useTranslation } from "react-i18next";
 import useDepartmentDetails from "../../hooks/departement/useDepartementDetails";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 
 const DepartementDetails = () => {
   const { t } = useTranslation();
@@ -31,7 +33,11 @@ const DepartementDetails = () => {
   const { data: departementData } = useDepartmentDetails(deptID!);
   console.log(departementData);
   const isMobile = useMediaQuery("(max-width: 576px)");
-
+  const deleteDepartment = useDeleteById({
+    endpoint: "departments",
+    mutationKey: "delete-department",
+    navigationUrl: "/departements",
+  });
   //////////////////////////////////////////////////////staff table
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
@@ -72,13 +78,16 @@ const DepartementDetails = () => {
   ));
   const title = ["ID", "Name", "ComplexName", "Location"];
   const content = [
-    departementData?._id,
+    departementData?.publicId,
     departementData?.name,
     departementData?.clinicCollectionId?.name,
     departementData?.address,
   ];
   const title2 = ["Patient Capacity", "Description"];
-  const content2 = ["3254", departementData?.details];
+  const content2 = [departementData?.patientCount, departementData?.details];
+  const handleDeleteEvent = () => {
+    deleteDepartment.mutate(deptID!);
+  };
   if (!isFetched || !data)
     return (
       <Center>
@@ -116,8 +125,16 @@ const DepartementDetails = () => {
                   <Text w={200} c={theme.other.onSurfaceTertiary}>
                     {t("Status")}
                   </Text>
-                  <Badge size="14px" p="sm">
-                    {departementData?.isActive}
+                  <Badge
+                    size="14px"
+                    p="sm"
+                    bg={
+                      departementData?.isActive
+                        ? theme.other.secondaryColor
+                        : theme.colors.myPrimary[4]
+                    }
+                  >
+                    {departementData?.isActive ? "Active" : "Inactive"}
                   </Badge>
                 </Flex>
                 <Flex w="100%" direction="column" mb="lg" gap="lg">
@@ -170,7 +187,11 @@ const DepartementDetails = () => {
             />
           </Flex>
         </Flex>
-        <Flex w="99%" direction="column" h="600px">
+        <Flex
+          w="99%"
+          direction="column"
+          style={{ height: "fit-content", overflow: "auto" }}
+        >
           <Flex w="100%" justify="space-between">
             <SearchInput
               searchValue={pagination.paramKey}
@@ -184,7 +205,7 @@ const DepartementDetails = () => {
               />
             </Flex>
           </Flex>
-          <Box style={{ height: "auto", overflow: "auto" }}>
+          <Box>
             <Table>
               <TableHead
                 labels={[
@@ -214,6 +235,16 @@ const DepartementDetails = () => {
             <CustomPagination store={pagination} />
           </Box>
         </Flex>
+        <Button
+          variant="filled"
+          color="red"
+          radius="xl"
+          mt={20}
+          mb="40px"
+          onClick={handleDeleteEvent}
+        >
+          Delete
+        </Button>
       </ScrollArea>
     );
 };

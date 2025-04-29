@@ -8,7 +8,7 @@ interface Clinic {
 interface Doctor {
   _id: string;
   name: string;
-  specializations: string[]; // Empty array here, but maybe will have strings later
+  specializations: string[];
 }
 
 export default interface Service {
@@ -19,8 +19,8 @@ export default interface Service {
   clinic: Clinic;
   doctors: Doctor[];
   isActive: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  createdAt: string;
+  updatedAt: string;
   __v: number;
   publicId: string;
 }

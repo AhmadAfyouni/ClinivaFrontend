@@ -8,7 +8,6 @@ import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
-import CustomFilters from "../../Components/filters/CustomFilters";
 import useServicesList from "../../hooks/serviceH/useServicesList";
 
 const ServicesPage = () => {
@@ -31,17 +30,17 @@ const ServicesPage = () => {
           })
     );
   };
-  const SpecialtiesOptions = [""];
-  const handlSpecialtyChange = (e: string | null) => {
-    console.log(e);
-  };
+  // const SpecialtiesOptions = [""];
+  // const handlSpecialtyChange = (e: string | null) => {
+  //   console.log(e);
+  // };
   const rows = data.map((item) => (
     <TableBody
       onClick={() => navigate(`/services/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name || ""}
       th2={item.description}
       th3={item.price.toString()}
@@ -66,12 +65,12 @@ const ServicesPage = () => {
               setSearchValue={handleSearchChange}
               text="Search"
             />
-            <CustomFilters
+            {/* <CustomFilters
               IsDropDown1={true}
               placeHolderDropDown1="clinicAssociation"
               OptionsDropDown1={SpecialtiesOptions}
               handlDropDownChange1={handlSpecialtyChange}
-            />
+            /> */}
           </Flex>
           <AddButton
             text="Add Service"
