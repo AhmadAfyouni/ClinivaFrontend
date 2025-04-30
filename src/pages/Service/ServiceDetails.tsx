@@ -139,7 +139,7 @@ const ServiceDetails = () => {
                 {<FaClinicMedical />}
               </ThemeIcon>
 
-              <Text size="sm">{"a cliniic"}</Text>
+              <Text size="sm">{data.clinic.name}</Text>
             </Flex>
           </Flex>
           {/* <ListComponent

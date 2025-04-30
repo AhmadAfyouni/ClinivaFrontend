@@ -41,6 +41,7 @@ const DepartementsPage = () => {
   // };
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}

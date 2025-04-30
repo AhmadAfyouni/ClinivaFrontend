@@ -16,4 +16,5 @@ export default interface SpecializationListType {
   __v: number;
   statistics: statistics;
   publicId: string;
+  logo: string;
 }

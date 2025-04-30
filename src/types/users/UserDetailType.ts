@@ -95,5 +95,6 @@ export default interface UserDetailType {
   publicId: string;
   createdAt: string;
   updatedAt: string;
+  image: string;
   __v: number;
 }
