@@ -86,4 +86,5 @@ export default interface AddClinicType {
   locationGoogl: LocationGoogle;
   departmentId?: string;
   specializations: string[];
+  PIC:string
 }

@@ -53,7 +53,7 @@ type OnlinePaymentMethod = {
 export default interface AddMedicalComplexType {
   name: string;
   phone: string;
-  pic: string;
+  PIC: string;
   overview: string;
   policies: string;
   yearOfEstablishment: string;

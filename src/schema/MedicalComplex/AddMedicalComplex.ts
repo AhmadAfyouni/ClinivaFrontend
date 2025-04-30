@@ -130,6 +130,7 @@ const AddMedicalComplexSchema = Yup.object().shape({
   }),
   companyId: Yup.string(),
   specializations: Yup.array().of(Yup.string()).optional(),
+  PIC: Yup.string().required("PIC is required"),
 });
 
 export default AddMedicalComplexSchema;

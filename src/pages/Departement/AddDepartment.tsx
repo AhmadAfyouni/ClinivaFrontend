@@ -1,22 +1,26 @@
 import { useFormik } from "formik";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
-import { Box, Button, ScrollArea } from "@mantine/core";
+import { Box, Button, Center, ScrollArea } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { ContactInfoType } from "../../types/GeneralAdd";
 import AddDepartmentType from "../../types/department/AddDepartment";
 import AddDepartmentSchema from "../../schema/department/AddDepartment";
 import useAddDepartment from "../../hooks/departement/useDepartement";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
+import useStaffList from "../../hooks/staff/useStaffList";
 interface selectRoleType {
   [key: string]: string;
 }
 function AddDepartment() {
   const hook = useAddDepartment();
+  const employeeHook = useStaffList(true,"PIC","_id","PIC");
+
 
   const complex = useMedicalComplexList(true);
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
+      PIC:"",
       name: "",
       introduction: "",
       yearOfEstablishment: "",
@@ -38,9 +42,16 @@ function AddDepartment() {
       console.log("Department Submitted:", values);
     },
   });
-  if (!complex.isSuccess) {
-    return <>get medical complex</>;
+  if (!complex.isSuccess||!employeeHook.isSuccess) {
+    return <Center>Loading . . . </Center>;
   }
+  const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
+    (acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    },
+    {}
+  );
   const complexName = [...new Set(complex.data.map((obj) => obj.name))];
   const nameIdMap: selectRoleType = complex.data.reduce<selectRoleType>(
     (acc, item) => {
@@ -82,6 +93,21 @@ function AddDepartment() {
       },
       onBlur: formik.handleBlur,
       selectValue: complexName,
+    },
+    {
+      id: "PIC",
+      label: "PIC",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.PIC,
+      placeholder: "",
+      tooltip: "select the PIC",
+      selectValue: Object.keys(employees),
+      onChange: (selectedKeys) => {
+        formik.setFieldValue("PIC", employees[selectedKeys as string]);
+      },
+      onBlur: formik.handleBlur,
     },
     {
       id: "introduction",

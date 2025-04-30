@@ -15,16 +15,20 @@ import AddClinicSchema from "../../schema/clinic/AddClinic";
 import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
+import useStaffList from "../../hooks/staff/useStaffList";
 
 interface selectRoleType {
   [key: string]: string;
 }
 function AddClinic() {
   const hook = useAddClinic();
-  const  departments = useDepatementsList();
+
+  const departments = useDepatementsList();
+  const employeeHook = useStaffList(true,"PIC",'_id',"PIC");
   const formik = useFormik<AddClinicType>({
     initialValues: {
       isActive: true,
+      PIC: "",
       AverageDurationOfVisit: 30,
       overview: "",
       yearOfEstablishment: "",
@@ -68,11 +72,21 @@ function AddClinic() {
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogl", location);
   };
-  
-  if (!departments.data) return <Center>Loading...</Center>;
+
+  if (!departments.isSuccess) return <Center>Loading...</Center>;
   const departmentName = [...new Set(departments.data.map((obj) => obj.name))];
   const nameIdMap: selectRoleType = departments.data.reduce<selectRoleType>(
     (acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    },
+    {}
+  );
+  if (!employeeHook.data) return <Center>Loading . . . </Center>;
+  const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
+    (acc, item) => {
+    // pagination.setGeneralFilter("&employeeType=PIC");
+
       acc[item.name] = item._id;
       return acc;
     },
@@ -111,11 +125,26 @@ function AddClinic() {
       type: "select",
       error: formik.errors.departmentId,
       placeholder: "Select department",
-      selectValue:departmentName,
+      selectValue: departmentName,
       onChange: (selectedValue) => {
         if (typeof selectedValue === "string") {
           formik.setFieldValue("departmentId", nameIdMap[selectedValue]);
-        } 
+        }
+      },
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "PIC",
+      label: "PIC",
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.PIC,
+      placeholder: "",
+      tooltip: "select the PIC",
+      selectValue: Object.keys(employees),
+      onChange: (selectedKeys) => {
+        formik.setFieldValue("PIC", employees[selectedKeys as string]);
       },
       onBlur: formik.handleBlur,
     },
@@ -336,7 +365,20 @@ function AddClinic() {
           <TableSelection<WorkingHourAddClinic>
             title="Working Hours"
             columns={[
-              { key: "day", label: "Day", type: "select", options: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] },
+              {
+                key: "day",
+                label: "Day",
+                type: "select",
+                options: [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ],
+              },
               {
                 key: "startTime",
                 label: "Start Time",
@@ -351,7 +393,6 @@ function AddClinic() {
             fieldName="WorkingHours"
             // onFieldChange={formik.setFieldValue}
             onFieldChange={(field, value) => formik.setFieldValue(field, value)}
-
             key={"WorkingHours"}
             data={formik.values.WorkingHours}
             error={formik.errors.WorkingHours?.toString() || ""}
@@ -405,4 +446,3 @@ function AddClinic() {
 }
 
 export default AddClinic;
-
