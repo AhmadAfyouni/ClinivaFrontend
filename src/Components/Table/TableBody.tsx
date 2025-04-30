@@ -188,7 +188,7 @@ const TableBody = ({
             {(isMobile || isTablet) && (
               <Flex direction="row" align="center" w="150px">
                 {getImageCircle()}
-                <Flex align="center" ta="start" direction="column" w="130px">
+                <Flex align="start" ta="start" direction="column" w="130px">
                   <Text
                     fz="11px"
                     p="0"
