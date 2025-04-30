@@ -52,6 +52,9 @@ function EditCompany() {
         x: 0,
         y: 0,
       },
+      Key_member: "",
+      Founder: "",
+      Executives: ""
     },
     validationSchema: AddCompanySchema,
     validateOnBlur: false,

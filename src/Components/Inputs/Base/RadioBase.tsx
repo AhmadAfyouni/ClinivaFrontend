@@ -34,9 +34,9 @@ export default function RadioBase(props: Props) {
         {props.radio.map((option) => (
           <Radio
             disabled={props.base.disabled}
-            key={option.value}
-            value={option.value}
-            label={t(option.label)}
+            key={option.value.toString()}
+            value={option.value.toString()}
+            label={t(option.label.toString())}
           />
         ))}
         {/* <Radio value="react" label="React" />
