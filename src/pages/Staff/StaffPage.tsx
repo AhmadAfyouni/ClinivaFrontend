@@ -36,6 +36,7 @@ const StaffPage = () => {
 
   const rows = data?.map((item) => (
     <TableBody
+      imgUrl={item.image !== null ? item.image : ""}
       onClick={() => navigate(`/employees/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}

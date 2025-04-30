@@ -63,4 +63,8 @@ export default interface DoctorDetailsType {
   clinics: Clinic[];
   specializations: string[];
   publicId: string;
+  Qualifications: string;
+  consultation_fee: number;
+  on_call: boolean;
+  age: number;
 }

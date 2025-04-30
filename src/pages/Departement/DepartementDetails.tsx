@@ -153,7 +153,7 @@ const DepartementDetails = () => {
           </Flex>
         </Flex>
         <Text fw={600} fz={20} c={theme.colors.myPrimary[5]}>
-          {t("Clinics & Specialties")}
+          {t("Clinics")}
         </Text>
         <Flex
           w="100%"
@@ -170,20 +170,15 @@ const DepartementDetails = () => {
             />
           </Flex>
           <Flex w="50%">
-            <ListComponent
+            {/* <ListComponent
               key={1}
               minwidth="50%"
               title={t("Specialties")}
               listItems={[
-                "fsdgsf0",
-                "sdf09g",
-                "g00fdsa",
-                "gsg9fsdg",
-                "gfds8a",
-                "gsg7fsdg",
+                'there is '
               ]}
               icon={<FaClinicMedical />}
-            />
+            /> */}
           </Flex>
         </Flex>
         <Flex

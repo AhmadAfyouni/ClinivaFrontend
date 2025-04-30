@@ -1,7 +1,6 @@
 import { Mail, MapPin, PhoneCall, Sparkles } from "lucide-react";
 import InfoSide from "../../Components/CompanyDetails/InfoSide";
 import {
-  Button,
   Center,
   Flex,
   ScrollArea,
@@ -14,15 +13,14 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
-import { useNavigate, useParams } from "react-router";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { id: companyId } = useParams();
+  // const { id: companyId } = useParams();
   const { data: companies, isFetched } = useCompanyDetails();
   if (!isFetched || !companies)
     return (
@@ -30,12 +28,28 @@ const CompanyDetails = () => {
         <Text>No Company Details Found</Text>
       </Center>
     );
-  const titles = ["Establichment Year", "Vission", "Goals", "OverView"];
+  const titles = [
+    "Establichment Year",
+    "Vission",
+    "Goals",
+    "OverView",
+    "Location",
+    "Key member",
+    "Founder",
+    "Excutines",
+  ];
   const values = [
-    companies[0].yearOfEstablishment.slice(0, 10),
-    companies[0].vision,
-    // companies[0].goals,
-    // companies[0].overview,
+    companies[0].yearOfEstablishment?.slice(0, 10) || "",
+    companies[0].vision || "",
+    companies[0].goals || "",
+    companies[0].overview || "",
+    companies[0]?.location?.x != null
+      ? `${companies[0].location.x} - ${companies[0].location.y}`
+      : "",
+    companies[0]?.Key_member || "",
+    companies[0]?.Founder || "",
+    // companies[0]?.Executives || "",
+    "fdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfde",
   ];
   const icons = companies[0].contactInfos.map((item) => {
     if (item.type === "email") {
@@ -57,9 +71,9 @@ const CompanyDetails = () => {
   });
   const content =
     "transform your data into actionable insights. Our platform helps you make informed decisions faster and with greater confidence.";
-  const handleEditEvent = () => {
-    navigate(`/company/edit/${companyId}`);
-  };
+  // const handleEditEvent = () => {
+  //   navigate(`/company/edit/${companyId}`);
+  // };
   return (
     <ScrollArea h="100vh">
       <Flex
@@ -80,7 +94,7 @@ const CompanyDetails = () => {
             socialMediaIcons={icons}
             hasActivation={false}
           />
-          <Button
+          {/* <Button
             variant="filled"
             color="green"
             radius="xl"
@@ -90,7 +104,7 @@ const CompanyDetails = () => {
             onClick={handleEditEvent}
           >
             Edit
-          </Button>
+          </Button> */}
         </Flex>
         <Flex w={isComputer ? "46%" : "100%"} direction="column" gap="xl">
           <TextList
@@ -163,8 +177,8 @@ const CompanyDetails = () => {
               direction="column"
               titles={["recordNumber", "taxNumber"]}
               values={[
-                companies[0].commercialRecord.recordNumber,
-                companies[0].commercialRecord.taxNumber,
+                companies[0].commercialRecord?.recordNumber || "",
+                companies[0].commercialRecord?.taxNumber || "",
               ]}
             />
           </Flex>

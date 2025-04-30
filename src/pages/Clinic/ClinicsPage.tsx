@@ -50,19 +50,39 @@ const ClinicsPage = () => {
     setSelectedOption("CliStatus", e);
     pagination.setFilter(value);
   };
+
+  const workingHours = data.map((item) => item.WorkingHours).flat();
+  const maxStartTime = workingHours.reduce(
+    (max, wh) => (wh.startTime > max ? wh.startTime : max),
+    workingHours[0]?.startTime || ""
+  );
+
+  const maxEndTime = workingHours.reduce(
+    (max, wh) => (wh.endTime > max ? wh.endTime : max),
+    workingHours[0]?.endTime || ""
+  );
+  console.log(maxStartTime, maxEndTime);
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/clinics/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item.publicId}
       th1={item.name}
-      th2={
-        item?.WorkingHours?.[0]
-          ? `${item.WorkingHours[0].startTime} - ${item.WorkingHours[0].endTime}`
-          : ""
-      }
+      th2={(() => {
+        const wh = item.WorkingHours || [];
+        const maxStart = wh.reduce(
+          (max, x) => (x.startTime > max ? x.startTime : max),
+          wh[0]?.startTime || ""
+        );
+        const maxEnd = wh.reduce(
+          (max, x) => (x.endTime > max ? x.endTime : max),
+          wh[0]?.endTime || ""
+        );
+        return `${maxStart} - ${maxEnd}`;
+      })()}
       th3={item.specializations.map((item) => item.name).join(",")}
       th4={item.treatedPatientCount.toString() || "0"}
       th5={item.isActive.toString()}

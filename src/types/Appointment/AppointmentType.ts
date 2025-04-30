@@ -23,5 +23,6 @@ export default interface AppointmentType {
   reminderSent: boolean;
   createdAt: string;
   updatedAt: string;
+  logo: string;
   __v: number;
 }

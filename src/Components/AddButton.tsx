@@ -18,7 +18,7 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       color="teal"
       radius="xl"
       size="35px"
-      p="0 "
+      p="0"
     >
       <Text
         fw="normal"
@@ -31,7 +31,7 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       <Text
         fw="normal"
         fz="11px"
-        p="0 8px"
+        p="0 12px"
         c={theme.other?.onSurfacePrimary}
         visibleFrom="xs"
       >

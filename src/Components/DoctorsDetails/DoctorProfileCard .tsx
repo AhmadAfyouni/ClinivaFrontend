@@ -22,7 +22,7 @@ interface Props {
   status: string;
   childrenNum: number;
   languages: string[];
-  about: string;
+  about?: string;
   hireDate: Date;
   experience: string;
   certification: string;
@@ -32,9 +32,14 @@ interface Props {
   address: string;
   imgUrl: string;
   licenseNumber: string;
+  Qualifcations: string;
+  conslutionfee: number;
+  avalibilty: string;
+  // age: number;
 }
 const DoctorProfileCard = ({
   name,
+  // age,
   specialty,
   birthday,
   gender,
@@ -51,6 +56,8 @@ const DoctorProfileCard = ({
   address,
   imgUrl,
   licenseNumber,
+  conslutionfee,
+  avalibilty,
 }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
@@ -62,31 +69,36 @@ const DoctorProfileCard = ({
   const languagesStr = languages.join();
   const bithdayStr = birthday.toLocaleDateString("en-US");
   const hireDateStr = hireDate.toLocaleDateString("en-US");
-
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const titleInfo = [
     t("name"),
     t("specialties"),
     t("birthday"),
+    // t("age"),
     t("gender"),
     t("status"),
     t("childrenNum"),
     t("languages"),
-    t("licenseNumber"),
+    t("licenseNum"),
+    t("conslutionfee"),
+    t("on Call"),
   ];
   const textInfo = [
     name,
     specialtyStr,
     bithdayStr,
+    // age,
     gender,
     status,
     childrenNum,
     languagesStr,
     licenseNumber,
+    conslutionfee,
+    avalibilty,
   ];
   const sectionTitle = [
-    t("About"),
+    t("Qualifcations"),
     t("Hire Date"),
     t("Experience"),
     t("Certification"),
@@ -157,7 +169,7 @@ const DoctorProfileCard = ({
         </Box>
         <Flex direction="column">
           {titleInfo.map((item, index) => (
-            <Flex direction="row" align="end" mb="12px" key={index}>
+            <Flex direction="row" align="end" mb="4px" key={index}>
               <Text
                 w="90px"
                 fw={500}
@@ -179,7 +191,7 @@ const DoctorProfileCard = ({
       <Divider
         w="80%"
         h={2}
-        m="20px 0 15px"
+        m="30px 0 0 0 "
         visibleFrom="lg"
         c={theme.other.borderDefault}
       />

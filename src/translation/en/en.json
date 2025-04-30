@@ -212,5 +212,6 @@
   "installDependencies": "Install Dependencies",
   "primaryphone": "Primary Phone",
   "secandaryPhone": "Secondary Phone",
-  "phone": "phone"
+  "phone": "phone",
+  "licenseNum": "License Num"
 }
