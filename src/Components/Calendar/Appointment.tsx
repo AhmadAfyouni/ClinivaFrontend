@@ -20,15 +20,20 @@ import usePatientsList from "../../hooks/patient/usePatientsList";
 import InputPropsType from "../../types/InputsType";
 import useServicesList from "../../hooks/serviceH/useServicesList";
 import useClinics from "../../hooks/clinic/useClinics";
+import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 
-function Appointment() {
+function AppointmentComponents() {
+  console.log("steps0");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [daysInCalender, setDaysInCalender] = useState(5);
   const [OpenExtraInfo] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
-  const [selectedClinic, setSelectedClinic] = useState("All Clinics");
+  const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  console.log("step2");
+
   const [OpenForm, setOenForm] = useState<{
     date: string;
     time: string;
@@ -39,6 +44,8 @@ function Appointment() {
   const clinicsHook = useClinics(0, 0, true);
   const hook = useAppointmentsList(false);
   const addAppointmentMutation = useAddAppointment();
+  const pagination = usePageinationtStore();
+
   const formik = useFormik<AddAppointmentType>({
     initialValues: {
       service: "",
@@ -59,6 +66,7 @@ function Appointment() {
       addAppointmentMutation.mutate(values);
     },
   });
+  console.log("step1");
   useEffect(() => {
     if (addAppointmentMutation.isSuccess) {
       handleCloseForm();
@@ -66,6 +74,8 @@ function Appointment() {
       hook.refetch();
     }
   }, [addAppointmentMutation.isSuccess]);
+  console.log("step2");
+
   useEffect(() => {
     if (OpenForm) {
       if (OpenForm.time.length === 4) OpenForm.time = "0" + OpenForm.time;
@@ -76,6 +86,7 @@ function Appointment() {
       });
     }
   }, [OpenForm]);
+  console.log("step3");
 
   if (
     !hook.data ||
@@ -84,8 +95,20 @@ function Appointment() {
     !serviceHook.data ||
     !clinicsHook.data
   ) {
+    console.log("step4");
+
     return <Center>Loading...</Center>;
+  } else if (selectedClinic === "Select Clinic") {
+    pagination.setGeneralFilter("&clinic=" + clinicsHook.data[0].name);
+    setSelectedClinic(clinicsHook.data[0].name);
   }
+  console.log("step5");
+
+  console.log(
+    "@!!",
+    clinicsHook.data.filter((c) => c.name === selectedClinic || "mmm")[0]
+      .WorkingHours
+  );
 
   const day = new Date(formik.values.datetime).getUTCDate();
   const month = new Date(formik.values.datetime).getUTCMonth() + 1;
@@ -94,6 +117,7 @@ function Appointment() {
     2,
     "0"
   );
+
   const minutes = String(
     new Date(formik.values.datetime).getUTCMinutes()
   ).padStart(2, "0");
@@ -240,8 +264,29 @@ function Appointment() {
       selectValue: Object.keys(doctors),
     },
   ];
-  // console.log("@@@@@@values@@@@@@@", formik.values);
-  // console.log("@@@@@@errors@@@@@@@", formik.errors);
+  const getTime = (type: "start" | "end") => {
+    if (selectedClinic === "Select Clinic") return type === "start" ? 9 : 18;
+
+    const timeSlot = clinicsHook.data.filter(
+      (c) => c.name === selectedClinic
+    )[0];
+    if (timeSlot.WorkingHours.length === 0) return type === "start" ? 9 : 18;
+
+    const time =
+      type === "start"
+        ? timeSlot.WorkingHours[0].startTime
+        : timeSlot.WorkingHours[0].endTime;
+
+    if (time[0] === "0" || time === "00") return time[1];
+    return time.slice(0, 2);
+  };
+  const interval = clinicsHook.data.filter(
+    (c) =>
+      c.name ===
+      (selectedClinic === "Select Clinic"
+        ? clinicsHook.data[0].name
+        : selectedClinic)
+  )[0].AverageDurationOfVisit;
   return (
     <Box py="md">
       <Flex gap={0} justify={"start"}>
@@ -273,7 +318,11 @@ function Appointment() {
 
           <AppointmentCalendar
             days={days}
-            timeSlots={TIME_SLOTS(9, 18)}
+            timeSlots={TIME_SLOTS(
+              Number(getTime("start")),
+              Number(getTime("end")),
+              interval
+            )}
             appointments={hook.data as AppointmentType[]}
             selectedCell={OpenForm}
             handleCellClick={handleCellClick}
@@ -322,4 +371,4 @@ function Appointment() {
   );
 }
 
-export default Appointment;
+export default AppointmentComponents;

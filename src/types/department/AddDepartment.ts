@@ -10,4 +10,5 @@ export default interface AddDepartmentType {
   details: string;
   contactInfos: ContactInfoType[];
   clinicCollectionId?: string;
+  PIC: string;
 }
