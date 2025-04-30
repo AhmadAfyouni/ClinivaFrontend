@@ -1,3 +1,5 @@
+import DoctorDetailsType from "../doctor/DoctorDetailsType";
+
 interface Clinic {
   _id: string;
   address: string;
@@ -5,11 +7,11 @@ interface Clinic {
   id: string;
 }
 
-interface Doctor {
-  _id: string;
-  name: string;
-  specializations: string[];
-}
+// interface Doctor {
+//   _id: string;
+//   name: string;
+//   specializations: Specialization[];
+// }
 
 export default interface Service {
   _id: string;
@@ -17,7 +19,7 @@ export default interface Service {
   description: string;
   price: number;
   clinic: Clinic;
-  doctors: Doctor[];
+  doctors: DoctorDetailsType[];
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
