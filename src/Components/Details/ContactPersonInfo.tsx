@@ -30,7 +30,7 @@ export function ContactPersonInfo({
   const theme = useMantineTheme();
   const contactInfo = [
     {
-      label: t("Phone"),
+      label: t("phone"),
       value: phoneNumber,
       icon: IconPhone,
     },
@@ -65,9 +65,9 @@ export function ContactPersonInfo({
       </Flex>
 
       <Paper p="md" radius="md" bg={theme.other.bgSubtle} h={300}>
-        <Stack gap="22px">
+        <Stack gap="14px">
           {contactInfo.map((info, index) => (
-            <Flex key={index} align="flex-start" gap="md">
+            <Flex key={index} align="flex-start" gap="xs">
               <Box mt={4}>
                 <info.icon size={20} color={theme.other.onSurfaceTertiary} />
               </Box>

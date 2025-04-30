@@ -46,7 +46,7 @@ const UsersPage = () => {
 
       pagination.setDate(formattedDate);
     } else {
-      pagination.setDate("");
+      pagination.setDate(undefined);
     }
   };
   const toggleAll = () => {

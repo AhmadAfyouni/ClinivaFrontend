@@ -11,6 +11,8 @@ import { useParams } from "react-router";
 import ContactInfo from "../../types/common/ContactInfo";
 import { useTranslation } from "react-i18next";
 import useDeleteById from "../../hooks/delete/useDeleteById";
+import WorkingSchedule from "../../Components/UserDetails/WorkingSchedule";
+import PercentageTable from "../../Components/DoctorsDetails/PercentageTable";
 
 const MedicalComplexDetails = () => {
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ const MedicalComplexDetails = () => {
         <Text>{t("noMedicalDetailsFound")}</Text>
       </Center>
     );
+  console.log("working hours" + data.workingDays);
 
   const titles = [
     t("establishmentYear"),
@@ -41,7 +44,7 @@ const MedicalComplexDetails = () => {
     data.createdAt.slice(0, 10),
     data.vision,
     data.details,
-    data.vision,
+    data.overview,
   ];
   const icons = data.contactInfos.map((item: ContactInfo) => {
     if (item.type === "email") {
@@ -61,22 +64,16 @@ const MedicalComplexDetails = () => {
       };
     }
   });
-  const items = ["item1", "item2", "item3", "item4", "item5"];
-  const itemsList = [
-    "cloneOrDownload",
-    "installDependencies",
-    "installDependencies",
-    "installDependencies",
-  ];
   const handleDeleteEvent = () => {
     deleteMedcalComplex.mutate(id!);
   };
+  const thHoliday = ["name", "date", "reason"];
   return (
     <ScrollArea h="100vh">
       <Flex direction={isComputer ? "row" : "column"}>
         <Flex w={isComputer ? "23%" : "100%"}>
           <InfoSide
-            url={"nothing"}
+            url={""}
             name={data.name}
             contactInfoIcons={icons}
             iconsMaxWidth=""
@@ -97,7 +94,11 @@ const MedicalComplexDetails = () => {
                 t("patientsNumber"),
                 t("doctorsNumber"),
               ]}
-              values={["235", "32", "435"]}
+              values={[
+                data.clinicsCount.toString(),
+                data.patientsCount.toString(),
+                data.doctorsCount.toString(),
+              ]}
             />
           </Flex>
           <Flex w="100%" direction={isComputer ? "row" : "column"}>
@@ -106,14 +107,16 @@ const MedicalComplexDetails = () => {
                 <Flex w="49%">
                   <ListComponent
                     icon={<BiClinic size={16} />}
-                    listItems={itemsList}
+                    listItems={data.assignedDepartments.map(
+                      (item) => item.name
+                    )}
                     title={t("departments")}
                   />
                 </Flex>
                 <Flex w="49%">
                   <ListComponent
                     icon={<BiClinic size={16} />}
-                    listItems={itemsList}
+                    listItems={data.assignedClinics.map((item) => item.name)}
                     title={t("clinics")}
                   />
                 </Flex>
@@ -121,7 +124,7 @@ const MedicalComplexDetails = () => {
               <Flex w={isComputer ? "66%" : "90%"}>
                 <ListComponent
                   icon={<BrainCog size={16} />}
-                  listItems={itemsList}
+                  listItems={data.specializations.map((item) => item.name)}
                   title={t("specialties")}
                 />
               </Flex>
@@ -130,10 +133,29 @@ const MedicalComplexDetails = () => {
               w={isComputer ? "33%" : "100%"}
               direction={isTablet ? "row" : "column"}
             >
-              <GridList girdItems={items} title={t("doctors")} />
-              <GridList girdItems={items} title={t("staff")} />
+              <GridList
+                girdItems={data.assignedDoctors.map((item) => item.name)}
+                title={t("doctors")}
+              />
+              <GridList
+                girdItems={data.assignedStaff.map((item) => item.name)}
+                title={t("staff")}
+              />
             </Flex>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex w="100%">
+        <WorkingSchedule workingHours={data.workingDays} />
+        <Flex w="50%">
+          <PercentageTable
+            mah="250px"
+            buttonValue=""
+            visibleButton={false}
+            tableTitle={t("holidays")}
+            th={thHoliday}
+            tb={data.holidays}
+          />
         </Flex>
       </Flex>
       <Button

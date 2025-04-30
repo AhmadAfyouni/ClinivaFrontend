@@ -59,8 +59,8 @@ interface Props {
 
 const WorkingSchedule = ({ workingHours }: Props) => {
   const theme = useMantineTheme();
-
-  if (workingHours.length === 0) return null;
+  // console.log(workingHours);
+  if (workingHours === undefined || workingHours.length === 0) return null;
 
   const starthour = parseHour(workingHours[0].startTime);
   const endhours = parseHour(workingHours[0].endTime);

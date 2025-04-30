@@ -77,6 +77,7 @@ const DoctorDetails = () => {
               w={isMobile || isTablet ? "100%" : "25%"}
             >
               <DoctorProfileCard
+                licenseNumber={data.medicalLicenseNumber}
                 imgUrl={data.image}
                 birthday={new Date(data.dateOfBirth)}
                 childrenNum={data.number_children}

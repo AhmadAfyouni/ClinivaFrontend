@@ -1,65 +1,58 @@
 import CashBox from "../common/CashBox";
+import ContactInfo from "../common/ContactInfo";
 import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
-import { InsuranceCompany } from "../company/AddCompanyType";
-import { BankAccount } from "../Employee/GetEmployee";
+import { InsuranceCompany, Specialization } from "../company/AddCompanyType";
+import DoctorDetailsType from "../doctor/DoctorDetailsType";
+import { BankAccount, Clinic, WorkingHour } from "../Employee/GetEmployee";
+import { Holiday } from "../GeneralAdd";
+import StaffDetailsType from "../staff/StaffDetailsType";
 
-// export interface ClinicResponse {
-//   success: boolean;
-//   message: string;
-//   data: Clinic;
-// }
+export interface AssignedDepartment {
+  _id: string;
+  isActive: boolean;
+  name: string;
+  yearOfEstablishment?: string;
+  address?: string;
+  clinicCollectionId: string;
+  requiredStaff: string[];
+  specializations: Specialization[];
+  publicId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 export default interface MedicalComplexDetailsType {
+  _id: string;
   isActive: boolean;
+  name: string;
   contactInfos: ContactInfo[];
+  holidays: Holiday[];
+  workingDays: WorkingHour[];
   cashBoxes: CashBox[];
   onlinePaymentMethods: OnlinePaymentMethod[];
-  specializations: Specialization[];
-  _id: string;
-  name: string;
-  address: string;
-  vision: string;
-  details: string;
-  ContactInfos: ContactInfo[];
-  holidays: Holiday[];
-  specialization: Specialization[];
-  workingDays: WorkingDay[];
   bankAccount: BankAccount[];
   insuranceCompany: InsuranceCompany[];
   companyId: string | null;
+  specializations: Specialization[];
+  publicId: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
   id: string;
   employeeCount: number;
   departmentCount: number;
-  publicId: string;
-}
-
-export interface ContactInfo {
-  type: "phone" | "email" | string;
-  value: string;
-  isPublic: boolean;
-  subType: string;
-}
-
-export interface Holiday {
-  name: string;
-  date: string; // ISO format date
-  reason: string;
-}
-
-export interface Specialization {
-  name: string;
-  description: string;
-}
-
-export interface WorkingDay {
-  day: string;
-  timeSlots: TimeSlot[];
-}
-
-export interface TimeSlot {
-  startTime: string; // e.g., "09:00 AM"
-  endTime: string; // e.g., "05:00 PM"
+  clinicsCount: number;
+  patientsCount: number;
+  doctorsCount: number;
+  staffCount: number;
+  assignedDepartments: AssignedDepartment[];
+  assignedClinics: Clinic[];
+  assignedSpecializations: string[];
+  assignedDoctors: DoctorDetailsType[];
+  assignedStaff: StaffDetailsType[];
+  overview: string;
+  goals: string;
+  vision: string;
+  details: string;
 }
