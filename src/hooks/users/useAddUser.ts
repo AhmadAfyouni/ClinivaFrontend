@@ -8,7 +8,7 @@ const useAddUser = () => {
     mutationKey: ["AddUser"],
     mutationFn: (User: object) => {
       return axiosInstance
-        .post("/user", User)
+        .post("/users", User)
         .then((res) => {
           navigate(`/Employee`);
           return res.data;

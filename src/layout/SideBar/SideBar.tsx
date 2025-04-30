@@ -93,7 +93,7 @@ export function SideBar() {
   const links = mockdata.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
-  console.log("@!@", i18n.language);
+  // console.log("@!@", i18n.language);
   const NavbarContent = () => (
     <nav
       className={classes.navbar}

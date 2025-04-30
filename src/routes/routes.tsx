@@ -3,7 +3,7 @@ import AddDoctor from "../pages/Doctor/AddDoctor";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
 import { Login } from "../pages/auth/Login/Login";
-import Appointments from "../pages/Appointments";
+import Appointments from "../pages/appointment/AddAppointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
 import PatientDetails from "../pages/Patient/PatientDetails";

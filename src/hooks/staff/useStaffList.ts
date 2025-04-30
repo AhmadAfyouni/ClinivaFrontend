@@ -5,7 +5,7 @@ import StaffDetailsType from "../../types/staff/StaffDetailsType";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import axios from "axios";
 
-const useStaffList = (allData = false, sortBy = "_id", order = "desc") => {
+const useStaffList = (allData = false, sortBy = "_id", order = "desc",employeeType="") => {
   const pagination = usePaginationtStore();
 
   return useQuery({
@@ -35,7 +35,8 @@ const useStaffList = (allData = false, sortBy = "_id", order = "desc") => {
         "&isActive=" +
         pagination.filter +
         "&dateOfBirth=" +
-        pagination.date
+        pagination.date +
+        (employeeType ? "&employeeType=" + employeeType : "")
       }`;
       try {
         const res = await axiosInstance.get<ResponseType<StaffDetailsType>>(

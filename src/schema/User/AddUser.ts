@@ -14,7 +14,7 @@ const AddUserSchema = Yup.object().shape({
     .matches(/[\W_]/, "Password must contain at least one special character"),
   isActive: Yup.boolean(),
   roleIds: Yup.string().required("Role Ids is required"),
-  clinicCollectionId: Yup.string().required("Clinic Collection Id is required"),
+  // clinicCollectionId: Yup.string().required("Clinic Collection Id is required"),
   employeeId: Yup.string().required("Employee Id is required"),
 });
 export default AddUserSchema;

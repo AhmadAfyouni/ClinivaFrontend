@@ -68,7 +68,7 @@ function AppointmentCalendar({
                         : undefined,
                   }}
                   onClick={() => {
-                    console.log(day.day, time);
+                    // console.log(day.day, time);
                     handleCellClick(day.day, time);
                   }}
                 >
