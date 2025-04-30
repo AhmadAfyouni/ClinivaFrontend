@@ -31,6 +31,7 @@ const MedicalComplexPage = () => {
       key={item._id}
       th0={item.publicId}
       th1={item.name}
+
       th2={item.address}
       th3={item.address} ///PIC
       th4={item.employeeCount.toString()}

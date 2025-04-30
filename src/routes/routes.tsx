@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import AddDoctor from "../pages/Doctor/AddDoctor";
+import AddPation from "../pages/Patient/AddPation";
 import Dashboard from "../pages/Dashboard";
-import AddPatient from "../pages/Patient/AddPatient";
+import AddDoctor from "../pages/Doctor/AddDpctor";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/appointment/AddAppointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
@@ -71,7 +71,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <AddDoctor />,
+        element: <AddPation />,
       },
       {
         path: "appointments",
@@ -93,7 +93,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add/",
-        element: <AddPatient />,
+        element: <AddDoctor />,
       },
       {
         path: "details/:id",

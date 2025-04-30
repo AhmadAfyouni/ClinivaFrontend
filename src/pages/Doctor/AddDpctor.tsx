@@ -11,7 +11,7 @@ import TableSelection from "../../Components/Inputs/table/TableSelection";
 import useAddUser from "../../hooks/users/useAddUser";
 import { WorkingHoursType } from "../../types/GeneralAdd";
 
-function AddPatient() {
+function AddDoctor() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
@@ -123,7 +123,7 @@ function AddPatient() {
       error: formik.errors.nationality,
       placeholder: "Select nationality",
       tooltip: "Enter your nationality",
-      value: formik.values.nationality || "",
+      // value: formik.values.nationality || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
       selectValue: country,
@@ -301,4 +301,4 @@ function AddPatient() {
   );
 }
 
-export default AddPatient;
+export default AddDoctor;
