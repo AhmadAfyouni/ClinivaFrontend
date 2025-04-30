@@ -33,6 +33,7 @@ export default interface AddEmployeeType {
     | "Technician"
     | "Administrative"
     | "Employee"
+    | "PIC"
     | "Other"
     | "";
   hireDate: string;

@@ -54,7 +54,7 @@ const usePatientsList = (allData = false, sortBy = "_id", order = "desc") => {
       }
     },
     staleTime: 0,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     enabled: true,
   });
 };

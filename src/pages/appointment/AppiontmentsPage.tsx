@@ -102,7 +102,7 @@ const AppointmentsPage = () => {
             />
           </Flex>
           <AddButton
-            handleOnClick={() => navigate(`/appointment/add`)}
+            handleOnClick={() => navigate(`/appointments/add`)}
             text="add appointment"
           />
         </Flex>
