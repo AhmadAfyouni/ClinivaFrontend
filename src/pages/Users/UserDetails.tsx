@@ -58,7 +58,7 @@ const UserDetails = () => {
             contactInfoIcons={icons}
             isActive={true}
             name={data.name}
-            id={data._id}
+            id={data.publicId}
             birthday={data?.employeeId?.dateOfBirth || ""}
             gender={data.employeeId?.gender || ""}
             address={data.employeeId?.address || ""}
@@ -87,12 +87,12 @@ const UserDetails = () => {
               ]}
               values={[
                 data.name,
-                data.loginHistory[
-                  data.loginHistory.length - 1
-                ]?.loginDate.toString(),
-                data.updatedAt,
-                data.lastLoginAt?.toString() || "",
-                "Yes",
+                data.loginHistory[data.loginHistory.length - 1]?.loginDate
+                  .toString()
+                  .slice(0, 10),
+                data.updatedAt.slice(0, 10),
+                data.lastLoginAt?.toString().slice(0, 10) || "",
+                "No Data",
               ]}
             />
           </Flex>
@@ -116,13 +116,10 @@ const UserDetails = () => {
                 ]}
                 values={[
                   data.employeeId ? data.employeeId.jobType : "",
-                  // data.employeeId.clinicCollectionId !== null
-                  //   ? data.employeeId.clinicCollectionId.name
-                  //   : "",
                   data.employeeId?.clinicCollectionId?.name || "",
                   data.employeeId?.departmentId?.name || "",
                   data.employeeId?.hireDate || "",
-                  "super",
+                  data.employeeId?.isActive ? "Acitve" : "In Active",
                 ]}
               />
             </Flex>

@@ -22,7 +22,7 @@ interface Props {
 }
 function PatientInfoCard({
   aboutPatient,
-  patientId,
+  // patientId,
   maritalStatus,
   birthday,
   gender,
@@ -70,14 +70,14 @@ function PatientInfoCard({
       <Divider color={theme.other.onSurfaceTertiary} />
       <Grid gutter={0} pt={16} pb={8}>
         <Grid.Col span={12}>
-          <Flex justify="space-between" mb={18}>
+          {/* <Flex justify="space-between" mb={18}>
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
               {t("patient Id")}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
               {patientId}
             </Text>
-          </Flex>
+          </Flex> */}
         </Grid.Col>
         <Grid.Col span={12}>
           <Flex justify="space-between" mb={18}>
@@ -102,10 +102,10 @@ function PatientInfoCard({
         <Grid.Col span={12} mb={18}>
           <Flex justify="space-between">
             <Text fw={500} size="sm" c={theme.other.onSurfaceTertiary}>
-              {t(maritalStatus)}
+              {t("maritalStatus")}
             </Text>
             <Text size="sm" c={theme.other.onSurfacePrimary}>
-              maritalStatus
+              {maritalStatus}
             </Text>
           </Flex>
         </Grid.Col>

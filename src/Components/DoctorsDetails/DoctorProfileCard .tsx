@@ -31,6 +31,7 @@ interface Props {
   socialMedia: string;
   address: string;
   imgUrl: string;
+  licenseNumber: string;
 }
 const DoctorProfileCard = ({
   name,
@@ -49,6 +50,7 @@ const DoctorProfileCard = ({
   socialMedia,
   address,
   imgUrl,
+  licenseNumber,
 }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
@@ -71,6 +73,7 @@ const DoctorProfileCard = ({
     t("status"),
     t("childrenNum"),
     t("languages"),
+    t("licenseNumber"),
   ];
   const textInfo = [
     name,
@@ -80,6 +83,7 @@ const DoctorProfileCard = ({
     status,
     childrenNum,
     languagesStr,
+    licenseNumber,
   ];
   const sectionTitle = [
     t("About"),
@@ -89,7 +93,7 @@ const DoctorProfileCard = ({
   ];
   const sectionText = [about, hireDateStr, experience, certification];
   const contactInfoTitle = [
-    t("Phone"),
+    t("phone"),
     t("Email"),
     t("socialMedia"),
     t("Address"),

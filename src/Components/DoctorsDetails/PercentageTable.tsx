@@ -59,15 +59,21 @@ const PercentageTable = <T extends Record<string, string>>({
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {tb.map((it, rowIndex) => (
-              <Table.Tr key={rowIndex}>
-                {th.map((item, columnIndex) => (
-                  <Table.Td key={columnIndex} c={theme.other.onSurfacePrimary}>
-                    {it[item.toLowerCase()]}
-                  </Table.Td>
-                ))}
-              </Table.Tr>
-            ))}
+            {tb.map((it, rowIndex) => {
+              const values = Object.values(it);
+              return (
+                <Table.Tr key={rowIndex}>
+                  {th.map((_, columnIndex) => (
+                    <Table.Td
+                      key={columnIndex}
+                      c={theme.other.onSurfacePrimary}
+                    >
+                      {values[columnIndex]}
+                    </Table.Td>
+                  ))}
+                </Table.Tr>
+              );
+            })}
           </Table.Tbody>
         </Table>
       </Box>

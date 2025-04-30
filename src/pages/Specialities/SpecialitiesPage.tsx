@@ -53,7 +53,7 @@ const SpecialitiesPage = () => {
       key={item._id}
       th0={item.publicId}
       th1={item.name}
-      th2={item.statistics.clinics.toString()} // Must be clinics name
+      th2={item.statistics.clinics.toString()}
       th3={item.updatedAt.slice(0, 10)}
       th4={item.statistics.doctors.toString()}
       th5={item.isActive.toString()}

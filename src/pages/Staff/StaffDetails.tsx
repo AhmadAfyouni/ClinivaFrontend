@@ -70,7 +70,7 @@ const StaffDetails = () => {
             gender={data.gender}
             address={data.address}
             imgUrl={data.image}
-            nationalId="344353645"
+            nationalId={data.identity}
           />
         </Flex>
         <Flex direction="column" w={isComputer ? "80%" : "100%"}>
