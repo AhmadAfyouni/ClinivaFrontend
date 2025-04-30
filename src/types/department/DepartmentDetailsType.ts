@@ -75,4 +75,5 @@ export default interface DepartmentDetailsType {
   clinicCount: number;
   patientCount: number;
   publicId: string;
+  PIC: string;
 }

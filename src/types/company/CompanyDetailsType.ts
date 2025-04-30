@@ -54,5 +54,8 @@ export default interface CompanyDetailsType {
   goals: string;
   overview: string;
   location: LocationGoogl;
+  Key_member: string;
+  Founder: string;
+  Executives: string;
   __v: number;
 }

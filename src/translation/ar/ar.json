@@ -228,5 +228,6 @@
   "departments": "الأقسام",
   "primaryphone": "رقم الهاتف الرئيسي",
   "secandaryPhone": "رقم الهاتف الثانوي",
-  "phone": "رقم الهاتف"
+  "phone": "رقم الهاتف",
+  "licenseNumber": "رقم الترخيص"
 }

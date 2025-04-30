@@ -57,4 +57,5 @@ export default interface MedicalComplexDetailsType {
   details: string;
   address: string;
   logo: string;
+  PIC: string;
 }

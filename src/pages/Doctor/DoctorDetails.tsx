@@ -77,6 +77,9 @@ const DoctorDetails = () => {
               w={isMobile || isTablet ? "100%" : "25%"}
             >
               <DoctorProfileCard
+                // age={data.age}
+                avalibilty={data.on_call ? "available" : "unavailable"}
+                conslutionfee={data.consultation_fee}
                 licenseNumber={data.medicalLicenseNumber}
                 imgUrl={data.image}
                 birthday={new Date(data.dateOfBirth)}
@@ -86,7 +89,7 @@ const DoctorDetails = () => {
                 name={data.name}
                 specialty={data.specialties}
                 status={data.marital_status}
-                about="A highly skilled  Doctor..."
+                // about="A highly skilled  Doctor..."
                 hireDate={new Date(data.hireDate)}
                 certification={data.certifications.join(",")}
                 experience={data.professional_experience}
@@ -98,6 +101,7 @@ const DoctorDetails = () => {
                   .join(",")}
                 socialMedia="olivia.grant@clinic.com"
                 address={data.address}
+                Qualifcations={data.Qualifications}
               />
             </Flex>
             <Flex direction="column" w={isMobile || isTablet ? "100%" : "75%"}>

@@ -6,13 +6,17 @@ interface Props {
   titles: string[];
   contents: string[];
   width: number;
+  gap?: string;
 }
-const TextInfo = ({ titles, contents, width }: Props) => {
+const TextInfo = ({ titles, contents, width, gap }: Props) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   return (
-    <Flex direction="column" gap={isTablet ? "sm" : "xs"}>
+    <Flex
+      direction="column"
+      gap={isTablet ? (gap ? gap : "sm") : gap ? gap : "xs"}
+    >
       {titles.map((item, index) => (
         <Flex justify="start" key={index}>
           <Text w={width} c={theme.other.onSurfaceTertiary}>
