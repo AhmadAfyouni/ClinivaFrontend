@@ -150,7 +150,7 @@ export const routes: AppRoute[] = [
         element: <CompanyDetails />,
       },
       {
-        path: "edit",
+        path: "edit/:id",
         element: <EditCompany />,
       },
     ],
@@ -222,7 +222,7 @@ export const routes: AppRoute[] = [
         element: <AddService />,
       },
       {
-        path: "update",
+        path: "edit/:id",
         element: <UpdateService />,
       },
       {

@@ -14,7 +14,7 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
@@ -22,7 +22,7 @@ const CompanyDetails = () => {
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  // const { id: companyId } = useParams();
+  const { id: companyId } = useParams();
   const { data: companies, isFetched } = useCompanyDetails();
   if (!isFetched || !companies)
     return (
@@ -58,7 +58,7 @@ const CompanyDetails = () => {
   const content =
     "transform your data into actionable insights. Our platform helps you make informed decisions faster and with greater confidence.";
   const handleEditEvent = () => {
-    navigate("/company/edit");
+    navigate(`/company/edit/${companyId}`);
   };
   return (
     <ScrollArea h="100vh">
@@ -84,8 +84,9 @@ const CompanyDetails = () => {
             variant="filled"
             color="green"
             radius="xl"
-            mb="110px"
+            mb={isComputer ? "110px" : "20px"}
             ml="30px"
+            w="30%"
             onClick={handleEditEvent}
           >
             Edit
