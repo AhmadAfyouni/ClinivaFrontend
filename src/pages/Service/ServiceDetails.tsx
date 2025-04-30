@@ -6,18 +6,20 @@ import {
   Center,
   ScrollArea,
   Button,
+  ThemeIcon,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import ListComponent from "../../Components/CompanyDetails/ListComponent";
 import useStaffList from "../../hooks/staff/useStaffList";
 import useServiceDetails from "../../hooks/serviceH/useServiceDetails";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { BsPerson } from "react-icons/bs";
 import useDeleteById from "../../hooks/delete/useDeleteById";
+import { FaClinicMedical } from "react-icons/fa";
 
 const ServiceDetails = () => {
   const theme = useMantineTheme();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const { mutate } = useDeleteById({
     endpoint: "services",
@@ -41,9 +43,9 @@ const ServiceDetails = () => {
   const handleDeleteEvent = () => {
     mutate(data?._id ?? "-1");
   };
-  const handleEditEvent = () => {
-    navigate(`/services/edit/${serviceId}`);
-  };
+  // const handleEditEvent = () => {
+  //   navigate(`/services/edit/${serviceId}`);
+  // };
   if (!Staff) return null;
   if (!isFetched || !data)
     return (
@@ -122,8 +124,24 @@ const ServiceDetails = () => {
             listItems={data.doctors.map((item) => item.name)}
             icon={<BsPerson />}
           />
-        </Flex>
-        <Flex w="50%">
+          <Flex w="50%" direction="column">
+            <Text fw={600} size="sm" c={theme.other.onSurfaceTertiary}>
+              Clinic
+            </Text>
+            <Flex w="50%">
+              <ThemeIcon
+                color={theme.colors.myPrimary[5]}
+                size={30}
+                radius="md"
+                variant="light"
+                mr={20}
+              >
+                {<FaClinicMedical />}
+              </ThemeIcon>
+
+              <Text size="sm">{"a cliniic"}</Text>
+            </Flex>
+          </Flex>
           {/* <ListComponent
               key={1}
               minwidth="50%"
@@ -142,7 +160,7 @@ const ServiceDetails = () => {
       >
         Delete
       </Button>
-      <Button
+      {/* <Button
         variant="filled"
         color="green"
         radius="xl"
@@ -150,7 +168,7 @@ const ServiceDetails = () => {
         onClick={handleEditEvent}
       >
         Edit
-      </Button>
+      </Button> */}
     </ScrollArea>
   );
 };

@@ -1,4 +1,5 @@
 import CashBox from "../common/CashBox";
+import LocationGoogl from "../common/LocationGoogl";
 import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
 
 export interface ContactInfoType {
@@ -50,5 +51,8 @@ export default interface CompanyDetailsType {
   locationGoogl?: LocationGoogle;
   createdAt: string;
   updatedAt: string;
+  goals: string;
+  overview: string;
+  location: LocationGoogl;
   __v: number;
 }

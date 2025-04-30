@@ -30,12 +30,21 @@ const CompanyDetails = () => {
         <Text>No Company Details Found</Text>
       </Center>
     );
-  const titles = ["Establichment Year", "Vission", "Goals", "OverView"];
+  const titles = [
+    "Establichment Year",
+    "Vission",
+    "Goals",
+    "OverView",
+    "Location",
+  ];
   const values = [
     companies[0].yearOfEstablishment.slice(0, 10),
     companies[0].vision,
-    // companies[0].goals,
-    // companies[0].overview,
+    companies[0].goals,
+    companies[0].overview,
+    companies[0]?.location?.x != null
+      ? `${companies[0].location.x} - ${companies[0].location.y}`
+      : "",
   ];
   const icons = companies[0].contactInfos.map((item) => {
     if (item.type === "email") {

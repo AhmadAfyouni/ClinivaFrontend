@@ -79,9 +79,9 @@ const ClinicDetails = () => {
             <CardsInfo
               titles={["Staff Number", "Patient Number", "Doctors Number"]}
               values={[
-                data.employeeCounts.total.toString(),
+                data.employeeCounts.total.toString() || "0",
                 patientCount?.patientCount.toString() || "0",
-                data.employeeCounts.doctors.toString(),
+                data.employeeCounts.doctors.toString() || "0",
               ]}
             />
           </Flex>

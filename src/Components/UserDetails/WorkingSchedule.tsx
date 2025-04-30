@@ -59,11 +59,19 @@ interface Props {
 
 const WorkingSchedule = ({ workingHours }: Props) => {
   const theme = useMantineTheme();
-  // console.log(workingHours);
   if (workingHours === undefined || workingHours.length === 0) return null;
+  const maxStartTime = workingHours.reduce(
+    (max, wh) => (wh.startTime > max ? wh.startTime : max),
+    workingHours[0]?.startTime || ""
+  );
 
-  const starthour = parseHour(workingHours[0].startTime);
-  const endhours = parseHour(workingHours[0].endTime);
+  const maxEndTime = workingHours.reduce(
+    (max, wh) => (wh.endTime > max ? wh.endTime : max),
+    workingHours[0]?.endTime || ""
+  );
+  const starthour = parseHour(maxStartTime);
+  const endhours = parseHour(maxEndTime);
+  console.log(endhours);
   const allHours = generateHoursArray(starthour, endhours);
 
   const getHourStyle = (
@@ -78,7 +86,7 @@ const WorkingSchedule = ({ workingHours }: Props) => {
       const start = parseHour(range.startTime);
       const end = parseHour(range.endTime);
 
-      if (hour >= start && hour < end) {
+      if (hour >= start && hour <= end) {
         const isStart = hour === start;
         const isEnd = hour === end - 1;
         return {

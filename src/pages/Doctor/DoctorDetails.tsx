@@ -150,7 +150,7 @@ const DoctorDetails = () => {
           >
             <Flex w={isMobile ? "95%" : "50%"} gap={isMobile ? "5px" : 0}>
               <PercentageTable
-                mah="fit-content"
+                mah="150px"
                 visibleButton={false}
                 buttonValue={t("viewAll")}
                 tableTitle={t("WorkingHours")}
@@ -160,7 +160,7 @@ const DoctorDetails = () => {
             </Flex>
             <Flex w={isMobile ? "95%" : "50%"}>
               <PercentageTable
-                mah="fit-content"
+                mah="150px"
                 visibleButton={true}
                 buttonValue={t("addVication")}
                 tableTitle={t("vacations")}
