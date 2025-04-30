@@ -13,89 +13,122 @@ import GetEmployeeType, {
 import useEditEmployee from "../../hooks/employee/useEditEmployee";
 import EditEmployeeSchema from "../../schema/Employee/EditEmployeeSchema";
 import { WorkingHoursType } from "../../types/GeneralAdd";
+import useStaffDetails from "../../hooks/staff/useStaffDetails";
+import { useParams } from "react-router";
 
 interface selectSpecializationType {
   [key: string]: string;
 }
-interface Props {
-  data: GetEmployeeType;
-}
-function EditEmployee({ data }: Props) {
-  const handleImageChange = (file: File | null) => {
-    formik.setFieldValue("image", file);
-  };
+
+function EditEmployee() {
   const querySpecialization = useSpecialization();
-  const hook = useEditEmployee("67e50dea191e5b9428a7474f");
-  // if (employee.data) return <></>
+  const { id: employeeId } = useParams();
+  const { data } = useStaffDetails(employeeId!);
+  const hook = useEditEmployee(employeeId!);
+  const handleMultiSelectChange = (
+    fieldName: string,
+    selectedValues: string[]
+  ) => {
+    formik.setFieldValue(fieldName, selectedValues);
+  };
 
   const formik = useFormik<GetEmployeeType>({
     initialValues: {
-      createdAt: data.createdAt,
-      _id: data._id,
-      __v: data.__v,
-      specialties: data.specialties,
-      updatedAt: data.updatedAt,
-      clinicCollectionId: "",
-      companyId: data.companyId || "",
-      departmentId: data.departmentId || "",
-      name: data.name,
-      dateOfBirth: data.dateOfBirth,
-      gender: data.gender || "female",
-      identity: data.identity,
-      nationality: data.nationality,
-      image: data.image,
-      marital_status: data.marital_status,
-      number_children: data.number_children,
-      notes: data.notes,
-      address: data.address,
-      professional_experience: data.professional_experience,
-      Languages: data.Languages,
-      workingHours: data.workingHours,
-      employeeType: data.employeeType,
-      contactInfos: data.contactInfos,
-      vacationRecords: data.vacationRecords,
-      hireDate: data.hireDate,
-      medicalLicenseNumber: data.medicalLicenseNumber,
-      certifications: data.certifications,
-      jobType: data.jobType,
-      breakTimes: data.breakTimes,
-      isActive: data.isActive,
-      clinics: null,
-      specializations: data.specializations,
+      _id: data?._id || "",
+      name: data?.name || "",
+      contactInfos: data?.contactInfos || [],
+      dateOfBirth: data?.dateOfBirth || "",
+      gender:
+        data?.gender === "male" || data?.gender === "female"
+          ? data?.gender
+          : "female",
+      identity: data?.identity || "",
+      nationality: data?.nationality || "",
+      image: data?.image || "",
+      marital_status:
+        (data?.marital_status as "" | "Single" | "Married" | "Divorced") || "",
+      number_children: data?.number_children || 0,
+      address: data?.address || "",
+      professional_experience: data?.professional_experience || "",
+      notes: data?.notes || "",
+      Languages: data?.Languages || [],
+      specialties: data?.specialties || [],
+      certifications: data?.certifications || [],
+      vacationRecords: (data?.vacationRecords || []).map((record) => ({
+        startDate: record.leaveStartDate,
+        endDate: record.leaveEndDate,
+        reason: record.leaveType,
+        status: record.status === "Approved" ? true : false,
+      })),
+      workingHours: data?.workingHours || [],
+      breakTimes: data?.breakTimes || [],
+      jobType:
+        data?.jobType === "FULL_TIME" || data?.jobType === "PART_TIME"
+          ? data?.jobType
+          : "FULL_TIME",
+
+      isActive: data?.isActive ?? true,
+      companyId: data?.companyId || "",
+      clinicCollectionId: data?.clinicCollectionId?._id || null,
+      departmentId: data?.departmentId?._id || null,
+      clinics:
+        data?.clinics?.map((clinic) => ({
+          ...clinic,
+          commercialRecord: {
+            ...clinic.commercialRecord,
+            taxNumber: clinic.commercialRecord.taxNumber === "true",
+          },
+        })) || null,
+      specializations: data?.specializations || [],
+      createdAt: data?.createdAt || "",
+      updatedAt: data?.updatedAt || "",
+      __v: data?.__v || 0,
+      employeeType:
+        data?.employeeType === "" ||
+        data?.employeeType === "Doctor" ||
+        data?.employeeType === "Nurse" ||
+        data?.employeeType === "Technician" ||
+        data?.employeeType === "Administrative" ||
+        data?.employeeType === "Employee" ||
+        data?.employeeType === "Other"
+          ? data?.employeeType
+          : "",
+      hireDate: data?.hireDate || "",
+      medicalLicenseNumber: data?.medicalLicenseNumber || "",
     },
     validationSchema: EditEmployeeSchema,
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      values.image = "";
+      if (values.image && typeof values.image !== "string") {
+        values.image = data?.image || ""; // You can set the image URL or process it as required
+      }
+
+      // Now proceed with submitting the form data
       hook.mutate(values);
-      formik.resetForm();
-      console.log("Form Submitted:", values);
     },
   });
 
+  // Check if specialization data is loaded
   if (!querySpecialization.isFetched || !querySpecialization.data)
     return (
       <Center>
         <Text>No Specialization Found</Text>
       </Center>
     );
-  console.log("first@@@@@@@@@");
-  console.log(formik.errors);
+
+  // Process specializations
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
       return acc;
     }, {});
 
-  const handleMultiSelectChange = (
-    fieldName: string,
-    selectedValues: string[]
-  ) => {
-    // console.log("@#@#@#@#");
-    console.log(selectedValues);
-    formik.setFieldValue(fieldName, selectedValues);
+  // Place handleImageChange after formik initialization
+  const handleImageChange = (file: File | null) => {
+    formik.setFieldValue("image", file);
   };
+
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -103,23 +136,22 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "text",
       description: "",
-      error: formik.errors.name,
+      error: formik.errors.name?.toString(),
       placeholder: "John Doe",
       tooltip: "Enter the name",
       value: formik.values.name || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-
     {
       id: "dateOfBirth",
       label: "Date Of Birth",
       mandatory: true,
       type: "date",
       description: "",
-      error: formik.errors.dateOfBirth,
+      error: formik.errors.dateOfBirth?.toString(),
       placeholder: "",
-      value: formik.values.dateOfBirth || data.dateOfBirth,
+      value: formik.values.dateOfBirth || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -129,7 +161,7 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "radio",
       description: "",
-      error: formik.errors.gender,
+      error: formik.errors.gender?.toString(),
       placeholder: "",
       value: formik.values.gender || "",
       onChange: formik.handleChange,
@@ -145,7 +177,7 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "text",
       description: "",
-      error: formik.errors.identity,
+      error: formik.errors.identity?.toString(),
       placeholder: "123456517890",
       tooltip: "Enter your identity",
       value: formik.values.identity || "",
@@ -158,13 +190,11 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "select",
       description: "",
-      error: formik.errors.employeeType,
+      error: formik.errors.employeeType?.toString(),
       placeholder: "",
       tooltip: "select the Employee Type",
-      value: formik.values.employeeType || data.employeeType,
-      // onChange: formik.handleChange,
+      value: formik.values.employeeType || "",
       onChange: (value) => formik.setFieldValue("employeeType", value),
-
       onBlur: formik.handleBlur,
       selectValue: [
         "Doctor",
@@ -181,10 +211,10 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "select",
       description: "",
-      error: formik.errors.nationality,
+      error: formik.errors.nationality?.toString(),
       placeholder: "Select nationality",
       tooltip: "Enter your nationality",
-      value: formik.values.nationality || data.nationality,
+      value: formik.values.nationality || "",
       onChange: (value) => formik.setFieldValue("nationality", value),
       onBlur: formik.handleBlur,
       selectValue: country,
@@ -195,9 +225,9 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "date",
       description: "",
-      error: formik.errors.hireDate,
+      error: formik.errors.hireDate?.toString(),
       placeholder: "",
-      value: formik.values.hireDate || data.hireDate,
+      value: formik.values.hireDate || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -207,7 +237,7 @@ function EditEmployee({ data }: Props) {
       mandatory: false,
       type: "radio",
       description: "",
-      error: formik.errors.marital_status,
+      error: formik.errors.marital_status?.toString(),
       placeholder: "",
       value: formik.values.marital_status || "",
       onChange: formik.handleChange,
@@ -225,7 +255,7 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "number",
       description: "",
-      error: formik.errors.number_children,
+      error: formik.errors.number_children?.toString(),
       placeholder: "0",
       tooltip: "Enter number of children",
       value: formik.values.number_children?.toString() || "0",
@@ -238,7 +268,7 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "text",
       description: "",
-      error: formik.errors.address,
+      error: formik.errors.address?.toString(),
       placeholder: "Enter address",
       tooltip: "Enter your address",
       value: formik.values.address || "",
@@ -251,7 +281,7 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "text",
       description: "",
-      error: formik.errors.medicalLicenseNumber,
+      error: formik.errors.medicalLicenseNumber?.toString(),
       placeholder: "Medical License Number",
       tooltip: "Enter your Medical License Number",
       value: formik.values.medicalLicenseNumber || "",
@@ -264,21 +294,20 @@ function EditEmployee({ data }: Props) {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.professional_experience,
+      error: formik.errors.professional_experience?.toString(),
       placeholder: "Enter professional experience",
       tooltip: "Enter your professional experience",
       value: formik.values.professional_experience || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-
     {
       id: "notes",
       label: "Notes",
       mandatory: false,
       type: "areaText",
       description: "",
-      error: formik.errors.notes,
+      error: formik.errors.notes?.toString(),
       placeholder: "Enter notes",
       tooltip: "Enter additional notes",
       value: formik.values.notes || "",
@@ -286,7 +315,7 @@ function EditEmployee({ data }: Props) {
       onBlur: formik.handleBlur,
     },
     {
-      id: "languages",
+      id: "Languages",
       label: "Languages",
       mandatory: true,
       type: "multiSelect",
@@ -295,10 +324,8 @@ function EditEmployee({ data }: Props) {
       placeholder: "Select Languages",
       tooltip: "Enter your Languages",
       value: formik.values.Languages || [],
-      // onChange: formik.handleChange,
       onChange: (selectedValues) =>
         handleMultiSelectChange("Languages", selectedValues as string[]),
-
       onBlur: formik.handleBlur,
       selectValue: ["English", "French", "Spanish", "German", "Italian"],
     },
@@ -311,7 +338,7 @@ function EditEmployee({ data }: Props) {
       error: formik.errors.specializations?.toString(),
       placeholder: "Select Specialties",
       tooltip: "Enter your Specialties",
-      value: formik.values.specialties || [""],
+      value: formik.values.specialties || [],
       onChange: (selectedKeys) => {
         if (
           Array.isArray(selectedKeys) &&
@@ -320,11 +347,8 @@ function EditEmployee({ data }: Props) {
           const selectedValues = selectedKeys.map(
             (key) => Specializations[key]
           );
-          console.log("first");
-          console.log(selectedValues);
           handleMultiSelectChange("specializations", selectedValues);
-        } else {
-          console.error("selectedKeys is not a valid array of strings");
+          formik.setFieldValue("specialties", selectedKeys); // Keep track of display names
         }
       },
       onBlur: formik.handleBlur,
@@ -332,35 +356,33 @@ function EditEmployee({ data }: Props) {
     },
     {
       id: "certifications",
-      label: "certifications",
+      label: "Certifications",
       mandatory: true,
       type: "multiSelect",
       description: "",
       error: formik.errors.certifications?.toString(),
       placeholder: "Select certifications",
       tooltip: "Enter your certifications",
-      // value: formik.values.certifications.join(" "),
+      value: formik.values.certifications || [],
       onChange: (selectedValues) =>
         handleMultiSelectChange("certifications", selectedValues as string[]),
-
       onBlur: formik.handleBlur,
       selectValue: ["cert1", "cert2"],
     },
-
     {
       id: "image",
       label: "Profile Image",
       mandatory: false,
       type: "image",
       description: "",
-      error: formik.errors.image,
+      error: formik.errors.image?.toString(),
       placeholder: "",
       value: formik.values.image,
       onChangeFile: handleImageChange,
-      onChange: () => {},
+      onChange: () => {}, // Empty onChange to satisfy props
     },
   ];
-  console.log(formik.values);
+
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form onSubmit={formik.handleSubmit}>
@@ -381,7 +403,6 @@ function EditEmployee({ data }: Props) {
               type: "select",
               options: ["email", "phone"],
             },
-
             {
               key: "value",
               label: "Value",
@@ -392,8 +413,10 @@ function EditEmployee({ data }: Props) {
           onFieldChange={formik.setFieldValue}
           error={formik.errors.contactInfos?.toString() || ""}
         />
+
         <TableSelection<WorkingHoursType>
           title="Working Hours"
+          fieldName="workingHours"
           columns={[
             { key: "day", label: "Day", type: "date" },
             {
@@ -407,14 +430,14 @@ function EditEmployee({ data }: Props) {
               type: "time",
             },
           ]}
-          fieldName="workingHours"
-          onFieldChange={formik.setFieldValue}
-          key={"workingHours"}
           data={formik.values.workingHours}
+          onFieldChange={formik.setFieldValue}
           error={formik.errors.workingHours?.toString() || ""}
         />
+
         <TableSelection<VacationRecord>
           title="Vacation Records"
+          fieldName="vacationRecords"
           columns={[
             { key: "startDate", label: "Leave Start Date", type: "date" },
             { key: "endDate", label: "Leave End Date", type: "date" },
@@ -424,24 +447,23 @@ function EditEmployee({ data }: Props) {
               type: "text",
             },
           ]}
-          fieldName="vacationRecords"
-          onFieldChange={formik.setFieldValue}
-          key={"vacationRecords"}
           data={formik.values.vacationRecords}
+          onFieldChange={formik.setFieldValue}
           error={formik.errors.vacationRecords?.toString() || ""}
         />
+
         <TableSelection<BreakTime>
+          title="Break Times"
+          fieldName="breakTimes"
           columns={[
             { key: "startTime", label: "Start Time", type: "time" },
             { key: "endTime", label: "End Time", type: "time" },
           ]}
-          fieldName="breakTimes"
-          title="Break Times"
-          key={"breakTimes"}
+          data={formik.values.breakTimes}
           onFieldChange={formik.setFieldValue}
           error={formik.errors.breakTimes?.toString() || ""}
-          data={formik.values.breakTimes}
         />
+
         <Button type="submit">Submit</Button>
       </form>
     </ScrollArea>

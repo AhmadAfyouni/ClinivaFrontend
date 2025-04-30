@@ -55,4 +55,7 @@ export default interface MedicalComplexDetailsType {
   goals: string;
   vision: string;
   details: string;
+  address: string;
+  logo: string;
+  PIC: string;
 }

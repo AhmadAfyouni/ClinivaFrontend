@@ -1,7 +1,6 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
-import ServiceDetailsType from "../../types/serviceT/ServiceDetailsType";
 import ClinicDetailsType from "../../types/clinic/ClinicDetailsType";
 const useClinics = (
   limit = 5,

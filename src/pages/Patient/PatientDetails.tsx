@@ -75,19 +75,34 @@ const PatientDetails = () => {
                       {t("patient_info")}
                     </Text>
                     <TextInfo
+                      gap="1px"
                       titles={[
-                        t("person_name"),
-                        t("person_id"),
+                        t("patient_name"),
+                        t("patient_id"),
                         t("family_medical_history"),
                         t("lifestyle_factors"),
                         t("preferred_language"),
+                        t("Sigrical history"),
+                        t("Current medications "),
+                        t("Smoking"),
+                        t("Age"),
                       ]}
                       contents={[
                         data.name,
                         data.publicId,
-                        data.familyMedicalHistory.join(","),
-                        data.lifestyleFactors,
-                        data.preferredLanguage,
+                        data.familyMedicalHistory
+                          ? data.familyMedicalHistory.join(",")
+                          : "",
+                        data.lifestyleFactors ? data.lifestyleFactors : "",
+                        data.preferredLanguage ? data.preferredLanguage : "",
+                        data.Surgical_History
+                          ? data.Surgical_History.slice(0, 10)
+                          : "",
+                        data.Current_Medications
+                          ? data.Current_Medications
+                          : "",
+                        data.Smoking ? "Smoker " : "Non Smoker",
+                        data.age?.toString() || "0",
                       ]}
                       width={160}
                     />

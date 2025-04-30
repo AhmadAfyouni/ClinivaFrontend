@@ -35,6 +35,7 @@ import CompanyDetails from "../pages/Company/CompanyDetails";
 import AddDepartment from "../pages/Departement/AddDepartment";
 import AddSpeciality from "../pages/Specialities/AddSpeciality";
 import EditCompany from "../pages/Company/EditCompany";
+import EditEmployee from "../pages/Employee/EditEmployee";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -113,10 +114,10 @@ export const routes: AppRoute[] = [
         path: "add",
         element: <AddEmployee />,
       },
-      // {
-      //   path: "edit",
-      //   element: <EditEmployee data={undefined} />,
-      // },
+      {
+        path: "edit/:id",
+        element: <EditEmployee />,
+      },
       {
         path: "details/:id",
         element: <StaffDetails />,

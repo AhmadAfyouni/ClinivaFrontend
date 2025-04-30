@@ -6,9 +6,13 @@ import {
   useMantineTheme,
   Box,
   Tooltip,
+  Image,
+  Skeleton,
 } from "@mantine/core";
 import CheckBox from "./CheckBox";
 import { useMediaQuery } from "@mantine/hooks";
+import { useState } from "react";
+import { CiImageOn } from "react-icons/ci";
 interface Props {
   th0: string;
   th1: string;
@@ -16,6 +20,7 @@ interface Props {
   th3: string;
   th4: string;
   th5: string;
+  imgUrl?: string;
   selection: string[];
   onClick: () => void;
   setSelection: (updater: (current: string[]) => string[]) => void;
@@ -27,6 +32,7 @@ const TableBody = ({
   th3,
   th4,
   th5,
+  imgUrl,
   selection,
   onClick,
   setSelection,
@@ -35,6 +41,8 @@ const TableBody = ({
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
   const getStatusBadge = (status: string) => {
     const statusColors = {
       true: { bg: theme.other?.secondaryDarkColor },
@@ -66,17 +74,47 @@ const TableBody = ({
     );
   };
 
-  const getAvatarCircle = () => (
-    <Box
-      miw="30px"
-      mih="30px"
-      mr="10px"
-      bg={theme.colors.myPrimary[4]}
+  // const getAvatarCircle = () => (
+  //   <Box
+  //     miw="30px"
+  //     mih="30px"
+  //     mr="10px"
+  //     bg={theme.colors.myPrimary[4]}
+  //     style={{
+  //       borderRadius: "50%",
+  //       display: "inline-block",
+  //     }}
+  //   ></Box>
+  const getImageCircle = () => (
+    <Flex
+      w={30}
+      h={30}
+      bg={theme.other.bg}
+      align="center"
+      justify="center"
       style={{
         borderRadius: "50%",
-        display: "inline-block",
+        overflow: "hidden",
       }}
-    ></Box>
+    >
+      {!loaded && !error && <Skeleton w={30} h={30} radius="xl" />}
+      {!error && imgUrl ? (
+        <Image
+          src={imgUrl}
+          w="100%"
+          h="100%"
+          alt="Uploaded Image"
+          fit="cover"
+          onLoad={() => setLoaded(true)}
+          onError={() => {
+            setLoaded(false);
+            setError(true);
+          }}
+        />
+      ) : error ? (
+        <CiImageOn size={20} color={theme.other.onSurfaceSecondary} />
+      ) : null}
+    </Flex>
   );
 
   const toggleRow = (id: string) => {
@@ -103,7 +141,7 @@ const TableBody = ({
           <Flex fz="11px" h="50px" w="97%" justify="space-between">
             {/* Desktop view ID and Name */}
             {isComputer && (
-              <Flex w="25%" justify="space-between">
+              <Flex w="25%" justify="space-between" align="center">
                 <Box
                   fz="11px"
                   w="70px"
@@ -129,9 +167,10 @@ const TableBody = ({
                   <Flex
                     align="center"
                     ta="start"
+                    // justify='center'
                     c={theme.other.onSurfacePrimary}
                   >
-                    {getAvatarCircle()}
+                    {getImageCircle()}
                     <Text
                       fz="11px"
                       p="0"
@@ -148,8 +187,8 @@ const TableBody = ({
             {/* Mobile  Avatar, Name and ID */}
             {(isMobile || isTablet) && (
               <Flex direction="row" align="center" w="150px">
-                {getAvatarCircle()}
-                <Flex direction="column" w="130px" align="start">
+                {getImageCircle()}
+                <Flex align="start" ta="start" direction="column" w="130px">
                   <Text
                     fz="11px"
                     p="0"

@@ -47,6 +47,7 @@ const SpecialitiesPage = () => {
   };
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => console.log("there is no speciality details page")}
       selection={selection}
       setSelection={setSelection}
