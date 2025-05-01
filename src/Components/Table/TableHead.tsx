@@ -1,4 +1,4 @@
-import { Box, Checkbox, Flex, Table, useMantineTheme } from "@mantine/core";
+import { Box, Flex, Table, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import useSortStore from "../../hooks/useSortStore ";
 import { useTranslation } from "react-i18next";
@@ -9,13 +9,7 @@ interface Props<T> {
   toggleAll: () => void;
   sortedBy: string[];
 }
-const TableHead = <T,>({
-  selection,
-  data,
-  labels,
-  toggleAll,
-  sortedBy,
-}: Props<T>) => {
+const TableHead = <T,>({ labels, sortedBy }: Props<T>) => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
@@ -50,7 +44,7 @@ const TableHead = <T,>({
       }}
     >
       <Table.Tr>
-        <Table.Th>
+        {/* <Table.Th>
           <Checkbox
             iconColor={theme.other.onSurfacePrimary}
             color={
@@ -67,7 +61,7 @@ const TableHead = <T,>({
               selection.length > 0 && selection.length !== data.length
             }
           />
-        </Table.Th>
+        </Table.Th> */}
         <Table.Th p={0} colSpan={6} w="100%">
           <Flex w="97%" justify="space-between">
             {isComputer && (

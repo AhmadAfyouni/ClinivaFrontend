@@ -9,7 +9,6 @@ import {
   Image,
   Skeleton,
 } from "@mantine/core";
-import CheckBox from "./CheckBox";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
@@ -33,9 +32,7 @@ const TableBody = ({
   th4,
   th5,
   imgUrl,
-  selection,
   onClick,
-  setSelection,
 }: Props) => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
@@ -117,20 +114,20 @@ const TableBody = ({
     </Flex>
   );
 
-  const toggleRow = (id: string) => {
-    setSelection((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
-  };
+  // const toggleRow = (id: string) => {
+  //   setSelection((current) =>
+  //     current.includes(id)
+  //       ? current.filter((item) => item !== id)
+  //       : [...current, id]
+  //   );
+  // };
   return (
     <Table.Tbody>
       {/* <Table.Tbody> */}
       <Table.Tr key={th0} bd={theme.other.bgSubtle}>
-        <Table.Td>
+        {/* <Table.Td>
           <CheckBox selection={selection} setToggle={toggleRow} id={th0} />
-        </Table.Td>
+        </Table.Td> */}
 
         <Table.Td
           p={0}
