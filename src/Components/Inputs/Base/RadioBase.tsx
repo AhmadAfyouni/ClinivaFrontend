@@ -29,6 +29,7 @@ export default function RadioBase(props: Props) {
       withAsterisk={props.base.mandatory}
       onChange={handleChange}
       error={t(props.base.error || "")}
+      value={String(props.base.value ?? "")}
     >
       <Group mt="xs">
         {props.radio.map((option) => (
