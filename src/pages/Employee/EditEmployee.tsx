@@ -14,39 +14,56 @@ import useEditEmployee from "../../hooks/employee/useEditEmployee";
 import EditEmployeeSchema from "../../schema/Employee/EditEmployeeSchema";
 import { WorkingHoursType } from "../../types/GeneralAdd";
 import useStaffDetails from "../../hooks/staff/useStaffDetails";
-import { useParams } from "react-router";
-
+import { useNavigate, useParams } from "react-router";
+import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
+import useDepatementsList from "../../hooks/departement/useDepartementsList";
+import useClinicsList from "../../hooks/clinic/useClinicsList";
 interface selectSpecializationType {
+  [key: string]: string;
+}
+interface selectMedicalComplexType {
+  [key: string]: string;
+}
+interface selectDepartmetType {
+  [key: string]: string;
+}
+interface selectClinicType {
   [key: string]: string;
 }
 
 function EditEmployee() {
   const querySpecialization = useSpecialization();
+  const queryMedicalComplex = useMedicalComplexList();
+  const queryDepatement = useDepatementsList();
+  const queryClinic = useClinicsList();
   const { id: employeeId } = useParams();
   const { data } = useStaffDetails(employeeId!);
   const hook = useEditEmployee(employeeId!);
+  const navigate = useNavigate();
+  console.log(
+    "the reson is " +
+      data?.vacationRecords.map((item) => item.startDate) +
+      "the reson is " +
+      data?.vacationRecords.map((item) => item.reason)
+  );
   const handleMultiSelectChange = (
     fieldName: string,
     selectedValues: string[]
   ) => {
     formik.setFieldValue(fieldName, selectedValues);
   };
-
   const formik = useFormik<GetEmployeeType>({
+    enableReinitialize: true,
     initialValues: {
-      _id: data?._id || "",
+      _id: data?._id,
       name: data?.name || "",
       contactInfos: data?.contactInfos || [],
       dateOfBirth: data?.dateOfBirth || "",
-      gender:
-        data?.gender === "male" || data?.gender === "female"
-          ? data?.gender
-          : "female",
+      gender: data?.gender || "",
       identity: data?.identity || "",
       nationality: data?.nationality || "",
       image: data?.image || "",
-      marital_status:
-        (data?.marital_status as "" | "Single" | "Married" | "Divorced") || "",
+      marital_status: data?.marital_status || "",
       number_children: data?.number_children || 0,
       address: data?.address || "",
       professional_experience: data?.professional_experience || "",
@@ -54,72 +71,81 @@ function EditEmployee() {
       Languages: data?.Languages || [],
       specialties: data?.specialties || [],
       certifications: data?.certifications || [],
-      vacationRecords: (data?.vacationRecords || []).map((record) => ({
-        startDate: record.leaveStartDate,
-        endDate: record.leaveEndDate,
-        reason: record.leaveType,
-        status: record.status === "Approved" ? true : false,
-      })),
+      vacationRecords: data?.vacationRecords || [],
       workingHours: data?.workingHours || [],
       breakTimes: data?.breakTimes || [],
-      jobType:
-        data?.jobType === "FULL_TIME" || data?.jobType === "PART_TIME"
-          ? data?.jobType
-          : "FULL_TIME",
-
+      jobType: data?.jobType || "FULL_TIME",
       isActive: data?.isActive ?? true,
-      companyId: data?.companyId || "",
+      companyId: data?.companyId || null,
       clinicCollectionId: data?.clinicCollectionId?._id || null,
       departmentId: data?.departmentId?._id || null,
-      clinics:
-        data?.clinics?.map((clinic) => ({
-          ...clinic,
-          commercialRecord: {
-            ...clinic.commercialRecord,
-            taxNumber: clinic.commercialRecord.taxNumber === "true",
-          },
-        })) || null,
+      clinics: data?.clinics || null,
       specializations: data?.specializations || [],
       createdAt: data?.createdAt || "",
       updatedAt: data?.updatedAt || "",
       __v: data?.__v || 0,
-      employeeType:
-        data?.employeeType === "" ||
-        data?.employeeType === "Doctor" ||
-        data?.employeeType === "Nurse" ||
-        data?.employeeType === "Technician" ||
-        data?.employeeType === "Administrative" ||
-        data?.employeeType === "Employee" ||
-        data?.employeeType === "Other"
-          ? data?.employeeType
-          : "",
+      employeeType: data?.employeeType || "",
       hireDate: data?.hireDate || "",
       medicalLicenseNumber: data?.medicalLicenseNumber || "",
     },
     validationSchema: EditEmployeeSchema,
     validateOnBlur: true,
     validateOnChange: true,
-    onSubmit: (values) => {
-      if (values.image && typeof values.image !== "string") {
-        values.image = data?.image || ""; // You can set the image URL or process it as required
-      }
 
-      // Now proceed with submitting the form data
-      hook.mutate(values);
+    onSubmit: (values) => {
+      hook.mutate(values, {
+        onSuccess: () => {
+          navigate(`/employees/details/${data?._id}`);
+        },
+      });
     },
   });
-
-  // Check if specialization data is loaded
+  console.log(
+    "Formik gender value:",
+    formik.values.vacationRecords.map((item) => item.startDate)
+  );
   if (!querySpecialization.isFetched || !querySpecialization.data)
     return (
       <Center>
         <Text>No Specialization Found</Text>
       </Center>
     );
-
-  // Process specializations
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    }, {});
+
+  if (!queryMedicalComplex.isFetched || !queryMedicalComplex.data)
+    return (
+      <Center>
+        <Text>No MedicalComplex Found</Text>
+      </Center>
+    );
+  const medicalComplexes: selectMedicalComplexType =
+    queryMedicalComplex.data.reduce<selectMedicalComplexType>((acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    }, {});
+  if (!queryDepatement.isFetched || !queryDepatement.data)
+    return (
+      <Center>
+        <Text>No Depatments Found</Text>
+      </Center>
+    );
+  const departements: selectDepartmetType =
+    queryMedicalComplex.data.reduce<selectDepartmetType>((acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    }, {});
+  if (!queryClinic.isFetched || !queryClinic.data)
+    return (
+      <Center>
+        <Text>No Clinics Found</Text>
+      </Center>
+    );
+  const clinics: selectClinicType =
+    queryMedicalComplex.data.reduce<selectClinicType>((acc, item) => {
       acc[item.name] = item._id;
       return acc;
     }, {});
@@ -204,6 +230,77 @@ function EditEmployee() {
         "Employee",
         "Other",
       ],
+    },
+    {
+      id: "departmentId",
+      label: "Department",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.departmentId,
+      placeholder: "Select department",
+      tooltip: "Enter the department",
+      // value: formik.values.departmentId || "",
+      onChange: (selectedKeys) => {
+        if (
+          Array.isArray(selectedKeys) &&
+          selectedKeys.every((item) => typeof item === "string")
+        ) {
+          const selectedValues = selectedKeys.map((key) => departements[key]);
+          handleMultiSelectChange("departements", selectedValues);
+          formik.setFieldValue("departements", selectedKeys);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(medicalComplexes) || [],
+    },
+    {
+      id: "medicalComplexId",
+      label: "Medical Complex",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.clinicCollectionId,
+      placeholder: "Select medical complex",
+      tooltip: "Enter the medical complex",
+      // value: formik.values.clinicCollectionId || "",
+      onChange: (selectedKeys) => {
+        if (
+          Array.isArray(selectedKeys) &&
+          selectedKeys.every((item) => typeof item === "string")
+        ) {
+          const selectedValues = selectedKeys.map(
+            (key) => medicalComplexes[key]
+          );
+          handleMultiSelectChange("medicalComplexes", selectedValues);
+          formik.setFieldValue("medicalComplexes", selectedKeys);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(medicalComplexes) || [],
+    },
+    {
+      id: "clinics",
+      label: "Clinic",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.clinics,
+      placeholder: "Select clinic",
+      tooltip: "Enter the clinic",
+      // value: formik.values.clinics || "",
+      onChange: (selectedKeys) => {
+        if (
+          Array.isArray(selectedKeys) &&
+          selectedKeys.every((item) => typeof item === "string")
+        ) {
+          const selectedValues = selectedKeys.map((key) => clinics[key]);
+          handleMultiSelectChange("clinics", selectedValues);
+          formik.setFieldValue("clinics", selectedKeys);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(clinics) || [],
     },
     {
       id: "nationality",
@@ -335,7 +432,7 @@ function EditEmployee() {
       mandatory: true,
       type: "multiSelect",
       description: "",
-      error: formik.errors.specializations?.toString(),
+      error: formik.errors.specialties?.toString(),
       placeholder: "Select Specialties",
       tooltip: "Enter your Specialties",
       value: formik.values.specialties || [],
@@ -382,7 +479,9 @@ function EditEmployee() {
       onChange: () => {}, // Empty onChange to satisfy props
     },
   ];
-
+  console.log(
+    "first" + formik.values.vacationRecords.map((item) => item.reason)
+  );
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form onSubmit={formik.handleSubmit}>
