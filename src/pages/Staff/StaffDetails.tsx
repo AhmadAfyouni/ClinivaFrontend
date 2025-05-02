@@ -123,7 +123,7 @@ const StaffDetails = () => {
                 ]}
                 values={[
                   data.departmentId?.name ?? "",
-                  data.clinics.map((item) => item).join(",") ?? "",
+                  data?.clinics?.map((item) => item).join(",") ?? "",
                   "supervisor",
                 ]}
               />
