@@ -11,7 +11,7 @@ import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import WorkingSchedule from "../../Components/UserDetails/WorkingSchedule";
 import { Mail, PhoneCall } from "lucide-react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useStaffDetails from "../../hooks/staff/useStaffDetails";
 import { useTranslation } from "react-i18next";
 import useDeleteById from "../../hooks/delete/useDeleteById";
@@ -19,7 +19,7 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 const StaffDetails = () => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const { id: staffId } = useParams();
@@ -52,9 +52,9 @@ const StaffDetails = () => {
   const handleDeleteEvent = () => {
     deleteStaff.mutate(staffId!);
   };
-  // const handleEditEvent = () => {
-  //   navigate(`/employees/edit/${staffId}`);
-  // };
+  const handleEditEvent = () => {
+    navigate(`/employees/edit/${staffId}`);
+  };
 
   return (
     <ScrollArea h="100vh">
@@ -123,7 +123,7 @@ const StaffDetails = () => {
                 ]}
                 values={[
                   data.departmentId?.name ?? "",
-                  data.clinics.map((item) => item).join(",") ?? "",
+                  data?.clinics?.map((item) => item).join(",") ?? "",
                   "supervisor",
                 ]}
               />
@@ -141,7 +141,7 @@ const StaffDetails = () => {
         >
           Delete
         </Button>
-        {/* <Button
+        <Button
           variant="filled"
           color="green"
           radius="xl"
@@ -150,7 +150,7 @@ const StaffDetails = () => {
           onClick={handleEditEvent}
         >
           Edit
-        </Button> */}
+        </Button>
       </Flex>
     </ScrollArea>
   );

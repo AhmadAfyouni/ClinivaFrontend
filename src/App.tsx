@@ -95,7 +95,6 @@ function AppContent() {
   //   return element;
   // }
   console.log("dir", i18n);
-
   return (
     <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <LoaderCustom />
@@ -105,11 +104,16 @@ function AppContent() {
         direction={"column"}
         justify={"start"}
         align={"center"}
+        // style={{
+        //   marginLeft:
+        //     i18n.language === "en" && !isMobile && !nonAuth ? "15%" : 0,
+        //   marginRight:
+        //     i18n.language === "ar" && !isMobile && !nonAuth ? "15%" : 0,
+        // }}
         style={{
-          marginLeft:
-            i18n.language === "en" && !isMobile && !nonAuth ? "15%" : 0,
-          marginRight:
-            i18n.language === "ar" && !isMobile && !nonAuth ? "15%" : 0,
+          ...(i18n.language === "ar"
+            ? { marginRight: !isMobile && !nonAuth ? "15%" : 0 }
+            : { marginLeft: !isMobile && !nonAuth ? "15%" : 0 }),
         }}
       >
         <NavBar login={!nonAuth} />

@@ -9,12 +9,15 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import useServicesList from "../../hooks/serviceH/useServicesList";
+import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useServicesList(false, sortBy, order);
   const navigate = useNavigate();
+  const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -34,6 +37,17 @@ const ServicesPage = () => {
   // const handlSpecialtyChange = (e: string | null) => {
   //   console.log(e);
   // };
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    pagination.setFilter(value);
+    setSelectedOption("SerStatus", e);
+  };
   const rows = data.map((item) => (
     <TableBody
       onClick={() => navigate(`/services/details/${item._id}`)}
@@ -65,12 +79,13 @@ const ServicesPage = () => {
               setSearchValue={handleSearchChange}
               text="Search"
             />
-            {/* <CustomFilters
+            <CustomFilters
               IsDropDown1={true}
-              placeHolderDropDown1="clinicAssociation"
-              OptionsDropDown1={SpecialtiesOptions}
-              handlDropDownChange1={handlSpecialtyChange}
-            /> */}
+              placeHolderDropDown1="status"
+              dropdownName1="SerStatus"
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
+            />
           </Flex>
           <AddButton
             text="Add Service"

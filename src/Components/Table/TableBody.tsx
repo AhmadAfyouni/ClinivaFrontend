@@ -9,10 +9,10 @@ import {
   Image,
   Skeleton,
 } from "@mantine/core";
-import CheckBox from "./CheckBox";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
+import CheckBox from "./CheckBox";
 interface Props {
   th0: string;
   th1: string;
@@ -34,8 +34,8 @@ const TableBody = ({
   th5,
   imgUrl,
   selection,
-  onClick,
   setSelection,
+  onClick,
 }: Props) => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
