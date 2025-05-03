@@ -17,6 +17,7 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
       sortBy,
       order,
       pagination.paramKey,
+      pagination.filter,
     ],
     queryFn: () => {
       const url = `/services?${
@@ -27,9 +28,11 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
-        // "&search=" +
-        // pagination.paramKey
+        order +
+        "&search=" +
+        pagination.paramKey
+        // "&isActive=" +
+        // pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<ServiceDetailsType>>(url)
@@ -55,6 +58,7 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
     },
     refetchOnWindowFocus: false,
     staleTime: 0,
+    enabled: true,
   });
 };
 export default useServicesList;

@@ -13,7 +13,7 @@ export interface VacationRecord {
   startDate: string;
   endDate: string;
   reason: string;
-  status: boolean;
+  // status: boolean;
 }
 
 export interface Certification {
@@ -110,7 +110,7 @@ export interface CommercialRecord {
   grantDate: string;
   issueDate: string;
   expirationDate: string;
-  taxNumber: boolean;
+  taxNumber: string;
 }
 
 export interface LocationGoogle {
@@ -154,7 +154,7 @@ export default interface GetEmployeeType {
   identity: string;
   nationality: string;
   image: string;
-  marital_status: "" | "Single" | "Married" | "Divorced";
+  marital_status: "" | "Single" | "Married" | "Divorced" | "Widowed";
   number_children: number;
   notes: string;
   address: string;

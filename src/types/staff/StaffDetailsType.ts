@@ -1,3 +1,6 @@
+import { WorkingHours } from "../Employee/GetEmployee";
+import { LocationGoogle } from "../GeneralAdd";
+
 interface ContactInfo {
   type: string;
   value: string;
@@ -6,10 +9,10 @@ interface ContactInfo {
 }
 
 interface VacationRecord {
-  leaveStartDate: string;
-  leaveEndDate: string;
-  leaveType: string;
-  status: string;
+  startDate: string;
+  endDate: string;
+  reason: string;
+  // status: string;
 }
 
 interface BreakTime {
@@ -111,11 +114,6 @@ interface CommercialRecord {
   taxNumber: string;
 }
 
-interface LocationGoogl {
-  x: number;
-  y: number;
-}
-
 interface Clinic {
   _id: string;
   isActive: boolean;
@@ -129,19 +127,18 @@ interface Clinic {
   contactInfos: ClinicContactInfo[];
   holidays: Holiday[];
   name: string;
-  WorkingHours: WorkingDay[];
+  WorkingHours: WorkingHours[];
   bankAccount: BankAccount[];
   insuranceCompany: InsuranceCompany[];
   cashBoxes: CashBox[];
   onlinePaymentMethods: OnlinePaymentMethod[];
   commercialRecord: CommercialRecord;
-  locationGoogl: LocationGoogl;
+  locationGoogl: LocationGoogle;
   departmentId: string;
   specializations: string[];
   createdAt: string;
   updatedAt: string;
   __v: number;
-  id: string;
 }
 
 interface ClinicCollection {
@@ -192,11 +189,11 @@ export default interface StaffDetailsType {
   name: string;
   contactInfos: ContactInfo[];
   dateOfBirth: string;
-  gender: string;
+  gender: "male" | "female";
   identity: string;
   nationality: string;
   image: string;
-  marital_status: string;
+  marital_status: "Single" | "Married" | "Divorced" | "Widowed";
   number_children: number;
   notes: string;
   address: string;
@@ -204,18 +201,25 @@ export default interface StaffDetailsType {
   specialties: string[];
   Languages: string[];
   workingHours: WorkingHour[];
-  employeeType: string;
+  employeeType:
+    | ""
+    | "Doctor"
+    | "Nurse"
+    | "Technician"
+    | "Administrative"
+    | "Employee"
+    | "Other";
   vacationRecords: VacationRecord[];
   hireDate: string;
   medicalLicenseNumber: string;
   certifications: string[];
-  jobType: string;
+  jobType: "FULL_TIME" | "PART_TIME";
   breakTimes: BreakTime[];
   isActive: boolean;
   companyId: string | null;
   clinicCollectionId: ClinicCollection;
   departmentId: Department;
-  clinics: Clinic[];
+  clinics: Clinic[] | null;
   specializations: string[];
   createdAt: string;
   updatedAt: string;

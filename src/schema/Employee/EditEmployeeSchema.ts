@@ -82,7 +82,7 @@ const EditEmployeeSchema = Yup.object().shape({
     .required("Break times are required"),
   isActive: Yup.boolean().default(true),
   // clinics: Yup.array().of(Yup.string()).nullable(),
-  specializations: Yup.array().of(Yup.string()).nullable(),
+  // specializations: Yup.array().of(Yup.string()).nullable(),
 });
 
 export default EditEmployeeSchema;

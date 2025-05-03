@@ -49,10 +49,10 @@ const DoctorDetails = () => {
     t("status"),
   ];
   const vics = data.vacationRecords.map((vic) => ({
-    "leave start date": vic.leaveStartDate.slice(0, 10),
-    "leave end date": vic.leaveEndDate.slice(0, 10),
-    "leave type": vic.leaveType,
-    status: vic.status,
+    "leave start date": vic.leaveStartDate?.slice(0, 10) || "",
+    "leave end date": vic.leaveEndDate?.slice(0, 10) || "",
+    "leave type": vic.leaveType || "",
+    status: vic.status || "",
   }));
 
   const titleCards = [t("Identity"), t("Nationality"), t("Total Patients")];
@@ -165,7 +165,7 @@ const DoctorDetails = () => {
             <Flex w={isMobile ? "95%" : "50%"}>
               <PercentageTable
                 mah="150px"
-                visibleButton={true}
+                visibleButton={false}
                 buttonValue={t("addVication")}
                 tableTitle={t("vacations")}
                 th={thVication}

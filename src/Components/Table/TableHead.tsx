@@ -10,11 +10,11 @@ interface Props<T> {
   sortedBy: string[];
 }
 const TableHead = <T,>({
-  selection,
-  data,
   labels,
-  toggleAll,
   sortedBy,
+  selection,
+  toggleAll,
+  data,
 }: Props<T>) => {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
@@ -25,10 +25,10 @@ const TableHead = <T,>({
 
   const handleSort = (field: string) => {
     if (field === sortBy) {
-      toggleOrder(); // عكس الترتيب فقط
+      toggleOrder();
     } else {
-      setSortBy(field); // تغيير العمود
-      setOrder("asc"); // بدء بترتيب تصاعدي
+      setSortBy(field);
+      setOrder("asc");
     }
   };
 
