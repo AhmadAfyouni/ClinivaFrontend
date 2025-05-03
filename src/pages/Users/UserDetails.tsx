@@ -51,7 +51,7 @@ const UserDetails = () => {
   return (
     <ScrollArea h="100vh">
       <Flex direction={isComputer ? "row" : "column"}>
-        <Flex w={isComputer ? "25%" : "100%"}>
+        <Flex w={isComputer ? "20%" : "100%"}>
           <InfoCard
             imgUrl=""
             iconsMaxWidth="150px"
@@ -59,7 +59,7 @@ const UserDetails = () => {
             isActive={true}
             name={data.name}
             id={data.publicId}
-            birthday={data?.employeeId?.dateOfBirth || ""}
+            birthday={data?.employeeId?.dateOfBirth.slice(0, 10) || ""}
             gender={data.employeeId?.gender || ""}
             address={data.employeeId?.address || ""}
             nationalId={data.employeeId?.identity || ""}
@@ -79,14 +79,14 @@ const UserDetails = () => {
               direction="row"
               titlewidth={300}
               titles={[
-                "User Name",
+                // "User Name",
                 "Account Creation ",
                 "Last Modied ",
                 "Last Login",
                 "Two-factor Authentication Enabled",
               ]}
               values={[
-                data.name,
+                // data.name,
                 data.loginHistory[data.loginHistory.length - 1]?.loginDate
                   .toString()
                   .slice(0, 10),

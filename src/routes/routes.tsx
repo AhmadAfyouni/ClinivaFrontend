@@ -151,7 +151,8 @@ export const routes: AppRoute[] = [
         element: <CompanyDetails />,
       },
       {
-        path: "edit/:id",
+        // path: "edit/:id",
+        path: "edit",
         element: <EditCompany />,
       },
     ],

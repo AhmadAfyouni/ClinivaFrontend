@@ -18,11 +18,17 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     if (userName) {
       localStorage.setItem("userName", userName);
     }
+    const email = res.data.data.user.email;
+    if (email) {
+      const encodedEmail = btoa(email);
+      localStorage.setItem("userEmail", encodedEmail);
+    }
     if (loginToRegister) {
       localStorage.setItem("loginToRegister", "true");
     } else {
       localStorage.removeItem("loginToRegister");
-      navigate(`/dashboard`);
+      // navigate(`/dashboard`);
+      navigate(`/users`);
     }
     return res.data;
   };

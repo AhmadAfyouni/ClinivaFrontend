@@ -34,8 +34,12 @@ export default interface ClinicDetailsType {
   employeeCounts: EmployeeCounts;
   doctors: DoctorDetailsType[];
   services: Service[];
+  employees: Emp[];
 }
-
+interface Emp {
+  _id: string;
+  name: string;
+}
 // Supporting interfaces
 interface ContactInfo {
   type: "phone" | "email" | "fax" | "other";

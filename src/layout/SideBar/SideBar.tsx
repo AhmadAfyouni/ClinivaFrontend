@@ -1,12 +1,12 @@
 import {
-  IconAdjustments,
+  // IconAdjustments,
   IconBuildingCommunity,
   IconBuildingHospital,
   IconBuildingSkyscraper,
   IconCalendarStats,
-  IconFileAnalytics,
+  // IconFileAnalytics,
   IconHospital,
-  IconLock,
+  // IconLock,
   IconMicroscope,
   IconStethoscope,
   IconUsersGroup,
@@ -76,17 +76,17 @@ export function SideBar() {
       link: "/company",
     },
 
-    { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
-    { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
-    {
-      label: t("Security"),
-      icon: IconLock,
-      links: [
-        { label: t("Enable 2FA"), link: "/security/2fa" },
-        { label: t("Change password"), link: "/security/password" },
-        { label: t("Recovery codes"), link: "/security/recovery" },
-      ],
-    },
+    // { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
+    // { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
+    // {
+    //   label: t("Security"),
+    //   icon: IconLock,
+    //   links: [
+    //     { label: t("Enable 2FA"), link: "/security/2fa" },
+    //     { label: t("Change password"), link: "/security/password" },
+    //     { label: t("Recovery codes"), link: "/security/recovery" },
+    //   ],
+    // },
   ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, close } = useDrawerStore();

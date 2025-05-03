@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconSettings, IconLogout } from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import RTL from "../../Components/RTL";
 import SwitchDarkMode from "../../Components/Dark";
@@ -36,9 +36,9 @@ function NavBar({ login }: Props) {
     navigate("/login");
   };
 
-  const handleSettings = () => {
-    console.log("Navigating to settings...");
-  };
+  // const handleSettings = () => {
+  //   console.log("Navigating to settings...");
+  // };
   const userName = localStorage.getItem("userName");
 
   return (
@@ -86,12 +86,12 @@ function NavBar({ login }: Props) {
               </Group>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item
+              {/* <Menu.Item
                 leftSection={<IconSettings size={14} />}
                 onClick={handleSettings}
               >
                 Settings
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Divider />
               <Menu.Item
                 leftSection={<IconLogout size={14} />}

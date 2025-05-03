@@ -96,7 +96,7 @@ const InfoCard = ({
           )}
         </Flex>
         <Flex justify="center" direction="column" gap="xs">
-          <Text ta="center" c={theme.other.onSurfaceSecondary}>
+          <Text ta="center" c={theme.other.onSurfaceSecondary} truncate>
             {name}
           </Text>
           <Badge
@@ -151,7 +151,7 @@ const InfoCard = ({
               <Text fz={15} w={70} c={theme.other.onSurfaceSecondary}>
                 {t(item)}
               </Text>
-              <Text fz={15} w="95%" c={theme.other.onSurfacePrimary}>
+              <Text fz={15} w="95%" c={theme.other.onSurfacePrimary} truncate>
                 {generalInfovalue[index]}
               </Text>
             </Flex>
