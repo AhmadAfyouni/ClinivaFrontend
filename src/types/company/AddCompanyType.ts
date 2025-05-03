@@ -40,4 +40,6 @@ export default interface AddCompanyType {
   insuranceCompany: InsuranceCompany[];
   commercialRecord: CommercialRecord;
   locationGoogle: LocationGoogle;
+  goals: string;
+  overview: string;
 }
