@@ -1,8 +1,8 @@
 import axiosInstance from "../../api/ApiCore";
 import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
-import ClinicDetailsType from "../../types/clinic/ClinicDetailsType";
-const useClinics = (
+import ServiceDetailsType from "../../types/serviceT/ServiceDetailsType";
+const useStaff = (
   limit = 5,
   page = 1,
   allData = false,
@@ -10,9 +10,9 @@ const useClinics = (
   order = "desc"
 ) => {
   return useQuery({
-    queryKey: ["Clinics"],
+    queryKey: ["staffS"],
     queryFn: () => {
-      const url = `/clinics?${
+      const url = `/employees?${
         "&page=" +
         page +
         "&limit=" +
@@ -25,7 +25,7 @@ const useClinics = (
         order
       }`;
       return axiosInstance
-        .get<ResponseType<ClinicDetailsType>>(url)
+        .get<ResponseType<ServiceDetailsType>>(url)
         .then((res) => {
           console.log(res.data);
           console.log(res.status);
@@ -38,4 +38,4 @@ const useClinics = (
     },
   });
 };
-export default useClinics;
+export default useStaff;

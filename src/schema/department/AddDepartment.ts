@@ -19,6 +19,7 @@ const AddDepartmentSchema = Yup.object().shape({
     })
   ),
   clinicCollectionId: Yup.string().required("Clinic Collection ID is required"),
+  PIC: Yup.string().required("PIC is required"),
 });
 
 export default AddDepartmentSchema;

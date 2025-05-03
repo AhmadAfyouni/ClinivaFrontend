@@ -13,6 +13,7 @@ export interface VacationRecord {
   startDate: string;
   endDate: string;
   reason: string;
+  // status: boolean;
 }
 
 export interface Certification {
@@ -145,7 +146,7 @@ export interface Clinic {
 }
 
 export default interface GetEmployeeType {
-  _id: string;
+  _id?: string;
   name: string;
   contactInfos: ContactInfo[];
   dateOfBirth: string;
@@ -153,7 +154,7 @@ export default interface GetEmployeeType {
   identity: string;
   nationality: string;
   image: string;
-  marital_status: "" | "Single" | "Married" | "Divorced";
+  marital_status: "" | "Single" | "Married" | "Divorced" | "Widowed";
   number_children: number;
   notes: string;
   address: string;
@@ -172,7 +173,7 @@ export default interface GetEmployeeType {
   vacationRecords: VacationRecord[];
   hireDate: string;
   medicalLicenseNumber: string;
-  certifications: Certification[];
+  certifications: string[];
   jobType: "FULL_TIME" | "PART_TIME";
   breakTimes: BreakTime[];
   isActive: boolean;

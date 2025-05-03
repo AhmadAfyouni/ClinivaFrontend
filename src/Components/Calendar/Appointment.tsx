@@ -20,14 +20,20 @@ import usePatientsList from "../../hooks/patient/usePatientsList";
 import InputPropsType from "../../types/InputsType";
 import useServicesList from "../../hooks/serviceH/useServicesList";
 import useClinics from "../../hooks/clinic/useClinics";
+import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 
-function Appointment() {
+function AppointmentComponents() {
+  console.log("steps0");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [daysInCalender, setDaysInCalender] = useState(5);
   const [OpenExtraInfo] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
+  const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  console.log("step2");
+
   const [OpenForm, setOenForm] = useState<{
     date: string;
     time: string;
@@ -35,9 +41,10 @@ function Appointment() {
   const doctorsHook = useDoctors(0, 0, true);
   const patientsHook = usePatientsList(true);
   const serviceHook = useServicesList(true);
-  const hook = useAppointmentsList();
   const clinicsHook = useClinics(0, 0, true);
+  const hook = useAppointmentsList(false);
   const addAppointmentMutation = useAddAppointment();
+  const pagination = usePageinationtStore();
 
   const formik = useFormik<AddAppointmentType>({
     initialValues: {
@@ -57,14 +64,18 @@ function Appointment() {
     onSubmit: (values) => {
       console.log("values", values);
       addAppointmentMutation.mutate(values);
-
-      if (addAppointmentMutation.isSuccess) {
-        handleCloseForm();
-        formik.resetForm();
-        hook.refetch();
-      }
     },
   });
+  console.log("step1");
+  useEffect(() => {
+    if (addAppointmentMutation.isSuccess) {
+      handleCloseForm();
+      formik.resetForm();
+      hook.refetch();
+    }
+  }, [addAppointmentMutation.isSuccess]);
+  console.log("step2");
+
   useEffect(() => {
     if (OpenForm) {
       if (OpenForm.time.length === 4) OpenForm.time = "0" + OpenForm.time;
@@ -75,6 +86,7 @@ function Appointment() {
       });
     }
   }, [OpenForm]);
+  console.log("step3");
 
   if (
     !hook.data ||
@@ -83,10 +95,33 @@ function Appointment() {
     !serviceHook.data ||
     !clinicsHook.data
   ) {
-    return <div>Loading...</div>;
-  }
+    console.log("step4");
 
-  // Get appointments for a specific day and time with filtering
+    return <Center>Loading...</Center>;
+  } else if (selectedClinic === "Select Clinic") {
+    pagination.setGeneralFilter("&clinic=" + clinicsHook.data[0].name);
+    setSelectedClinic(clinicsHook.data[0].name);
+  }
+  console.log("step5");
+
+  console.log(
+    "@!!",
+    clinicsHook.data.filter((c) => c.name === selectedClinic || "mmm")[0]
+      .WorkingHours
+  );
+
+  const day = new Date(formik.values.datetime).getUTCDate();
+  const month = new Date(formik.values.datetime).getUTCMonth() + 1;
+  const year = new Date(formik.values.datetime).getUTCFullYear();
+  const hours = String(new Date(formik.values.datetime).getUTCHours()).padStart(
+    2,
+    "0"
+  );
+
+  const minutes = String(
+    new Date(formik.values.datetime).getUTCMinutes()
+  ).padStart(2, "0");
+
   const getAppointments = (day: string, time: string) => {
     return hook.data.filter((app) => {
       const [dateStr, timeRest] = app.datetime.split("T");
@@ -147,7 +182,7 @@ function Appointment() {
       error: undefined,
       placeholder: "",
       tooltip: "Appointment date and time",
-      value: new Date(formik.values.datetime).toLocaleString(),
+      value: day + "/" + month + "/" + year + " " + hours + ":" + minutes,
       onChange: () => {},
       onBlur: () => {},
       disabled: true,
@@ -229,8 +264,29 @@ function Appointment() {
       selectValue: Object.keys(doctors),
     },
   ];
-  // console.log("@@@@@@values@@@@@@@", formik.values);
-  // console.log("@@@@@@errors@@@@@@@", formik.errors);
+  const getTime = (type: "start" | "end") => {
+    if (selectedClinic === "Select Clinic") return type === "start" ? 9 : 18;
+
+    const timeSlot = clinicsHook.data.filter(
+      (c) => c.name === selectedClinic
+    )[0];
+    if (timeSlot.WorkingHours.length === 0) return type === "start" ? 9 : 18;
+
+    const time =
+      type === "start"
+        ? timeSlot.WorkingHours[0].startTime
+        : timeSlot.WorkingHours[0].endTime;
+
+    if (time[0] === "0" || time === "00") return time[1];
+    return time.slice(0, 2);
+  };
+  const interval = clinicsHook.data.filter(
+    (c) =>
+      c.name ===
+      (selectedClinic === "Select Clinic"
+        ? clinicsHook.data[0].name
+        : selectedClinic)
+  )[0].AverageDurationOfVisit;
   return (
     <Box py="md">
       <Flex gap={0} justify={"start"}>
@@ -240,6 +296,8 @@ function Appointment() {
             setSearchQuery={setSearchQuery}
             selectedDoctor={selectedDoctor}
             setSelectedDoctor={setSelectedDoctor}
+            selectedClinic={selectedClinic}
+            setSelectedClinic={setSelectedClinic}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             setStartDate={setStartDate}
@@ -255,11 +313,16 @@ function Appointment() {
               handleMoveWeek(daysInCalender, startDate, setStartDate, "next")
             }
             doctors={doctorsHook.data?.map((doc) => doc.name)}
+            clinics={clinics}
           />
 
           <AppointmentCalendar
             days={days}
-            timeSlots={TIME_SLOTS(9, 18)}
+            timeSlots={TIME_SLOTS(
+              Number(getTime("start")),
+              Number(getTime("end")),
+              interval
+            )}
             appointments={hook.data as AppointmentType[]}
             selectedCell={OpenForm}
             handleCellClick={handleCellClick}
@@ -308,4 +371,4 @@ function Appointment() {
   );
 }
 
-export default Appointment;
+export default AppointmentComponents;

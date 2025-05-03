@@ -1,4 +1,6 @@
 import { Specialization } from "../company/AddCompanyType";
+import DoctorDetailsType from "../doctor/DoctorDetailsType";
+import Service from "../serviceT/ServiceDetailsType";
 
 export default interface ClinicDetailsType {
   _id: string;
@@ -30,6 +32,8 @@ export default interface ClinicDetailsType {
   patientCount: number;
   treatedPatientCount: number;
   employeeCounts: EmployeeCounts;
+  doctors: DoctorDetailsType[];
+  services: Service[];
 }
 
 // Supporting interfaces

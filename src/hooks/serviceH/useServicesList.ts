@@ -17,6 +17,7 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
       sortBy,
       order,
       pagination.paramKey,
+      pagination.filter,
     ],
     queryFn: () => {
       const url = `/services?${
@@ -27,9 +28,11 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
-        // "&search=" +
-        // pagination.paramKey
+        order +
+        "&search=" +
+        pagination.paramKey
+        // "&isActive=" +
+        // pagination.filter
       }`;
       return axiosInstance
         .get<ResponseType<ServiceDetailsType>>(url)
@@ -37,8 +40,6 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
           //   countryStore.setMeta(res.data.data.meta);
           //   countryStore.setLinks(res.data.data.links);
           //   countryStore.setReFetch(true);
-          console.log(res.data);
-          console.log(res.status);
           pagination.setCurrent_page(res.data.pagination.current_page);
           pagination.setItems_per_page(res.data.pagination.items_per_page);
           pagination.setHas_next_page(res.data.pagination.has_next_page);
@@ -55,6 +56,9 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         })
         .finally(() => {});
     },
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+    enabled: true,
   });
 };
 export default useServicesList;

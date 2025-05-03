@@ -9,5 +9,6 @@ export default interface AddDepartmentType {
   vision: string;
   details: string;
   contactInfos: ContactInfoType[];
-  clinicCollectionId: string;
+  clinicCollectionId?: string;
+  PIC: string;
 }

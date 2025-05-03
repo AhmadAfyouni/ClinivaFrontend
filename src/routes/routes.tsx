@@ -3,7 +3,7 @@ import AddDoctor from "../pages/Doctor/AddDoctor";
 import Dashboard from "../pages/Dashboard";
 import AddPatient from "../pages/Patient/AddPatient";
 import { Login } from "../pages/auth/Login/Login";
-import Appointments from "../pages/Appointments";
+import Appointments from "../pages/appointment/AddAppointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
 import PatientDetails from "../pages/Patient/PatientDetails";
@@ -33,6 +33,9 @@ import StaffDetails from "../pages/Staff/StaffDetails";
 import UserDetails from "../pages/Users/UserDetails";
 import CompanyDetails from "../pages/Company/CompanyDetails";
 import AddDepartment from "../pages/Departement/AddDepartment";
+import AddSpeciality from "../pages/Specialities/AddSpeciality";
+import EditCompany from "../pages/Company/EditCompany";
+import EditEmployee from "../pages/Employee/EditEmployee";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -112,6 +115,10 @@ export const routes: AppRoute[] = [
         element: <AddEmployee />,
       },
       {
+        path: "edit/:id",
+        element: <EditEmployee />,
+      },
+      {
         path: "details/:id",
         element: <StaffDetails />,
       },
@@ -142,6 +149,10 @@ export const routes: AppRoute[] = [
       {
         path: "",
         element: <CompanyDetails />,
+      },
+      {
+        path: "edit/:id",
+        element: <EditCompany />,
       },
     ],
   },
@@ -212,7 +223,7 @@ export const routes: AppRoute[] = [
         element: <AddService />,
       },
       {
-        path: "update",
+        path: "edit/:id",
         element: <UpdateService />,
       },
       {
@@ -231,7 +242,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <ClinicsPage />, //// add speciality Page
+        element: <AddSpeciality />,
       },
       {
         path: "details/:id",

@@ -3,23 +3,24 @@ import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 import StaffDetailsType from "../../types/staff/StaffDetailsType";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
-const useStaffList = (allData = false, sortBy = "_id", order = "desc") => {
+import axios from "axios";
+
+const useStaffList = (allData = false, sortBy = "_id", order = "desc",employeeType="") => {
   const pagination = usePaginationtStore();
-  // console.log("useGetUsers per_page", per_page);
-  //   const countryStore = useCountriesPaginationStore();
+
   return useQuery({
     queryKey: [
       "staff",
       pagination.current_page,
       pagination.items_per_page,
-      allData,
       sortBy,
+      allData,
       order,
       pagination.paramKey,
       pagination.filter,
       pagination.date,
     ],
-    queryFn: () => {
+    queryFn: async ({ signal }) => {
       const url = `/employees?${
         "&page=" +
         pagination.current_page +
@@ -34,33 +35,37 @@ const useStaffList = (allData = false, sortBy = "_id", order = "desc") => {
         "&isActive=" +
         pagination.filter +
         "&dateOfBirth=" +
-        pagination.date
+        pagination.date +
+        (employeeType ? "&employeeType=" + employeeType : "")
       }`;
-      return axiosInstance
-        .get<ResponseType<StaffDetailsType>>(url)
-        .then((res) => {
-          //   countryStore.setMeta(res.data.data.meta);
-          //   countryStore.setLinks(res.data.data.links);
-          //   countryStore.setReFetch(true);
-          console.log(res.data);
-          console.log(res.status);
-          pagination.setCurrent_page(res.data.pagination.current_page);
-          pagination.setItems_per_page(res.data.pagination.items_per_page);
-          pagination.setHas_next_page(res.data.pagination.has_next_page);
-          pagination.setTotal_items(res.data.pagination.total_items);
-          pagination.setTotal_pages(res.data.pagination.total_pages);
-          pagination.setHas_previous_page(
-            res.data.pagination.has_previous_page
-          );
+      try {
+        const res = await axiosInstance.get<ResponseType<StaffDetailsType>>(
+          url,
+          { signal }
+        );
 
-          // pagination.(res.data.pagination.meta);
-          return res.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          throw error;
-        });
+        // Update pagination state
+        pagination.setCurrent_page(res.data.pagination.current_page);
+        pagination.setItems_per_page(res.data.pagination.items_per_page);
+        pagination.setHas_next_page(res.data.pagination.has_next_page);
+        pagination.setTotal_items(res.data.pagination.total_items);
+        pagination.setTotal_pages(res.data.pagination.total_pages);
+        pagination.setHas_previous_page(res.data.pagination.has_previous_page);
+
+        return res.data.data;
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          console.log("Error:", error);
+        }
+        throw error;
+      }
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    enabled: true,
   });
 };
+
 export default useStaffList;

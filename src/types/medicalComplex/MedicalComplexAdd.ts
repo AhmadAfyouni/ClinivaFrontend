@@ -53,7 +53,7 @@ type OnlinePaymentMethod = {
 export default interface AddMedicalComplexType {
   name: string;
   phone: string;
-  pic: string;
+  PIC: string;
   overview: string;
   policies: string;
   yearOfEstablishment: string;
@@ -71,6 +71,6 @@ export default interface AddMedicalComplexType {
   cashBoxes: CashBox[] | null;
   onlinePaymentMethods: OnlinePaymentMethod[];
   locationGoogl: LocationGoogle;
-  companyId: string;
+  companyId?: string;
   specializations: string[];
 }

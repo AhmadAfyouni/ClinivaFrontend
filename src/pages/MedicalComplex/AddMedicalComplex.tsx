@@ -14,22 +14,25 @@ import {
 } from "../../types/GeneralAdd";
 import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddMedicalComplex from "../../hooks/medicalcomplex/useAddMedicalComplex";
-
+import useStaffList from "../../hooks/staff/useStaffList";
+interface selectRoleType {
+  [key: string]: string;
+}
 interface selectSpecializationType {
   [key: string]: string;
 }
 function AddMedicalComplex() {
   const hook = useAddMedicalComplex();
   const querySpecialization = useSpecialization();
-
   const company = localStorage.getItem("companyId");
-
+  const employeeHook = useStaffList(true,"PIC","_id","PIC");
+  
   const formik = useFormik<AddMedicalComplexType>({
     initialValues: {
       name: "",
       phone: "",
       overview: "",
-      pic: "",
+      PIC: "",
       policies: "",
       yearOfEstablishment: "",
       address: "",
@@ -63,18 +66,28 @@ function AddMedicalComplex() {
     isInitialValid: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      hook.mutate(values);
-      // formik.resetForm();
+      const { companyId, ...rest } = values;
+      const payload = companyId === "" ? rest : values;
+      hook.mutate(payload);
+      formik.resetForm();
       console.log("Clinic Collection Submitted:", values);
     },
   });
 
-  if (!querySpecialization.isFetched || !querySpecialization.data)
+  if (!querySpecialization.isFetched || !querySpecialization.data||!employeeHook.isSuccess)
     return (
       <Center>
-        <Text>No Specialization Found</Text>
+        <Text>Loading . .. </Text>
       </Center>
     );
+  
+  const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
+    (acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    },
+    {}
+  );
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
@@ -188,18 +201,20 @@ function AddMedicalComplex() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "pic",
+      id: "PIC",
       label: "PIC",
-      mandatory: false,
-      type: "text",
-      error: formik.errors.pic || "",
-      placeholder: "Enter pic",
-      tooltip: "Enter the clinic's pic",
-      value: formik.values.pic || "",
-      onChange: formik.handleChange,
+      mandatory: true,
+      type: "select",
+      description: "",
+      error: formik.errors.PIC,
+      placeholder: "",
+      tooltip: "select the PIC",
+      selectValue: Object.keys(employees),
+      onChange: (selectedKeys) => {
+        formik.setFieldValue("PIC", employees[selectedKeys as string]);
+      },
       onBlur: formik.handleBlur,
     },
-
     {
       id: "companyId",
       label: "Company ID",

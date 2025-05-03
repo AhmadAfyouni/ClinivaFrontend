@@ -15,6 +15,9 @@ import {
   ContactInfoType,
   BreakTimesType,
 } from "../../types/GeneralAdd";
+import useClinicsList from "../../hooks/clinic/useClinicsList";
+import useDepartementsList from "../../hooks/departement/useDepartementsList";
+import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 
 interface selectSpecializationType {
   [key: string]: string;
@@ -25,12 +28,16 @@ function AddEmployee() {
   };
   const hook = useAddEmployee();
   const querySpecialization = useSpecialization();
-
+  const queryClinic = useClinicsList();
+  const queryDepartment = useDepartementsList();
+  const queryMedicalComplex = useMedicalComplexList();
+  const departmentName = [...new Set(queryDepartment.data?.map((obj) => obj.name))];
+ 
   const formik = useFormik<AddEmployeeType>({
     initialValues: {
-      clinicCollectionId: "",
-      companyId: "",
-      departmentId: "",
+      // clinicCollectionId: "",
+      // companyId: "",
+      // departmentId: "",
       name: "",
       dateOfBirth: "",
       gender: "",
@@ -53,7 +60,7 @@ function AddEmployee() {
       jobType: "FULL_TIME",
       breakTimes: [],
       isActive: false,
-      clinics: [],
+      // clinics: [],
       specializations: [],
     },
     validationSchema: AddEmployeeSchema,
@@ -67,13 +74,35 @@ function AddEmployee() {
     },
   });
 
-  if (!querySpecialization.isFetched || !querySpecialization.data)
+  if (!querySpecialization.isFetched || !querySpecialization.data||!queryClinic.data||!queryMedicalComplex.data||!queryDepartment.data)
     return (
       <Center>
         <Text>No Specialization Found</Text>
       </Center>
     );
-
+    const clinicName = [...new Set(queryClinic.data?.map((obj) => obj.name))];
+    const medicalComplexName = [...new Set(queryMedicalComplex.data?.map((obj) => obj.name))];
+    const nameIdMapMedicalComplex = queryMedicalComplex.data?.reduce<Record<string, string>>(
+      (acc, medicalComplex) => {
+        acc[medicalComplex.name] = medicalComplex._id;
+        return acc;
+      },
+      {}
+    );
+    const nameIdMapDepartment = queryDepartment.data?.reduce<Record<string, string>>(
+      (acc, department) => {
+        acc[department.name] = department._id;
+        return acc;
+      },
+      {}
+    );
+    const nameIdMapClinic = queryClinic.data?.reduce<Record<string, string>>(
+      (acc, clinic) => {
+        acc[clinic.name] = clinic._id;
+        return acc;
+      },
+      {}
+    );
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
@@ -174,6 +203,60 @@ function AddEmployee() {
         "Employee",
         "Other",
       ],
+    },
+    {
+      id: "departmentId",
+      label: "Department",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.departmentId,
+      placeholder: "Select department",
+      tooltip: "Enter the department",
+      // value: formik.values.departmentId || "",
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === "string") {
+          formik.setFieldValue("departmentId", nameIdMapDepartment[selectedValue]);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: departmentName,
+    },
+    {
+      id: "medicalComplexId",
+      label: "Medical Complex",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.clinicCollectionId,
+      placeholder: "Select medical complex",
+      tooltip: "Enter the medical complex",
+      // value: formik.values.clinicCollectionId || "",
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === "string") {
+          formik.setFieldValue("clinicCollectionId", nameIdMapMedicalComplex[selectedValue]);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: medicalComplexName,
+    },
+    {
+      id: "clinics",
+      label: "Clinic",
+      mandatory: false,
+      type: "select",
+      description: "",
+      error: formik.errors.clinics,
+      placeholder: "Select clinic",
+      tooltip: "Enter the clinic",
+      // value: formik.values.clinics || "",
+      onChange: (selectedValue) => {
+        if (typeof selectedValue === "string") {
+          formik.setFieldValue("clinics", nameIdMapClinic[selectedValue]);
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: clinicName,
     },
     {
       id: "nationality",

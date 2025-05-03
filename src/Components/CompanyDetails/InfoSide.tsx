@@ -7,6 +7,7 @@ import {
   ActionIcon,
   Skeleton,
   Badge,
+  Tooltip,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ReactElement, useState } from "react";
@@ -134,9 +135,11 @@ const InfoSide = ({
               <Text fz={15} w={titlesWidth} c={theme.other.onSurfaceSecondary}>
                 {item}
               </Text>
-              <Text fz={15} c={theme.other.onSurfacePrimary}>
-                {values[index]}
-              </Text>
+              <Tooltip label={values[index]}>
+                <Text fz={15} c={theme.other.onSurfacePrimary} truncate>
+                  {values[index]}
+                </Text>
+              </Tooltip>
             </Flex>
           ))}
 

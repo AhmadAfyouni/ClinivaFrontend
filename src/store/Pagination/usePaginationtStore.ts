@@ -13,6 +13,7 @@ const defaultState = {
   total_pages: 0,
   items_per_page: 10,
   date: "",
+  GeneralFilter: "",
 };
 const usePaginationtStore = create<PaginationType>((set) => {
   return {
@@ -43,6 +44,9 @@ const usePaginationtStore = create<PaginationType>((set) => {
     },
     setFilter: (fieldName) => {
       set(() => ({ filter: fieldName, currentPage: 1 }));
+    },
+    setGeneralFilter: (fieldName) => {
+      set(() => ({ GeneralFilter: fieldName, currentPage: 1 }));
     },
     setDate: (Inputdate) => {
       set(() => ({ date: Inputdate, currentPage: 1 }));

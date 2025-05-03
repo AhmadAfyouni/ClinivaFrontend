@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function RadioBase(props: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const handleChange = (value: string) => {
     if (props.base.onChange) {
@@ -29,6 +29,7 @@ export default function RadioBase(props: Props) {
       withAsterisk={props.base.mandatory}
       onChange={handleChange}
       error={t(props.base.error || "")}
+      value={String(props.base.value ?? "")}
     >
       <Group mt="xs">
         {props.radio.map((option) => (

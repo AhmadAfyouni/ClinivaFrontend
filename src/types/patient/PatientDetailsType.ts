@@ -49,4 +49,8 @@ export default interface PatientDetailsType {
   familyMedicalHistory: string[];
   lastVisit: string;
   publicId: string;
+  Surgical_History: string;
+  Smoking: boolean;
+  Current_Medications: string;
+  age: number;
 }

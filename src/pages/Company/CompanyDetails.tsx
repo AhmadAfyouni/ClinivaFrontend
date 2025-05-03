@@ -16,6 +16,7 @@ import useCompanyDetails from "../../hooks/company/useCompanyDetails";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
+  // const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
@@ -27,12 +28,28 @@ const CompanyDetails = () => {
         <Text>No Company Details Found</Text>
       </Center>
     );
-  const titles = ["Establichment Year", "Vission", "Goals", "OverView"];
+  const titles = [
+    "Establichment Year",
+    "Vission",
+    "Goals",
+    "OverView",
+    "Location",
+    "Key member",
+    "Founder",
+    "Excutines",
+  ];
   const values = [
-    companies[0].yearOfEstablishment.slice(0, 10),
-    companies[0].vision,
-    // companies[0].goals,
-    // companies[0].overview,
+    companies[0].yearOfEstablishment?.slice(0, 10) || "",
+    companies[0].vision || "",
+    companies[0].goals || "",
+    companies[0].overview || "",
+    companies[0]?.location?.x != null
+      ? `${companies[0].location.x} - ${companies[0].location.y}`
+      : "",
+    companies[0]?.Key_member || "",
+    companies[0]?.Founder || "",
+    // companies[0]?.Executives || "",
+    "fdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfde",
   ];
   const icons = companies[0].contactInfos.map((item) => {
     if (item.type === "email") {
@@ -54,7 +71,9 @@ const CompanyDetails = () => {
   });
   const content =
     "transform your data into actionable insights. Our platform helps you make informed decisions faster and with greater confidence.";
-
+  // const handleEditEvent = () => {
+  //   navigate(`/company/edit/${companyId}`);
+  // };
   return (
     <ScrollArea h="100vh">
       <Flex
@@ -62,7 +81,7 @@ const CompanyDetails = () => {
         justify="space-between"
         direction={isComputer ? "row" : "column"}
       >
-        <Flex w={isComputer ? "23%" : "100%"}>
+        <Flex w={isComputer ? "23%" : "100%"} direction="column">
           <InfoSide
             name={companies[0].name}
             contactInfoIcons={icons}
@@ -75,6 +94,17 @@ const CompanyDetails = () => {
             socialMediaIcons={icons}
             hasActivation={false}
           />
+          {/* <Button
+            variant="filled"
+            color="green"
+            radius="xl"
+            mb={isComputer ? "110px" : "20px"}
+            ml="30px"
+            w="30%"
+            onClick={handleEditEvent}
+          >
+            Edit
+          </Button> */}
         </Flex>
         <Flex w={isComputer ? "46%" : "100%"} direction="column" gap="xl">
           <TextList
@@ -147,8 +177,8 @@ const CompanyDetails = () => {
               direction="column"
               titles={["recordNumber", "taxNumber"]}
               values={[
-                companies[0].commercialRecord.recordNumber,
-                companies[0].commercialRecord.taxNumber,
+                companies[0].commercialRecord?.recordNumber || "",
+                companies[0].commercialRecord?.taxNumber || "",
               ]}
             />
           </Flex>

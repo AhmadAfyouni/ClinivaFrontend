@@ -13,9 +13,8 @@ import useUpdateService from "../../hooks/serviceH/useUpdateService";
 function UpdateService() {
   const { id: serviceId } = useParams<{ id: string }>();
   const updateHook = useUpdateService();
-  const { data: serviceData, isLoading: loadingService } = useServiceDetails(
-    serviceId!
-  );
+  // const { data: serviceData, isLoading: loadingService } = useServiceDetails(serviceId!);
+  const { data: serviceData } = useServiceDetails(serviceId!);
   const clinicsHook = useClinics(0, 0, true);
   const doctorsHook = useDoctors(0, 0, true);
 
@@ -38,38 +37,52 @@ function UpdateService() {
           .map(([name]) => name)
       : [];
 
-  const handleMultiSelectChange = (fieldName: string, selected: string[]) => {
-    formik.setFieldValue(fieldName, selected);
-  };
+  const isDataReady = !!(serviceData && clinicsHook.data && doctorsHook.data);
 
   const formik = useFormik({
-    initialValues: {
-      name: serviceData?.name || "",
-      description: serviceData?.description || "",
-      price: serviceData?.price || null,
-      isActive: serviceData?.isActive ?? true,
-      clinics: serviceData?.clinicsAssociated || [],
-      doctors: serviceData?.doctorsAssociated || [],
-    },
+    initialValues: isDataReady
+      ? {
+          name: serviceData.name,
+          description: serviceData.description,
+          price: serviceData.price,
+          isActive: serviceData.isActive,
+          clinic: serviceData.clinic?._id || "",
+          doctors: serviceData.doctors?.map((doc) => doc._id) || [],
+        }
+      : {
+          name: "",
+          description: "",
+          price: null,
+          isActive: true,
+          clinic: "",
+          doctors: [],
+        },
     enableReinitialize: true,
     validationSchema: AddServiceSchema,
     onSubmit: (values) => {
+      if (!serviceId) {
+        console.error("Service ID is undefined");
+        return;
+      }
       updateHook.mutate({
-        id: serviceId!,
-        ...values,
+        id: serviceId,
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        isActive: values.isActive,
+        clinic: values.clinic,
+        doctors: values.doctors,
       });
-      console.log("Service Updated:", values);
     },
   });
 
-  if (
-    loadingService ||
-    !serviceData ||
-    !clinicsHook.data ||
-    !doctorsHook.data
-  ) {
+  if (!isDataReady) {
     return <div>Loading...</div>;
   }
+
+  const handleMultiSelectChange = (fieldName: string, selected: string[]) => {
+    formik.setFieldValue(fieldName, selected);
+  };
 
   const primaryFields: InputPropsType[] = [
     {
@@ -93,25 +106,28 @@ function UpdateService() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "clinicsId",
-      label: "Clinics",
+      id: "clinicId",
+      label: "Clinic",
       mandatory: true,
-      type: "multiSelect",
-      error: formik.errors.clinics?.toString(),
-      value: getNamesByIds(Clinics, formik.values.clinics),
-      onChange: (selected) => {
-        if (
-          Array.isArray(selected) &&
-          selected.every((s) => typeof s === "string")
-        ) {
-          handleMultiSelectChange(
-            "clinics",
-            selected.map((name) => Clinics[name])
-          );
+      type: "select",
+      description: "",
+      error: formik.errors.clinic?.toString(),
+      placeholder: "",
+      tooltip: "Choose Clinic",
+      value:
+        Object.keys(Clinics).find(
+          (key) => Clinics[key] === formik.values.clinic
+        ) || "",
+      onChange: (selectedKey) => {
+        if (typeof selectedKey === "string") {
+          const selectedValue = Clinics[selectedKey];
+          formik.setFieldValue("clinic", selectedValue);
+        } else {
+          console.error("selectedKey is not a valid string");
         }
       },
       onBlur: formik.handleBlur,
-      selectValue: Object.keys(Clinics),
+      selectValue: Object.keys(Clinics) || [],
     },
     {
       id: "doctorsId",
@@ -158,7 +174,7 @@ function UpdateService() {
           title="Edit Service"
         />
         <Button type="submit" mt="md">
-          Update Service
+          Edit Service
         </Button>
       </form>
     </ScrollArea>

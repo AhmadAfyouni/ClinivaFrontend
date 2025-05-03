@@ -41,7 +41,7 @@ const SetNavBarTitle = () => {
 
   const dynamicPaths: { path: string; key: string }[] = [
     { path: "/patients/details", key: "patientDetails" },
-    { path: "/staff/details", key: "staffDetails" },
+    { path: "/employees/details", key: "staffDetails" },
     { path: "/doctors/details", key: "doctorDetails" },
     { path: "/users/details", key: "userDetails" },
     { path: "/companies/details", key: "companyDetails" },

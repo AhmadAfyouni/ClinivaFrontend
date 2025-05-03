@@ -225,5 +225,9 @@
   "overview": "نظرة عامة",
   "clinicsNumber": "عدد العيادات",
   "patientsNumber": "عدد المرضى",
-  "departments": "الأقسام"
+  "departments": "الأقسام",
+  "primaryphone": "رقم الهاتف الرئيسي",
+  "secandaryPhone": "رقم الهاتف الثانوي",
+  "phone": "رقم الهاتف",
+  "licenseNumber": "رقم الترخيص"
 }

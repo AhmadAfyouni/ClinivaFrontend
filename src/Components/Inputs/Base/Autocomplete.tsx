@@ -6,7 +6,7 @@ interface Props {
   base: InputPropsType;
 }
 function AutocompleteCustom({ base }: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   const data = ["1", "2", "4", "5"];
   const handleChange = (value: string) => {

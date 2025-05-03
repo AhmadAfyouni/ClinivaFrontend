@@ -8,14 +8,16 @@ import useSortStore from "../../hooks/useSortStore ";
 import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
-import CustomFilters from "../../Components/filters/CustomFilters";
 import useServicesList from "../../hooks/serviceH/useServicesList";
+import CustomFilters from "../../Components/filters/CustomFilters";
+import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useServicesList(false, sortBy, order);
   const navigate = useNavigate();
+  const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -31,9 +33,20 @@ const ServicesPage = () => {
           })
     );
   };
-  const SpecialtiesOptions = [""];
-  const handlSpecialtyChange = (e: string | null) => {
-    console.log(e);
+  // const SpecialtiesOptions = [""];
+  // const handlSpecialtyChange = (e: string | null) => {
+  //   console.log(e);
+  // };
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    pagination.setFilter(value);
+    setSelectedOption("SerStatus", e);
   };
   const rows = data.map((item) => (
     <TableBody
@@ -41,7 +54,7 @@ const ServicesPage = () => {
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item._id}
+      th0={item.publicId}
       th1={item.name || ""}
       th2={item.description}
       th3={item.price.toString()}
@@ -68,9 +81,10 @@ const ServicesPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              placeHolderDropDown1="clinicAssociation"
-              OptionsDropDown1={SpecialtiesOptions}
-              handlDropDownChange1={handlSpecialtyChange}
+              placeHolderDropDown1="status"
+              dropdownName1="SerStatus"
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
             />
           </Flex>
           <AddButton

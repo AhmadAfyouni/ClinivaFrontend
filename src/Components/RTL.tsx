@@ -6,7 +6,7 @@ export default function RTL() {
   const isRTL = i18n.language === "ar";
 
   const toggleLanguage = () => {
-    i18n.changeLanguage(isRTL ? "en" : "ar");
+    // i18n.changeLanguage(isRTL ? "en" : "ar");
   };
 
   return (

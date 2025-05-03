@@ -33,6 +33,7 @@ export default interface AddEmployeeType {
     | "Technician"
     | "Administrative"
     | "Employee"
+    | "PIC"
     | "Other"
     | "";
   hireDate: string;
@@ -41,9 +42,9 @@ export default interface AddEmployeeType {
   jobType: "FULL_TIME" | "PART_TIME";
   breakTimes: BreakTimesType[];
   isActive: boolean;
-  clinics: string[];
   specializations: string[];
-  companyId: string;
-  clinicCollectionId: string;
-  departmentId: string;
+  clinics?: string[];
+  companyId?: string;
+  clinicCollectionId?: string;
+  departmentId?: string;
 }

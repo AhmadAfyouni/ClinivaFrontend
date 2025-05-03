@@ -10,10 +10,12 @@ import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 import CustomFilters from "../../Components/filters/CustomFilters";
+import { useNavigate } from "react-router";
 
 const SpecialitiesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
+  const navigate = useNavigate();
   const { data, isFetched } = useSpecialization(false, sortBy, order);
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
@@ -45,13 +47,14 @@ const SpecialitiesPage = () => {
   };
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => console.log("there is no speciality details page")}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item.publicId}
       th1={item.name}
-      th2={item.statistics.clinics.toString()} // Must be clinics name
+      th2={item.statistics.clinics.toString()}
       th3={item.updatedAt.slice(0, 10)}
       th4={item.statistics.doctors.toString()}
       th5={item.isActive.toString()}
@@ -84,7 +87,7 @@ const SpecialitiesPage = () => {
           </Flex>
           <AddButton
             text="addSpeciality"
-            handleOnClick={() => console.log("speciality")}
+            handleOnClick={() => navigate(`/specialities/add`)}
           />
         </Flex>
         <Box style={{ height: "80vh", overflow: "auto" }}>

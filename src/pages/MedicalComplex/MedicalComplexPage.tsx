@@ -24,6 +24,7 @@ const MedicalComplexPage = () => {
   };
   const rows = data?.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/medicalComplexes/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
@@ -31,7 +32,7 @@ const MedicalComplexPage = () => {
       th0={item.publicId}
       th1={item.name}
       th2={item.address}
-      th3={item.address}
+      th3={item.address} ///PIC
       th4={item.employeeCount.toString()}
       th5={item.departmentCount.toString()}
     />
@@ -43,9 +44,7 @@ const MedicalComplexPage = () => {
         current.length === data.length
           ? []
           : data.map((item) => {
-              // return item.companyId.toString() ;
               return item._id.toString();
-              // return item.companyId?.toString() || "";
             })
       );
     }
@@ -88,8 +87,8 @@ const MedicalComplexPage = () => {
                 "complexName",
                 "pic",
                 "address",
-                "departmentsCount",
                 "staffCount",
+                "departmentsCount",
                 "medicalcomplex",
               ]}
               data={data}

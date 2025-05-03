@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   insuranceType: string;
-  HPI: string;
   expiryDate: Date;
   personName: string;
   isActive: boolean;
@@ -15,7 +14,7 @@ interface Props {
 
 function InsuranceCard({
   insuranceType,
-  HPI,
+  // HPI,
   expiryDate,
   isActive,
   personName,
@@ -54,9 +53,9 @@ function InsuranceCard({
       <Text fw={700} size="xl" mb={10} c={theme.other.onSurfacePrimary}>
         {personName}
       </Text>
-      <Text fw={500} fz={13} c={theme.other.onSurfaceSecondary} mb={15}>
+      {/* <Text fw={500} fz={13} c={theme.other.onSurfaceSecondary} mb={15}>
         {HPI}
-      </Text>
+      </Text> */}
 
       <Group justify="space-between" align="center">
         <Box>

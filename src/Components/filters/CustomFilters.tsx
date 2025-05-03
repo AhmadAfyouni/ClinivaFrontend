@@ -1,6 +1,6 @@
 import { Button, Flex, Popover, useMantineTheme } from "@mantine/core";
 import Dropdown from "../Dropdown";
-import { DatePickerInput } from "@mantine/dates";
+import { DatePicker, DatePickerInput } from "@mantine/dates";
 import { CiSliderHorizontal } from "react-icons/ci";
 import { useMediaQuery } from "@mantine/hooks";
 import { useTranslation } from "react-i18next";
@@ -80,6 +80,7 @@ const CustomFilters = ({
           )}
           {IsDateInput && (
             <DatePickerInput
+              clearable
               value={vlaueDateInput}
               onChange={handleDateChange}
               placeholder={t(placeHolderDateInput || "Date")}
@@ -128,13 +129,16 @@ const CustomFilters = ({
               />
             )}
             {IsDateInput && (
-              <DatePickerInput
+              <DatePicker
+                defaultDate={undefined}
+                allowDeselect
                 value={vlaueDateInput}
                 onChange={handleDateChange}
-                placeholder={placeHolderDateInput || "Date"}
-                radius={30}
+                // placeholder={placeHolderDateInput || "Date"}
+                // radius={30}
                 w={120}
               />
+              // <DatePicker defaultDate={new Date(2015, 1)} value={value} onChange={setValue} />;
             )}
           </Popover.Dropdown>
         </Popover>

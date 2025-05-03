@@ -3,11 +3,11 @@ import ResponseType from "../../types/ResponseList";
 import { useQuery } from "@tanstack/react-query";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import UserDetailType from "../../types/users/UserDetailType";
+import axios from "axios";
+
 const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
 
-  // console.log("useGetUsers per_page", per_page);
-  //   const countryStore = useCountriesPaginationStore();
   return useQuery({
     queryKey: [
       "users",
@@ -20,7 +20,7 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
       pagination.filter,
       pagination.date,
     ],
-    queryFn: () => {
+    queryFn: async ({ signal }) => {
       const url = `/users?${
         "&page=" +
         pagination.current_page +
@@ -37,31 +37,34 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         "&createdAt=" +
         pagination.date
       }`;
-      return axiosInstance
-        .get<ResponseType<UserDetailType>>(url)
-        .then((res) => {
-          //   countryStore.setMeta(res.data.data.meta);
-          //   countryStore.setLinks(res.data.data.links);
-          //   countryStore.setReFetch(true);
-          console.log(res.data);
-          console.log(res.status);
-          pagination.setCurrent_page(res.data.pagination.current_page);
-          pagination.setItems_per_page(res.data.pagination.items_per_page);
-          pagination.setHas_next_page(res.data.pagination.has_next_page);
-          pagination.setTotal_items(res.data.pagination.total_items);
-          pagination.setTotal_pages(res.data.pagination.total_pages);
-          pagination.setHas_previous_page(
-            res.data.pagination.has_previous_page
-          );
 
-          // pagination.(res.data.pagination.meta);
-          return res.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          throw error;
+      try {
+        const res = await axiosInstance.get<ResponseType<UserDetailType>>(url, {
+          signal,
         });
+
+        // Update pagination state
+        pagination.setCurrent_page(res.data.pagination.current_page);
+        pagination.setItems_per_page(res.data.pagination.items_per_page);
+        pagination.setHas_next_page(res.data.pagination.has_next_page);
+        pagination.setTotal_items(res.data.pagination.total_items);
+        pagination.setTotal_pages(res.data.pagination.total_pages);
+        pagination.setHas_previous_page(res.data.pagination.has_previous_page);
+
+        return res.data.data;
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          console.log("Error:", error);
+        }
+        throw error;
+      }
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    enabled: true,
   });
 };
+
 export default useUsersList;

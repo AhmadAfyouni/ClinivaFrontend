@@ -15,9 +15,10 @@ import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 const ClinicsPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
+  const { setSelectedOption } = useDropDownStore();
   const { data, isFetched } = useClinicsList(false, sortBy, order);
   const navigate = useNavigate();
-  const { setSelectedOption } = useDropDownStore();
+  // const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -33,24 +34,55 @@ const ClinicsPage = () => {
           })
     );
   };
-  const SpecialtiesOptions = [""];
-  const handlSpecialtyChange = (e: string | null) => {
-    setSelectedOption("CliSpeciality", e);
-    console.log(e);
+  // const SpecialtiesOptions = [""];
+  // const handlSpecialtyChange = (e: string | null) => {
+  //   setSelectedOption("CliSpeciality", e);
+  //   console.log(e);
+  // };
+  const statusOptionsboolean = [true, false];
+  const statusOptions = statusOptionsboolean.map((item) =>
+    item
+      ? { label: "ACTIVE", value: true }
+      : { label: "INACTIVE", value: false }
+  );
+  const handlStatusChange = (e: string | null) => {
+    const value = statusOptions.find((item) => item.label === e)?.value ?? null;
+    setSelectedOption("CliStatus", e);
+    pagination.setFilter(value);
   };
+
+  const workingHours = data.map((item) => item.WorkingHours).flat();
+  const maxStartTime = workingHours.reduce(
+    (max, wh) => (wh.startTime > max ? wh.startTime : max),
+    workingHours[0]?.startTime || ""
+  );
+
+  const maxEndTime = workingHours.reduce(
+    (max, wh) => (wh.endTime > max ? wh.endTime : max),
+    workingHours[0]?.endTime || ""
+  );
+  console.log(maxStartTime, maxEndTime);
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/clinics/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
       th0={item.publicId}
       th1={item.name}
-      th2={
-        item?.WorkingHours?.[0]
-          ? `${item.WorkingHours[0].startTime} - ${item.WorkingHours[0].endTime}`
-          : ""
-      }
+      th2={(() => {
+        const wh = item.WorkingHours || [];
+        const maxStart = wh.reduce(
+          (max, x) => (x.startTime > max ? x.startTime : max),
+          wh[0]?.startTime || ""
+        );
+        const maxEnd = wh.reduce(
+          (max, x) => (x.endTime > max ? x.endTime : max),
+          wh[0]?.endTime || ""
+        );
+        return `${maxStart} - ${maxEnd}`;
+      })()}
       th3={item.specializations.map((item) => item.name).join(",")}
       th4={item.treatedPatientCount.toString() || "0"}
       th5={item.isActive.toString()}
@@ -75,10 +107,10 @@ const ClinicsPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              dropdownName1="CliSpeciality"
-              placeHolderDropDown1="Speciality"
-              OptionsDropDown1={SpecialtiesOptions}
-              handlDropDownChange1={handlSpecialtyChange}
+              dropdownName1="CliStatus"
+              placeHolderDropDown1="Status"
+              OptionsDropDown1={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlStatusChange}
             />
           </Flex>
           <AddButton

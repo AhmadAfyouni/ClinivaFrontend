@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import InputPropsType from "../../types/InputsType";
 import InputForm from "../../Components/Inputs/InputForm";
-import { ScrollArea } from "@mantine/core";
+import { Button, ScrollArea } from "@mantine/core";
 import AddServiceType from "../../types/serviceT/AddServiceType";
 import AddServiceSchema from "../../schema/service/AddServiceSchema";
 import useAddService from "../../hooks/serviceH/useAddService";
@@ -21,7 +21,7 @@ function AddService() {
       description: "",
       price: null,
       isActive: true,
-      clinics: [],
+      clinic: "",
       doctors: [],
     },
     validationSchema: AddServiceSchema,
@@ -38,7 +38,7 @@ function AddService() {
 
   const doctorsHook = useDoctors(0, 0, true);
 
-  if (!clinicsHook.isFetched || !clinicsHook.data) return <>No Roles</>;
+  if (!clinicsHook.isFetched || !clinicsHook.data) return <>No Clinics</>;
 
   const Clinics: selectClinicsType = clinicsHook.data.reduce<selectClinicsType>(
     (acc, item) => {
@@ -48,7 +48,7 @@ function AddService() {
     {}
   );
 
-  if (!doctorsHook.isFetched || !doctorsHook.data) return <>No Roles</>;
+  if (!doctorsHook.isFetched || !doctorsHook.data) return <>No Doctors</>;
 
   const Doctors: selectDoctorsType = doctorsHook.data.reduce<selectDoctorsType>(
     (acc, item) => {
@@ -57,14 +57,10 @@ function AddService() {
     },
     {}
   );
-  // console.log(clinics);
-  // const doctorHook = useStaffpList(0, 0, true);
-  // console.log(clinics);
   const handleMultiSelectChange = (
     fieldName: string,
     selectedValues: string[]
   ) => {
-    // console.log("@#@#@#@#");
     console.log(selectedValues);
     formik.setFieldValue(fieldName, selectedValues);
   };
@@ -76,13 +72,8 @@ function AddService() {
     const keys = Object.entries(Clinics)
       .filter(([, id]) => selectedIds.includes(id))
       .map(([name]) => name);
-    // console.log(Clinics);
-    // console.log(selectedIds);
-    // console.log(formik.values.clinics);
     return keys;
   }
-  // console.log(formik.values.clinics);
-  // console.log(getClinicNamesByIds(Clinics, Object.values(Clinics)));
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -112,30 +103,55 @@ function AddService() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "clinicsId",
-      label: "Clinics ",
+      id: "clinicId",
+      label: "Clinic",
       mandatory: true,
-      type: "multiSelect",
+      type: "select",
       description: "",
-      error: formik.errors.clinics?.toString(),
+      error: formik.errors.clinic?.toString(),
       placeholder: "",
-      tooltip: "Choose Clinics",
-      value: getNamesByIds(Clinics, formik.values.clinics),
-      onChange: (selectedKeys) => {
-        if (
-          Array.isArray(selectedKeys) &&
-          selectedKeys.every((item) => typeof item === "string")
-        ) {
-          const selectedValues = selectedKeys.map((key) => Clinics[key]);
-          console.log(selectedValues);
-          handleMultiSelectChange("clinics", selectedValues);
+      tooltip: "Choose Clinic",
+      value:
+        Object.keys(Clinics).find(
+          (key) => Clinics[key] === formik.values.clinic
+        ) || "",
+      onChange: (selectedKey) => {
+        if (typeof selectedKey === "string") {
+          const selectedValue = Clinics[selectedKey];
+          formik.setFieldValue("clinic", selectedValue);
         } else {
-          console.error("selectedKeys is not a valid array of strings");
+          console.error("selectedKey is not a valid string");
         }
       },
       onBlur: formik.handleBlur,
       selectValue: Object.keys(Clinics) || [],
     },
+    // {
+    //   id: "clinicsId",
+    //   label: "Clinics ",
+    //   mandatory: true,
+    //   type: "multiSelect",
+    //   description: "",
+    //   error: formik.errors.clinics?.toString(),
+    //   placeholder: "",
+    //   tooltip: "Choose Clinics",
+    //   value: getNamesByIds(Clinics, formik.values.clinics),
+    //   onChange: (selectedKeys) => {
+    //     if (
+    //       Array.isArray(selectedKeys) &&
+    //       selectedKeys.every((item) => typeof item === "string")
+    //     ) {
+    //       const selectedValues = selectedKeys.map((key) => Clinics[key]);
+    //       console.log(selectedValues);
+    //       handleMultiSelectChange("clinics", selectedValues);
+    //     } else {
+    //       console.error("selectedKeys is not a valid array of strings");
+    //     }
+    //   },
+    //   onBlur: formik.handleBlur,
+    //   selectValue: Object.keys(Clinics) || [],
+    // },
+
     {
       id: "doctorsId",
       label: "Doctors ",
@@ -176,19 +192,20 @@ function AddService() {
       onBlur: formik.handleBlur,
     },
   ];
+  console.log(formik.errors);
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
-      {/* <form> */}
-      <InputForm
-        base={primaryFields}
-        count={0}
-        onSubmit={formik.handleSubmit}
-        with_submit={true}
-        key={"AddService"}
-        title="Add Service"
-      />
-      {/* <Button type="submit">Add Service</Button> */}
-      {/* </form> */}
+      <form onSubmit={formik.handleSubmit}>
+        <InputForm
+          base={primaryFields}
+          count={0}
+          onSubmit={() => {}}
+          with_submit={false}
+          key={"AddService"}
+          title="Add Service"
+        />
+        <Button type="submit">Add Service</Button>
+      </form>
     </ScrollArea>
   );
 }

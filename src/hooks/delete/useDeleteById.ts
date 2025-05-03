@@ -1,17 +1,21 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../api/ApiCore";
-import AddServiceType from "../../types/serviceT/AddServiceType";
 import { useNavigate } from "react-router";
 
-const useAddService = () => {
+interface Props {
+  endpoint: string;
+  mutationKey: string;
+  navigationUrl: string;
+}
+const useDeleteById = ({ endpoint, mutationKey, navigationUrl }: Props) => {
   const navigate = useNavigate();
   return useMutation({
-    mutationKey: ["AddService"],
-    mutationFn: (Service: AddServiceType) => {
+    mutationKey: [mutationKey],
+    mutationFn: (id: string) => {
       return axiosInstance
-        .post("/services", Service)
+        .delete(`/${endpoint}/${id}`)
         .then((res) => {
-          navigate(`/services`);
+          navigate(navigationUrl);
           return res.data;
         })
         .catch((error) => {
@@ -20,4 +24,5 @@ const useAddService = () => {
     },
   });
 };
-export default useAddService;
+
+export default useDeleteById;

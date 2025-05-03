@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Flex,
   Grid,
@@ -20,16 +21,26 @@ import { useParams } from "react-router";
 import TextInfo from "../../Components/Details/TextInfo";
 import dataAppointment from "../../data/paitientAppointment.json";
 import { useTranslation } from "react-i18next";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 const PatientDetails = () => {
   const { t } = useTranslation();
-  const [day, month, year] = "2-4-2025".split("-").map(Number);
-  const date = new Date(year, month - 1, day);
+  const { mutate } = useDeleteById({
+    endpoint: "patients",
+    mutationKey: "delete-patient",
+    navigationUrl: "/patients",
+  });
+  // const [day, month, year] = data?.insurances[0]?.expiryDate?.split("-").map(Number) ||'';
+
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const { id: PatientId } = useParams();
   const { data, isFetched } = usePatientDetails(PatientId!);
-  console.log(data);
+  console.log(new Date("2020-2-3"));
+  const handleDeleteEvent = () => {
+    mutate(PatientId!);
+  };
+  const insuranceDate = data?.insurances[0]?.expiryDate?.slice(0, 10) || "";
   if (!isFetched || !data)
     return (
       <Center>
@@ -64,27 +75,41 @@ const PatientDetails = () => {
                       {t("patient_info")}
                     </Text>
                     <TextInfo
+                      gap="1px"
                       titles={[
-                        t("person_name"),
-                        t("person_id"),
+                        t("patient_name"),
+                        t("patient_id"),
                         t("family_medical_history"),
                         t("lifestyle_factors"),
                         t("preferred_language"),
+                        t("Sigrical history"),
+                        t("Current medications "),
+                        t("Smoking"),
+                        t("Age"),
                       ]}
                       contents={[
                         data.name,
-                        data._id,
-                        data.familyMedicalHistory.join(","),
-                        data.lifestyleFactors,
-                        data.preferredLanguage,
+                        data.publicId,
+                        data.familyMedicalHistory
+                          ? data.familyMedicalHistory.join(",")
+                          : "",
+                        data.lifestyleFactors ? data.lifestyleFactors : "",
+                        data.preferredLanguage ? data.preferredLanguage : "",
+                        data.Surgical_History
+                          ? data.Surgical_History.slice(0, 10)
+                          : "",
+                        data.Current_Medications
+                          ? data.Current_Medications
+                          : "",
+                        data.Smoking ? "Smoker " : "Non Smoker",
+                        data.age?.toString() || "0",
                       ]}
                       width={160}
                     />
                   </Flex>
                   <InsuranceCard
-                    expiryDate={date}
-                    HPI="HPT-24325425"
-                    insuranceType={t("health_plus")}
+                    expiryDate={new Date(insuranceDate)}
+                    insuranceType={data.insurances[0]?.insuranceType || ""}
                     isActive={data.isActive}
                     personName={data.name}
                     ID={data.identity}
@@ -147,6 +172,15 @@ const PatientDetails = () => {
             />
           </Grid.Col>
         </Grid>
+        <Button
+          variant="filled"
+          color="red"
+          radius="xl"
+          mb="110px"
+          onClick={handleDeleteEvent}
+        >
+          Delete
+        </Button>
       </ScrollArea>
     );
 };

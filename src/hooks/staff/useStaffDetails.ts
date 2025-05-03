@@ -19,6 +19,9 @@ const useStaffDetails = (id: string) => {
           throw error;
         });
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    enabled: true,
   });
 };
 export default useStaffDetails;

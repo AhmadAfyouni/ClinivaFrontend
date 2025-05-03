@@ -15,6 +15,7 @@ interface Props<T> {
   buttonValue: string;
   mah: string;
 }
+
 const PercentageTable = <T extends Record<string, string>>({
   th,
   tb,
@@ -24,6 +25,7 @@ const PercentageTable = <T extends Record<string, string>>({
   mah,
 }: Props<T>) => {
   const theme = useMantineTheme();
+  console.log(th);
   return (
     <ScrollArea h={mah} w="100%">
       <Box w="95%">
@@ -57,15 +59,21 @@ const PercentageTable = <T extends Record<string, string>>({
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {tb.map((it, rowIndex) => (
-              <Table.Tr key={rowIndex}>
-                {th.map((item, columnIndex) => (
-                  <Table.Td key={columnIndex} c={theme.other.onSurfacePrimary}>
-                    {it[item.toLocaleLowerCase()]}
-                  </Table.Td>
-                ))}
-              </Table.Tr>
-            ))}
+            {tb.map((it, rowIndex) => {
+              const values = Object.values(it);
+              return (
+                <Table.Tr key={rowIndex}>
+                  {th.map((_, columnIndex) => (
+                    <Table.Td
+                      key={columnIndex}
+                      c={theme.other.onSurfacePrimary}
+                    >
+                      {values[columnIndex]}
+                    </Table.Td>
+                  ))}
+                </Table.Tr>
+              );
+            })}
           </Table.Tbody>
         </Table>
       </Box>

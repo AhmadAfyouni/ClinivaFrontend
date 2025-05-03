@@ -6,12 +6,12 @@ import {
   ScrollArea,
   Stack,
   Container,
-  ActionIcon,
+  // ActionIcon,
   Flex,
-  Menu,
+  // Menu,
   useMantineTheme,
 } from "@mantine/core";
-import { IconDotsVertical, IconFileText } from "@tabler/icons-react";
+import { IconFileText } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 
 export function HealthReportList() {
@@ -41,13 +41,13 @@ export function HealthReportList() {
         <Text fw={600} size="lg" c={theme.other.onSurfacePrimary}>
           {t("Health Reports")}
         </Text>
-        <Menu width={200}>
+        {/* <Menu width={200}>
           <Menu.Target>
             <ActionIcon variant="subtle">
               <IconDotsVertical size={20} />
             </ActionIcon>
           </Menu.Target>
-        </Menu>
+        </Menu> */}
       </Flex>
       <ScrollArea scrollbarSize={6} bg={theme.other.bgSubtle} h={300}>
         <Stack gap="md" bg={theme.other.bgSubtle}>

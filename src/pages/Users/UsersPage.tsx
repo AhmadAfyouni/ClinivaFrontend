@@ -46,7 +46,7 @@ const UsersPage = () => {
 
       pagination.setDate(formattedDate);
     } else {
-      pagination.setDate("");
+      pagination.setDate(undefined);
     }
   };
   const toggleAll = () => {
@@ -61,6 +61,11 @@ const UsersPage = () => {
 
   const rows = data.map((item) => (
     <TableBody
+      imgUrl={
+        item.image !== null
+          ? item.image
+          : "https://thisurldoesnotexist.example/image.jpg"
+      }
       onClick={() => navigate(`/users/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}

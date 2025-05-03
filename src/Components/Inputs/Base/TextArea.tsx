@@ -6,7 +6,7 @@ interface Props {
   base: InputPropsType;
 }
 export default function TextareaBase(props: Props) {
-  const { t } = useTranslation("index");
+  const { t } = useTranslation();
 
   return (
     <Textarea
