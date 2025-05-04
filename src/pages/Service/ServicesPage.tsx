@@ -16,6 +16,7 @@ const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useServicesList(false, sortBy, order);
+  console.log("data is " + data);
   const navigate = useNavigate();
   const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
@@ -102,7 +103,7 @@ const ServicesPage = () => {
                 "price",
                 "clinics",
                 "status",
-                "clinic",
+                "service",
               ]}
               sortedBy={[
                 "_id",

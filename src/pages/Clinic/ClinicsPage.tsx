@@ -64,7 +64,7 @@ const ClinicsPage = () => {
   console.log(maxStartTime, maxEndTime);
   const rows = data.map((item) => (
     <TableBody
-      imgUrl={item.logo !== null ? item.logo : ""}
+      // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/clinics/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}

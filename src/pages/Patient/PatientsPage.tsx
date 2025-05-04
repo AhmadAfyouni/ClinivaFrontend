@@ -62,7 +62,7 @@ const PatientsPage = () => {
   };
   const rows = data?.map((item) => (
     <TableBody
-      imgUrl={"https://thisurldoesnotexist.example/image.jpg"}
+      // imgUrl={"https://thisurldoesnotexist.example/image.jpg"}
       onClick={() => navigate(`/patients/details/${item._id}`)}
       key={item._id}
       th0={item.publicId}

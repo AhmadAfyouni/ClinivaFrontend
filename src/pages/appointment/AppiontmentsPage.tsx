@@ -59,7 +59,7 @@ const AppointmentsPage = () => {
   };
   const rows = data?.map((item) => (
     <TableBody
-      imgUrl={item.logo !== null ? item.logo : ""}
+      // imgUrl={item.logo !== null ? item.logo : ""}
       // onClick={() => navigate(`/appointments/details/${item._id}`)}
       onClick={() => console.log("appointmentDetails")}
       key={item._id}
