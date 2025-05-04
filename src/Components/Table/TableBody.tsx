@@ -31,7 +31,7 @@ const TableBody = ({
   th3,
   th4,
   th5,
-  imgUrl,
+  imgUrl = "",
   // selection,
   // setSelection,
   onClick,
@@ -63,6 +63,7 @@ const TableBody = ({
         fz="11px"
         p="4px 10px"
         radius="20px"
+        w={75}
       >
         {label}
       </Badge>
@@ -169,7 +170,7 @@ const TableBody = ({
                     // justify='center'
                     c={theme.other.onSurfacePrimary}
                   >
-                    {getImageCircle()}
+                    {imgUrl !== "" && getImageCircle()}
                     <Text
                       fz="11px"
                       p="0"
@@ -186,7 +187,7 @@ const TableBody = ({
             {/* Mobile  Avatar, Name and ID */}
             {(isMobile || isTablet) && (
               <Flex direction="row" align="center" w="150px">
-                {getImageCircle()}
+                {imgUrl !== "" && getImageCircle()}
                 <Flex align="start" ta="start" direction="column" w="130px">
                   <Text
                     fz="11px"
