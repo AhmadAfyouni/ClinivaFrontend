@@ -1,10 +1,9 @@
 import {
-  Anchor,
+  // Anchor,
   Button,
   Checkbox,
   Flex,
   Paper,
-  Text,
   Title,
 } from "@mantine/core";
 import classes from "./AuthenticationImage.module.css";
@@ -16,19 +15,20 @@ import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import useLogin from "../../../hooks/auth/login";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 export function Login() {
   const navigate = useNavigate();
   const [saveToken, setSaveToken] = useState(false);
   const loginMutation = useLogin(saveToken, false);
-
+  console.log("permission " + loginMutation.data?.data.user.permissions);
   const formik = useFormik<LoginType>({
     initialValues: {
       email: "",
       password: "",
     },
-
     validationSchema: LoginSchema,
     validateOnBlur: false,
     validateOnChange: false,
@@ -37,6 +37,8 @@ export function Login() {
       loginMutation.mutate(values);
     },
   });
+
+  console.log("email " + formik.values.email);
   const formFields: InputPropsType[] = [
     {
       id: "email",
@@ -50,12 +52,13 @@ export function Login() {
       value: formik.values.email,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      autoComplete: "off",
     },
     {
       id: "password",
       label: "Password",
       mandatory: true,
-      type: "text",
+      type: "password",
       description: "",
       error: formik.errors.password,
       placeholder: "Your password",
@@ -63,11 +66,31 @@ export function Login() {
       value: formik.values.password,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
+      autoComplete: "new-password",
     },
   ];
   const handleSetSaveToken = () => {
     setSaveToken((prev) => !prev);
   };
+
+  // Inside your component
+  useEffect(() => {
+    if (loginMutation.isError) {
+      const errorMessage =
+        (
+          loginMutation.error as AxiosError<{
+            message: { message: string };
+          }>
+        )?.response?.data?.message?.message ||
+        "Login failed. Please try again.";
+
+      toast.error(errorMessage, {
+        duration: 2000,
+        position: "bottom-center",
+      });
+    }
+  }, [loginMutation.isError, loginMutation.error]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -107,7 +130,17 @@ export function Login() {
         >
           Login
         </Button>
-        <Text ta="center" mt="md">
+        {/* {loginMutation.isError && (
+          <Text c="red" mt="md" ta="center">
+            {(
+              loginMutation.error as AxiosError<{
+                message: { message: string };
+              }>
+            )?.response?.data?.message?.message ||
+              "Login failed. Please try again."}
+          </Text>
+        )} */}
+        {/* <Text ta="center" mt="md">
           forget your password?{" "}
           <Anchor<"a">
             href="#"
@@ -117,7 +150,7 @@ export function Login() {
           >
             Reset Password
           </Anchor>
-        </Text>
+        </Text> */}
         <Flex justify={"center"} w="100%" h={"100%"} mt={"xl"}>
           <Button
             variant="filled"

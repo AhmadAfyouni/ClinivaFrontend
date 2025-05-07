@@ -1,75 +1,103 @@
-import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
-import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
-import { Button, Flex, Select } from "@mantine/core";
+import { Flex, Pagination, Select, Text, useMantineTheme } from "@mantine/core";
 import PaginationType from "../../types/PaginationControl";
+import { HiDotsHorizontal } from "react-icons/hi";
+import React from "react";
+import {
+  MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
+
+interface PaginationIconProps extends React.ComponentPropsWithoutRef<"svg"> {
+  size?: number | string;
+  width?: number | string;
+  height?: number | string;
+}
 
 interface Props {
   store: PaginationType;
 }
 
 function CustomPagination({ store: useStore }: Props) {
-  // console.log(useStore);
+  const theme = useMantineTheme();
+  // Create function components for each icon
+  const NextIcon = (props: PaginationIconProps) => (
+    <MdOutlineKeyboardArrowRight {...props} />
+  );
+  const PrevIcon = (props: PaginationIconProps) => (
+    <MdOutlineKeyboardArrowLeft {...props} />
+  );
+  const FirstIcon = (props: PaginationIconProps) => (
+    <MdOutlineKeyboardDoubleArrowLeft {...props} />
+  );
+  const LastIcon = (props: PaginationIconProps) => (
+    <MdOutlineKeyboardDoubleArrowRight {...props} />
+  );
+  const DotsIcon = (props: PaginationIconProps) => (
+    <HiDotsHorizontal {...props} />
+  );
+  console.log(useStore);
   return (
-    <Flex direction={"row"} gap={"xs"} key={"stackPagination"} pt={"xs"}>
-      <Button
-        key={"first"}
-        onClick={() => {
-          useStore.setCurrent_page(1);
-        }}
-        disabled={useStore.has_previous_page ? false : true}
-        size="xs"
+    <Flex justify="space-between" h="30px">
+      {useStore.total_items !== 0 && (
+        <Flex>
+          <Text
+            style={{ alignContent: "center" }}
+            fz="13px"
+            c={theme.other.onSurfaceTertiary}
+            mr="6px"
+          >
+            showing
+          </Text>
+          <Select
+            radius="xl"
+            w="55px"
+            h="30px"
+            placeholder={useStore.items_per_page + "" || "Items per page"}
+            data={["5", "10", "15", "20", "30"]}
+            comboboxProps={{
+              transitionProps: { transition: "rotate-right", duration: 200 },
+            }}
+            onChange={(value) => {
+              useStore.setItems_per_page(Number(value));
+              useStore.setReFetch(true);
+            }}
+            size="xs"
+            styles={{
+              input: {
+                backgroundColor: theme.other.secondaryLightColor,
+                color: theme.other.onSurfaceTertiary,
+              },
+              dropdown: {
+                color: theme.other.onSurfaceTertiary,
+                backgroundColor: theme.other.bg,
+              },
+            }}
+          />
+          <Text
+            style={{ alignContent: "center" }}
+            fz="13px"
+            c={theme.other.onSurfaceTertiary}
+            ml="6px"
+          >
+            out of {useStore.total_items}
+          </Text>
+        </Flex>
+      )}
+      <Pagination
+        total={useStore.total_pages}
         radius="xl"
-      >
-        <MdOutlineKeyboardDoubleArrowLeft />
-      </Button>
-      <Button
-        key={"prev"}
-        onClick={() => useStore.setCurrent_page(useStore.current_page - 1)}
-        disabled={useStore.has_previous_page ? false : true}
-        style={{ color: "primary.main", backgroundColor: "background.paper" }}
-        size="xs"
-        radius="xl"
-      >
-        <IoIosArrowBack />
-      </Button>
-      <Button
-        key={"next"}
-        onClick={() => {
-          useStore.setCurrent_page(useStore.current_page + 1);
-        }}
-        style={{ color: "primary.main", backgroundColor: "background.paper" }}
-        disabled={useStore.has_next_page ? false : true}
-        size="xs"
-        radius="xl"
-      >
-        <IoIosArrowForward />
-      </Button>
-      <Button
-        key={"last"}
-        onClick={() => {
-          useStore.setCurrent_page(useStore.total_pages);
-        }}
-        disabled={useStore.has_next_page ? false : true}
-        style={{ color: "primary.main", backgroundColor: "background.paper" }}
-        size="xs"
-        radius="xl"
-      >
-        <MdOutlineKeyboardDoubleArrowRight />
-      </Button>
-      <Select
-        w="90px"
-        placeholder={useStore.items_per_page + "" || "Items per page"}
-        data={["5", "10", "15", "20", "30"]}
-        comboboxProps={{
-          transitionProps: { transition: "rotate-right", duration: 200 },
-        }}
-        onChange={(value) => {
-          useStore.setItems_per_page(Number(value));
-          useStore.setReFetch(true);
-        }}
-        size="xs"
+        withEdges
+        siblings={0}
+        nextIcon={NextIcon}
+        previousIcon={PrevIcon}
+        firstIcon={FirstIcon}
+        lastIcon={LastIcon}
+        dotsIcon={DotsIcon}
+        value={useStore.current_page}
+        onChange={(page) => useStore.setCurrent_page(page)}
+        color={theme.other.secondaryDarkColor}
       />
     </Flex>
   );

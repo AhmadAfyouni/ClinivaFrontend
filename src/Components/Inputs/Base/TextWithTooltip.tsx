@@ -51,6 +51,8 @@ export default function InputTooltipBase(props: Props) {
       disabled={props.base.disabled}
       inputWrapperOrder={["label", "input", "error", "description"]}
       value={props.base.value?.toString() || ""}
+      autoComplete={props.base.autoComplete || "off"}
+      name={props.base.name || ""}
     />
   );
 }

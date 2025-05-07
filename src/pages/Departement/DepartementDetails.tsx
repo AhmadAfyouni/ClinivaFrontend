@@ -67,12 +67,18 @@ const DepartementDetails = () => {
       key={item._id}
       th0={item._id.toString()}
       th1={item.name}
-      th2={item.contactInfos
-        .map((item) => (item.type === "email" ? item.value : ""))
-        .join("")}
-      th3={item.departmentId?.name || ""}
+      th2={{
+        value: item.contactInfos
+          .map((item) => (item.type === "email" ? item.value : ""))
+          .join(""),
+      }}
+      th3={{ value: item.departmentId?.name || "" }}
       th4={item.employeeType}
-      th5={item.isActive.toString()}
+      // th5={item.isActive.toString()}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
   const title = ["ID", "Name", "ComplexName", "Location"];

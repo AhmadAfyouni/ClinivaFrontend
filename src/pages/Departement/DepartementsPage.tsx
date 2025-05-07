@@ -17,12 +17,12 @@ const DepartementsPage = () => {
   // const { setSelectedOption } = useDropDownStore();
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
-
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
   };
 
   if (!data) return null;
+  console.log(data);
 
   const toggleAll = () => {
     setSelection((current) =>
@@ -39,19 +39,23 @@ const DepartementsPage = () => {
   //   setSelectedOption("DepPIC", e);
   //   console.log(e);
   // };
-  const rows = data.map((item) => (
+  const rows = data.map((item, index) => (
     <TableBody
-      imgUrl={item.logo !== null ? item.logo : ""}
+      // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.name}
-      th2={item.clinicCollectionId?.name || ""}
-      th3={item.address}
+      th2={{ value: item.clinicCollectionId?.name || "" }}
+      th3={{ value: item.PIC }}
       th4={item.clinicCount.toString()}
-      th5={item.patientCount.toString()}
+      // th5={item.patientCount.toString()}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
 
@@ -91,7 +95,7 @@ const DepartementsPage = () => {
                 "_id",
                 "name",
                 "clinicCollectionId?.name",
-                "address",
+                "PIC",
                 "clinicCount",
                 "patientCount",
                 "_id",
@@ -99,8 +103,8 @@ const DepartementsPage = () => {
               labels={[
                 "departmentId",
                 "name",
-                "pic",
-                "address",
+                "Complex",
+                "PIC",
                 "Clinics Count",
                 "patients Count",
                 "departement",
