@@ -100,5 +100,5 @@ export const ClinicCollection: AddMedicalComplexType = {
   companyId: "60f7c7b84f1a2c001c8b4567",
   specializations: ["60f7c7b84f1a2c001c8b4567", "60f7c7b84f1a2c001c8b4568"],
   phone: "",
-  pic: "",
+  PIC: "",
 };

@@ -57,20 +57,29 @@ const AppointmentsPage = () => {
       pagination.setDate("");
     }
   };
-  const rows = data?.map((item) => (
+  const rows = data?.map((item, index) => (
     <TableBody
       // imgUrl={item.logo !== null ? item.logo : ""}
       // onClick={() => navigate(`/appointments/details/${item._id}`)}
       onClick={() => console.log("appointmentDetails")}
       key={item._id}
-      th0={item._id || ""}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.patient?.name || ""}
-      th2={`${item.datetime.slice(0, 10)} - ${item.datetime.slice(11, 16)} `}
-      th3={item.clinic?.name || ""}
+      th2={{
+        value: `${item.datetime.slice(0, 10)} - ${item.datetime.slice(
+          11,
+          16
+        )} `,
+      }}
+      th3={{ value: item.clinic?.name || "" }}
       th4={item.doctor?.name || ""}
-      th5={item.status || ""}
-      selection={selection}
-      setSelection={setSelection}
+      // th5={item.status || ""}
+      // selection={selection}
+      // setSelection={setSelection}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
   if (!isFetched)

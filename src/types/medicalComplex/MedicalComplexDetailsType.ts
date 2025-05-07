@@ -21,7 +21,10 @@ export interface AssignedDepartment {
   updatedAt: string;
   __v: number;
 }
-
+interface PIC {
+  _id: string;
+  name: string;
+}
 export default interface MedicalComplexDetailsType {
   _id: string;
   isActive: boolean;
@@ -57,5 +60,5 @@ export default interface MedicalComplexDetailsType {
   details: string;
   address: string;
   logo: string;
-  PIC: string;
+  PIC: PIC;
 }

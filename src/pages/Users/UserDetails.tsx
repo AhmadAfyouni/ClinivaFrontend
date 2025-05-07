@@ -14,23 +14,39 @@ import { useParams } from "react-router";
 import useUserDetails from "../../hooks/users/useUserDetails";
 import useDeleteById from "../../hooks/delete/useDeleteById";
 
+/**
+ * UserDetails component displays detailed information of a user.
+ * It fetches user details based on userId from the URL parameters.
+ * It also provides functionality to delete a user.
+ */
+
 const UserDetails = () => {
   const theme = useMantineTheme();
   const { id: userId } = useParams();
+
+  // Hook to delete user by ID
   const deleteUser = useDeleteById({
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
   });
+
+  // Fetch user details
   const { data, isFetched } = useUserDetails(userId!);
+
+  // Media query hooks
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
+
+  // Return early if data is not yet fetched or not available
   if (!isFetched || !data)
     return (
       <Center>
         <Text>No User Details Found</Text>
       </Center>
     );
+
+  // Mapping contact information to icons
   const icons =
     data.employeeId?.contactInfos.map((item) => {
       if (item.type === "email")
@@ -45,9 +61,12 @@ const UserDetails = () => {
         };
       else return {};
     }) || [];
+
+  // Handle deleting the user
   const handleDeleteEvent = () => {
     deleteUser.mutate(userId!);
   };
+
   return (
     <ScrollArea h="100vh">
       <Flex direction={isComputer ? "row" : "column"}>
@@ -79,14 +98,14 @@ const UserDetails = () => {
               direction="row"
               titlewidth={300}
               titles={[
-                // "User Name",
+                "User Name",
                 "Account Creation ",
                 "Last Modied ",
                 "Last Login",
                 "Two-factor Authentication Enabled",
               ]}
               values={[
-                // data.name,
+                data.name,
                 data.loginHistory[data.loginHistory.length - 1]?.loginDate
                   .toString()
                   .slice(0, 10),

@@ -74,15 +74,17 @@ Props<T>) => {
             {/* {isComputer && (
               <Flex visibleFrom="md" w="25%" justify="space-between"> */}
             <Box w="70px">
-              <Box style={styles} onClick={() => handleSort(sortedBy[0])}>
+              {/* <Box style={styles} onClick={() => handleSort(sortedBy[0])}> */}
+              <Box style={styles}>
                 {t(labels[0])}
-                {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")}
+                {/* {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")} */}
               </Box>
             </Box>
-            <Box w="160px" onClick={() => handleSort(sortedBy[1])}>
+            {/* <Box w="160px" onClick={() => handleSort(sortedBy[1])}> */}
+            <Box w="160px">
               <Box style={styles}>
                 {t(labels[1])}
-                {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")}
+                {/* {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")} */}
               </Box>
             </Box>
             {/* </Flex>
@@ -123,11 +125,8 @@ Props<T>) => {
               </Box>
             </Box>
 
-            <Box w="110px" onClick={() => handleSort(sortedBy[5])}>
-              <Box style={styles}>
-                {t(labels[5])}
-                {sortBy === sortedBy[5] && (order === "asc" ? "▲" : "▼")}
-              </Box>
+            <Box w="110px">
+              <Box style={styles}>{t(labels[5])}</Box>
             </Box>
           </Flex>
         </Table.Th>

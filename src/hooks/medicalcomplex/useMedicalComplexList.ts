@@ -21,6 +21,8 @@ const useMedicalComplexList = (
       sortBy,
       order,
       pagination.paramKey,
+      pagination.filter,
+      pagination.date,
     ],
     queryFn: async ({ signal }) => {
       const url = `/cliniccollections?${
