@@ -72,21 +72,8 @@ const ClinicsPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.publicId}
       th2={{ value: item.name }}
-      // th2={(() => {
-      //   const wh = item.WorkingHours || [];
-      //   const maxStart = wh.reduce(
-      //     (max, x) => (x.startTime > max ? x.startTime : max),
-      //     wh[0]?.startTime || ""
-      //   );
-      //   const maxEnd = wh.reduce(
-      //     (max, x) => (x.endTime > max ? x.endTime : max),
-      //     wh[0]?.endTime || ""
-      //   );
-      //   return `${maxStart} - ${maxEnd}`;
-      // })()}
       th3={{ value: item.specializations.map((item) => item.name).join(",") }}
-      th4={item.treatedPatientCount.toString() || "0"}
-      // th5={item.isActive.toString()}
+      th4={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
       }}
@@ -127,12 +114,12 @@ const ClinicsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "clinicId",
-                "name",
-                "workingHours",
+                "No",
+                "Clinic Id",
+                "Clinic name",
                 "speciality",
-                "numberOfPatients",
-                "status",
+                "Status",
+                "Actions",
                 "clinic",
               ]}
               sortedBy={[

@@ -34,9 +34,10 @@ const MedicalComplexPage = () => {
       setSelection={setSelection}
       key={item._id}
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
-      th1={item.name}
-      th2={{ value: item.address }}
-      th3={{ value: item.PIC.name }}
+      th1={item.publicId}
+      th2={{ value: item.name }}
+      th3={{ value: item.address }}
+      // th3={{ value: item.PIC }}
       // th5={item.departmentCount.toString()}
       th4={item.employeeCount.toString()}
       onDeleteClick={() => {
@@ -94,12 +95,12 @@ const MedicalComplexPage = () => {
                 "_id",
               ]}
               labels={[
-                "complexId",
-                "complexName",
-                "address",
+                "No",
+                "MedicalComplex Id",
+                "MedicalComplex name",
                 "pic",
                 "departmentsCount",
-                "staffCount",
+                "Actions",
                 "medicalcomplex",
               ]}
               data={data}
