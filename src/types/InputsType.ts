@@ -35,6 +35,8 @@ export default interface InputPropsType {
   radio?: RadioType[];
   selectValue?: string[];
   disabled?: boolean;
+  autoComplete?: string;
+  name?: string;
 }
 export interface Text {
   base: InputPropsType;
