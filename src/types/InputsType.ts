@@ -45,8 +45,8 @@ export interface TextArea {
   base: InputPropsType;
 }
 export interface RadioType {
-  value: string;
-  label: string;
+  value: string|boolean;
+  label: string|boolean;
 }
 export interface Date {
   base: InputPropsType;

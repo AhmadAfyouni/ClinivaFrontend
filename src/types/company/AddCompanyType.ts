@@ -42,4 +42,7 @@ export default interface AddCompanyType {
   locationGoogle: LocationGoogle;
   goals: string;
   overview: string;
+  Key_member: string;
+  Founder: string;
+  Executives: string;
 }

@@ -25,8 +25,8 @@ function AddMedicalComplex() {
   const hook = useAddMedicalComplex();
   const querySpecialization = useSpecialization();
   const company = localStorage.getItem("companyId");
-  const employeeHook = useStaffList(true,"PIC","_id","PIC");
-  
+  const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
+
   const formik = useFormik<AddMedicalComplexType>({
     initialValues: {
       name: "",
@@ -69,18 +69,22 @@ function AddMedicalComplex() {
       const { companyId, ...rest } = values;
       const payload = companyId === "" ? rest : values;
       hook.mutate(payload);
-      formik.resetForm();
-      console.log("Clinic Collection Submitted:", values);
+      if (hook.isSuccess) formik.resetForm();
+      // console.log("Clinic Collection Submitted:", values);
     },
   });
 
-  if (!querySpecialization.isFetched || !querySpecialization.data||!employeeHook.isSuccess)
+  if (
+    !querySpecialization.isFetched ||
+    !querySpecialization.data ||
+    !employeeHook.isSuccess
+  )
     return (
       <Center>
         <Text>Loading . .. </Text>
       </Center>
     );
-  
+
   const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
     (acc, item) => {
       acc[item.name] = item._id;

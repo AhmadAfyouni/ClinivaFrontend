@@ -57,6 +57,9 @@ function EditCompany() {
         x: da?.locationGoogl?.x || 0,
         y: da?.locationGoogl?.x || 0,
       },
+      Key_member: "",
+      Founder: "",
+      Executives: ""
     },
     enableReinitialize: true,
     validationSchema: AddCompanySchema,

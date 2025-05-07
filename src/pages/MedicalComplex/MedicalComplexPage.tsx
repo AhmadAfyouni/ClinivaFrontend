@@ -39,6 +39,7 @@ const MedicalComplexPage = () => {
       th3={{ value: item.address }}
       // th3={{ value: item.PIC }}
       // th5={item.departmentCount.toString()}
+
       th4={item.employeeCount.toString()}
       onDeleteClick={() => {
         deleteMedcalComplex.mutate(item._id);
