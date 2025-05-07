@@ -1,5 +1,4 @@
 import { Box, Flex, Table, useMantineTheme } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import useSortStore from "../../hooks/useSortStore ";
 import { useTranslation } from "react-i18next";
 interface Props<T> {
@@ -17,9 +16,9 @@ const TableHead = <T,>({
 // data,
 Props<T>) => {
   const theme = useMantineTheme();
-  const isMobile = useMediaQuery("(max-width: 576px)");
-  const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
-  const isComputer = useMediaQuery("(min-width: 993px)");
+  // const isMobile = useMediaQuery("(max-width: 576px)");
+  // const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
+  // const isComputer = useMediaQuery("(min-width: 993px)");
   const { t } = useTranslation();
   const { sortBy, order, setSortBy, toggleOrder, setOrder } = useSortStore();
 
@@ -38,10 +37,12 @@ Props<T>) => {
     alignItems: "center",
     fontWeight: "bold",
     fontSize: "12px",
+    color: theme.other.onSurfacePrimary,
   };
   return (
     <Table.Thead
       bg={theme.other.bg}
+      m="0 10px"
       style={{
         position: "sticky",
         top: 0,
@@ -68,27 +69,27 @@ Props<T>) => {
             }
           />
         </Table.Th> */}
-        <Table.Th p={0} colSpan={6} w="100%">
-          <Flex w="97%" justify="space-between">
-            {isComputer && (
-              <Flex visibleFrom="md" w="25%" justify="space-between">
-                <Box w="70px">
-                  <Box style={styles} onClick={() => handleSort(sortedBy[0])}>
-                    {t(labels[0])}
-                    {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")}
-                  </Box>
-                </Box>
-                <Box w="160px" onClick={() => handleSort(sortedBy[1])}>
-                  <Box style={styles}>
-                    {t(labels[1])}
-                    {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")}
-                  </Box>
-                </Box>
-              </Flex>
-            )}
+        <Table.Th p={0} colSpan={6} w="100%" h={14}>
+          <Flex w="100%" justify="space-between" p="15px 20px">
+            {/* {isComputer && (
+              <Flex visibleFrom="md" w="25%" justify="space-between"> */}
+            <Box w="70px">
+              <Box style={styles} onClick={() => handleSort(sortedBy[0])}>
+                {t(labels[0])}
+                {sortBy === sortedBy[0] && (order === "asc" ? "▲" : "▼")}
+              </Box>
+            </Box>
+            <Box w="160px" onClick={() => handleSort(sortedBy[1])}>
+              <Box style={styles}>
+                {t(labels[1])}
+                {sortBy === sortedBy[1] && (order === "asc" ? "▲" : "▼")}
+              </Box>
+            </Box>
+            {/* </Flex>
+            )} */}
 
             {/* Mobile Screen */}
-            {(isMobile || isTablet) && (
+            {/* {(isMobile || isTablet) && (
               <Flex w="150px" align="start" hiddenFrom="md">
                 <Box w="120px" onClick={() => handleSort(sortedBy[6])}>
                   <Box style={styles}>
@@ -97,7 +98,7 @@ Props<T>) => {
                   </Box>
                 </Box>
               </Flex>
-            )}
+            )} */}
 
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
@@ -108,7 +109,7 @@ Props<T>) => {
               </Box>
             </Flex>
 
-            <Box w="96px" onClick={() => handleSort(sortedBy[3])}>
+            <Box w="110px" onClick={() => handleSort(sortedBy[3])}>
               <Box style={styles}>
                 {t(labels[3])}
                 {sortBy === sortedBy[3] && (order === "asc" ? "▲" : "▼")}
