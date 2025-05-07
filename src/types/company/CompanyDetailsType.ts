@@ -1,9 +1,12 @@
 import CashBox from "../common/CashBox";
+import Holiday from "../common/Holiday";
 import LocationGoogl from "../common/LocationGoogl";
 import OnlinePaymentMethod from "../common/OnlinePaymentMethod";
+import { BankAccountType } from "../GeneralAdd";
+import { Specialization } from "./AddCompanyType";
 
 export interface ContactInfoType {
-  type: string;
+  type: "email" | "phone";
   isPublic: boolean;
   value: string;
   subType: string;
@@ -43,10 +46,12 @@ export default interface CompanyDetailsType {
   logo: string;
   vision: string;
   contactInfos: ContactInfoType[];
+  specializations: Specialization[];
   cashBoxes: CashBox[];
+  holidays: Holiday[];
   onlinePaymentMethods: OnlinePaymentMethod[];
   insuranceCompany: InsuranceCompany[];
-  bankAccount: BankAccount[];
+  bankAccount: BankAccountType[];
   commercialRecord: CommercialRecord;
   locationGoogl?: LocationGoogle;
   createdAt: string;
@@ -57,5 +62,7 @@ export default interface CompanyDetailsType {
   Key_member: string;
   Founder: string;
   Executives: string;
+  intro: string;
+  details: string;
   __v: number;
 }

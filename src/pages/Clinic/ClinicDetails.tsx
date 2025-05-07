@@ -10,7 +10,7 @@ import { useParams } from "react-router";
 import usePatientCount from "../../hooks/clinic/usePatientCount";
 import useDeleteById from "../../hooks/delete/useDeleteById";
 
-const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+// const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
 const ClinicDetails = () => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
@@ -23,6 +23,7 @@ const ClinicDetails = () => {
   const { data, isFetched } = useClinicDetails(ClinicId!);
   const { data: patientCount } = usePatientCount(ClinicId!);
   console.log(ClinicId);
+  console.log(data);
   if (!isFetched || !data)
     return (
       <Center>
@@ -101,7 +102,10 @@ const ClinicDetails = () => {
                 girdItems={data.doctors.map((item) => item.name)}
                 title="Doctors"
               />
-              <GridList girdItems={items} title="Staff" />
+              <GridList
+                girdItems={data.employees.map((item) => item.name)}
+                title="Staff"
+              />
             </Flex>
           </Flex>
         </Flex>

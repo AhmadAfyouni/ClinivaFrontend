@@ -14,23 +14,39 @@ import { useParams } from "react-router";
 import useUserDetails from "../../hooks/users/useUserDetails";
 import useDeleteById from "../../hooks/delete/useDeleteById";
 
+/**
+ * UserDetails component displays detailed information of a user.
+ * It fetches user details based on userId from the URL parameters.
+ * It also provides functionality to delete a user.
+ */
+
 const UserDetails = () => {
   const theme = useMantineTheme();
   const { id: userId } = useParams();
+
+  // Hook to delete user by ID
   const deleteUser = useDeleteById({
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
   });
+
+  // Fetch user details
   const { data, isFetched } = useUserDetails(userId!);
+
+  // Media query hooks
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
+
+  // Return early if data is not yet fetched or not available
   if (!isFetched || !data)
     return (
       <Center>
         <Text>No User Details Found</Text>
       </Center>
     );
+
+  // Mapping contact information to icons
   const icons =
     data.employeeId?.contactInfos.map((item) => {
       if (item.type === "email")
@@ -45,13 +61,16 @@ const UserDetails = () => {
         };
       else return {};
     }) || [];
+
+  // Handle deleting the user
   const handleDeleteEvent = () => {
     deleteUser.mutate(userId!);
   };
+
   return (
     <ScrollArea h="100vh">
       <Flex direction={isComputer ? "row" : "column"}>
-        <Flex w={isComputer ? "25%" : "100%"}>
+        <Flex w={isComputer ? "20%" : "100%"}>
           <InfoCard
             imgUrl=""
             iconsMaxWidth="150px"
@@ -59,7 +78,7 @@ const UserDetails = () => {
             isActive={true}
             name={data.name}
             id={data.publicId}
-            birthday={data?.employeeId?.dateOfBirth || ""}
+            birthday={data?.employeeId?.dateOfBirth.slice(0, 10) || ""}
             gender={data.employeeId?.gender || ""}
             address={data.employeeId?.address || ""}
             nationalId={data.employeeId?.identity || ""}

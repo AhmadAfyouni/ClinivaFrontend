@@ -6,19 +6,26 @@ import { Button, Center, ScrollArea, Text } from "@mantine/core";
 import useRoles from "../../hooks/Role/useRoles";
 import AddUserType from "../../types/users/AddUser";
 import useStaffListWithoutUser from "../../hooks/staff/useStaffListWithoutUser";
-import useAddUser from "../../hooks/users/useAddUser";
+import { useNavigate } from "react-router";
+import useAddEntity from "../../hooks/add/useAddEntity";
 interface selectRoleType {
   [key: string]: string;
 }
 function AddUser() {
   const employeeHook = useStaffListWithoutUser(true);
-  const addHook = useAddUser();
+  // const addHook = useAddUser();
+  const addHook = useAddEntity({
+    mutationKey: "AddUser",
+    navigationUrl: "users",
+    postUrl: "users",
+  });
+  const navigate = useNavigate();
   const formik = useFormik<AddUserType>({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      isActive: false,
+      isActive: true,
       roleIds: "",
       employeeId: "",
     },
@@ -27,15 +34,16 @@ function AddUser() {
     validateOnChange: true,
     onSubmit: (values) => {
       console.log("Form Submitted:", values);
-      addHook.mutate(values)
-      if(addHook.isSuccess){
+      addHook.mutate(values);
+      if (addHook.isSuccess) {
         formik.resetForm();
+        navigate(`/users`);
       }
     },
   });
   const roleHook = useRoles(0, 0, true);
 
-  if (!roleHook.data ||!employeeHook.data) return <>No Roles</>;
+  if (!roleHook.data || !employeeHook.data) return <>No Roles</>;
 
   const roles: selectRoleType = roleHook.data.reduce<selectRoleType>(
     (acc, item) => {
@@ -47,12 +55,12 @@ function AddUser() {
 
   const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
     (acc, item) => {
-      acc[item.name] = item._id;
+      acc[item.publicId] = item._id;
       return acc;
     },
     {}
   );
-
+  console.log("employee " + employeeHook.data);
   console.log(formik.errors);
   // const handleMultiSelectChange = (
   //   fieldName: string,
@@ -102,6 +110,21 @@ function AddUser() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
+    // {
+    //   id: "employeeId",
+    //   label: "Employee ID",
+    //   mandatory: true,
+    //   type: "select",
+    //   description: "",
+    //   error: formik.errors.employeeId,
+    //   placeholder: "",
+    //   tooltip: "Enter the employee ID",
+    //   selectValue: Object.keys(employees),
+    //   onChange: (selectedKeys) => {
+    //     formik.setFieldValue("employeeId", employees[selectedKeys as string]);
+    //   },
+    //   onBlur: formik.handleBlur,
+    // },
     {
       id: "employeeId",
       label: "Employee ID",
@@ -111,47 +134,52 @@ function AddUser() {
       error: formik.errors.employeeId,
       placeholder: "",
       tooltip: "Enter the employee ID",
-      selectValue: Object.keys(employees),
-      onChange: (selectedKeys) => {
-        formik.setFieldValue("employeeId", employees[selectedKeys as string]);
+      value:
+        Object.keys(employees).find(
+          (key) => employees[key] === formik.values.employeeId
+        ) || "",
+      onChange: (selectedKey) => {
+        formik.setFieldValue("employeeId", employees[selectedKey as string]);
       },
+      selectValue: Object.keys(employees),
       onBlur: formik.handleBlur,
     },
-    {
-      id: "isActive",
-      label: "Is Active",
-      mandatory: true,
-      type: "radio",
-      radio: [
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-      ],
-      description: "",
-      error: formik.errors.isActive,
-      placeholder: "",
-      tooltip: "Choose if user will be active",
-      value: formik.values.isActive ? "true" : "false",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+    // {
+    //   id: "isActive",
+    //   label: "Is Active",
+    //   mandatory: true,
+    //   type: "radio",
+    //   radio: [
+    //     { label: "Yes", value: "true" },
+    //     { label: "No", value: "false" },
+    //   ],
+    //   description: "",
+    //   error: formik.errors.isActive,
+    //   placeholder: "",
+    //   tooltip: "Choose if user will be active",
+    //   value: formik.values.isActive ? "true" : "false",
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
     {
       id: "roleIds",
       label: "Role",
       mandatory: true,
       type: "select",
-
       description: "",
       error: formik.errors.roleIds?.toString(),
       placeholder: "",
       tooltip: "Choose roles for user",
-      value: formik.values.roleIds,
-      onChange: (selectedKeys) => {
-        formik.setFieldValue("roleIds", roles[selectedKeys as string]);
+      value:
+        Object.keys(roles).find(
+          (key) => roles[key] === formik.values.roleIds
+        ) || "",
+      onChange: (selectedKey) => {
+        formik.setFieldValue("roleIds", roles[selectedKey as string]);
       },
       selectValue: Object.keys(roles) || [""],
       onBlur: formik.handleBlur,
     },
-   
   ];
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
@@ -165,7 +193,10 @@ function AddUser() {
           title="Add User"
         />
         <Button type="submit">Submit</Button>
-       <Center> <Text c={"red"}> {addHook.error?.message}</Text></Center>
+        <Center>
+          {" "}
+          <Text c={"red"}> {addHook.error?.message}</Text>
+        </Center>
       </form>
     </ScrollArea>
   );

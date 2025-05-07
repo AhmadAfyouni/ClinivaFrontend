@@ -9,33 +9,45 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
+import useDeleteById from "../../hooks/delete/useDeleteById";
 
 const MedicalComplexPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useMedicalComplexList(false, sortBy, order);
-  console.log(data);
-
+  const deleteMedcalComplex = useDeleteById({
+    endpoint: "cliniccollections",
+    mutationKey: "delete-cliniccollection",
+    navigationUrl: "/medicalComplexes",
+  });
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
 
   const handleSearchChange = (e: string) => {
     pagination.setSearchKey(e);
   };
-  const rows = data?.map((item) => (
+  const rows = data?.map((item, index) => (
     <TableBody
-      imgUrl={item.logo !== null ? item.logo : ""}
+      // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/medicalComplexes/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
-      th1={item.name}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th1={item.publicId}
+      th2={{ value: item.name }}
+      th3={{ value: item.address }}
+      // th3={{ value: item.PIC }}
+      // th5={item.departmentCount.toString()}
 
-      th2={item.address}
-      th3={item.address} ///PIC
       th4={item.employeeCount.toString()}
-      th5={item.departmentCount.toString()}
+      onDeleteClick={() => {
+        deleteMedcalComplex.mutate(item._id);
+        // navigate(`/medicalComplexes`);
+      }}
+      onEditClick={() => {
+        navigate(`/medicalComplexes/edit/${item._id}`);
+      }}
     />
   ));
 
@@ -77,19 +89,19 @@ const MedicalComplexPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "PIC",
                 "address",
-                "employeeCount",
+                "PIC",
                 "departmentCount",
+                "employeeCount",
                 "_id",
               ]}
               labels={[
-                "complexId",
-                "complexName",
+                "No",
+                "MedicalComplex Id",
+                "MedicalComplex name",
                 "pic",
-                "address",
-                "staffCount",
                 "departmentsCount",
+                "Actions",
                 "medicalcomplex",
               ]}
               data={data}

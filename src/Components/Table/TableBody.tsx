@@ -4,43 +4,44 @@ import {
   Flex,
   Table,
   useMantineTheme,
-  Box,
   Tooltip,
   Image,
   Skeleton,
+  UnstyledButton,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { Edit2Icon } from "lucide-react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
-import CheckBox from "./CheckBox";
+import { RiDeleteBinLine } from "react-icons/ri";
 interface Props {
   th0: string;
   th1: string;
-  th2: string;
-  th3: string;
+  th2: { value: string; width?: string };
+  th3: { value: string; width?: string };
   th4: string;
-  th5: string;
+  onEditClick?: () => void;
+  onDeleteClick: () => void;
+  // th4: string;
   imgUrl?: string;
-  selection: string[];
+  selection?: string[];
   onClick: () => void;
-  setSelection: (updater: (current: string[]) => string[]) => void;
+  setSelection?: (updater: (current: string[]) => string[]) => void;
 }
 const TableBody = ({
   th0,
   th1,
-  th2,
-  th3,
+  th2 = { value: "", width: "160px" },
+  th3 = { value: "", width: "148px" },
   th4,
-  th5,
-  imgUrl,
-  selection,
-  setSelection,
+  onDeleteClick,
+  onEditClick,
+  imgUrl = "",
   onClick,
 }: Props) => {
   const theme = useMantineTheme();
-  const isMobile = useMediaQuery("(max-width: 576px)");
-  const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
-  const isComputer = useMediaQuery("(min-width: 993px)");
+  // const isMobile = useMediaQuery("(max-width: 576px)");
+  // const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
+  // const isComputer = useMediaQuery("(min-width: 993px)");
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const getStatusBadge = (status: string) => {
@@ -56,14 +57,15 @@ const TableBody = ({
     };
 
     const label =
-      th5 === "true" ? "Active" : th5 === "false" ? "Inactive" : th5;
-    return th5 === "true" || th5 === "false" ? (
+      th4 === "true" ? "Active" : th4 === "false" ? "Inactive" : th4;
+    return th4 === "true" || th4 === "false" ? (
       <Badge
         bg={bg}
         c={theme.other?.onSurfacePrimary}
         fz="11px"
         p="4px 10px"
         radius="20px"
+        w={75}
       >
         {label}
       </Badge>
@@ -116,78 +118,41 @@ const TableBody = ({
       ) : null}
     </Flex>
   );
+  console.log(th3.width);
 
-  const toggleRow = (id: string) => {
-    setSelection((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
-  };
+  console.log(th2);
+  // const toggleRow = (id: string) => {
+  //   setSelection((current) =>
+  //     current.includes(id)
+  //       ? current.filter((item) => item !== id)
+  //       : [...current, id]
+  //   );
+  // };
   return (
-    <Table.Tbody>
+    <Table.Tbody w="100%">
       {/* <Table.Tbody> */}
       <Table.Tr key={th0} bd={theme.other.bgSubtle}>
-        <Table.Td>
+        {/* <Table.Td> 
           <CheckBox selection={selection} setToggle={toggleRow} id={th0} />
-        </Table.Td>
-
+        </Table.Td> */}
         <Table.Td
-          p={0}
+          p="20px"
           w="100%"
-          onClick={onClick}
           style={{ cursor: "pointer" }}
+          onClick={onClick}
         >
-          <Flex fz="11px" h="50px" w="97%" justify="space-between">
+          <Flex fz="11px" h="40px" w="100%" justify="space-between">
             {/* Desktop view ID and Name */}
-            {isComputer && (
-              <Flex w="25%" justify="space-between" align="center">
-                <Box
-                  fz="11px"
-                  w="70px"
-                  p="16px 4px"
-                  c={theme.other.onSurfacePrimary}
-                  ta="start"
-                >
-                  <Text
-                    fz="11px"
-                    p="0"
-                    c={theme.other.onSurfacePrimary}
-                    truncate
-                  >
-                    {th0}
-                  </Text>
-                </Box>
-                <Box
-                  fz="11px"
-                  w="160px"
-                  p="16px 4px"
-                  c={theme.other.onSurfacePrimary}
-                >
-                  <Flex
-                    align="center"
-                    ta="start"
-                    // justify='center'
-                    c={theme.other.onSurfacePrimary}
-                  >
-                    {getImageCircle()}
-                    <Text
-                      fz="11px"
-                      p="0"
-                      c={theme.other.onSurfacePrimary}
-                      truncate
-                    >
-                      {th1}
-                    </Text>
-                  </Flex>
-                </Box>
-              </Flex>
-            )}
+            {/* {isComputer && (
+              <Flex w="25%" justify="space-between" align="center"> */}
+
+            {/* </Flex>
+            )} */}
 
             {/* Mobile  Avatar, Name and ID */}
-            {(isMobile || isTablet) && (
+            {/* {(isMobile || isTablet) && (
               <Flex direction="row" align="center" w="150px">
-                {getImageCircle()}
+                {imgUrl !== "" && getImageCircle()}
                 <Flex align="start" ta="start" direction="column" w="130px">
                   <Text
                     fz="11px"
@@ -207,59 +172,72 @@ const TableBody = ({
                   </Text>
                 </Flex>
               </Flex>
-            )}
-
-            <Flex w={{ base: "90px", md: "148px" }}>
-              <Box
-                fz="11px"
+            )} */}
+            <Flex
+              fz="11px"
+              w="70px"
+              c={theme.other.onSurfacePrimary}
+              ta="start"
+              align="center"
+            >
+              <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                {th0}
+              </Text>
+            </Flex>
+            <Flex fz="11px" w="160px" c={theme.other.onSurfacePrimary}>
+              <Flex
+                align="center"
+                ta="start"
+                // justify='center'
                 c={theme.other.onSurfacePrimary}
-                style={{
-                  padding: "16px 4px",
-                  color: "#6b7280",
-                  textAlign: "start",
-                }}
               >
-                {th2}
-              </Box>
+                {imgUrl !== "" && getImageCircle()}
+                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                  {th1}
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex
+              // w={th3.width !== "" ? th3.width : "110px"}
+              w={{
+                // base: th3.width !== "" ? th3.width : "90px",
+                base: th2.width,
+                md: th2.width ?? "148px",
+              }}
+              fz="11px"
+              align="center"
+              c={theme.other.onSurfacePrimary}
+              style={{
+                color: "#6b7280",
+                textAlign: "start",
+              }}
+            >
+              {th2.value}
             </Flex>
 
-            <Box
+            <Flex
               fz="11px"
-              p="16px 4px"
-              w="110px"
+              w={th3.width ?? "110px"}
               ta="start"
               c={theme.other.onSurfacePrimary}
+              align="center"
             >
-              <Tooltip label={th3}>
+              <Tooltip label={th3.value}>
                 <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
-                  {th3}
+                  {th3.value}
                 </Text>
               </Tooltip>
-            </Box>
+            </Flex>
 
-            <Box
+            <Flex
               w="106px"
-              p="16px 4px"
               fz="11px"
               ta="start"
+              align="center"
               c={theme.other.onSurfacePrimary}
             >
+              {getStatusBadge(th4)}
               <Tooltip label={th4}>
-                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
-                  {th4}
-                </Text>
-              </Tooltip>
-            </Box>
-
-            <Box
-              w="110px"
-              p="16px 4px"
-              fz="11px"
-              ta="start"
-              c={theme.other.onSurfacePrimary}
-            >
-              {getStatusBadge(th5)}
-              <Tooltip label={th5}>
                 <Text
                   fz="11px"
                   p="0"
@@ -267,7 +245,46 @@ const TableBody = ({
                   truncate
                 ></Text>
               </Tooltip>
-            </Box>
+              {/* <Tooltip label={th4}>
+                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                  {th4}
+                </Text>
+              </Tooltip> */}
+            </Flex>
+            <Flex
+              w="110px"
+              fz="11px"
+              ta="center"
+              align="center"
+              c={theme.other.onSurfacePrimary}
+            >
+              <UnstyledButton
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent click from bubbling to Table.Td
+                  // handle edit logic here
+                  onEditClick?.();
+                  console.log("hello");
+                }}
+                p="5px"
+                mr={10}
+              >
+                <Edit2Icon size="20px" color={theme.other.onSurfaceSecondary} />
+              </UnstyledButton>
+              <UnstyledButton
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent click from bubbling to Table.Td
+                  // handle edit delete here
+                  console.log("hello");
+                  onDeleteClick();
+                }}
+                p="5px"
+              >
+                <RiDeleteBinLine
+                  size="20px"
+                  color={theme.other.onSurfaceSecondary}
+                />
+              </UnstyledButton>
+            </Flex>
           </Flex>
         </Table.Td>
       </Table.Tr>

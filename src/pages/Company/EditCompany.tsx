@@ -9,66 +9,75 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import { Box, Button, Container, Flex, ScrollArea, Text } from "@mantine/core";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { useMantineTheme } from "@mantine/core";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import {
   BankAccountType,
   ContactInfoType,
   Holiday,
 } from "../../types/GeneralAdd";
+import useCompanyDetails from "../../hooks/company/useCompanyDetails";
+import useEditCompany from "../../hooks/company/useEditCompany";
 
 function EditCompany() {
-  const { id } = useParams();
+  const { data, isLoading } = useCompanyDetails();
+  const theme = useMantineTheme();
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("logo", file);
   };
+  const da = data ? data[0] : null;
 
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogle", location);
   };
+  const hook = useEditCompany(da?._id || "-1");
 
   const formik = useFormik<AddCompanyType>({
     initialValues: {
-      name: "",
-      address: "",
-      intro: "",
-      yearOfEstablishment: new Date().toISOString().split("T")[0],
-      logo: "",
-      vision: "",
-      details: "",
-      contactInfos: [],
-      holidays: [],
-      specializations: [],
-      bankAccount: [],
-      insuranceCompany: [],
+      name: da?.name || "",
+      address: da?.address || "",
+      intro: da?.intro || "",
+      yearOfEstablishment: da?.yearOfEstablishment || "",
+      logo: da?.logo || "",
+      goals: da?.goals || "",
+      overview: da?.overview || "",
+      vision: da?.vision || "",
+      details: da?.details || "",
+      contactInfos: da?.contactInfos ?? [],
+      holidays: da?.holidays ?? [],
+      specializations: da?.specializations ?? [],
+      bankAccount: da?.bankAccount ?? [],
+      insuranceCompany: da?.insuranceCompany ?? [],
       commercialRecord: {
-        recordNumber: "",
-        grantDate: "",
-        issueDate: "",
-        expirationDate: "",
-        taxNumber: "",
+        recordNumber: da?.commercialRecord?.recordNumber || "",
+        grantDate: da?.commercialRecord?.grantDate || "",
+        issueDate: da?.commercialRecord?.issueDate || "",
+        expirationDate: da?.commercialRecord?.expirationDate || "",
+        taxNumber: da?.commercialRecord?.taxNumber || "",
       },
       locationGoogle: {
-        x: 0,
-        y: 0,
+        x: da?.locationGoogl?.x || 0,
+        y: da?.locationGoogl?.x || 0,
       },
       Key_member: "",
       Founder: "",
       Executives: ""
     },
+    enableReinitialize: true,
     validationSchema: AddCompanySchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
+      hook.mutate(values);
       console.log("Form Submitted:", values);
       // TODO: Implement update logic here
     },
   });
-
-  useEffect(() => {
-    // TODO: Fetch company data using the id from params
-    // and update formik values with the fetched data
-  }, [id]);
+  if (isLoading || !da) {
+    return <div>Loading company data...</div>;
+  }
+  // useEffect(() => {
+  //   // TODO: Fetch company data using the id from params
+  //   // and update formik values with the fetched data
+  // }, [id]);
 
   const attrb: InputPropsType[] = [
     {
@@ -136,31 +145,57 @@ function EditCompany() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "intro",
-      label: "Introduction",
+      id: "goals",
+      label: "Goals",
       mandatory: true,
       type: "areaText",
       description: "",
       error: formik.errors.intro,
-      placeholder: "Enter company introduction",
-      tooltip: "Brief introduction about the company",
-      value: formik.values.intro || "",
+      placeholder: "Enter company goals",
+      tooltip: "Brief goals about the company",
+      value: formik.values.goals || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
     {
-      id: "details",
-      label: "Company Details",
+      id: "overview",
+      label: "Overview",
       mandatory: true,
       type: "areaText",
       description: "",
       error: formik.errors.details,
-      placeholder: "Enter company details",
-      tooltip: "Detailed information about the company",
-      value: formik.values.details || "",
+      placeholder: "Enter company overview",
+      tooltip: "overview about the company",
+      value: formik.values.overview || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
+    // {
+    //   id: "intro",
+    //   label: "Introduction",
+    //   mandatory: true,
+    //   type: "areaText",
+    //   description: "",
+    //   error: formik.errors.intro,
+    //   placeholder: "Enter company introduction",
+    //   tooltip: "Brief introduction about the company",
+    //   value: formik.values.intro || "",
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
+    // {
+    //   id: "details",
+    //   label: "Company Details",
+    //   mandatory: true,
+    //   type: "areaText",
+    //   description: "",
+    //   error: formik.errors.details,
+    //   placeholder: "Enter company details",
+    //   tooltip: "Detailed information about the company",
+    //   value: formik.values.details || "",
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
   ];
 
   const commercialRecord: InputPropsType[] = [
@@ -230,8 +265,6 @@ function EditCompany() {
       onBlur: formik.handleBlur,
     },
   ];
-
-  const theme = useMantineTheme();
 
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
