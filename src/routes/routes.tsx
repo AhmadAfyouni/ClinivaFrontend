@@ -36,6 +36,7 @@ import AddDepartment from "../pages/Departement/AddDepartment";
 import AddSpeciality from "../pages/Specialities/AddSpeciality";
 import EditCompany from "../pages/Company/EditCompany";
 import EditEmployee from "../pages/Employee/EditEmployee";
+import { ProtectedRoute } from "../Components/permission/protectRoute";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -130,7 +131,12 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <UsersPage />,
+        element: (
+          <ProtectedRoute permission="user_view">
+            <UsersPage />
+          </ProtectedRoute>
+        ),
+        // element: <UsersPage />,
       },
       {
         path: "add",
@@ -138,7 +144,11 @@ export const routes: AppRoute[] = [
       },
       {
         path: "details/:id",
-        element: <UserDetails />,
+        element: (
+          <ProtectedRoute permission="user_view">
+            <UserDetails />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
