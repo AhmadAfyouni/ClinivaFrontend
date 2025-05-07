@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/ApiCore";
 import { LoginType } from "../../types/Login/LoginType";
 import LoginResponse from "../../types/Login/LoginResponse";
+import { usePermissionStore } from "../../store/usePermissionStore";
 
 const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
   const navigate = useNavigate();
@@ -10,9 +11,13 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
 
   const login = async (data: LoginType): Promise<LoginResponse> => {
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);
-    localStorage.setItem("token", res.data.data.accessToken);
+    // localStorage.setItem("token", res.data.data.accessToken);
     if (saveToken) {
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      localStorage.setItem("token", res.data.data.accessToken);
+    }
+    if (!saveToken) {
+      sessionStorage.setItem("token", res.data.data.accessToken);
     }
     const userName = res.data.data.user.name;
     if (userName) {
@@ -30,12 +35,22 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
       // navigate(`/dashboard`);
       navigate(`/users`);
     }
+
+    const permissions = res.data.data.user.permissions;
+    if (Array.isArray(permissions)) {
+      localStorage.setItem("permissions", JSON.stringify(permissions));
+      usePermissionStore.getState().setPermissions(permissions);
+    }
     return res.data;
   };
 
   return useMutation<LoginResponse, Error, LoginType>({
     mutationKey: ["login"],
     mutationFn: login,
+    onError: (error) => {
+      const errorMessage = error.message;
+      console.error("Login error:", errorMessage);
+    },
   });
 };
 
