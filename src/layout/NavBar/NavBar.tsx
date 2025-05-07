@@ -28,8 +28,10 @@ function NavBar({ login }: Props) {
 
   const handleLogout = () => {
     console.log("Logging out...");
+    sessionStorage.removeItem("token");
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userEmail");
     navigate("/login");
   };
   const handleLogin = () => {

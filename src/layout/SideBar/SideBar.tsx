@@ -1,13 +1,5 @@
 import {
-  // IconAdjustments,
-  IconBuildingCommunity,
-  IconBuildingHospital,
-  IconBuildingSkyscraper,
   IconCalendarStats,
-  // IconFileAnalytics,
-  IconHospital,
-  // IconLock,
-  IconMicroscope,
   IconStethoscope,
   IconUsersGroup,
   IconUser,
@@ -30,38 +22,41 @@ export function SideBar() {
     { label: t("Users"), icon: IconUser, link: "/" },
 
     {
-      label: t("MedicalComplexes"),
-      icon: IconBuildingHospital,
-      link: "/medicalComplexes",
-    },
-    {
-      label: t("Departements"),
-      icon: IconBuildingCommunity,
-      link: "/departements",
-    },
-    {
-      label: t("Specialities"),
-      icon: IconMicroscope,
-      link: "/specialities",
-    },
-    {
-      label: t("Clinics"),
-      icon: IconHospital,
-      link: "/clinics",
-    },
-    {
       label: t("Appointments"),
       icon: IconCalendarStats,
       link: "/appointments",
     },
-    // {
-    //   label: t("Appointment"),
-    //   icon: IconCalendarStats,
-    //   links: [
-    //     { label: t("Appointments"), link: "/appointments" },
-    //     { label: t("Add Appointments"), link: "/appointments/add" },
-    //   ],
-    // },
+    {
+      label: t("Company"),
+      icon: IconCalendarStats,
+      links: [
+        {
+          label: t("companyInfo"),
+          // icon: IconBuildingSkyscraper,
+          link: "/company",
+        },
+        {
+          label: t("MedicalComplexes"),
+          // icon: IconBuildingHospital,
+          link: "/medicalComplexes",
+        },
+        {
+          label: t("Departements"),
+          // icon: IconBuildingCommunity,
+          link: "/departements",
+        },
+        {
+          label: t("Specialities"),
+          // icon: IconMicroscope,
+          link: "/specialities",
+        },
+        {
+          label: t("Clinics"),
+          // icon: IconHospital,
+          link: "/clinics",
+        },
+      ],
+    },
     { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
     { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
     { label: t("Patients"), icon: IconUser, link: "/patients" },
@@ -69,11 +64,6 @@ export function SideBar() {
       label: t("Services"),
       icon: IconReportMedical,
       link: "/services",
-    },
-    {
-      label: t("companyInfo"),
-      icon: IconBuildingSkyscraper,
-      link: "/company",
     },
 
     // { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
