@@ -62,30 +62,22 @@ const ClinicsPage = () => {
     workingHours[0]?.endTime || ""
   );
   console.log(maxStartTime, maxEndTime);
-  const rows = data.map((item) => (
+  const rows = data.map((item, index) => (
     <TableBody
-      imgUrl={item.logo !== null ? item.logo : ""}
+      // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/clinics/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
-      th1={item.name}
-      th2={(() => {
-        const wh = item.WorkingHours || [];
-        const maxStart = wh.reduce(
-          (max, x) => (x.startTime > max ? x.startTime : max),
-          wh[0]?.startTime || ""
-        );
-        const maxEnd = wh.reduce(
-          (max, x) => (x.endTime > max ? x.endTime : max),
-          wh[0]?.endTime || ""
-        );
-        return `${maxStart} - ${maxEnd}`;
-      })()}
-      th3={item.specializations.map((item) => item.name).join(",")}
-      th4={item.treatedPatientCount.toString() || "0"}
-      th5={item.isActive.toString()}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th1={item.publicId}
+      th2={{ value: item.name }}
+      th3={{ value: item.specializations.map((item) => item.name).join(",") }}
+      th4={item.isActive.toString()}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
 
@@ -122,12 +114,12 @@ const ClinicsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "clinicId",
-                "name",
-                "workingHours",
+                "No",
+                "Clinic Id",
+                "Clinic name",
                 "speciality",
-                "numberOfPatients",
-                "status",
+                "Status",
+                "Actions",
                 "clinic",
               ]}
               sortedBy={[

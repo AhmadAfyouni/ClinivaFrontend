@@ -35,6 +35,8 @@ export default interface InputPropsType {
   radio?: RadioType[];
   selectValue?: string[];
   disabled?: boolean;
+  autoComplete?: string;
+  name?: string;
 }
 export interface Text {
   base: InputPropsType;
@@ -43,8 +45,8 @@ export interface TextArea {
   base: InputPropsType;
 }
 export interface RadioType {
-  value: string;
-  label: string;
+  value: string|boolean;
+  label: string|boolean;
 }
 export interface Date {
   base: InputPropsType;

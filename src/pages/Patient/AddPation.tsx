@@ -1,31 +1,38 @@
 import { useFormik } from "formik";
-import AddDoctorType from "../../types/AddDoctorType";
-import AddDoctorSchema from "../../schema/AddDoctorSchema";
+import AddPationType, { EmergencyContactType } from "../../types/AddPationType";
+import AddPationSchema from "../../schema/AddPationSchema";
 import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
-import { ScrollArea } from "@mantine/core";
-import { specialties } from "../../data/Specialties";
+import { Button, ScrollArea } from "@mantine/core";
 import { language } from "../../data/Language";
+import { useNavigate } from "react-router-dom";
+import useAddPation from "../../hooks/patient/useAddPation";
+import TableSelection from "../../Components/Inputs/table/TableSelection";
 
-function AddDoctor() {
+function AddPation() {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
-
-  const formik = useFormik<AddDoctorType>({
+  const hook = useAddPation();
+  const navigate = useNavigate();
+  const handleMultiSelectChange = (
+    fieldName: string,
+    selectedValues: string[]
+  ) => {
+    console.log(selectedValues);
+    formik.setFieldValue(fieldName, selectedValues);
+  };
+  const formik = useFormik<AddPationType>({
     initialValues: {
-      specialties: [],
       languages: [],
       evaluation: 0,
       professiona_experi: "",
-      workingHours: 0,
       name: "",
       phone: "",
-      dateOfBirth: new Date(),
+      dateOfBirth: "",
       gender: "male",
-      insurances: 0,
       nationality: "",
-      image: "",
+      // image: "",
       marital_status: "Single",
       number_children: 0,
       blood_type: "A+",
@@ -34,17 +41,21 @@ function AddDoctor() {
       notes: "",
       email: "",
       address: "",
-      emergencyContact: new Map(),
-      created_at: new Date(),
-      updated_at: new Date(),
+      emergencyContacts: [],
+      Smoking: false,
+      Current_Medications: "",
+      Surgical_History: "",
+      identity: ""
     },
-    validationSchema: AddDoctorSchema,
-    validateOnBlur: false,
-    validateOnChange: false,
+    validationSchema: AddPationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: (values) => {
-      console.log("Form Submitted:", values);
+      console.log("Form Submitted:@", values);
+      hook.mutate(values);
     },
   });
+  // if (hook.isSuccess) navigate(`/patients`);
 
   const attrb: InputPropsType[] = [
     {
@@ -61,31 +72,32 @@ function AddDoctor() {
       onBlur: formik.handleBlur,
     },
     {
-      id: "specialties",
-      label: "Specialties",
+      id: "identity",
+      label: "Identity",
       mandatory: true,
-      type: "select",
+      type: "text",
       description: "",
-      error: formik.errors.specialties as string,
-      placeholder: "Cardiology, Neurology",
-      tooltip: "Enter medical specialties",
-      value: "",
+      error: formik.errors.identity,
+      placeholder: "123456789",
+      tooltip: "Enter identity number",
+      value: formik.values.identity || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      selectValue: specialties,
     },
 
     {
       id: "languages",
       label: "Languages",
-      mandatory: false,
-      type: "select",
+      mandatory: true,
+      type: "multiSelect",
       description: "",
-      error: formik.errors.languages,
-      placeholder: "English, Arabic",
-      tooltip: "Enter languages spoken",
-      value: "",
-      onChange: formik.handleChange,
+      error: formik.errors.languages?.toString(),
+      placeholder: "Select language",
+      tooltip: "Enter your language",
+      value: formik.values.languages || [],
+      onChange: (selectedValues) =>
+        handleMultiSelectChange("languages", selectedValues as string[]),
+
       onBlur: formik.handleBlur,
       selectValue: language,
     },
@@ -134,12 +146,9 @@ function AddDoctor() {
       mandatory: true,
       type: "date",
       description: "",
-      error:
-        typeof formik.errors.dateOfBirth === "string"
-          ? formik.errors.dateOfBirth
-          : undefined,
+      error: formik.errors.dateOfBirth,
       placeholder: "1/1/1990",
-      value: "",
+      value: formik.values.dateOfBirth,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -183,6 +192,45 @@ function AddDoctor() {
       value: formik.values.image || "",
       onChangeFile: handleImageChange,
       onChange: () => {},
+    },
+    {
+      id: "smoking",
+      label: "Smoking",
+      mandatory: false,
+      type: "radio",
+      description: "",
+      error: formik.errors.Smoking,
+      placeholder: "",
+      radio: [
+        { label: "Yes", value: true },
+        { label: "No", value: false },
+      ],
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "Current_Medications",
+      label: "Current Medications",
+      mandatory: false,
+      type: "text",
+      description: "",
+      error: formik.errors.Current_Medications,
+      placeholder: "",
+      value: formik.values.Current_Medications,
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
+    },
+    {
+      id: "Surgical_History",
+      label: "Surgical History",
+      mandatory: false,
+      type: "date",
+      description: "",
+      value: formik.values.Surgical_History,
+      error: formik.errors.Surgical_History,
+      placeholder: "",
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur,
     },
     {
       id: "marital_status",
@@ -302,12 +350,39 @@ function AddDoctor() {
       onBlur: formik.handleBlur,
     },
   ];
+  console.log("erro", formik.errors);
+  console.log(formik.values);
 
   return (
-    <ScrollArea h="calc(100vh - 80px)" w="100%">
-      <InputForm base={attrb} count={0} onSubmit={formik.handleSubmit} />
+    <ScrollArea h="calc(100vh - 100px)" w="100%">
+      <form onSubmit={formik.handleSubmit}>
+        <InputForm
+          base={attrb}
+          count={0}
+          with_submit={false}
+          onSubmit={() => {}}
+        />
+        <TableSelection<EmergencyContactType>
+          columns={[
+            { key: "name", label: "Name", type: "text" },
+            { key: "phone", label: "Phone", type: "number" },
+            {
+              key: "relationToPatient",
+              label: "Relation To Patient",
+              type: "text",
+            },
+          ]}
+          fieldName="emergencyContacts"
+          title="Emergency Contact"
+          key={"emergencyContacts"}
+          onFieldChange={formik.setFieldValue}
+          error={formik.errors.emergencyContacts?.toString() || ""}
+          data={formik.values.emergencyContacts}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
     </ScrollArea>
   );
 }
 
-export default AddDoctor;
+export default AddPation;

@@ -125,7 +125,7 @@ const ServiceDetails = () => {
             icon={<BsPerson />}
           />
           <Flex w="50%" direction="column">
-            <Text fw={600} size="sm" c={theme.other.onSurfaceTertiary}>
+            <Text fw={600} size="sm" p="md" c={theme.other.onSurfaceTertiary}>
               Clinic
             </Text>
             <Flex w="50%">

@@ -150,7 +150,6 @@ function EditEmployee() {
       return acc;
     }, {});
 
-  // Place handleImageChange after formik initialization
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };

@@ -1,13 +1,5 @@
 import {
-  IconAdjustments,
-  IconBuildingCommunity,
-  IconBuildingHospital,
-  IconBuildingSkyscraper,
   IconCalendarStats,
-  IconFileAnalytics,
-  IconHospital,
-  IconLock,
-  IconMicroscope,
   IconStethoscope,
   IconUsersGroup,
   IconUser,
@@ -30,38 +22,41 @@ export function SideBar() {
     { label: t("Users"), icon: IconUser, link: "/" },
 
     {
-      label: t("MedicalComplexes"),
-      icon: IconBuildingHospital,
-      link: "/medicalComplexes",
-    },
-    {
-      label: t("Departements"),
-      icon: IconBuildingCommunity,
-      link: "/departements",
-    },
-    {
-      label: t("Specialities"),
-      icon: IconMicroscope,
-      link: "/specialities",
-    },
-    {
-      label: t("Clinics"),
-      icon: IconHospital,
-      link: "/clinics",
-    },
-    {
       label: t("Appointments"),
       icon: IconCalendarStats,
       link: "/appointments",
     },
-    // {
-    //   label: t("Appointment"),
-    //   icon: IconCalendarStats,
-    //   links: [
-    //     { label: t("Appointments"), link: "/appointments" },
-    //     { label: t("Add Appointments"), link: "/appointments/add" },
-    //   ],
-    // },
+    {
+      label: t("Company"),
+      icon: IconCalendarStats,
+      links: [
+        {
+          label: t("companyInfo"),
+          // icon: IconBuildingSkyscraper,
+          link: "/company",
+        },
+        {
+          label: t("MedicalComplexes"),
+          // icon: IconBuildingHospital,
+          link: "/medicalComplexes",
+        },
+        {
+          label: t("Departements"),
+          // icon: IconBuildingCommunity,
+          link: "/departements",
+        },
+        {
+          label: t("Specialities"),
+          // icon: IconMicroscope,
+          link: "/specialities",
+        },
+        {
+          label: t("Clinics"),
+          // icon: IconHospital,
+          link: "/clinics",
+        },
+      ],
+    },
     { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
     { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
     { label: t("Patients"), icon: IconUser, link: "/patients" },
@@ -70,23 +65,18 @@ export function SideBar() {
       icon: IconReportMedical,
       link: "/services",
     },
-    {
-      label: t("companyInfo"),
-      icon: IconBuildingSkyscraper,
-      link: "/company",
-    },
 
-    { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
-    { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
-    {
-      label: t("Security"),
-      icon: IconLock,
-      links: [
-        { label: t("Enable 2FA"), link: "/security/2fa" },
-        { label: t("Change password"), link: "/security/password" },
-        { label: t("Recovery codes"), link: "/security/recovery" },
-      ],
-    },
+    // { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
+    // { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
+    // {
+    //   label: t("Security"),
+    //   icon: IconLock,
+    //   links: [
+    //     { label: t("Enable 2FA"), link: "/security/2fa" },
+    //     { label: t("Change password"), link: "/security/password" },
+    //     { label: t("Recovery codes"), link: "/security/recovery" },
+    //   ],
+    // },
   ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, close } = useDrawerStore();

@@ -16,6 +16,7 @@ const ServicesPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data, isFetched } = useServicesList(false, sortBy, order);
+  console.log("data is " + data);
   const navigate = useNavigate();
   const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
@@ -48,18 +49,23 @@ const ServicesPage = () => {
     pagination.setFilter(value);
     setSelectedOption("SerStatus", e);
   };
-  const rows = data.map((item) => (
+  const rows = data.map((item, index) => (
     <TableBody
       onClick={() => navigate(`/services/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
-      th1={item.name || ""}
-      th2={item.description}
-      th3={item.price.toString()}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th1={item.publicId || ""}
+      // th2={{ value: item.description }}
+      th2={{ value: item.name }}
+      th3={{ value: item.price.toString() }}
       th4={item.clinic !== null ? item.clinic.name : ""}
-      th5={item.isActive.toString()}
+      // th5={item.isActive.toString()}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
 
@@ -102,7 +108,7 @@ const ServicesPage = () => {
                 "price",
                 "clinics",
                 "status",
-                "clinic",
+                "service",
               ]}
               sortedBy={[
                 "_id",

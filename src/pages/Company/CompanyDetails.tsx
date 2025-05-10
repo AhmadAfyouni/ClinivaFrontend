@@ -1,6 +1,7 @@
 import { Mail, MapPin, PhoneCall, Sparkles } from "lucide-react";
 import InfoSide from "../../Components/CompanyDetails/InfoSide";
 import {
+  Button,
   Center,
   Flex,
   ScrollArea,
@@ -13,14 +14,14 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
+import { useNavigate } from "react-router";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  // const { id: companyId } = useParams();
   const { data: companies, isFetched } = useCompanyDetails();
   if (!isFetched || !companies)
     return (
@@ -48,8 +49,7 @@ const CompanyDetails = () => {
       : "",
     companies[0]?.Key_member || "",
     companies[0]?.Founder || "",
-    // companies[0]?.Executives || "",
-    "fdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfdefdvfdsvfde",
+    companies[0]?.Executives || "",
   ];
   const icons = companies[0].contactInfos.map((item) => {
     if (item.type === "email") {
@@ -71,9 +71,9 @@ const CompanyDetails = () => {
   });
   const content =
     "transform your data into actionable insights. Our platform helps you make informed decisions faster and with greater confidence.";
-  // const handleEditEvent = () => {
-  //   navigate(`/company/edit/${companyId}`);
-  // };
+  const handleEditEvent = () => {
+    navigate(`/company/edit`);
+  };
   return (
     <ScrollArea h="100vh">
       <Flex
@@ -94,7 +94,7 @@ const CompanyDetails = () => {
             socialMediaIcons={icons}
             hasActivation={false}
           />
-          {/* <Button
+          <Button
             variant="filled"
             color="green"
             radius="xl"
@@ -104,7 +104,7 @@ const CompanyDetails = () => {
             onClick={handleEditEvent}
           >
             Edit
-          </Button> */}
+          </Button>
         </Flex>
         <Flex w={isComputer ? "46%" : "100%"} direction="column" gap="xl">
           <TextList

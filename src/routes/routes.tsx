@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import AddDoctor from "../pages/Doctor/AddDoctor";
+import AddPation from "../pages/Patient/AddPation";
 import Dashboard from "../pages/Dashboard";
-import AddPatient from "../pages/Patient/AddPatient";
+import AddDoctor from "../pages/Doctor/AddDpctor";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/appointment/AddAppointments";
 import AddEmployee from "../pages/Employee/AddEmployee";
@@ -36,6 +36,7 @@ import AddDepartment from "../pages/Departement/AddDepartment";
 import AddSpeciality from "../pages/Specialities/AddSpeciality";
 import EditCompany from "../pages/Company/EditCompany";
 import EditEmployee from "../pages/Employee/EditEmployee";
+import { ProtectedRoute } from "../Components/permission/protectRoute";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -71,7 +72,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <AddDoctor />,
+        element: <AddPation />,
       },
       {
         path: "appointments",
@@ -93,7 +94,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add/",
-        element: <AddPatient />,
+        element: <AddDoctor />,
       },
       {
         path: "details/:id",
@@ -130,7 +131,12 @@ export const routes: AppRoute[] = [
     children: [
       {
         path: "",
-        element: <UsersPage />,
+        element: (
+          <ProtectedRoute permission="user_view">
+            <UsersPage />
+          </ProtectedRoute>
+        ),
+        // element: <UsersPage />,
       },
       {
         path: "add",
@@ -138,7 +144,11 @@ export const routes: AppRoute[] = [
       },
       {
         path: "details/:id",
-        element: <UserDetails />,
+        element: (
+          <ProtectedRoute permission="user_view">
+            <UserDetails />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -151,7 +161,8 @@ export const routes: AppRoute[] = [
         element: <CompanyDetails />,
       },
       {
-        path: "edit/:id",
+        // path: "edit/:id",
+        path: "edit",
         element: <EditCompany />,
       },
     ],

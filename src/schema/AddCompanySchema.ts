@@ -100,6 +100,9 @@ const AddCompanySchema = Yup.object().shape({
     x: Yup.number().required("Latitude is required"),
     y: Yup.number().required("Longitude is required"),
   }),
+  Executives:Yup.string().required("Executives are required"),
+  Founder: Yup.string().required("Founder is required"),
+  Key_member: Yup.string().required("Key member is required"),
 });
 
 export default AddCompanySchema;

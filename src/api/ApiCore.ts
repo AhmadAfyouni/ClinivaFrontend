@@ -28,8 +28,11 @@ axiosInstance.interceptors.request.use(
   (config) => {
     setLoading(true);
 
+    // const sessionToken = sessionStorage.getItem("token");
     if (config.url !== "/login") {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token")
+        ? sessionStorage.getItem("token")
+        : localStorage.getItem("token");
       config.headers["Authorization"] = `Bearer ${token}`;
       const i18nextLng = localStorage.getItem("i18nextLng");
       config.headers["Accept-Language"] =

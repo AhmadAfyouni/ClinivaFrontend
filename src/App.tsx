@@ -25,6 +25,8 @@ import ResetWatcher from "./Components/store/ResetWatcher";
 import LoaderCustom from "./Components/Loader";
 import SetNavBarTitle from "./layout/NavBar/SetNavBarTitle";
 import { useTranslation } from "react-i18next";
+import { usePermissionStore } from "./store/usePermissionStore";
+import { Toaster } from "react-hot-toast";
 
 const createAppTheme = (
   colorScheme: "light" | "dark"
@@ -137,6 +139,11 @@ function App() {
 
   const direction = i18n.language === "ar" ? "ar" : "en";
 
+  const { loadPermissions } = usePermissionStore();
+
+  useEffect(() => {
+    loadPermissions();
+  }, [loadPermissions]);
   useEffect(() => {
     document.documentElement.setAttribute("dir", direction);
   }, [direction]);
@@ -151,6 +158,14 @@ function App() {
           <BrowserRouter>
             <SetNavBarTitle />
             <ResetWatcher />
+            <Toaster
+              toastOptions={{
+                style: {
+                  background: dark ? "#363636" : "#AFAFAF",
+                  color: dark ? "#fff" : "#000",
+                },
+              }}
+            />
             <AppContent />
           </BrowserRouter>
         </MantineProvider>

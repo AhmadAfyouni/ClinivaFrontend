@@ -28,9 +28,9 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order +
-        "&search=" +
-        pagination.paramKey
+        order
+        // "&search=" +
+        // pagination.paramKey
         // "&isActive=" +
         // pagination.filter
       }`;

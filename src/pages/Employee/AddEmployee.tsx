@@ -18,6 +18,7 @@ import {
 import useClinicsList from "../../hooks/clinic/useClinicsList";
 import useDepartementsList from "../../hooks/departement/useDepartementsList";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
+import { language } from "../../data/Language";
 
 interface selectSpecializationType {
   [key: string]: string;
@@ -31,8 +32,10 @@ function AddEmployee() {
   const queryClinic = useClinicsList();
   const queryDepartment = useDepartementsList();
   const queryMedicalComplex = useMedicalComplexList();
-  const departmentName = [...new Set(queryDepartment.data?.map((obj) => obj.name))];
- 
+  const departmentName = [
+    ...new Set(queryDepartment.data?.map((obj) => obj.name)),
+  ];
+
   const formik = useFormik<AddEmployeeType>({
     initialValues: {
       // clinicCollectionId: "",
@@ -74,35 +77,41 @@ function AddEmployee() {
     },
   });
 
-  if (!querySpecialization.isFetched || !querySpecialization.data||!queryClinic.data||!queryMedicalComplex.data||!queryDepartment.data)
+  if (
+    !querySpecialization.isFetched ||
+    !querySpecialization.data ||
+    !queryClinic.data ||
+    !queryMedicalComplex.data ||
+    !queryDepartment.data
+  )
     return (
       <Center>
         <Text>No Specialization Found</Text>
       </Center>
     );
-    const clinicName = [...new Set(queryClinic.data?.map((obj) => obj.name))];
-    const medicalComplexName = [...new Set(queryMedicalComplex.data?.map((obj) => obj.name))];
-    const nameIdMapMedicalComplex = queryMedicalComplex.data?.reduce<Record<string, string>>(
-      (acc, medicalComplex) => {
-        acc[medicalComplex.name] = medicalComplex._id;
-        return acc;
-      },
-      {}
-    );
-    const nameIdMapDepartment = queryDepartment.data?.reduce<Record<string, string>>(
-      (acc, department) => {
-        acc[department.name] = department._id;
-        return acc;
-      },
-      {}
-    );
-    const nameIdMapClinic = queryClinic.data?.reduce<Record<string, string>>(
-      (acc, clinic) => {
-        acc[clinic.name] = clinic._id;
-        return acc;
-      },
-      {}
-    );
+  const clinicName = [...new Set(queryClinic.data?.map((obj) => obj.name))];
+  const medicalComplexName = [
+    ...new Set(queryMedicalComplex.data?.map((obj) => obj.name)),
+  ];
+  const nameIdMapMedicalComplex = queryMedicalComplex.data?.reduce<
+    Record<string, string>
+  >((acc, medicalComplex) => {
+    acc[medicalComplex.name] = medicalComplex._id;
+    return acc;
+  }, {});
+  const nameIdMapDepartment = queryDepartment.data?.reduce<
+    Record<string, string>
+  >((acc, department) => {
+    acc[department.name] = department._id;
+    return acc;
+  }, {});
+  const nameIdMapClinic = queryClinic.data?.reduce<Record<string, string>>(
+    (acc, clinic) => {
+      acc[clinic.name] = clinic._id;
+      return acc;
+    },
+    {}
+  );
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
@@ -216,7 +225,10 @@ function AddEmployee() {
       // value: formik.values.departmentId || "",
       onChange: (selectedValue) => {
         if (typeof selectedValue === "string") {
-          formik.setFieldValue("departmentId", nameIdMapDepartment[selectedValue]);
+          formik.setFieldValue(
+            "departmentId",
+            nameIdMapDepartment[selectedValue]
+          );
         }
       },
       onBlur: formik.handleBlur,
@@ -234,7 +246,10 @@ function AddEmployee() {
       // value: formik.values.clinicCollectionId || "",
       onChange: (selectedValue) => {
         if (typeof selectedValue === "string") {
-          formik.setFieldValue("clinicCollectionId", nameIdMapMedicalComplex[selectedValue]);
+          formik.setFieldValue(
+            "clinicCollectionId",
+            nameIdMapMedicalComplex[selectedValue]
+          );
         }
       },
       onBlur: formik.handleBlur,
@@ -383,7 +398,7 @@ function AddEmployee() {
         handleMultiSelectChange("Languages", selectedValues as string[]),
 
       onBlur: formik.handleBlur,
-      selectValue: ["English", "French", "Spanish", "German", "Italian"],
+      selectValue: language,
     },
     {
       id: "specialties",

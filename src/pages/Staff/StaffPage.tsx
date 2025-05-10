@@ -33,20 +33,29 @@ const StaffPage = () => {
           })
     );
   };
+  console.log(data.map((item) => item.image));
 
-  const rows = data?.map((item) => (
+  const rows = data?.map((item, index) => (
     <TableBody
-      imgUrl={item.image !== null ? item.image : ""}
+      imgUrl={
+        item.image !== "" && item.image !== undefined
+          ? item.image
+          : "https://example.com/nonexistent-image.jpg"
+      }
       onClick={() => navigate(`/employees/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
-      th1={item.name}
-      th2={item.employeeType}
-      th3={item.clinicCollectionId !== null ? item.clinicCollectionId.name : ""}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th1={item.publicId}
+      th2={{ value: item.name }}
+      th3={{ value: item.employeeType || "" }}
       th4={item.departmentId !== null ? item.departmentId.name : ""}
-      th5={item.isActive.toString()}
+      // th5={item.isActive.toString()}
+      onDeleteClick={() => {
+        console.log("delete");
+      }}
+      onEditClick={() => console.log("edit")}
     />
   ));
 

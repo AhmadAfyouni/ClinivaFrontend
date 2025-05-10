@@ -12,8 +12,15 @@ interface LoginData {
   user: User;
 }
 
+interface MessageType {
+  message: string;
+  error: string;
+  statusCode: number;
+}
+
 export default interface LoginResponse {
   success: boolean;
-  message: string;
+  // message: string;
+  message: MessageType;
   data: LoginData;
 }

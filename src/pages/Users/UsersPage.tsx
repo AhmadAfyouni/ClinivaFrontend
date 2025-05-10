@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
 import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
@@ -11,15 +11,35 @@ import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useUsersList from "../../hooks/users/useUsersList";
 import CustomFilters from "../../Components/filters/CustomFilters";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
+import useDeleteById from "../../hooks/delete/useDeleteById";
+import { useHasPermission } from "../../hooks/permission/useHasPermission";
+import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
+import DeleteConfirmationDialog from "../DeleteWithDialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UsersPage = () => {
+  const queryClient = useQueryClient();
+  const canCreateUser = useHasPermission(["admin", "user_create"]);
+  console.log("canCreateUser " + canCreateUser);
   const [selection, setSelection] = useState<string[]>([]);
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { setSelectedOption } = useDropDownStore();
+  const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { data, isFetched } = useUsersList(false, sortBy, order);
   const navigate = useNavigate();
-
+  const deleteUser = useDeleteById({
+    endpoint: "users",
+    mutationKey: "delete-user",
+    navigationUrl: "/users",
+  });
+  useEffect(() => {
+    return () => {
+      closeDialog();
+      setSelectedId(null);
+    };
+  }, []);
   if (!data) return null;
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -40,15 +60,15 @@ const UsersPage = () => {
     const date = e;
     if (date && !isNaN(date.getTime())) {
       const month = String(date.getDate()).padStart(2, "0");
-      const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
+      const day = String(date.getMonth() + 1).padStart(2, "0");
       const year = date.getFullYear();
       const formattedDate = `${day}-${month}-${year}`;
-
       pagination.setDate(formattedDate);
     } else {
       pagination.setDate(undefined);
     }
   };
+
   const toggleAll = () => {
     setSelection((current) =>
       current.length === data.length
@@ -59,30 +79,32 @@ const UsersPage = () => {
     );
   };
 
-  const rows = data.map((item) => (
+  const handleDeleteItem = (id: string) => {
+    deleteUser.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        setSelectedId(null);
+        closeDialog();
+      },
+    });
+  };
+  const rows = data.map((item, index) => (
     <TableBody
-      imgUrl={
-        item.image !== null
-          ? item.image
-          : "https://thisurldoesnotexist.example/image.jpg"
-      }
       onClick={() => navigate(`/users/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={item.publicId}
-      th1={item.name}
-      th2={new Date(item.createdAt || "").toLocaleString("en-US", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      })}
-      th3={item.email}
-      th4={item.roleIds.map((item) => item.name).toString()}
-      th5={item.isActive.toString()}
+      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th1={item.publicId}
+      th2={{ value: item.name }}
+      th3={{ value: item.roleIds.map((item) => item.name).toString() }}
+      th4={item.isActive.toString()}
+      onDeleteClick={() => {
+        setSelectedId(item._id);
+        openDialog();
+      }}
+      // onEditClick={() => navigate(`/users/edit/${item._id}`)}
+      onEditClick={() => console.log("edit")}
     />
   ));
 
@@ -115,32 +137,34 @@ const UsersPage = () => {
               handleDateChange={handleDateChange}
             />
           </Flex>
-          <Flex justify="end">
-            <AddButton
-              text="Add User"
-              handleOnClick={() => navigate(`/users/add`)}
-            />
-          </Flex>
+          {canCreateUser && (
+            <Flex justify="end">
+              <AddButton
+                text="Add User"
+                handleOnClick={() => navigate(`/users/add`)}
+              />
+            </Flex>
+          )}
         </Flex>
-        <Box style={{ height: "80vh", overflow: "auto" }}>
+        <Box style={{ height: "80vh", overflow: "auto" }} w="100%">
           <Table>
             <TableHead
               labels={[
-                "userId",
-                "name",
-                "createdDate",
-                "email",
-                "role",
-                "status",
+                "No",
+                "UserID",
+                "UserName",
+                "Role",
+                "Status",
+                "Actions",
                 "user",
               ]}
               sortedBy={[
                 "_id",
                 "name",
-                "createdAt",
-                "email",
-                "roleIds.name",
+                "name",
+                "roleIds",
                 "isActive",
+                "email",
                 "_id",
               ]}
               data={data}
@@ -151,6 +175,15 @@ const UsersPage = () => {
           </Table>
           <CustomPagination store={pagination} />
         </Box>
+        <DeleteConfirmationDialog
+          opened={isOpen}
+          onClose={() => {
+            setSelectedId(null);
+            closeDialog();
+          }}
+          onConfirm={(id) => handleDeleteItem(id!)}
+          itemId={selectedId!}
+        />
       </Flex>
     );
 };
