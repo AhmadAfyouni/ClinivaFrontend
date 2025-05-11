@@ -9,13 +9,24 @@ import {
 } from "@mantine/core";
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router";
+import useUpdateProfile from "../../../hooks/users/useUpdateProfile";
 
 function SelectPlan() {
   const navigate = useNavigate();
-
+  const updateProfile = useUpdateProfile();
   const theme = useMantineTheme();
   const handelSelectPlan = (selectedPLan: number) => {
     localStorage.setItem("plan", selectedPLan.toString());
+    updateProfile.mutate({
+      plan:
+        selectedPLan === 2
+          ? "company"
+          : selectedPLan === 3
+          ? "complex"
+          : selectedPLan === 4
+          ? "department"
+          : "clinic",
+    });
     navigate("/register");
   };
   return (

@@ -210,6 +210,7 @@ function AddEmployee() {
         "Technician",
         "Administrative",
         "Employee",
+        "PIC",
         "Other",
       ],
     },
