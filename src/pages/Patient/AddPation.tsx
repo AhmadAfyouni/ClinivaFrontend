@@ -5,7 +5,6 @@ import InputForm from "../../Components/Inputs/InputForm";
 import InputPropsType from "../../types/InputsType";
 import { Button, ScrollArea } from "@mantine/core";
 import { language } from "../../data/Language";
-import { useNavigate } from "react-router-dom";
 import useAddPation from "../../hooks/patient/useAddPation";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 
@@ -14,7 +13,6 @@ function AddPation() {
     formik.setFieldValue("image", file);
   };
   const hook = useAddPation();
-  const navigate = useNavigate();
   const handleMultiSelectChange = (
     fieldName: string,
     selectedValues: string[]
@@ -45,7 +43,7 @@ function AddPation() {
       Smoking: false,
       Current_Medications: "",
       Surgical_History: "",
-      identity: ""
+      identity: "",
     },
     validationSchema: AddPationSchema,
     validateOnBlur: true,

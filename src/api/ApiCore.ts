@@ -2,7 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useLoadingStore from "../store/useLoader";
 // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const BACKEND_URL = "https://cliniva-backend.qnv2oe.easypanel.host/api/v1";
+// const BACKEND_URL = "https://cliniva-backend.qnv2oe.easypanel.host/api/v1";
+const BACKEND_URL = "http://localhost/api/v1";
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
