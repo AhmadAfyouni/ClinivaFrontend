@@ -1,3 +1,3 @@
-export const config = {
-  apiUrl: import.meta.env.BACKEND_URL || 'http://localhost:3000'
-}
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL as string;
+console.log("ENV:", BACKEND_URL);
+export { BACKEND_URL };
