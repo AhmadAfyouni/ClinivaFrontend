@@ -62,12 +62,12 @@ function NavBar({ login }: Props) {
             size={isMobile ? "1.2rem" : "1.5rem"}
             style={{ cursor: "pointer" }}
           >
-            {title}
+            {title !== 'login' && title}
           </Text>
         ) : (
-          <Button variant="subtle" onClick={handleLogin}>
-            Login
-          </Button>
+         location.pathname !== "/login" ? <Button variant="subtle" onClick={handleLogin}>
+           Login
+          </Button>:""
         )}
       </Group>
 
