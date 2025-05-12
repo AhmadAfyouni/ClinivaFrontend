@@ -9,7 +9,7 @@ import {
   Skeleton,
   UnstyledButton,
 } from "@mantine/core";
-import { Edit2Icon } from "lucide-react";
+import { Edit2Icon, CircleAlert } from "lucide-react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -26,6 +26,7 @@ interface Props {
   selection?: string[];
   onClick: () => void;
   setSelection?: (updater: (current: string[]) => string[]) => void;
+  th5?:string
 }
 const TableBody = ({
   th0,
@@ -37,6 +38,7 @@ const TableBody = ({
   onEditClick,
   imgUrl = "",
   onClick,
+  th5
 }: Props) => {
   const theme = useMantineTheme();
   // const isMobile = useMediaQuery("(max-width: 576px)");
@@ -44,6 +46,9 @@ const TableBody = ({
   // const isComputer = useMediaQuery("(min-width: 993px)");
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const userId = localStorage.getItem("userId")
+  console.log(th5);
+  
   const getStatusBadge = (status: string) => {
     const statusColors = {
       true: { bg: theme.other?.secondaryDarkColor },
@@ -271,18 +276,29 @@ const TableBody = ({
                 <Edit2Icon size="20px" color={theme.other.onSurfaceSecondary} />
               </UnstyledButton>
               <UnstyledButton
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent click from bubbling to Table.Td
-                  // handle edit delete here
-                  console.log("hello");
-                  onDeleteClick();
-                }}
+                
                 p="5px"
               >
-                <RiDeleteBinLine
+              {
+              th5 === userId
+              ? <Tooltip
+                label={"This is your account"}
+                withArrow
+                position="top-end"
+                transitionProps={{ transition: "pop-bottom-right" }}
+              >
+                <CircleAlert size="20px" color={theme.other.onSurfaceSecondary} />
+              </Tooltip>:
+              <RiDeleteBinLine
+                  onClick={(e) => {
+                      e.stopPropagation(); // Prevent click from bubbling to Table.Td
+                      // handle edit delete here
+                      console.log("hello"); 
+                      onDeleteClick();
+                    }}
                   size="20px"
                   color={theme.other.onSurfaceSecondary}
-                />
+                />}  
               </UnstyledButton>
             </Flex>
           </Flex>

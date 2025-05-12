@@ -20,6 +20,7 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
       sessionStorage.setItem("token", res.data.data.accessToken);
     }
     const userName = res.data.data.user.name;
+  
     if (userName) {
       localStorage.setItem("userName", userName);
     }
@@ -28,6 +29,11 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
       const encodedEmail = btoa(email);
       localStorage.setItem("userEmail", encodedEmail);
     }
+    const id = res.data.data.user._id;
+    if(id){
+      localStorage.setItem("userId", id);
+    }
+
     if (loginToRegister) {
       localStorage.setItem("loginToRegister", "true");
     } else {

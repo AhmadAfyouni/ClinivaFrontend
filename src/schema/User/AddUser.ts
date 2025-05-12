@@ -13,7 +13,7 @@ const AddUserSchema = Yup.object().shape({
     .matches(/[0-9]/, "Password must contain at least one number")
     .matches(/[\W_]/, "Password must contain at least one special character"),
   isActive: Yup.boolean(),
-  roleIds: Yup.string().required("Role Ids is required"),
+  roleIds: Yup.string().required("Role is required"),
   // clinicCollectionId: Yup.string().required("Clinic Collection Id is required"),
   employeeId: Yup.string().required("Employee Id is required"),
 });
