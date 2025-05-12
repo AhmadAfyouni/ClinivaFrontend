@@ -88,11 +88,11 @@ function MedicalTreatment({ upcomingAndHistorySchedule, noteText }: Props) {
           <Text size="sm" c={theme.other.onSurfaceSecondary}>
             {new Date(scheduleDate).toLocaleString("en-US", {
               year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
+              month: "long",
+              day: "numeric",
               hour: "2-digit",
               minute: "2-digit",
-              hour12: true, // Use 24-hour time format
+              hour12: false, // Use 24-hour time format
             })}
           </Text>
         </Group>

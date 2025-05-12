@@ -83,7 +83,6 @@ function AppContent() {
     const token =
       !localStorage.getItem("loginToRegister") &&
       (localStorage.getItem("token") || sessionStorage.getItem("token"));
-
     if (!token) {
       if (isRegisterPage) navigate("/register");
       else if (isSelectPlan) navigate("/SelectPlan");
@@ -98,9 +97,10 @@ function AppContent() {
   // }
   console.log("dir", i18n);
   return (
-    <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
+    <>
       <LoaderCustom />
       {!nonAuth && <SideBar />}
+    <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
       <Flex
         w={"100%"}
         direction={"column"}
@@ -125,6 +125,7 @@ function AppContent() {
       </Flex>
       {!nonAuth && i18n.language === "ar" && <SideBar />}
     </Flex>
+    </>
   );
 }
 
@@ -166,6 +167,7 @@ function App() {
                 },
               }}
             />
+            <LoaderCustom />
             <AppContent />
           </BrowserRouter>
         </MantineProvider>

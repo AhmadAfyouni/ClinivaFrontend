@@ -22,6 +22,16 @@ import TextInfo from "../../Components/Details/TextInfo";
 import dataAppointment from "../../data/paitientAppointment.json";
 import { useTranslation } from "react-i18next";
 import useDeleteById from "../../hooks/delete/useDeleteById";
+
+/**/
+function formatDateToCustom(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 const PatientDetails = () => {
   const { t } = useTranslation();
   const { mutate } = useDeleteById({
@@ -40,7 +50,9 @@ const PatientDetails = () => {
   const handleDeleteEvent = () => {
     mutate(PatientId!);
   };
-  const insuranceDate = data?.insurances[0]?.expiryDate?.slice(0, 10) || "";
+ const insuranceDateFormatted = formatDateToCustom(
+  data?.insurances[0]?.expiryDate || ""
+);
   if (!isFetched || !data)
     return (
       <Center>
@@ -95,9 +107,7 @@ const PatientDetails = () => {
                           : "",
                         data.lifestyleFactors ? data.lifestyleFactors : "",
                         data.preferredLanguage ? data.preferredLanguage : "",
-                        data.Surgical_History
-                          ? data.Surgical_History.slice(0, 10)
-                          : "",
+                        data.Surgical_History ? formatDateToCustom(data.Surgical_History) : "",
                         data.Current_Medications
                           ? data.Current_Medications
                           : "",
@@ -108,7 +118,7 @@ const PatientDetails = () => {
                     />
                   </Flex>
                   <InsuranceCard
-                    expiryDate={new Date(insuranceDate)}
+                    expiryDate={insuranceDateFormatted} 
                     insuranceType={data.insurances[0]?.insuranceType || ""}
                     isActive={data.isActive}
                     personName={data.name}
@@ -122,7 +132,7 @@ const PatientDetails = () => {
               <PatientInfoCard
                 aboutPatient={"A regular patient at the clinic"}
                 maritalStatus={data.marital_status}
-                birthday={data.dateOfBirth}
+                birthday={formatDateToCustom(data.dateOfBirth)}
                 gender={data.gender}
                 patientId={data._id}
               />

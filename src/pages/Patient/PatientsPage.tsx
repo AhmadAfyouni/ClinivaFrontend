@@ -46,20 +46,20 @@ const PatientsPage = () => {
     pagination.setSearchKey(e);
   };
 
-  const handleDateChange = (e: Date | null) => {
-    const date = e;
-    if (date && !isNaN(date.getTime())) {
-      console.log(date.getMonth());
-      const month = String(date.getDate()).padStart(2, "0");
-      const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
-      const year = date.getFullYear();
-      const formattedDate = `${day}-${month}-${year}`;
+const handleDateChange = (e: Date | null) => {
+  const date = e;
+  if (date && !isNaN(date.getTime())) {
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(date);
 
-      pagination.setDate(formattedDate);
-    } else {
-      pagination.setDate("");
-    }
-  };
+    pagination.setDate(formattedDate);
+  } else {
+    pagination.setDate("");
+  }
+};
   const rows = data?.map((item, index) => (
     <TableBody
       // imgUrl={"https://thisurldoesnotexist.example/image.jpg"}
@@ -70,7 +70,7 @@ const PatientsPage = () => {
       // th2={item.dateOfBirth.slice(0, 10)}
       th2={{ value: item.name }}
       th3={{ value: item.gender }}
-      th4={item.lastVisit ? item.lastVisit.slice(0, 10) : "no date"} //Last visit
+       th4={item.lastVisit ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.lastVisit)) : "no date"} // Last visit formatted
       // th5={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
