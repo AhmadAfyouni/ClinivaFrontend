@@ -4,6 +4,7 @@ import {
   IconUsersGroup,
   IconUser,
   IconReportMedical,
+  IconTreadmill
 } from "@tabler/icons-react";
 import { Group, ScrollArea, Text, Drawer } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -59,7 +60,7 @@ export function SideBar() {
     },
     { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
     { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
-    { label: t("Patients"), icon: IconUser, link: "/patients" },
+    { label: t("Patients"), icon: IconTreadmill , link: "/patients" },
     {
       label: t("Services"),
       icon: IconReportMedical,
