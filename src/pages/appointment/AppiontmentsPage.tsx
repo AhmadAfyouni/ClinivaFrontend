@@ -11,7 +11,15 @@ import CustomFilters from "../../Components/filters/CustomFilters";
 import AddButton from "../../Components/AddButton";
 import { useNavigate } from "react-router";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
-
+/**/
+function formatDateToCustom(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 const AppointmentsPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
@@ -66,10 +74,7 @@ const AppointmentsPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.patient?.name || ""}
       th2={{
-        value: `${item.datetime.slice(0, 10)} - ${item.datetime.slice(
-          11,
-          16
-        )} `,
+        value: `${formatDateToCustom(item.datetime)} - ${item.datetime.slice(11, 16)}`,
       }}
       th3={{ value: item.clinic?.name || "" }}
       th4={item.doctor?.name || ""}
