@@ -83,7 +83,6 @@ function AppContent() {
     const token =
       !localStorage.getItem("loginToRegister") &&
       (localStorage.getItem("token") || sessionStorage.getItem("token"));
-
     if (!token) {
       if (isRegisterPage) navigate("/register");
       else if (isSelectPlan) navigate("/SelectPlan");

@@ -1,5 +1,4 @@
 import {
-  // Anchor,
   Button,
   Checkbox,
   Flex,
@@ -15,15 +14,18 @@ import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import useLogin from "../../../hooks/auth/login";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
 export function Login() {
   const navigate = useNavigate();
   const [saveToken, setSaveToken] = useState(false);
+  const [emailSuggestions, setEmailSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const loginMutation = useLogin(saveToken, false);
-  console.log("permission " + loginMutation.data?.data.user.permissions);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const formik = useFormik<LoginType>({
     initialValues: {
       email: "",
@@ -33,12 +35,44 @@ export function Login() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
-      console.log("Form Submitted:", values);
-      loginMutation.mutate(values);
+      loginMutation.mutate(values, {
+        onSuccess: () => {
+          const storedEmails = JSON.parse(localStorage.getItem("usedEmails") || "[]");
+          if (!storedEmails.includes(values.email)) {
+            storedEmails.push(values.email);
+            localStorage.setItem("usedEmails", JSON.stringify(storedEmails));
+          }
+        },
+      });
     },
   });
 
-  console.log("email " + formik.values.email);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+    const typedEmail = e.target.value;
+    const storedEmails: string[] = JSON.parse(localStorage.getItem("usedEmails") || "[]");
+    const filtered = storedEmails.filter((email) =>
+      email.toLowerCase().startsWith(typedEmail.toLowerCase())
+    );
+    setEmailSuggestions(filtered);
+    setShowSuggestions(true);
+  };
+
+  const handleEmailSelect = (email: string) => {
+    formik.setFieldValue("email", email);
+    setShowSuggestions(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const formFields: InputPropsType[] = [
     {
       id: "email",
@@ -50,7 +84,8 @@ export function Login() {
       placeholder: "your@email.com",
       tooltip: "Enter your email",
       value: formik.values.email,
-      onChange: formik.handleChange,
+      //@ts-expect-error-type
+      onChange: handleEmailChange,
       onBlur: formik.handleBlur,
       autoComplete: "off",
     },
@@ -66,14 +101,14 @@ export function Login() {
       value: formik.values.password,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      autoComplete: "new-password",
+      autoComplete:"current-password"
     },
   ];
+
   const handleSetSaveToken = () => {
     setSaveToken((prev) => !prev);
   };
 
-  // Inside your component
   useEffect(() => {
     if (loginMutation.isError) {
       const errorMessage =
@@ -94,7 +129,6 @@ export function Login() {
   return (
     <form
       onSubmit={(e) => {
-        console.log("loginsubmit");
         formik.handleSubmit(e);
       }}
       className={classes.wrapper}
@@ -103,13 +137,48 @@ export function Login() {
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
           Welcome back to Cliniva !
         </Title>
-        <InputBaseCustom base={formFields[0]} />
+
+        {/* Email input with dropdown */}
+        <div style={{ position: "relative" }} ref={inputRef}>
+          <InputBaseCustom base={formFields[0]} />
+          {showSuggestions && emailSuggestions.length > 0 && (
+            <div
+              style={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                right: 0,
+                background: "white",
+                border: "1px solid #ccc",
+                borderRadius: 4,
+                zIndex: 10,
+                maxHeight: "150px",
+                overflowY: "auto",
+              }}
+            >
+              {emailSuggestions.map((email, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "8px 12px",
+                    cursor: "pointer",
+                    borderBottom: "1px solid #eee",
+                  }}
+                  onClick={() => handleEmailSelect(email)}
+                >
+                  {email}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <br />
         <InputBaseCustom base={formFields[1]} />
         <Checkbox
           checked={saveToken}
           onChange={handleSetSaveToken}
-          label="Keep me logged in"
+          label="Remember Me"
           mt="xl"
           size="md"
         />
@@ -130,27 +199,6 @@ export function Login() {
         >
           Login
         </Button>
-        {/* {loginMutation.isError && (
-          <Text c="red" mt="md" ta="center">
-            {(
-              loginMutation.error as AxiosError<{
-                message: { message: string };
-              }>
-            )?.response?.data?.message?.message ||
-              "Login failed. Please try again."}
-          </Text>
-        )} */}
-        {/* <Text ta="center" mt="md">
-          forget your password?{" "}
-          <Anchor<"a">
-            href="#"
-            fw={700}
-            c="#9BDABB"
-            onClick={(event) => event.preventDefault()}
-          >
-            Reset Password
-          </Anchor>
-        </Text> */}
         <Flex justify={"center"} w="100%" h={"100%"} mt={"xl"}>
           <Button
             variant="filled"
