@@ -36,9 +36,7 @@ const MedicalComplexPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.publicId}
       th2={{ value: item.name }}
-      th3={{ value: item.address }}
-      // th3={{ value: item.PIC }}
-      // th5={item.departmentCount.toString()}
+      th3={{ value: item.PIC.name}}
 
       th4={item.employeeCount.toString()}
       onDeleteClick={() => {
@@ -89,7 +87,6 @@ const MedicalComplexPage = () => {
               sortedBy={[
                 "_id",
                 "name",
-                "address",
                 "PIC",
                 "departmentCount",
                 "employeeCount",
@@ -99,7 +96,7 @@ const MedicalComplexPage = () => {
                 "No",
                 "MedicalComplex Id",
                 "MedicalComplex name",
-                "pic",
+                "PIC",
                 "departmentsCount",
                 "Actions",
                 "medicalcomplex",

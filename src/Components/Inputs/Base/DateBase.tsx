@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import { DateInput, DateInputProps } from "@mantine/dates";
+import { IconCalendar } from "@tabler/icons-react";
+import { rem } from "@mantine/core";
 import InputPropsType from "../../../types/InputsType";
 import { DateValue } from "@mantine/dates";
 import { useTranslation } from "react-i18next";
@@ -33,10 +35,14 @@ export default function DateBase(props: Props) {
   let dateValue: Date | null;
   if (
     typeof props.base.value === "string" &&
-    dayjs(props.base.value, "DD/MM/YYYY").isValid()
+    props.base.value.length > 0 && // Ensure string is not empty
+    dayjs(props.base.value, "YYYY-MM-DD").isValid() // Expect YYYY-MM-DD from formik
   ) {
-    dateValue = new Date(props.base.value);
-  } else if (typeof props.base.value === "number") {
+    dateValue = dayjs(props.base.value, "YYYY-MM-DD").toDate();
+  } else if (typeof props.base.value === "string" && dayjs(props.base.value, "DD/MM/YYYY").isValid()) { // Fallback for DD/MM/YYYY initial value
+    dateValue = dayjs(props.base.value, "DD/MM/YYYY").toDate();
+  }
+  else if (typeof props.base.value === "number") {
     dateValue = new Date(props.base.value);
   } else {
     dateValue = null;
@@ -44,6 +50,7 @@ export default function DateBase(props: Props) {
 
   return (
     <DateInput
+      rightSection={<IconCalendar style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
       dateParser={dateParser}
       w={"60%"}
       valueFormat="DD/MM/YYYY"

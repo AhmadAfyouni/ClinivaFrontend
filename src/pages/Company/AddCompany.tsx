@@ -28,13 +28,11 @@ function AddCompany({ nextStep }: Props) {
     initialValues: {
       name: "",
       address: "",
-      intro: "",
       goals: "",
       overview: "",
       yearOfEstablishment: new Date().toISOString().split("T")[0],
       logo: "",
       vision: "",
-      details: "",
       contactInfos: [],
       holidays: [],
       specializations: [],
@@ -53,7 +51,7 @@ function AddCompany({ nextStep }: Props) {
       },
       Key_member: "",
       Founder: "",
-      Executives: ""
+      Executives: "",
     },
     validationSchema: AddCompanySchema,
     validateOnBlur: false,
@@ -182,7 +180,7 @@ function AddCompany({ nextStep }: Props) {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.intro,
+      error: formik.errors.goals,
       placeholder: "Enter company goals",
       tooltip: "Brief goals about the company",
       value: formik.values.goals || "",
@@ -195,39 +193,13 @@ function AddCompany({ nextStep }: Props) {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.details,
+      error: formik.errors.overview,
       placeholder: "Enter company overview",
       tooltip: "overview about the company",
       value: formik.values.overview || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    // {
-    //   id: "intro",
-    //   label: "Introduction",
-    //   mandatory: true,
-    //   type: "areaText",
-    //   description: "",
-    //   error: formik.errors.intro,
-    //   placeholder: "Enter company introduction",
-    //   tooltip: "Brief introduction about the company",
-    //   value: formik.values.intro || "",
-    //   onChange: formik.handleChange,
-    //   onBlur: formik.handleBlur,
-    // },
-    // {
-    //   id: "details",
-    //   label: "Company Details",
-    //   mandatory: true,
-    //   type: "areaText",
-    //   description: "",
-    //   error: formik.errors.details,
-    //   placeholder: "Enter company details",
-    //   tooltip: "Detailed information about the company",
-    //   value: formik.values.details || "",
-    //   onChange: formik.handleChange,
-    //   onBlur: formik.handleBlur,
-    // },
   ];
 
   const commercialRecord: InputPropsType[] = [
@@ -299,7 +271,8 @@ function AddCompany({ nextStep }: Props) {
   ];
 
   const theme = useMantineTheme();
-
+  console.log(formik.values);
+  console.log(formik.errors);
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form

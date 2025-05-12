@@ -49,7 +49,7 @@ const DepartementsPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.name}
       th2={{ value: item.clinicCollectionId?.name || "" }}
-      th3={{ value: item.PIC }}
+      th3={{ value: item.PIC.name }}
       th4={item.clinicCount.toString()}
       // th5={item.patientCount.toString()}
       onDeleteClick={() => {
