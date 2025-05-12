@@ -20,6 +20,17 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
  * It also provides functionality to delete a user.
  */
 
+/**/
+function formatDateToCustom(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+
 const UserDetails = () => {
   const theme = useMantineTheme();
   const { id: userId } = useParams();
@@ -78,7 +89,10 @@ const UserDetails = () => {
             isActive={true}
             name={data.name}
             id={data.publicId}
-            birthday={data?.employeeId?.dateOfBirth.slice(0, 10) || ""}
+            birthday={data?.employeeId?.dateOfBirth
+                ? formatDateToCustom(data?.employeeId?.dateOfBirth)
+                : ""
+              }
             gender={data.employeeId?.gender || ""}
             address={data.employeeId?.address || ""}
             nationalId={data.employeeId?.identity || ""}
@@ -106,11 +120,8 @@ const UserDetails = () => {
               ]}
               values={[
                 data.name,
-                data.loginHistory[data.loginHistory.length - 1]?.loginDate
-                  .toString()
-                  .slice(0, 10),
-                data.updatedAt.slice(0, 10),
-                data.lastLoginAt?.toString().slice(0, 10) || "",
+                formatDateToCustom(data.updatedAt),
+                data.lastLoginAt ? formatDateToCustom(data.lastLoginAt) : "",
                 "No Data",
               ]}
             />
@@ -137,7 +148,9 @@ const UserDetails = () => {
                   data.employeeId ? data.employeeId.jobType : "",
                   data.employeeId?.clinicCollectionId?.name || "",
                   data.employeeId?.departmentId?.name || "",
-                  data.employeeId?.hireDate || "",
+                  data.employeeId?.hireDate
+                    ? formatDateToCustom(data.employeeId?.hireDate)
+                    : "",
                   data.employeeId?.isActive ? "Acitve" : "In Active",
                 ]}
               />

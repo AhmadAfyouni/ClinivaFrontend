@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   insuranceType: string;
-  expiryDate: Date;
+   expiryDate: string; 
   personName: string;
   isActive: boolean;
   ID: string;
@@ -21,12 +21,6 @@ function InsuranceCard({
 }: Props) {
   const theme = useMantineTheme();
   const { t } = useTranslation("index");
-
-  const date = expiryDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
 
   return (
     <Card bg={theme.other.secondaryColor} radius="md" p="md">
@@ -63,7 +57,7 @@ function InsuranceCard({
             {t("expiry_date")}
           </Text>
           <Text size="sm" c={theme.other.onSurfacePrimary}>
-            {date}
+             {expiryDate}
           </Text>
         </Box>
         <Badge
