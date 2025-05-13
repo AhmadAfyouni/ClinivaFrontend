@@ -26,12 +26,26 @@ const MedicalComplexDetails = () => {
   });
   const { data, isFetched } = useMedicalComplexDetails(id!);
 
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>{t("noMedicalDetailsFound")}</Text>
-      </Center>
-    );
+  // if (!isFetched || !data)
+  //   return (
+  //     <Center>
+  //       <Text>{t("noMedicalDetailsFound")}</Text>
+  //     </Center>
+  //   );
+
+  if(!isFetched){
+    return <Center>
+      {/* <Text>{t("noMedicalDetailsFound")}</Text> */}
+    </Center>
+  }
+
+  if (!data)
+  return (
+    <Center>
+      <Text>{t("noMedicalDetailsFound")}</Text>
+    </Center>
+  );
+
   console.log("working hours" + data.workingDays);
 
   const titles = [

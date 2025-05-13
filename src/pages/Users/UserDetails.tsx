@@ -50,12 +50,27 @@ const UserDetails = () => {
   const isComputer = useMediaQuery("(min-width: 993px)");
 
   // Return early if data is not yet fetched or not available
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No User Details Found</Text>
-      </Center>
-    );
+  // if (!isFetched || !data)
+  //   return (
+  //     <Center>
+  //       <Text>No User Details Found</Text>
+  //     </Center>
+  //   );
+  if (!isFetched) {
+  return (
+    <Center h="100vh">
+      {/* <Text>Loading...</Text> يمكنك استبدالها بـ Loader من Mantine أو أي Spinner */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center h="100vh">
+      <Text>No User Details Found</Text>
+    </Center>
+  );
+}
 
   // Mapping contact information to icons
   const icons =
@@ -86,7 +101,7 @@ const UserDetails = () => {
             imgUrl=""
             iconsMaxWidth="150px"
             contactInfoIcons={icons}
-            isActive={true}
+            isActive={data.isActive}
             name={data.name}
             id={data.publicId}
             birthday={data?.employeeId?.dateOfBirth

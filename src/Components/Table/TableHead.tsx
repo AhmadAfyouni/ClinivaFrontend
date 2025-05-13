@@ -3,7 +3,7 @@ import useSortStore from "../../hooks/useSortStore ";
 import { useTranslation } from "react-i18next";
 interface Props<T> {
   selection: string[];
-  data: T[];
+  data?: T[];
   labels: string[];
   toggleAll: () => void;
   sortedBy: string[];

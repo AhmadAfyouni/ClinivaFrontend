@@ -14,7 +14,7 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 const MedicalComplexPage = () => {
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
-  const { data, isFetched } = useMedicalComplexList(false, sortBy, order);
+  const { data } = useMedicalComplexList(false, sortBy, order);
   const deleteMedcalComplex = useDeleteById({
     endpoint: "cliniccollections",
     mutationKey: "delete-cliniccollection",
@@ -37,7 +37,6 @@ const MedicalComplexPage = () => {
       th1={item.publicId}
       th2={{ value: item.name }}
       th3={{ value: item.PIC.name}}
-
       th4={item.employeeCount.toString()}
       onDeleteClick={() => {
         deleteMedcalComplex.mutate(item._id);
@@ -60,7 +59,8 @@ const MedicalComplexPage = () => {
       );
     }
   };
-  if (!isFetched || !data)
+  
+  if (data?.length === 0)
     return (
       <Center>
         <Text>No MedicalComplex Found</Text>

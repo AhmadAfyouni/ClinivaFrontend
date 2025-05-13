@@ -191,7 +191,7 @@ function AddUser() {
           onSubmit={() => {}}
           with_submit={false}
           key={"AddUser"}
-          title="Add User"
+          // title="Add User"
         />
         <Button type="submit">Submit</Button>
         <Center>

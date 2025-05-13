@@ -65,7 +65,7 @@ const DoctorProfileCard = ({
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isDesktop = useMediaQuery("(min-width: 993px)");
 
-  const specialtyStr = specialty.join();
+  const specialtyStr = specialty?.join();
   const languagesStr = languages.join();
   const bithdayStr = birthday.toLocaleDateString("en-US");
   const hireDateStr = hireDate.toLocaleDateString("en-US");
