@@ -8,7 +8,6 @@ interface Props {
 }
 export default function InputTooltipBase(props: Props) {
   const { t } = useTranslation();
-
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -27,9 +26,9 @@ export default function InputTooltipBase(props: Props) {
       position="top-end"
       transitionProps={{ transition: "pop-bottom-right" }}
     >
-      <Text component="div" c="dimmed" style={{ cursor: "help" }}>
+     <Text component="div" c="dimmed" style={{ cursor: "help" }}>
         <Center>
-          <IconInfoCircle size={18} stroke={1.5} />
+           {props.base.mandatory && <IconInfoCircle size={18} stroke={1.5} />}
         </Center>
       </Text>
     </Tooltip>

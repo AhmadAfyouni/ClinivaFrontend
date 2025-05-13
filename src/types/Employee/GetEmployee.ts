@@ -33,7 +33,6 @@ export interface BreakTime {
 export interface ClinicContactInfo {
   type: string;
   value: string;
-  isPublic: boolean;
   subType: string;
 }
 

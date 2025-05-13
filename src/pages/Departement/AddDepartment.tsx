@@ -9,18 +9,18 @@ import AddDepartmentSchema from "../../schema/department/AddDepartment";
 import useAddDepartment from "../../hooks/departement/useDepartement";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 import useStaffList from "../../hooks/staff/useStaffList";
+import { useEffect } from "react";
 interface selectRoleType {
   [key: string]: string;
 }
 function AddDepartment() {
   const hook = useAddDepartment();
-  const employeeHook = useStaffList(true,"PIC","_id","PIC");
-
+  const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
 
   const complex = useMedicalComplexList(true);
   const formik = useFormik<AddDepartmentType>({
     initialValues: {
-      PIC:"",
+      PIC: "",
       name: "",
       introduction: "",
       yearOfEstablishment: "",
@@ -38,11 +38,16 @@ function AddDepartment() {
       const { clinicCollectionId, ...rest } = values;
       const payload = clinicCollectionId === "" ? rest : values;
       hook.mutate(payload);
-      formik.resetForm();
       console.log("Department Submitted:", values);
     },
   });
-  if (!complex.isSuccess||!employeeHook.isSuccess) {
+  useEffect(() => {
+    if (hook.isSuccess) {
+      formik.resetForm();
+      formik.values = {} as AddDepartmentType;
+    }
+  }, [hook.isSuccess]);
+  if (!complex.isSuccess || !employeeHook.isSuccess) {
     return <Center>Loading . . . </Center>;
   }
   const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
@@ -76,11 +81,11 @@ function AddDepartment() {
     },
     {
       id: "clinicCollectionId",
-      label: "clinic Collection",
+      label: "Medical Complex",
       mandatory: false,
       type: "select",
       error: formik.errors.clinicCollectionId,
-      placeholder: "selct clinic Collection ",
+      placeholder: "select Medical Complex ",
       onChange: (selectedValue) => {
         if (typeof selectedValue === "string") {
           formik.setFieldValue("clinicCollectionId", nameIdMap[selectedValue]);
@@ -170,18 +175,18 @@ function AddDepartment() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "logo",
-      label: "",
-      mandatory: true,
-      type: "image",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL for the department's logo",
-      value: formik.values.logo || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+    // {
+    //   id: "logo",
+    //   label: "",
+    //   mandatory: true,
+    //   type: "image",
+    //   error: formik.errors.logo,
+    //   placeholder: "Enter logo URL",
+    //   tooltip: "Enter the URL for the department's logo",
+    //   value: formik.values.logo || "",
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
   ];
 
   return (
@@ -206,12 +211,7 @@ function AddDepartment() {
                 type: "select",
                 options: ["email", "phone"],
               },
-              {
-                key: "isPublic",
-                label: "Is Public",
-                type: "boolean",
-                options: ["yes", "no"],
-              },
+
               {
                 key: "value",
                 label: "Value",

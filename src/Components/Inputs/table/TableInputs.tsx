@@ -66,15 +66,6 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
       />
     );
   }
-  // if (column.key === "isPublic") {
-  //   return (
-  //     <Checkbox
-  //       checked={Boolean(value)}
-  //       onChange={(event) => onChange(event.currentTarget.checked)}
-  //       error={column.error || ""}
-  //     />
-  //   );
-  // }
 
   return (
     <TextInput

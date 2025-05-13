@@ -23,10 +23,10 @@ const CompanyDetails = () => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const { data: companies, isFetched } = useCompanyDetails();
-  if (!isFetched || !companies)
+  if (!isFetched)
     return (
       <Center>
-        <Text>No Company Details Found</Text>
+        {/* <Text>No Company Details Found</Text> */}
       </Center>
     );
   const titles = [
@@ -39,6 +39,11 @@ const CompanyDetails = () => {
     "Founder",
     "Excutines",
   ];
+  if(!companies){
+    return <Center>
+        <Text>No Company Details Found</Text>
+      </Center>
+  }
   const values = [
       companies[0].yearOfEstablishment
     ? new Date(companies[0].yearOfEstablishment).toLocaleDateString('en-US', {

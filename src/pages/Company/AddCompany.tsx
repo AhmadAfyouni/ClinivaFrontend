@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import AddCompanyType, {
   InsuranceCompany,
-  Specialization,
 } from "../../types/company/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
@@ -28,13 +27,11 @@ function AddCompany({ nextStep }: Props) {
     initialValues: {
       name: "",
       address: "",
-      intro: "",
       goals: "",
       overview: "",
       yearOfEstablishment: new Date().toISOString().split("T")[0],
       logo: "",
       vision: "",
-      details: "",
       contactInfos: [],
       holidays: [],
       specializations: [],
@@ -53,7 +50,7 @@ function AddCompany({ nextStep }: Props) {
       },
       Key_member: "",
       Founder: "",
-      Executives: ""
+      Executives: "",
     },
     validationSchema: AddCompanySchema,
     validateOnBlur: false,
@@ -182,7 +179,7 @@ function AddCompany({ nextStep }: Props) {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.intro,
+      error: formik.errors.goals,
       placeholder: "Enter company goals",
       tooltip: "Brief goals about the company",
       value: formik.values.goals || "",
@@ -195,39 +192,13 @@ function AddCompany({ nextStep }: Props) {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.details,
+      error: formik.errors.overview,
       placeholder: "Enter company overview",
       tooltip: "overview about the company",
       value: formik.values.overview || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    // {
-    //   id: "intro",
-    //   label: "Introduction",
-    //   mandatory: true,
-    //   type: "areaText",
-    //   description: "",
-    //   error: formik.errors.intro,
-    //   placeholder: "Enter company introduction",
-    //   tooltip: "Brief introduction about the company",
-    //   value: formik.values.intro || "",
-    //   onChange: formik.handleChange,
-    //   onBlur: formik.handleBlur,
-    // },
-    // {
-    //   id: "details",
-    //   label: "Company Details",
-    //   mandatory: true,
-    //   type: "areaText",
-    //   description: "",
-    //   error: formik.errors.details,
-    //   placeholder: "Enter company details",
-    //   tooltip: "Detailed information about the company",
-    //   value: formik.values.details || "",
-    //   onChange: formik.handleChange,
-    //   onBlur: formik.handleBlur,
-    // },
   ];
 
   const commercialRecord: InputPropsType[] = [
@@ -299,7 +270,8 @@ function AddCompany({ nextStep }: Props) {
   ];
 
   const theme = useMantineTheme();
-
+  console.log(formik.values);
+  console.log(formik.errors);
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form
@@ -346,12 +318,7 @@ function AddCompany({ nextStep }: Props) {
                 type: "select",
                 options: ["email", "phone"],
               },
-              {
-                key: "isPublic",
-                label: "Is Public",
-                type: "boolean",
-                options: ["yes", "no"],
-              },
+
               {
                 key: "value",
                 label: "Value",
@@ -382,29 +349,8 @@ function AddCompany({ nextStep }: Props) {
             onFieldChange={formik.setFieldValue}
             error={""}
           />
-          {/* <TableSelection<WorkingHoursType>
-            title="Working Days"
-            columns={[
-              { key: "day", label: "Day" },
-              {
-                key: "startTime",
-                label: "Start Time",
-                type: "time",
-              },
 
-              {
-                key: "endTime",
-                label: "End Time",
-                type: "time",
-              },
-            ]}
-            fieldName="workingDays"
-            onFieldChange={formik.setFieldValue}
-            key={"workingDays"}
-            data={formik.values.workingDays}
-            error={formik.errors.workingDays?.toString() || ""}
-          /> */}
-          <TableSelection<Specialization>
+          {/* <TableSelection<Specialization>
             key={"specializations"}
             title="Specializations"
             fieldName="specializations"
@@ -415,7 +361,7 @@ function AddCompany({ nextStep }: Props) {
             data={formik.values.specializations}
             onFieldChange={formik.setFieldValue}
             error={formik.errors.specializations?.toString() || ""}
-          />
+          /> */}
           <TableSelection<InsuranceCompany>
             title={"Insurance Company"}
             fieldName={"insuranceCompany"}

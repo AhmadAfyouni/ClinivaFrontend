@@ -7,7 +7,6 @@ import useSpecialization from "../../hooks/Specialization/useSpecializations";
 import AddMedicalComplexSchema from "../../schema/MedicalComplex/AddMedicalComplex";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import {
-  BankAccountType,
   ContactInfoType,
   Holiday,
   WorkingHoursType,
@@ -15,6 +14,8 @@ import {
 import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddMedicalComplex from "../../hooks/medicalcomplex/useAddMedicalComplex";
 import useStaffList from "../../hooks/staff/useStaffList";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 interface selectRoleType {
   [key: string]: string;
 }
@@ -24,8 +25,10 @@ interface selectSpecializationType {
 function AddMedicalComplex() {
   const hook = useAddMedicalComplex();
   const querySpecialization = useSpecialization();
-  const company = localStorage.getItem("companyId");
+  // const company = localStorage.getItem("companyId");
   const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const formik = useFormik<AddMedicalComplexType>({
     initialValues: {
@@ -57,7 +60,7 @@ function AddMedicalComplex() {
         x: 0,
         y: 0,
       },
-      companyId: company || "",
+      // companyId: company || "",
       specializations: [],
       isActive: true,
     },
@@ -66,13 +69,21 @@ function AddMedicalComplex() {
     isInitialValid: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      const { companyId, ...rest } = values;
-      const payload = companyId === "" ? rest : values;
-      hook.mutate(payload);
-      if (hook.isSuccess) formik.resetForm();
-      // console.log("Clinic Collection Submitted:", values);
+      // const { companyId, ...rest } = values;
+      // const payload = companyId === "" ? rest : values;
+      hook.mutate(values);
     },
   });
+
+  useEffect(() => {
+    if (hook.isSuccess) {
+      formik.resetForm();
+      formik.values = {} as AddMedicalComplexType;
+      if (location.pathname === "/medicalComplexes/add") {
+        navigate("/medicalComplexes");
+      }
+    }
+  }, [hook.isSuccess]);
 
   if (
     !querySpecialization.isFetched ||
@@ -112,8 +123,8 @@ function AddMedicalComplex() {
       mandatory: true,
       type: "text",
       error: formik.errors.name,
-      placeholder: "Enter clinic name",
-      tooltip: "Enter the name of the clinic",
+      placeholder: "Enter complex name",
+      tooltip: "Enter the name of the complex",
       value: formik.values.name || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -122,11 +133,11 @@ function AddMedicalComplex() {
       id: "phone",
       label: "Phone Number",
       mandatory: true,
-      type: "text",
+      type: "number",
       error: formik.errors.phone,
       placeholder: "Enter Phone Number Complex ",
-      tooltip: "Enter the Phone Number of the clinic",
-      value: Number(formik.values.phone) || 963,
+      tooltip: "Enter the Phone Number of the complex",
+      value: formik.values.phone,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
@@ -137,7 +148,7 @@ function AddMedicalComplex() {
       type: "text",
       error: formik.errors.overview,
       placeholder: "Enter overview",
-      tooltip: "Enter a brief overview of the clinic",
+      tooltip: "Enter a brief overview of the complex",
       value: formik.values.overview || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -149,7 +160,7 @@ function AddMedicalComplex() {
       type: "text",
       error: formik.errors.policies,
       placeholder: "Enter policies",
-      tooltip: "Enter the clinic's policies",
+      tooltip: "Enter the complex's policies",
       value: formik.values.policies || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -161,8 +172,8 @@ function AddMedicalComplex() {
       mandatory: true,
       type: "date",
       error: formik.errors.yearOfEstablishment,
-      placeholder: "YYYY",
-      tooltip: "Enter the year the clinic was established",
+      placeholder: "Enter year of establishment",
+      tooltip: "Enter the year the complex was established",
       value: formik.values.yearOfEstablishment || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -174,7 +185,7 @@ function AddMedicalComplex() {
       type: "text",
       error: formik.errors.address,
       placeholder: "Enter address",
-      tooltip: "Enter the clinic's address",
+      tooltip: "Enter the Medical Complex's address",
       value: formik.values.address || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -187,7 +198,7 @@ function AddMedicalComplex() {
       type: "text",
       error: formik.errors.vision,
       placeholder: "Enter vision",
-      tooltip: "Enter the clinic's vision",
+      tooltip: "Enter the Medical Complex's vision",
       value: formik.values.vision || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -199,7 +210,7 @@ function AddMedicalComplex() {
       type: "text",
       error: formik.errors.goals,
       placeholder: "Enter goals",
-      tooltip: "Enter the clinic's goals",
+      tooltip: "Enter the Medical Complex's goals",
       value: formik.values.goals || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -211,7 +222,7 @@ function AddMedicalComplex() {
       type: "select",
       description: "",
       error: formik.errors.PIC,
-      placeholder: "",
+      placeholder: "Select PIC",
       tooltip: "select the PIC",
       selectValue: Object.keys(employees),
       onChange: (selectedKeys) => {
@@ -219,19 +230,7 @@ function AddMedicalComplex() {
       },
       onBlur: formik.handleBlur,
     },
-    {
-      id: "companyId",
-      label: "Company ID",
-      mandatory: true,
-      disabled: true,
-      type: "text",
-      error: formik.errors.companyId,
-      placeholder: "company ID",
-      tooltip: " company ID",
-      value: formik.initialValues.companyId,
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+
     {
       id: "specialties",
       label: "Specialties",
@@ -257,18 +256,6 @@ function AddMedicalComplex() {
       },
       onBlur: formik.handleBlur,
       selectValue: Object.keys(Specializations),
-    },
-    {
-      id: "logo",
-      label: "Logo URL",
-      mandatory: false,
-      type: "image",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL of the clinic's logo",
-      value: formik.values.logo || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
     },
   ];
 
@@ -379,22 +366,17 @@ function AddMedicalComplex() {
               type: "select",
               options: ["email", "phone"],
             },
-            {
-              key: "isPublic",
-              label: "Is Public",
-              type: "boolean",
-              options: ["yes", "no"],
-            },
+
             {
               key: "value",
               label: "Value",
               type: "text",
             },
-            {
-              key: "subType",
-              label: "Sub Type",
-              type: "text",
-            },
+            // {
+            //   key: "subType",
+            //   label: "Sub Type",
+            //   type: "text",
+            // },
           ]}
           key={"contactInfos"}
           onFieldChange={formik.setFieldValue}
@@ -405,7 +387,20 @@ function AddMedicalComplex() {
         <TableSelection<WorkingHoursType>
           title="Working Days"
           columns={[
-            { key: "day", label: "Day", type: "date" },
+            {
+              key: "day",
+              label: "Day",
+              type: "select",
+              options: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
             {
               key: "startTime",
               label: "Start Time",
@@ -446,7 +441,7 @@ function AddMedicalComplex() {
           data={formik.values.holidays}
           error={formik.errors.holidays?.toString() || ""}
         />
-        <TableSelection<BankAccountType>
+        {/* <TableSelection<BankAccountType>
           title="bankAccount"
           columns={[
             { key: "accountNumber", label: "Account Number", type: "text" },
@@ -467,7 +462,7 @@ function AddMedicalComplex() {
           key={"bankAccount"}
           data={formik.values.bankAccount}
           error={formik.errors.holidays?.toString() || ""}
-        />
+        /> */}
 
         <Box mt="md" mb="xl">
           <Flex gap={"xl"}>

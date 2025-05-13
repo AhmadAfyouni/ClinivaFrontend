@@ -6,7 +6,6 @@ import { BankAccount } from "../Employee/GetEmployee";
 interface ContactInfo {
   type: string;
   value: string;
-  isPublic: boolean;
   subType: string;
 }
 
@@ -75,5 +74,5 @@ export default interface DepartmentDetailsType {
   clinicCount: number;
   patientCount: number;
   publicId: string;
-  PIC: string;
+  PIC: { name: string };
 }
