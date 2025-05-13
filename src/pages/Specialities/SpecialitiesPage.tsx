@@ -55,7 +55,11 @@ const SpecialitiesPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.publicId}
       th2={{ value: item.statistics.clinics.toString() }}
-      th3={{ value: item.updatedAt.slice(0, 10) }}
+      th3={{ value: new Date(item.updatedAt).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        }) }}
       th4={item.statistics.doctors.toString()}
       // th5={item.isActive.toString()}
       onDeleteClick={() => {

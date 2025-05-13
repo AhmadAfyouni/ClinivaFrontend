@@ -37,9 +37,11 @@ const generateHoursArray = (startHour: number, endHour: number) => {
 };
 
 const formatHour = (hour: number) => {
-  const twelveHour = hour % 12 || 12;
-  const period = hour < 12 ? "AM" : "PM";
-  return `${twelveHour} ${period}`;
+  // const twelveHour = hour % 12 || 12;
+  // const period = hour < 12 ? "AM" : "PM";
+  // return `${twelveHour} ${period}`;
+  const paddedHour = hour.toString().padStart(2, "0");
+  return `${paddedHour}:00`;
 };
 
 const parseHour = (timeStr: string): number => {
