@@ -37,7 +37,7 @@ export default interface AddCompanyType {
   bankAccount: BankAccountType[];
   insuranceCompany: InsuranceCompany[];
   commercialRecord: CommercialRecord;
-  locationGoogle: LocationGoogle;
+  locationGoogl: LocationGoogle;
   goals: string;
   overview: string;
   Key_member: string;

@@ -93,13 +93,13 @@ const AddCompanySchema = Yup.object().shape({
     expirationDate: Yup.string().required(),
     taxNumber: Yup.string().required(),
   }),
-  locationGoogle: Yup.object().shape({
+  locationGoogl: Yup.object().shape({
     x: Yup.number().required("Latitude is required"),
     y: Yup.number().required("Longitude is required"),
   }),
-  Executives: Yup.string().required("Executives are required"),
-  Founder: Yup.string().required("Founder is required"),
-  Key_member: Yup.string().required("Key member is required"),
+  Executives: Yup.string(),
+  Founder: Yup.string(),
+  Key_member: Yup.string(),
 });
 
 export default AddCompanySchema;
