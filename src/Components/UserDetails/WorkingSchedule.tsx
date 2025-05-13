@@ -61,7 +61,7 @@ interface Props {
 
 const WorkingSchedule = ({ workingHours }: Props) => {
   const theme = useMantineTheme();
-  if (workingHours === undefined || workingHours.length === 0) return null;
+  if (workingHours === undefined || workingHours.length < 1) return null;
   const maxStartTime = workingHours.reduce(
     (max, wh) => (wh.startTime > max ? wh.startTime : max),
     workingHours[0]?.startTime || ""
@@ -73,7 +73,7 @@ const WorkingSchedule = ({ workingHours }: Props) => {
   );
   const starthour = parseHour(maxStartTime);
   const endhours = parseHour(maxEndTime);
-  console.log(endhours);
+
   const allHours = generateHoursArray(starthour, endhours);
 
   const getHourStyle = (

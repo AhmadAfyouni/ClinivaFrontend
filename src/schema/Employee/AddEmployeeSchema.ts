@@ -45,16 +45,16 @@ const AddEmployeeSchema = Yup.object().shape({
     "Professional experience is required"
   ),
   Languages: Yup.array().of(Yup.string()).nullable(),
-  // workingHours: Yup.array()
-  //   .of(
-  //     Yup.object().shape({
-  //       day: Yup.string().required("Day is required"),
-  //       startTime: Yup.string().required("Start time is required"),
-  //       endTime: Yup.string().required("End time is required"),
-  //     })
-  //   )
-  //   .required("Working hours are required")
-  //   .min(1, "At least one working hour entry is required"),
+  workingHours: Yup.array()
+    .of(
+      Yup.object().shape({
+        day: Yup.string().required("Day is required"),
+        startTime: Yup.string().required("Start time is required"),
+        endTime: Yup.string().required("End time is required"),
+      })
+    )
+    .required("Working hours are required")
+    .min(1, "At least one working hour entry is required"),
   vacationRecords: Yup.array()
     .of(
       Yup.object().shape({
