@@ -1,16 +1,14 @@
 import {
-  Image,
   Text,
   useMantineTheme,
   Flex,
   Divider,
   ActionIcon,
-  Skeleton,
   Badge,
   Tooltip,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
 interface IconItem {
@@ -33,7 +31,7 @@ interface Props {
 
 const InfoSide = ({
   name,
-  url,
+  // url,
   contactInfoIcons,
   iconsMaxWidth,
   titles,
@@ -48,17 +46,17 @@ const InfoSide = ({
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const theme = useMantineTheme();
-  const [loaded, setLoaded] = useState(false);
-  const [imgSrc, setImgSrc] = useState(url || "/fallback.png");
+  // const [loaded, setLoaded] = useState(false);
+  // const [imgSrc, setImgSrc] = useState(url || "/fallback.png");
   return (
     <Flex direction={isTablet ? "row" : "column"} w="90%" p={10}>
       <Flex
         direction="column"
         gap="md"
         w={isTablet ? "50%" : "100%"}
-        h={hasActivation ? 350 : 300}
+        h={hasActivation ? "auto" : "300px"}
       >
-        <div
+        {/* <div
           style={{
             width: 150,
             height: 150,
@@ -80,9 +78,14 @@ const InfoSide = ({
             }}
             style={{ display: loaded ? "block" : "none" }}
           />
-        </div>
+        </div> */}
         <Flex justify="center" direction="column" gap="xs" align="center">
-          <Text ta="center" c={theme.other.onSurfaceSecondary}>
+          <Text
+            fw={800}
+            fz={24}
+            ta="center"
+            c={theme.other.onSurfaceSecondary}
+          >
             {name}
           </Text>
           {hasActivation && (

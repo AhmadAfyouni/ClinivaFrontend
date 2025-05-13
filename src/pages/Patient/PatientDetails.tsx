@@ -1,9 +1,11 @@
 import {
+  Avatar,
   Box,
   Button,
   Center,
   Flex,
   Grid,
+  Image,
   ScrollArea,
   Text,
   useMantineTheme,
@@ -25,6 +27,7 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 
 /**/
 function formatDateToCustom(dateString: string): string {
+  
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
     month: "long",
@@ -53,6 +56,8 @@ const PatientDetails = () => {
  const insuranceDateFormatted = formatDateToCustom(
   data?.insurances[0]?.expiryDate || ""
 );
+const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
+
   if (!isFetched) {
   return (
     <Center mih="60vh">
@@ -87,14 +92,18 @@ if (!data) {
                 bg={theme.other.bg}
               >
                 <Flex direction="column" p="0 10px" mb={20} w="100%">
-                  <Flex direction="column" mb={20} w="100%">
+                  <Flex direction="column" justify="center" align="center"   mb={20} w="100%">
                     <Text
                       fw={500}
                       mb={20}
                       size="lg"
                       c={theme.other.onSurfacePrimary}
                     >
-                      {t("patient_info")}
+                      {/* {t("patient_info")} */}
+                      <Avatar
+                      size="xl"
+                        src={VITE_BACKEND_URL_IMAGE + data.image}
+                      />
                     </Text>
                     <TextInfo
                       gap="1px"

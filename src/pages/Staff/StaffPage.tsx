@@ -10,19 +10,20 @@ import { useNavigate } from "react-router";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
-import useDepatementsList from "../../hooks/departement/useDepartementsList";
+// import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
 
 const StaffPage = () => {
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
-  const { data: departments } = useDepatementsList(true);
-  const deps = Array.from(new Set(departments?.map((item) => item.name)));
+  // const { data: departments } = useDepatementsList(true);
+  // const deps = Array.from(new Set(departments?.map((item) => item.name)));
   const { data, isFetched } = useStaffList(false, sortBy, order);
   const navigate = useNavigate();
   const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
-  console.log(deps);
+  const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
+
   if (!data) return null;
   const toggleAll = () => {
     setSelection((current) =>
@@ -33,14 +34,14 @@ const StaffPage = () => {
           })
     );
   };
-  console.log(data.map((item) => item.image));
+
 
   const rows = data?.map((item, index) => (
     <TableBody
       imgUrl={
         item.image !== "" && item.image !== undefined
-          ? item.image
-          : "https://example.com/nonexistent-image.jpg"
+          ? VITE_BACKEND_URL_IMAGE + item.image
+          : ""
       }
       onClick={() => navigate(`/employees/details/${item._id}`)}
       selection={selection}

@@ -21,6 +21,7 @@ interface Props {
 
 
 const DoctorCard = ({ doctor, onClick }: Props) => {
+  const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
   const theme = useMantineTheme();
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -34,7 +35,7 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
             {!error && doctor.image ? (
               <Image
                 content="cover"
-                src={doctor.image}
+                src={VITE_BACKEND_URL_IMAGE+doctor.image}
                 alt="Uploaded Image"
                 w={150}
                 h={150}

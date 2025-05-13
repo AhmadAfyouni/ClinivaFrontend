@@ -26,17 +26,20 @@ const AddClinicSchema = Yup.object().shape({
       reason: Yup.string().required("Reason is required"),
     })
   ),
-  WorkingHours: Yup.array().of(
-    Yup.object().shape({
-      day: Yup.string().required("Day is required"),
-      timeSlots: Yup.array().of(
-        Yup.object().shape({
-          startTime: Yup.string().required("Start time is required"),
-          endTime: Yup.string().required("End time is required"),
-        })
-      ),
-    })
-  ),
+  WorkingHours: Yup.array()
+    .of(
+      Yup.object().shape({
+        day: Yup.string().required("Day is required"),
+        timeSlots: Yup.array().of(
+          Yup.object().shape({
+            startTime: Yup.string().required("Start time is required"),
+            endTime: Yup.string().required("End time is required"),
+          })
+        ),
+      })
+    )
+    .required("Working hours are required")
+    .min(1, "At least one working hour entry is required"),
   bankAccount: Yup.array().of(
     Yup.object().shape({
       accountName: Yup.string().required("Account name is required"),
