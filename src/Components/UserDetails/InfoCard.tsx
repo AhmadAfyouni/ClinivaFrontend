@@ -7,6 +7,7 @@ import {
   Badge,
   ActionIcon,
   Skeleton,
+  Avatar,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ReactElement, useState } from "react";
@@ -42,6 +43,7 @@ const InfoCard = ({
   iconsMaxWidth,
   imgUrl,
 }: Props) => {
+  const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
   const generalInfoTitle = [
@@ -66,20 +68,16 @@ const InfoCard = ({
         <Flex justify="center" mt="10px" direction="column" align="center">
           {!loaded && !error && <Skeleton w={150} h={150} radius="xl" />}
           {!error && imgUrl ? (
-            <Image
-              content="cover"
-              src={imgUrl}
+            <Avatar
+              src={VITE_BACKEND_URL_IMAGE+imgUrl}
               alt="Uploaded Image"
-              w={150}
-              h={150}
-              mb={12}
-              radius={8}
               onLoad={() => setLoaded(true)}
               onError={() => {
                 setLoaded(false);
                 setError(true);
               }}
-              style={{ display: loaded ? "block" : "none" }}
+              size={"xl"}
+              // style={{ display: loaded ? "block" : "none" }}
             />
           ) : error ? (
             <BsPersonCircle size={150} color={theme.other.onSurfaceSecondary} />
@@ -96,7 +94,13 @@ const InfoCard = ({
           )}
         </Flex>
         <Flex justify="center" direction="column" gap="xs">
-          <Text ta="center" c={theme.other.onSurfaceSecondary} truncate>
+          <Text
+            fw={800}
+            fz={35}
+            ta="center"
+            c={theme.other.onSurfaceSecondary}
+            truncate
+          >
             {name}
           </Text>
           <Badge

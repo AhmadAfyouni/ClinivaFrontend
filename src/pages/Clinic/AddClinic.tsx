@@ -135,7 +135,7 @@ function AddClinic() {
     {
       id: "AverageDurationOfVisit",
       label: "Average Visit Duration (minutes)",
-      mandatory: true,
+      mandatory: false,
       type: "number",
       error: formik.errors.AverageDurationOfVisit,
       placeholder: "Enter average visit duration",
@@ -147,7 +147,7 @@ function AddClinic() {
     {
       id: "departmentId",
       label: "Department",
-      mandatory: true,
+      mandatory: false,
       type: "select",
       error: formik.errors.departmentId,
       placeholder: "Select department",
@@ -239,20 +239,20 @@ function AddClinic() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "logo",
-      label: "Logo URL",
-      mandatory: true,
-      type: "image",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL for the clinic's logo",
-      value: formik.values.logo || "",
-      onChange :()=> (file: File | null) => {
-        formik.setFieldValue("logo", file);
-      },
-      onBlur: formik.handleBlur,
-    },
+    // {
+    //   id: "logo",
+    //   label: "Logo URL",
+    //   mandatory: true,
+    //   type: "image",
+    //   error: formik.errors.logo,
+    //   placeholder: "Enter logo URL",
+    //   tooltip: "Enter the URL for the clinic's logo",
+    //   value: formik.values.logo || "",
+    //   onChange :()=> (file: File | null) => {
+    //     formik.setFieldValue("logo", file);
+    //   },
+    //   onBlur: formik.handleBlur,
+    // },
     {
       id: "vision",
       label: "Vision",
