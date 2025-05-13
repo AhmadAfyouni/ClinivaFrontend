@@ -3,8 +3,12 @@ import * as Yup from "yup";
 const AddMedicalComplexSchema = Yup.object().shape({
   name: Yup.string().required("Clinic name is required"),
   phone: Yup.string().required("Clinic Phone Number is required").min(10),
-  pic: Yup.string(),
   overview: Yup.string().required("Overview is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  country: Yup.string().required("Country is required"),
+  zipCode: Yup.string().optional(),
+  website: Yup.string().url("Invalid website").optional(),
+  stateProvince: Yup.string().optional(),
   policies: Yup.string().required("Policies are required"),
   yearOfEstablishment: Yup.date().required("Year of establishment is required"),
   address: Yup.string().required("Address is required"),
@@ -128,7 +132,9 @@ const AddMedicalComplexSchema = Yup.object().shape({
     y: Yup.number().required("Y coordinate is required"),
   }),
   companyId: Yup.string(),
-  specializations: Yup.array().of(Yup.string()).optional(),
+  specializations: Yup.array()
+    .of(Yup.string())
+    .required("Specializations are required"),
   PIC: Yup.string().required("PIC is required"),
 });
 

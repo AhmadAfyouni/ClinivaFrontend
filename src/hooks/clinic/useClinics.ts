@@ -6,7 +6,7 @@ const useClinics = (
   limit = 5,
   page = 1,
   allData = false,
-  sortBy = "_id",
+  sortBy = "id",
   order = "desc"
 ) => {
   return useQuery({
