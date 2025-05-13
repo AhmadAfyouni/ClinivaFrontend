@@ -55,7 +55,11 @@ const MedicalComplexDetails = () => {
     t("overview"),
   ];
   const values = [
-    data.createdAt.slice(0, 10),
+    new Date(data.createdAt).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}),
     data.vision,
     data.details,
     data.overview,

@@ -14,7 +14,8 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect } from "react";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
@@ -22,7 +23,22 @@ const CompanyDetails = () => {
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { data: companies, isFetched } = useCompanyDetails();
+  // const { data: companies, isFetched } = useCompanyDetails();
+  //   const { data: companies, isFetched } = useCompanyDetails({
+  //   refetchOnMount: true,
+  // });
+
+  
+const location = useLocation();
+const { data: companies, isFetched, refetch } = useCompanyDetails({
+  refetchOnMount: true,
+});
+
+useEffect(() => {
+  if (location.state?.updated) {
+    refetch();
+  }
+}, [location.state, refetch]);
   if (!isFetched)
     return (
       <Center>
@@ -45,7 +61,13 @@ const CompanyDetails = () => {
       </Center>
   }
   const values = [
-    companies[0].yearOfEstablishment?.slice(0, 10) || "",
+      companies[0].yearOfEstablishment
+    ? new Date(companies[0].yearOfEstablishment).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : "",
     companies[0].vision || "",
     companies[0].goals || "",
     companies[0].overview || "",
