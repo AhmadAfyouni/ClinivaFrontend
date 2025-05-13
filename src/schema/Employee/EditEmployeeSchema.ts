@@ -57,9 +57,9 @@ const EditEmployeeSchema = Yup.object().shape({
   vacationRecords: Yup.array()
     .of(
       Yup.object().shape({
-        startDate: Yup.date().required("Leave start date is required"),
-        endDate: Yup.date().required("Leave end date is required"),
-        reason: Yup.string().required("Status is required"),
+        startDate: Yup.date(),
+        endDate: Yup.date(),
+        reason: Yup.string(),
       })
     )
     .required("Vacations are required"),

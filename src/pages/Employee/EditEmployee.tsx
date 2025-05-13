@@ -46,6 +46,18 @@ function EditEmployee() {
       "the reson is " +
       data?.vacationRecords.map((item) => item.reason)
   );
+const formatTableValue = (value: any) => {
+  const date = new Date(value);
+  if (!isNaN(date.getTime())) {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  }
+  return value;
+};
+
   const handleMultiSelectChange = (
     fieldName: string,
     selectedValues: string[]
@@ -81,8 +93,10 @@ function EditEmployee() {
       departmentId: data?.departmentId?._id || null,
       clinics: data?.clinics || null,
       specializations: data?.specializations || [],
-      createdAt: data?.createdAt || "",
-      updatedAt: data?.updatedAt || "",
+      // createdAt: data?.createdAt || "",
+      // updatedAt: data?.updatedAt || "",
+      createdAt: formatTableValue(data?.createdAt) || "",
+      updatedAt: formatTableValue(data?.updatedAt) || "",
       __v: data?.__v || 0,
       employeeType: data?.employeeType || "",
       hireDate: data?.hireDate || "",
@@ -472,7 +486,7 @@ function EditEmployee() {
       description: "",
       error: formik.errors.image?.toString(),
       placeholder: "",
-      value: formik.values.image,
+      value: formik.values.image ?? undefined,
       onChangeFile: handleImageChange,
       onChange: () => {}, // Empty onChange to satisfy props
     },
@@ -510,7 +524,6 @@ function EditEmployee() {
           onFieldChange={formik.setFieldValue}
           error={formik.errors.contactInfos?.toString() || ""}
         />
-
         <TableSelection<WorkingHoursType>
           title="Working Hours"
           fieldName="workingHours"

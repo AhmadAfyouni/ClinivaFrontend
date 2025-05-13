@@ -61,7 +61,13 @@ useEffect(() => {
       </Center>
   }
   const values = [
-    companies[0].yearOfEstablishment?.slice(0, 10) || "",
+      companies[0].yearOfEstablishment
+    ? new Date(companies[0].yearOfEstablishment).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : "",
     companies[0].vision || "",
     companies[0].goals || "",
     companies[0].overview || "",
