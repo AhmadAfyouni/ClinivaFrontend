@@ -2,7 +2,7 @@ import { DateInput } from "@mantine/dates";
 import { Checkbox, Select, TextInput } from "@mantine/core";
 import { TableColumn } from "../../../types/TableInputTypes";
 import { useTranslation } from "react-i18next";
-
+import dayjs from "dayjs";
 type TableInputProps = {
   column: TableColumn;
   value: unknown;
@@ -17,8 +17,11 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
       <DateInput
         placeholder={column.label}
         value={value as Date}
-        onChange={(date) => onChange(date || new Date())}
-        valueFormat="YYYY-MM-DD"
+                onChange={(date) => {
+          const formatted = date ? dayjs(date).format("MMMM D, YYYY") : "";
+          onChange(formatted); // ⬅️ سترجع التاريخ كـ string بصيغة June 22, 2029
+        }}
+        valueFormat="MMMM D, YYYY"
         error={t(column.error || "")}
       />
     );
@@ -28,8 +31,11 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
       <DateInput
         placeholder={column.label}
         value={value as Date}
-        onChange={(date) => onChange(date || new Date())}
-        valueFormat="DD"
+        onChange={(date) => {
+          const formatted = date ? dayjs(date).format("MMMM D, YYYY") : "";
+          onChange(formatted);
+        }}
+        valueFormat="MMMM D, YYYY"
         error={t(column.error || "")}
       />
     );
