@@ -38,7 +38,7 @@ export default interface AddEmployeeType {
     | "";
   hireDate: string;
   medicalLicenseNumber: string;
-  certifications: string[];
+  certifications: string;
   jobType: "FULL_TIME" | "PART_TIME";
   breakTimes: BreakTimesType[];
   isActive: boolean;

@@ -7,7 +7,6 @@ import { Specialization } from "./AddCompanyType";
 
 export interface ContactInfoType {
   type: "email" | "phone";
-  isPublic: boolean;
   value: string;
   subType: string;
 }

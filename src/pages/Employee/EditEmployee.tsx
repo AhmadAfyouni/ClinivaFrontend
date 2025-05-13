@@ -516,7 +516,20 @@ function EditEmployee() {
           title="Working Hours"
           fieldName="workingHours"
           columns={[
-            { key: "day", label: "Day", type: "date" },
+            {
+              key: "day",
+              label: "Day",
+              type: "select",
+              options: [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ],
+            },
             {
               key: "startTime",
               label: "Start Time",

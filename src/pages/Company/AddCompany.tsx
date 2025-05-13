@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import AddCompanyType, {
   InsuranceCompany,
-  Specialization,
 } from "../../types/company/AddCompanyType";
 import AddCompanySchema from "../../schema/AddCompanySchema";
 import InputForm from "../../Components/Inputs/InputForm";
@@ -319,12 +318,7 @@ function AddCompany({ nextStep }: Props) {
                 type: "select",
                 options: ["email", "phone"],
               },
-              {
-                key: "isPublic",
-                label: "Is Public",
-                type: "boolean",
-                options: ["yes", "no"],
-              },
+
               {
                 key: "value",
                 label: "Value",
@@ -355,29 +349,8 @@ function AddCompany({ nextStep }: Props) {
             onFieldChange={formik.setFieldValue}
             error={""}
           />
-          {/* <TableSelection<WorkingHoursType>
-            title="Working Days"
-            columns={[
-              { key: "day", label: "Day" },
-              {
-                key: "startTime",
-                label: "Start Time",
-                type: "time",
-              },
 
-              {
-                key: "endTime",
-                label: "End Time",
-                type: "time",
-              },
-            ]}
-            fieldName="workingDays"
-            onFieldChange={formik.setFieldValue}
-            key={"workingDays"}
-            data={formik.values.workingDays}
-            error={formik.errors.workingDays?.toString() || ""}
-          /> */}
-          <TableSelection<Specialization>
+          {/* <TableSelection<Specialization>
             key={"specializations"}
             title="Specializations"
             fieldName="specializations"
@@ -388,7 +361,7 @@ function AddCompany({ nextStep }: Props) {
             data={formik.values.specializations}
             onFieldChange={formik.setFieldValue}
             error={formik.errors.specializations?.toString() || ""}
-          />
+          /> */}
           <TableSelection<InsuranceCompany>
             title={"Insurance Company"}
             fieldName={"insuranceCompany"}

@@ -25,7 +25,7 @@ interface selectSpecializationType {
 function AddMedicalComplex() {
   const hook = useAddMedicalComplex();
   const querySpecialization = useSpecialization();
-  const company = localStorage.getItem("companyId");
+  // const company = localStorage.getItem("companyId");
   const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
   const location = useLocation();
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function AddMedicalComplex() {
         x: 0,
         y: 0,
       },
-      companyId: company || "",
+      // companyId: company || "",
       specializations: [],
       isActive: true,
     },
@@ -69,9 +69,9 @@ function AddMedicalComplex() {
     isInitialValid: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      const { companyId, ...rest } = values;
-      const payload = companyId === "" ? rest : values;
-      hook.mutate(payload);
+      // const { companyId, ...rest } = values;
+      // const payload = companyId === "" ? rest : values;
+      hook.mutate(values);
     },
   });
 
@@ -133,11 +133,11 @@ function AddMedicalComplex() {
       id: "phone",
       label: "Phone Number",
       mandatory: true,
-      type: "text",
+      type: "number",
       error: formik.errors.phone,
       placeholder: "Enter Phone Number Complex ",
       tooltip: "Enter the Phone Number of the complex",
-      value: Number(formik.values.phone) || 963,
+      value: formik.values.phone,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },

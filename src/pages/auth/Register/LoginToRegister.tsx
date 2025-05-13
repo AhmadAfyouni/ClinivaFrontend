@@ -48,7 +48,7 @@ export default function LoginToRegister({ nextStep }: Props) {
       id: "password",
       label: "Password",
       mandatory: true,
-      type: "text",
+      type: "password",
       description: "",
       error: formik.errors.password,
       placeholder: "Your password",

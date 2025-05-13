@@ -5,7 +5,12 @@ import StaffDetailsType from "../../types/staff/StaffDetailsType";
 import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import axios from "axios";
 
-const useStaffList = (allData = false, sortBy = "_id", order = "desc",employeeType="") => {
+const useStaffList = (
+  allData = false,
+  sortBy = "_id",
+  order = "desc",
+  employeeType = ""
+) => {
   const pagination = usePaginationtStore();
 
   return useQuery({
@@ -62,9 +67,9 @@ const useStaffList = (allData = false, sortBy = "_id", order = "desc",employeeTy
         throw error;
       }
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
-    enabled: true,
+    // staleTime: 0,
+    refetchOnWindowFocus: false,
+    // enabled: true,
   });
 };
 
