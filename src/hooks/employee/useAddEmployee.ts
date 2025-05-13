@@ -1,17 +1,24 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/ApiCore";
 import AddEmployeeType from "../../types/Employee/AddEmployeeType";
 
 const useAddEmployee = () => {
-  const navigate = useNavigate();
   return useMutation({
     mutationKey: ["AddEmployee"],
     mutationFn: (Employee: AddEmployeeType) => {
+      const formData = new FormData();
+      Object.keys(Employee).forEach((key) => {
+        formData.append(key, (Employee as any)[key]);
+      });
+
       return axiosInstance
-        .post("/employees", Employee)
+        .post("/employees", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res) => {
-          navigate(`/Employee`);
+          // navigate(`/Employee`);
 
           return res.data;
         })

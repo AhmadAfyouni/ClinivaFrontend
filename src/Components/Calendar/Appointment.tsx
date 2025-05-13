@@ -23,8 +23,6 @@ import useClinics from "../../hooks/clinic/useClinics";
 import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 
 function AppointmentComponents() {
-  console.log("steps0");
-
   const [searchQuery, setSearchQuery] = useState("");
   const [daysInCalender, setDaysInCalender] = useState(5);
   const [OpenExtraInfo] = useState(true);
@@ -32,7 +30,6 @@ function AppointmentComponents() {
   const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  console.log("step2");
 
   const [OpenForm, setOenForm] = useState<{
     date: string;
@@ -66,7 +63,6 @@ function AppointmentComponents() {
       addAppointmentMutation.mutate(values);
     },
   });
-  console.log("step1");
   useEffect(() => {
     if (addAppointmentMutation.isSuccess) {
       handleCloseForm();
@@ -74,7 +70,6 @@ function AppointmentComponents() {
       hook.refetch();
     }
   }, [addAppointmentMutation.isSuccess]);
-  console.log("step2");
 
   useEffect(() => {
     if (OpenForm) {
@@ -86,7 +81,6 @@ function AppointmentComponents() {
       });
     }
   }, [OpenForm]);
-  console.log("step3");
 
   if (
     !hook.data ||
@@ -95,20 +89,11 @@ function AppointmentComponents() {
     !serviceHook.data ||
     !clinicsHook.data
   ) {
-    console.log("step4");
-
     return <Center>Loading...</Center>;
   } else if (selectedClinic === "Select Clinic") {
     pagination.setGeneralFilter("&clinic=" + clinicsHook.data[0].name);
     setSelectedClinic(clinicsHook.data[0].name);
   }
-  console.log("step5");
-
-  console.log(
-    "@!!",
-    clinicsHook.data.filter((c) => c.name === selectedClinic || "mmm")[0]
-      .WorkingHours
-  );
 
   const day = new Date(formik.values.datetime).getUTCDate();
   const month = new Date(formik.values.datetime).getUTCMonth() + 1;
@@ -270,8 +255,12 @@ function AppointmentComponents() {
     const timeSlot = clinicsHook.data.filter(
       (c) => c.name === selectedClinic
     )[0];
-    if (timeSlot.WorkingHours.length === 0) return type === "start" ? 9 : 18;
 
+    console.log(timeSlot.WorkingHours[0].startTime);
+    if (timeSlot.WorkingHours.length === 0)
+      return type === "start"
+        ? timeSlot.WorkingHours[0].startTime
+        : timeSlot.WorkingHours[0].endTime;
     const time =
       type === "start"
         ? timeSlot.WorkingHours[0].startTime

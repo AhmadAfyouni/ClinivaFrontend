@@ -92,7 +92,7 @@ function AddPation() {
       description: "",
       error: formik.errors.languages?.toString(),
       placeholder: "Select language",
-      tooltip: "Enter your language",
+      tooltip: "Enter  language",
       value: formik.values.languages || [],
       onChange: (selectedValues) =>
         handleMultiSelectChange("languages", selectedValues as string[]),
@@ -349,7 +349,7 @@ function AddPation() {
       description: "",
       error: formik.errors.professiona_experi,
       placeholder: "Enter professional experience details",
-      tooltip: "Describe your professional experience",
+      tooltip: "Describe  professional experience",
       value: formik.values.professiona_experi || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,

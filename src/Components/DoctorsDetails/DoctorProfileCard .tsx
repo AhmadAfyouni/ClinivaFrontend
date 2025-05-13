@@ -59,6 +59,7 @@ const DoctorProfileCard = ({
   conslutionfee,
   avalibilty,
 }: Props) => {
+  const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
   const { t } = useTranslation();
   const theme = useMantineTheme();
   const isMobile = useMediaQuery("(max-width: 576px)");
@@ -131,7 +132,8 @@ const DoctorProfileCard = ({
               w={30}
               h={30}
               sizes="cover"
-              src={imgUrl}
+              src={VITE_BACKEND_URL_IMAGE+imgUrl}
+              // src={'http://localhost:80'+imgUrl}
               onLoad={() => setLoaded(true)}
               onError={() => {
                 setLoaded(false);
