@@ -7,11 +7,12 @@ import { Button, ScrollArea } from "@mantine/core";
 import { language } from "../../data/Language";
 import useAddPation from "../../hooks/patient/useAddPation";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
+import { country } from "../../data/country";
 
 function AddPation() {
-  const handleImageChange = (file: File | null) => {
-    formik.setFieldValue("image", file);
-  };
+  // const handleImageChange = (file: File | null) => {
+  //   formik.setFieldValue("image", file);
+  // };
   const hook = useAddPation();
   const handleMultiSelectChange = (
     fieldName: string,
@@ -170,14 +171,16 @@ function AddPation() {
       id: "nationality",
       label: "Nationality",
       mandatory: true,
-      type: "autoCompleat",
+      type: "select",
       description: "",
       error: formik.errors.nationality,
-      placeholder: "Syrian",
+      placeholder: "Nationality",
       tooltip: "Enter nationality",
-      value: formik.values.nationality || "",
-      onChange: formik.handleChange,
+      // value: formik.values.nationality || "",
+      onChange: (selectedValues) =>
+        handleMultiSelectChange("nationality", selectedValues as string[]),
       onBlur: formik.handleBlur,
+      selectValue: country,
     },
     {
       id: "image",
@@ -188,22 +191,26 @@ function AddPation() {
       error: formik.errors.image,
       placeholder: "",
       value: formik.values.image || "",
-      onChangeFile: handleImageChange,
+      // onChangeFile: handleImageChange,
       onChange: () => {},
     },
     {
-      id: "smoking",
+      id: "Smoking",
       label: "Smoking",
       mandatory: false,
       type: "radio",
       description: "",
       error: formik.errors.Smoking,
+      value: formik.values.Smoking,
       placeholder: "",
       radio: [
         { label: "Yes", value: true },
         { label: "No", value: false },
       ],
       onChange: formik.handleChange,
+      // onChange: (selectedValues) => {
+      //   formik.setFieldValue("Smoking", selectedValues);
+      // },
       onBlur: formik.handleBlur,
     },
     {

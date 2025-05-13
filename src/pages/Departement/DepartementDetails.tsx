@@ -38,7 +38,6 @@ const DepartementDetails = () => {
     mutationKey: "delete-department",
     navigationUrl: "/departements",
   });
-  //////////////////////////////////////////////////////staff table
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useStaffList(false, sortBy, order);
