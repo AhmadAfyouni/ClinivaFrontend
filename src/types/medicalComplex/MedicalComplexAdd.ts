@@ -73,4 +73,9 @@ export default interface AddMedicalComplexType {
   locationGoogl: LocationGoogle;
   companyId?: string;
   specializations: string[];
+  email: string;
+  country: string;
+  zipCode: string;
+  website: string;
+  stateProvince: string;
 }
