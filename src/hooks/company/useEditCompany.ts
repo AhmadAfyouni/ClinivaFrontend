@@ -4,14 +4,19 @@ import axiosInstance from "../../api/ApiCore";
 import AddCompanyType from "../../types/company/AddCompanyType";
 
 const useEditCompany = (id: string) => {
+
+  
   const navigate = useNavigate();
   return useMutation({
     mutationKey: ["editCompany"],
     mutationFn: (company: AddCompanyType) => {
+      console.log("inside");
+      
       return axiosInstance
         .put("/companies/" + id, company)
         .then((res) => {
-          navigate(`/Employee`);
+          navigate("/company", { state: { updated: true } });
+
 
           return res.data;
         })

@@ -44,7 +44,7 @@ function AddCompany({ nextStep }: Props) {
         expirationDate: "",
         taxNumber: "",
       },
-      locationGoogle: {
+      locationGoogl: {
         x: 0,
         y: 0,
       },
@@ -66,7 +66,7 @@ function AddCompany({ nextStep }: Props) {
 
   const handleLocationChange = (location: { x: number; y: number }) => {
     console.log(location, "55555555555");
-    formik.setFieldValue("locationGoogle", location);
+    formik.setFieldValue("locationGoogl", location);
   };
 
   const attrb: InputPropsType[] = [
@@ -390,16 +390,16 @@ function AddCompany({ nextStep }: Props) {
           <Box mt="md" mb="xl">
             <Flex gap={"xl"}>
               <h3>Location</h3>
-              <h5>x: {formik.values.locationGoogle.x}</h5>
-              <h5>x: {formik.values.locationGoogle.y}</h5>
+              <h5>x: {formik.values.locationGoogl.x}</h5>
+              <h5>x: {formik.values.locationGoogl.y}</h5>
             </Flex>
             <LocationPicker
               onChange={handleLocationChange}
-              initialPosition={formik.values.locationGoogle}
+              initialPosition={formik.values.locationGoogl}
             />
-            {formik.errors.locationGoogle && (
+            {formik.errors.locationGoogl && (
               <div style={{ color: "red" }}>
-                {formik.errors.locationGoogle as string}
+                {formik.errors.locationGoogl as string}
               </div>
             )}
           </Box>
