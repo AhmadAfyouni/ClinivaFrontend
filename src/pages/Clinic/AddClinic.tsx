@@ -16,7 +16,10 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
-
+import useSpecialization from "../../hooks/Specialization/useSpecializations";
+interface selectSpecializationType {
+  [key: string]: string;
+}
 interface selectRoleType {
   [key: string]: string;
 }
@@ -24,6 +27,8 @@ function AddClinic() {
   const hook = useAddClinic();
 
   const departments = useDepatementsList();
+  const querySpecialization = useSpecialization();
+
   const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
   const formik = useFormik<AddClinicType>({
     initialValues: {
@@ -33,7 +38,7 @@ function AddClinic() {
       overview: "",
       yearOfEstablishment: "",
       address: "",
-      // logo: "",
+      logo: "",
       vision: "",
       goals: "",
       contactInfos: [],
@@ -73,7 +78,8 @@ function AddClinic() {
     formik.setFieldValue("locationGoogl", location);
   };
 
-  if (!departments.isSuccess) return <Center>Loading...</Center>;
+  if (!departments.isSuccess || !querySpecialization.data)
+    return <Center>Loading...</Center>;
   const departmentName = [...new Set(departments.data.map((obj) => obj.name))];
   const nameIdMap: selectRoleType = departments.data.reduce<selectRoleType>(
     (acc, item) => {
@@ -92,6 +98,26 @@ function AddClinic() {
     },
     {}
   );
+  const Specializations: selectSpecializationType =
+    querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    }, {});
+  function getKeysByValue<T>(obj: Record<string, T>, value: T[]): string[] {
+    const keys = Object.entries(obj)
+      .filter(([, val]) => value.includes(val)) // Check if the value is in the array of values
+      .map(([key]) => key);
+    console.log(formik.values.specializations);
+    return keys;
+  }
+  const handleMultiSelectChange = (
+    fieldName: string,
+    selectedValues: string[]
+  ) => {
+    // console.log("@#@#@#@#");
+    console.log(selectedValues);
+    formik.setFieldValue(fieldName, selectedValues);
+  };
   const primaryFields: InputPropsType[] = [
     {
       id: "name",
@@ -149,6 +175,35 @@ function AddClinic() {
       onBlur: formik.handleBlur,
     },
     {
+      id: "specialties",
+      label: "Specialties",
+      mandatory: true,
+      type: "multiSelect",
+      description: "",
+      error: formik.errors.specializations?.toString(),
+      placeholder: "Select Specialties",
+      tooltip: "Enter Specialties",
+      value: getKeysByValue(Specializations, formik.values.specializations),
+
+      onChange: (selectedKeys) => {
+        if (
+          Array.isArray(selectedKeys) &&
+          selectedKeys.every((item) => typeof item === "string")
+        ) {
+          const selectedValues = selectedKeys.map(
+            (key) => Specializations[key]
+          );
+          console.log("first");
+          console.log(selectedValues);
+          handleMultiSelectChange("specializations", selectedValues);
+        } else {
+          console.error("selectedKeys is not a valid array of strings");
+        }
+      },
+      onBlur: formik.handleBlur,
+      selectValue: Object.keys(Specializations) || [],
+    },
+    {
       id: "overview",
       label: "Overview",
       mandatory: true,
@@ -184,18 +239,20 @@ function AddClinic() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    // {
-    //   id: "logo",
-    //   label: "Logo URL",
-    //   mandatory: true,
-    //   type: "image",
-    //   error: formik.errors.logo,
-    //   placeholder: "Enter logo URL",
-    //   tooltip: "Enter the URL for the clinic's logo",
-    //   value: formik.values.logo || "",
-    //   onChange: formik.handleChange,
-    //   onBlur: formik.handleBlur,
-    // },
+    {
+      id: "logo",
+      label: "Logo URL",
+      mandatory: true,
+      type: "image",
+      error: formik.errors.logo,
+      placeholder: "Enter logo URL",
+      tooltip: "Enter the URL for the clinic's logo",
+      value: formik.values.logo || "",
+      onChange :()=> (file: File | null) => {
+        formik.setFieldValue("logo", file);
+      },
+      onBlur: formik.handleBlur,
+    },
     {
       id: "vision",
       label: "Vision",
