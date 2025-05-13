@@ -19,14 +19,28 @@ import useClinicsList from "../../hooks/clinic/useClinicsList";
 import useDepartementsList from "../../hooks/departement/useDepartementsList";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 import { language } from "../../data/Language";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 interface selectSpecializationType {
   [key: string]: string;
 }
-function AddEmployee() {
+interface Props {
+  employeeType:
+    | "Doctor"
+    | "Nurse"
+    | "Technician"
+    | "Administrative"
+    | "Employee"
+    | "PIC"
+    | "Other";
+}
+function AddEmployee({ employeeType }: Props) {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
+  const navigate = useNavigate();
+
   const hook = useAddEmployee();
   const querySpecialization = useSpecialization();
   const queryClinic = useClinicsList();
@@ -47,22 +61,22 @@ function AddEmployee() {
       identity: "",
       nationality: "",
       image: "",
-      marital_status: "",
+      marital_status: "Single",
       number_children: 0,
       notes: "",
       address: "",
       professional_experience: "",
       Languages: [],
       workingHours: [],
-      employeeType: "",
+      employeeType: employeeType === "Doctor" ? employeeType : "",
       contactInfos: [],
       vacationRecords: [],
       hireDate: "",
       medicalLicenseNumber: "",
-      certifications: [],
+      certifications: "",
       jobType: "FULL_TIME",
       breakTimes: [],
-      isActive: false,
+      isActive: true,
       // clinics: [],
       specializations: [],
     },
@@ -72,11 +86,17 @@ function AddEmployee() {
     onSubmit: (values) => {
       values.image = "";
       hook.mutate(values);
-      formik.resetForm();
+
       console.log("Form Submitted:", values);
     },
   });
-
+  useEffect(() => {
+    if (hook.isSuccess) {
+      formik.resetForm();
+      navigate("/users/add");
+      // formik.values = {} as AddEmployeeType;
+    }
+  }, [hook.isSuccess]);
   if (
     !querySpecialization.isFetched ||
     !querySpecialization.data ||
@@ -105,19 +125,17 @@ function AddEmployee() {
     acc[department.name] = department._id;
     return acc;
   }, {});
-  const nameIdMapClinic = queryClinic.data?.reduce<Record<string, string>>(
-    (acc, clinic) => {
-      acc[clinic.name] = clinic._id;
-      return acc;
-    },
-    {}
-  );
+
   const Specializations: selectSpecializationType =
     querySpecialization.data.reduce<selectSpecializationType>((acc, item) => {
       acc[item.name] = item._id;
       return acc;
     }, {});
-
+  const Clinics: selectSpecializationType =
+    queryClinic.data.reduce<selectSpecializationType>((acc, item) => {
+      acc[item.name] = item._id;
+      return acc;
+    }, {});
   const handleMultiSelectChange = (
     fieldName: string,
     selectedValues: string[]
@@ -195,6 +213,7 @@ function AddEmployee() {
       label: "Employee Type",
       mandatory: true,
       type: "select",
+      disabled: employeeType === "Doctor",
       description: "",
       error: formik.errors.employeeType,
       placeholder: "",
@@ -260,15 +279,21 @@ function AddEmployee() {
       id: "clinics",
       label: "Clinic",
       mandatory: false,
-      type: "select",
+      type: "multiSelect",
       description: "",
       error: formik.errors.clinics,
       placeholder: "Select clinic",
       tooltip: "Enter the clinic",
-      // value: formik.values.clinics || "",
-      onChange: (selectedValue) => {
-        if (typeof selectedValue === "string") {
-          formik.setFieldValue("clinics", nameIdMapClinic[selectedValue]);
+
+      onChange: (selectedKeys) => {
+        if (
+          Array.isArray(selectedKeys) &&
+          selectedKeys.every((item) => typeof item === "string")
+        ) {
+          const selectedValues = selectedKeys.map((key) => Clinics[key]);
+          handleMultiSelectChange("clinics", selectedValues);
+        } else {
+          console.error("selectedKeys is not a valid array of strings");
         }
       },
       onBlur: formik.handleBlur,
@@ -434,17 +459,14 @@ function AddEmployee() {
       id: "certifications",
       label: "certifications",
       mandatory: true,
-      type: "multiSelect",
+      type: "text",
       description: "",
       error: formik.errors.certifications?.toString(),
       placeholder: "Select certifications",
       tooltip: "Enter your certifications",
       value: formik.values.certifications || [],
-      onChange: (selectedValues) =>
-        handleMultiSelectChange("certifications", selectedValues as string[]),
-
+      onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      selectValue: ["cert1", "cert2"],
     },
 
     {
@@ -481,12 +503,7 @@ function AddEmployee() {
               type: "select",
               options: ["email", "phone"],
             },
-            {
-              key: "isPublic",
-              label: "Is Public",
-              type: "boolean",
-              options: ["yes", "no"],
-            },
+
             {
               key: "value",
               label: "Value",
@@ -504,7 +521,20 @@ function AddEmployee() {
         <TableSelection<WorkingHoursType>
           title="Working Hours"
           columns={[
-            { key: "day", label: "Day", type: "date" },
+            {
+              key: "day",
+              label: "Day",
+              type: "select",
+              options: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+            },
             {
               key: "startTime",
               label: "Start Time",

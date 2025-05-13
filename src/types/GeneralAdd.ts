@@ -7,7 +7,6 @@ export interface WorkingHoursType {
 export interface ContactInfoType {
   type: "email" | "phone";
   value: string;
-  // isPublic: boolean;
   subType?: string;
 }
 export interface LocationGoogle {

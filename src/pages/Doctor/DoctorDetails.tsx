@@ -22,7 +22,7 @@ const DoctorDetails = () => {
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const { data, isFetched } = useDoctorDetails(DoctorId!);
   if (!data) return null;
-  console.log(data);
+
   const thPatient = [t("Name"), t("Date"), t("Treatment")];
   const patients = [
     {
@@ -36,6 +36,7 @@ const DoctorDetails = () => {
       treatment: "Fillers",
     },
   ];
+
   const day = [t("Day"), t("Start"), t("End")];
   const wh = data.workingHours.map((wh) => ({
     day: wh.day,
@@ -60,6 +61,7 @@ const DoctorDetails = () => {
   const handleDeleteEvent = () => {
     deleteDoctor.mutate(DoctorId!);
   };
+
   if (!isFetched || !data)
     return (
       <Center>
@@ -87,7 +89,7 @@ const DoctorDetails = () => {
                 gender={data.gender}
                 languages={data.Languages.map((item) => item)}
                 name={data.name}
-                specialty={data.specialties}
+                specialty={data.specializations}
                 status={data.marital_status}
                 // about="A highly skilled  Doctor..."
                 hireDate={new Date(data.hireDate)}

@@ -6,7 +6,6 @@ import { BankAccount } from "../Employee/GetEmployee";
 interface ContactInfo {
   type: string;
   value: string;
-  isPublic: boolean;
   subType: string;
 }
 

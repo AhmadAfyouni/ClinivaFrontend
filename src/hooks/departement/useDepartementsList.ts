@@ -57,9 +57,7 @@ const useDepatementsList = (
         throw error;
       }
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
-    enabled: true,
+    refetchOnWindowFocus: false,
   });
 };
 
