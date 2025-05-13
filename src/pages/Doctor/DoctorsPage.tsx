@@ -42,12 +42,22 @@ const DoctorsPage = () => {
     pagination.setFilter(value);
   };
 
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No Doctors Found</Text>
-      </Center>
-    );
+  if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data || data.length === 0) {
+  return (
+    <Center mih="60vh">
+      <Text>No Doctors Found</Text>
+    </Center>
+  );
+}
+
   else
     return (
       <Box bg={theme.other.bg}>

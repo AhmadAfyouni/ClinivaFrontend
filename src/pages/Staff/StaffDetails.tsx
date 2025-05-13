@@ -41,12 +41,21 @@ const StaffDetails = () => {
     mutationKey: "delete-employee",
     navigationUrl: "/employees",
   });
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>{t("No Clinic Details Found")}</Text>
-      </Center>
-    );
+    if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>{t("No Staff Details Found")}</Text>
+    </Center>
+  );
+}
 
   const icons = data.contactInfos.map((item) => {
     if (item.type === "email") {

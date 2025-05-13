@@ -53,12 +53,22 @@ const PatientDetails = () => {
  const insuranceDateFormatted = formatDateToCustom(
   data?.insurances[0]?.expiryDate || ""
 );
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No Patient Datails Found</Text>
-      </Center>
-    );
+  if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>No Patient Details Found</Text>
+    </Center>
+  );
+}
+
   else
     return (
       <ScrollArea h="90vh">
