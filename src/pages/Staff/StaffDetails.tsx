@@ -16,6 +16,18 @@ import useStaffDetails from "../../hooks/staff/useStaffDetails";
 import { useTranslation } from "react-i18next";
 import useDeleteById from "../../hooks/delete/useDeleteById";
 
+
+
+/**/
+function formatDateToCustom(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 const StaffDetails = () => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
@@ -29,12 +41,21 @@ const StaffDetails = () => {
     mutationKey: "delete-employee",
     navigationUrl: "/employees",
   });
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>{t("No Clinic Details Found")}</Text>
-      </Center>
-    );
+    if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>{t("No Staff Details Found")}</Text>
+    </Center>
+  );
+}
 
   const icons = data.contactInfos.map((item) => {
     if (item.type === "email") {
@@ -55,7 +76,6 @@ const StaffDetails = () => {
   const handleEditEvent = () => {
     navigate(`/employees/edit/${staffId}`);
   };
-
   return (
     <ScrollArea h="100vh">
       <Flex direction={isComputer ? "row" : "column"} w="100%">
@@ -66,7 +86,7 @@ const StaffDetails = () => {
             isActive={data.isActive}
             name={data.name}
             id={data.publicId}
-            birthday={data.dateOfBirth.slice(0, 10)}
+            birthday={formatDateToCustom(data.dateOfBirth)}
             gender={data.gender}
             address={data.address}
             imgUrl={data.image}
@@ -106,7 +126,9 @@ const StaffDetails = () => {
                   t("employmenttype"),
                   t("employmentEnd"),
                 ]}
-                values={["20/2/2025", "Doctor", "20/2/2027"]}
+                 values={[
+                  data.hireDate ? formatDateToCustom(data.hireDate) : "-"
+                ]}
               />
             </Flex>
             <Flex w="50%" direction="column" mb={60}>

@@ -26,21 +26,19 @@ function EditCompany() {
   const da = data ? data[0] : null;
 
   const handleLocationChange = (location: { x: number; y: number }) => {
-    formik.setFieldValue("locationGoogle", location);
+    formik.setFieldValue("locationGoogl", location);
   };
-  const hook = useEditCompany(da?._id || "-1");
-
+    const hook = useEditCompany(da?._id || '-1');
+  
   const formik = useFormik<AddCompanyType>({
     initialValues: {
       name: da?.name || "",
       address: da?.address || "",
-      intro: da?.intro || "",
       yearOfEstablishment: da?.yearOfEstablishment || "",
       logo: da?.logo || "",
       goals: da?.goals || "",
       overview: da?.overview || "",
       vision: da?.vision || "",
-      details: da?.details || "",
       contactInfos: da?.contactInfos ?? [],
       holidays: da?.holidays ?? [],
       specializations: da?.specializations ?? [],
@@ -53,24 +51,25 @@ function EditCompany() {
         expirationDate: da?.commercialRecord?.expirationDate || "",
         taxNumber: da?.commercialRecord?.taxNumber || "",
       },
-      locationGoogle: {
+      locationGoogl: {
         x: da?.locationGoogl?.x || 0,
         y: da?.locationGoogl?.x || 0,
       },
       Key_member: "",
       Founder: "",
-      Executives: ""
+      Executives: "",
     },
     enableReinitialize: true,
     validationSchema: AddCompanySchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
-      hook.mutate(values);
       console.log("Form Submitted:", values);
+      hook.mutate(values);
       // TODO: Implement update logic here
     },
   });
+  
   if (isLoading || !da) {
     return <div>Loading company data...</div>;
   }
@@ -150,7 +149,7 @@ function EditCompany() {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.intro,
+      error: formik.errors.goals,
       placeholder: "Enter company goals",
       tooltip: "Brief goals about the company",
       value: formik.values.goals || "",
@@ -163,7 +162,7 @@ function EditCompany() {
       mandatory: true,
       type: "areaText",
       description: "",
-      error: formik.errors.details,
+      error: formik.errors.overview,
       placeholder: "Enter company overview",
       tooltip: "overview about the company",
       value: formik.values.overview || "",
@@ -357,22 +356,23 @@ function EditCompany() {
           <Box mt="md" mb="xl">
             <Flex gap={"xl"}>
               <h3>Location</h3>
-              <h5>x: {formik.values.locationGoogle.x}</h5>
-              <h5>y: {formik.values.locationGoogle.y}</h5>
+              <h5>x: {formik.values.locationGoogl.x}</h5>
+              <h5>y: {formik.values.locationGoogl.y}</h5>
             </Flex>
             <LocationPicker
               onChange={handleLocationChange}
-              initialPosition={formik.values.locationGoogle}
+              initialPosition={formik.values.locationGoogl}
             />
-            {formik.errors.locationGoogle && (
+            {formik.errors.locationGoogl && (
               <div style={{ color: "red" }}>
-                {formik.errors.locationGoogle as string}
+                {formik.errors.locationGoogl as string}
               </div>
             )}
           </Box>
-          <Button type="submit" bg={"#9BDABB"} mt="md" w="70%">
+          {/* <Button type="submit" bg={"#9BDABB"} mt="md" w="70%">
             Update Company
-          </Button>
+          </Button> */}
+          <Button type="submit">Update Company</Button>
         </Container>
       </form>
     </ScrollArea>

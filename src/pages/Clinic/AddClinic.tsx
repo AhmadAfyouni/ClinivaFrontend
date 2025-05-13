@@ -24,7 +24,7 @@ function AddClinic() {
   const hook = useAddClinic();
 
   const departments = useDepatementsList();
-  const employeeHook = useStaffList(true,"PIC",'_id',"PIC");
+  const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
   const formik = useFormik<AddClinicType>({
     initialValues: {
       isActive: true,
@@ -85,7 +85,7 @@ function AddClinic() {
   if (!employeeHook.data) return <Center>Loading . . . </Center>;
   const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
     (acc, item) => {
-    // pagination.setGeneralFilter("&employeeType=PIC");
+      // pagination.setGeneralFilter("&employeeType=PIC");
 
       acc[item.name] = item._id;
       return acc;
@@ -184,18 +184,18 @@ function AddClinic() {
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
     },
-    {
-      id: "logo",
-      label: "Logo URL",
-      mandatory: true,
-      type: "image",
-      error: formik.errors.logo,
-      placeholder: "Enter logo URL",
-      tooltip: "Enter the URL for the clinic's logo",
-      value: formik.values.logo || "",
-      onChange: formik.handleChange,
-      onBlur: formik.handleBlur,
-    },
+    // {
+    //   id: "logo",
+    //   label: "Logo URL",
+    //   mandatory: true,
+    //   type: "image",
+    //   error: formik.errors.logo,
+    //   placeholder: "Enter logo URL",
+    //   tooltip: "Enter the URL for the clinic's logo",
+    //   value: formik.values.logo || "",
+    //   onChange: formik.handleChange,
+    //   onBlur: formik.handleBlur,
+    // },
     {
       id: "vision",
       label: "Vision",
@@ -314,12 +314,7 @@ function AddClinic() {
                 type: "select",
                 options: ["email", "phone"],
               },
-              {
-                key: "isPublic",
-                label: "Is Public",
-                type: "boolean",
-                options: ["yes", "no"],
-              },
+
               {
                 key: "value",
                 label: "Value",

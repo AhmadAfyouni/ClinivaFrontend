@@ -59,9 +59,7 @@ const useSpecialization = (allData = false, sortBy = "_id", order = "desc") => {
         throw error;
       }
     },
-    staleTime: 0, // Make sure the data is always considered stale when navigating between pages
-    refetchOnWindowFocus: true, // Refetch when the window gains focus (useful for returning to the app)
-    enabled: true, // Allow query to be executed when necessary
+    refetchOnWindowFocus: false,
   });
 };
 

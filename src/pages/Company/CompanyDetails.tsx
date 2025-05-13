@@ -14,7 +14,8 @@ import TextTitle from "../../Components/CompanyDetails/TextTitle";
 import GroupText from "../../Components/UserDetails/GroupText";
 import { useMediaQuery } from "@mantine/hooks";
 import useCompanyDetails from "../../hooks/company/useCompanyDetails";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect } from "react";
 
 const CompanyDetails = () => {
   const theme = useMantineTheme();
@@ -22,11 +23,26 @@ const CompanyDetails = () => {
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");
   const isComputer = useMediaQuery("(min-width: 993px)");
-  const { data: companies, isFetched } = useCompanyDetails();
-  if (!isFetched || !companies)
+  // const { data: companies, isFetched } = useCompanyDetails();
+  //   const { data: companies, isFetched } = useCompanyDetails({
+  //   refetchOnMount: true,
+  // });
+
+  
+const location = useLocation();
+const { data: companies, isFetched, refetch } = useCompanyDetails({
+  refetchOnMount: true,
+});
+
+useEffect(() => {
+  if (location.state?.updated) {
+    refetch();
+  }
+}, [location.state, refetch]);
+  if (!isFetched)
     return (
       <Center>
-        <Text>No Company Details Found</Text>
+        {/* <Text>No Company Details Found</Text> */}
       </Center>
     );
   const titles = [
@@ -39,6 +55,11 @@ const CompanyDetails = () => {
     "Founder",
     "Excutines",
   ];
+  if(!companies){
+    return <Center>
+        <Text>No Company Details Found</Text>
+      </Center>
+  }
   const values = [
     companies[0].yearOfEstablishment?.slice(0, 10) || "",
     companies[0].vision || "",

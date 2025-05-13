@@ -16,7 +16,6 @@ const AddClinicSchema = Yup.object().shape({
     Yup.object().shape({
       type: Yup.string().required("Type is required"),
       value: Yup.string().required("Value is required"),
-      isPublic: Yup.boolean().required("Public status is required"),
       subType: Yup.string().required("Sub type is required"),
     })
   ),

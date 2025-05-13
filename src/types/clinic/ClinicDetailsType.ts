@@ -44,7 +44,6 @@ interface Emp {
 interface ContactInfo {
   type: "phone" | "email" | "fax" | "other";
   value: string;
-  isPublic: boolean;
   subType: "work" | "personal" | "emergency";
 }
 

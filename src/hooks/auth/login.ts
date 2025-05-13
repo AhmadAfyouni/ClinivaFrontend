@@ -13,13 +13,17 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);
     // localStorage.setItem("token", res.data.data.accessToken);
     if (saveToken) {
+      console.log("this is the token => ",res.data.data);
+      
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("token", res.data.data.accessToken);
     }
     if (!saveToken) {
       sessionStorage.setItem("token", res.data.data.accessToken);
+      sessionStorage.setItem("refreshToken", res.data.data.refreshToken);
     }
     const userName = res.data.data.user.name;
+  
     if (userName) {
       localStorage.setItem("userName", userName);
     }
@@ -28,6 +32,11 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
       const encodedEmail = btoa(email);
       localStorage.setItem("userEmail", encodedEmail);
     }
+    const id = res.data.data.user._id;
+    if(id){
+      localStorage.setItem("userId", id);
+    }
+
     if (loginToRegister) {
       localStorage.setItem("loginToRegister", "true");
     } else {

@@ -28,10 +28,12 @@ function NavBar({ login }: Props) {
 
   const handleLogout = () => {
     console.log("Logging out...");
-    sessionStorage.removeItem("token");
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userEmail");
+     const emailsUsed = localStorage.getItem("usedEmails");
+    sessionStorage.clear();
+    localStorage.clear();
+    if (emailsUsed) {
+    localStorage.setItem("usedEmails", emailsUsed);
+  }
     navigate("/login");
   };
   const handleLogin = () => {
@@ -62,12 +64,14 @@ function NavBar({ login }: Props) {
             size={isMobile ? "1.2rem" : "1.5rem"}
             style={{ cursor: "pointer" }}
           >
-            {title !== 'login' && title}
+            {title !== "login" && title}
           </Text>
+        ) : location.pathname !== "/login" ? (
+          <Button variant="subtle" onClick={handleLogin}>
+            Login
+          </Button>
         ) : (
-         location.pathname !== "/login" ? <Button variant="subtle" onClick={handleLogin}>
-           Login
-          </Button>:""
+          ""
         )}
       </Group>
 
@@ -80,7 +84,7 @@ function NavBar({ login }: Props) {
               <Group gap="sm" style={{ cursor: "pointer" }}>
                 <Avatar radius={"xl"} />
                 <Flex direction={"column"} align={"flex-start"}>
-                  <Text fw={"500"}>{userName}</Text>
+                  <Text fw={"500["}>{userName}</Text>
                   {/* <Text fw={"100"} size="0.8rem">
                     Dev
                   </Text> */}

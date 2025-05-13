@@ -55,11 +55,13 @@ function AddUser() {
 
   const employees: selectRoleType = employeeHook.data.reduce<selectRoleType>(
     (acc, item) => {
-      acc[item.publicId] = item._id;
+      acc[item.publicId + " - (" + item.employeeType + "): " + item.name] =
+        item._id;
       return acc;
     },
     {}
   );
+
   console.log("employee " + employeeHook.data);
   console.log(formik.errors);
   // const handleMultiSelectChange = (
@@ -83,7 +85,6 @@ function AddUser() {
       value: formik.values.name || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      
     },
     {
       id: "email",
@@ -191,7 +192,7 @@ function AddUser() {
           onSubmit={() => {}}
           with_submit={false}
           key={"AddUser"}
-          title="Add User"
+          // title="Add User"
         />
         <Button type="submit">Submit</Button>
         <Center>

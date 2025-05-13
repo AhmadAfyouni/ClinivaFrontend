@@ -4,7 +4,7 @@ import Dashboard from "../pages/Dashboard";
 import AddDoctor from "../pages/Doctor/AddDpctor";
 import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/appointment/AddAppointments";
-import AddEmployee from "../pages/Employee/AddEmployee";
+// import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
 import PatientDetails from "../pages/Patient/PatientDetails";
 import MedicalComplexPage from "../pages/MedicalComplex/MedicalComplexPage";
@@ -37,6 +37,7 @@ import AddSpeciality from "../pages/Specialities/AddSpeciality";
 import EditCompany from "../pages/Company/EditCompany";
 import EditEmployee from "../pages/Employee/EditEmployee";
 import { ProtectedRoute } from "../Components/permission/protectRoute";
+import AddStuff from "../pages/Staff/AddStuff";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -113,7 +114,7 @@ export const routes: AppRoute[] = [
       },
       {
         path: "add",
-        element: <AddEmployee />,
+        element: <AddStuff />,
       },
       {
         path: "edit/:id",

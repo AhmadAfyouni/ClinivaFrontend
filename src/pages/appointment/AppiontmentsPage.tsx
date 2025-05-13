@@ -11,8 +11,21 @@ import CustomFilters from "../../Components/filters/CustomFilters";
 import AddButton from "../../Components/AddButton";
 import { useNavigate } from "react-router";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
-
+import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
+import DeleteConfirmationDialog from "../DeleteWithDialog";
+import useDeleteById from "../../hooks/delete/useDeleteById";
+import { useQueryClient } from "@tanstack/react-query";
+/**/
+function formatDateToCustom(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 const AppointmentsPage = () => {
+  
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useAppointmentsList(false, sortBy, order);
@@ -20,6 +33,28 @@ const AppointmentsPage = () => {
   const navigate = useNavigate();
 
   const { setSelectedOption } = useDropDownStore();
+  const queryClient = useQueryClient();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+    const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
+
+    const deleteRow = useDeleteById({
+    endpoint: "appointments",
+    mutationKey: "delete-appointment",
+    navigationUrl: "/appointments",
+  });
+
+  const handleDeleteItem = (id: string) => {
+    console.log('sss');
+    
+    deleteRow.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        setSelectedId(null);
+        closeDialog();
+      },
+    });
+  };
+
   if (!data) return null;
 
   const toggleAll = () => {
@@ -57,6 +92,10 @@ const AppointmentsPage = () => {
       pagination.setDate("");
     }
   };
+
+  
+    
+  
   const rows = data?.map((item, index) => (
     <TableBody
       // imgUrl={item.logo !== null ? item.logo : ""}
@@ -66,18 +105,16 @@ const AppointmentsPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.patient?.name || ""}
       th2={{
-        value: `${item.datetime.slice(0, 10)} - ${item.datetime.slice(
-          11,
-          16
-        )} `,
+        value: `${formatDateToCustom(item.datetime)} - ${item.datetime.slice(11, 16)}`,
       }}
       th3={{ value: item.clinic?.name || "" }}
       th4={item.doctor?.name || ""}
       // th5={item.status || ""}
       // selection={selection}
       // setSelection={setSelection}
-      onDeleteClick={() => {
-        console.log("delete");
+     onDeleteClick={() => {
+        setSelectedId(item._id);
+        openDialog();
       }}
       onEditClick={() => console.log("edit")}
     />
@@ -137,6 +174,19 @@ const AppointmentsPage = () => {
           </Table>
           <CustomPagination store={pagination} />
         </Box>
+        <DeleteConfirmationDialog
+          opened={isOpen}
+          onClose={() => {
+            setSelectedId(null);
+            closeDialog();
+          }}
+          onConfirm={(id) => {
+            console.log(id);
+            handleDeleteItem(id!)
+            
+          }}
+          itemId={selectedId!}
+        />
       </Flex>
     );
 };

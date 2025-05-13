@@ -28,6 +28,8 @@ const UsersPage = () => {
   const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { data, isFetched } = useUsersList(false, sortBy, order);
+ 
+  
   const navigate = useNavigate();
   const deleteUser = useDeleteById({
     endpoint: "users",
@@ -99,12 +101,14 @@ const UsersPage = () => {
       th2={{ value: item.name }}
       th3={{ value: item.roleIds.map((item) => item.name).toString() }}
       th4={item.isActive.toString()}
+      th5={item._id}
       onDeleteClick={() => {
         setSelectedId(item._id);
         openDialog();
       }}
       // onEditClick={() => navigate(`/users/edit/${item._id}`)}
       onEditClick={() => console.log("edit")}
+      
     />
   ));
 

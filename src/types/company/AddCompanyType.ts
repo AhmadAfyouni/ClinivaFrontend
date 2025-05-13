@@ -28,18 +28,16 @@ export interface CommercialRecord {
 export default interface AddCompanyType {
   name: string;
   address: string;
-  intro: string;
   yearOfEstablishment: string;
   logo?: string;
   vision: string;
-  details: string;
   contactInfos: ContactInfoType[];
   holidays: Holiday[];
   specializations: Specialization[];
   bankAccount: BankAccountType[];
   insuranceCompany: InsuranceCompany[];
   commercialRecord: CommercialRecord;
-  locationGoogle: LocationGoogle;
+  locationGoogl: LocationGoogle;
   goals: string;
   overview: string;
   Key_member: string;

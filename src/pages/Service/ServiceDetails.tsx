@@ -32,12 +32,13 @@ const ServiceDetails = () => {
     { title: "ID", content: data?.publicId },
     { title: "Name", content: data?.name },
     { title: "Price", content: data?.price },
-    { title: "Created at ", content: data?.createdAt.slice(0, 10) },
+    { title: "Created at ", content: data?.createdAt ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(data.createdAt)) : "" ,}
   ];
   const info1 = [
     { title: "Description", content: data?.description },
-    { title: "Modified at", content: data?.updatedAt.slice(0, 10) },
-  ];
+    { title: "Modified at",content: data?.updatedAt ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(data.updatedAt)) : ""  
+  },
+] ;
   const { data: Staff, isFetched } = useStaffList();
   console.log(data?.isActive);
   const handleDeleteEvent = () => {
@@ -47,12 +48,21 @@ const ServiceDetails = () => {
   //   navigate(`/services/edit/${serviceId}`);
   // };
   if (!Staff) return null;
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No Service Details Found</Text>
-      </Center>
-    );
+  if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>No Service Details Found</Text>
+    </Center>
+  );
+}
   else console.log(data?.doctors.map((item) => item.name));
   return (
     <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg}>
