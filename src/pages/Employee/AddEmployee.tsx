@@ -20,8 +20,7 @@ import useDepartementsList from "../../hooks/departement/useDepartementsList";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 import { language } from "../../data/Language";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
-
+import { useNavigate } from "react-router-dom";
 interface selectSpecializationType {
   [key: string]: string;
 }
@@ -39,8 +38,8 @@ function AddEmployee({ employeeType }: Props) {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const hook = useAddEmployee();
   const querySpecialization = useSpecialization();
   const queryClinic = useClinicsList();
@@ -92,9 +91,9 @@ function AddEmployee({ employeeType }: Props) {
   });
   useEffect(() => {
     if (hook.isSuccess) {
-      // formik.resetForm();
-      // navigate("/users/add");
-      // formik.values = {} as AddEmployeeType;
+      formik.resetForm();
+      formik.values = {} as AddEmployeeType;
+      navigate("/users/add");
     }
   }, [hook.isSuccess]);
   if (
@@ -482,8 +481,6 @@ function AddEmployee({ employeeType }: Props) {
       onChange: () => {},
     },
   ];
-  console.log(formik.values);
-  console.log(formik.errors);
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form onSubmit={formik.handleSubmit}>
@@ -521,6 +518,7 @@ function AddEmployee({ employeeType }: Props) {
         />
         <TableSelection<WorkingHoursType>
           title="Working Hours"
+          fieldName="workingHours"
           columns={[
             {
               key: "day",
@@ -547,14 +545,14 @@ function AddEmployee({ employeeType }: Props) {
               type: "time",
             },
           ]}
-          fieldName="workingHours"
           onFieldChange={formik.setFieldValue}
           key={"workingHours"}
           data={formik.values.workingHours}
           error={formik.errors.workingHours?.toString() || ""}
-        />
+          />
         <TableSelection<VacationRecordsType>
           title="Vacation Records"
+          fieldName="vacationRecords"
           columns={[
             { key: "leaveStartDate", label: "Leave Start Date", type: "date" },
             { key: "leaveEndDate", label: "Leave End Date", type: "date" },
@@ -571,7 +569,6 @@ function AddEmployee({ employeeType }: Props) {
               options: ["Approved", "Sick Pending "],
             },
           ]}
-          fieldName="vacationRecords"
           onFieldChange={formik.setFieldValue}
           key={"vacationRecords"}
           data={formik.values.vacationRecords}
