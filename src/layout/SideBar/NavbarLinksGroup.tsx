@@ -9,7 +9,7 @@ import {
   rem,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import classes from "./NavbarLinksGroup.module.css";
 
 interface LinksGroupProps {
@@ -32,22 +32,33 @@ export function LinksGroup({
   link,
 }: LinksGroupProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [opened, setOpened] = useState(initiallyOpened || false);
 
   const handleClick = (targetLink: string) => {
     navigate(targetLink);
   };
 
-  const items = (links || []).map((link) => (
+  // const isActive = (path: string) => location.pathname === path;
+const isActive = (path: string) =>
+  location.pathname === path || location.pathname.startsWith(`${path}/`);
+
+  const items = (links || []).map((linkItem) => (
     <Text<"a">
       component="a"
-      className={classes.link}
-      key={link.label}
-      onClick={() => handleClick(link.link)}
+      className={`${classes.link} ${
+        isActive(linkItem.link) ? classes.active : ""
+      }`}
+      key={linkItem.label}
+      onClick={() => handleClick(linkItem.link)}
     >
-      {link.label}
+      {linkItem.label}
     </Text>
   ));
+
+  const isParentActive =
+    (link && isActive(link)) ||
+    (links && links.some((l) => isActive(l.link)));
 
   return (
     <>
@@ -59,7 +70,7 @@ export function LinksGroup({
             handleClick(link);
           }
         }}
-        className={classes.control}
+        className={`${classes.control} ${isParentActive ? classes.active : ""}`}
       >
         <Group justify="space-between" gap={0}>
           <Box style={{ display: "flex", alignItems: "center" }}>
@@ -83,23 +94,5 @@ export function LinksGroup({
       </UnstyledButton>
       {links ? <Collapse in={opened}>{items}</Collapse> : null}
     </>
-  );
-}
-
-const mockdata = {
-  label: "Releases",
-  icon: IconChevronRight,
-  links: [
-    { label: "Upcoming releases", link: "/" },
-    { label: "Previous releases", link: "/" },
-    { label: "Releases schedule", link: "/" },
-  ],
-};
-
-export function NavbarLinksGroup() {
-  return (
-    <Box mih={220} p="md">
-      <LinksGroup {...mockdata} />
-    </Box>
   );
 }

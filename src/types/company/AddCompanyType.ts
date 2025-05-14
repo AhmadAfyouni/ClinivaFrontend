@@ -28,11 +28,9 @@ export interface CommercialRecord {
 export default interface AddCompanyType {
   name: string;
   address: string;
-  intro: string;
   yearOfEstablishment: string;
   logo?: string;
   vision: string;
-  details: string;
   contactInfos: ContactInfoType[];
   holidays: Holiday[];
   specializations: Specialization[];

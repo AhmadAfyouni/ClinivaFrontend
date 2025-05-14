@@ -48,12 +48,21 @@ const ServiceDetails = () => {
   //   navigate(`/services/edit/${serviceId}`);
   // };
   if (!Staff) return null;
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No Service Details Found</Text>
-      </Center>
-    );
+  if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>No Service Details Found</Text>
+    </Center>
+  );
+}
   else console.log(data?.doctors.map((item) => item.name));
   return (
     <ScrollArea h="100vh" w="100%" type="always" bg={theme.other.bg}>

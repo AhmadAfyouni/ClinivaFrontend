@@ -4,7 +4,6 @@ import { LocationGoogle } from "../GeneralAdd";
 interface ContactInfo {
   type: string;
   value: string;
-  isPublic: boolean;
   subType: string;
 }
 
@@ -50,7 +49,6 @@ interface Specialization {
 interface ClinicContactInfo {
   type: string;
   value: string;
-  isPublic: boolean;
   subType: string;
 }
 

@@ -18,6 +18,8 @@ interface Props {
   onClick: () => void;
 }
 
+
+
 const DoctorCard = ({ doctor, onClick }: Props) => {
   const theme = useMantineTheme();
   const [loaded, setLoaded] = useState(false);
@@ -85,7 +87,7 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
                 {doctor.publicId}
               </Text>
               <Text size="xs" c={theme.other.onSurfacePrimary}>
-                {doctor.specialties.map((item) => item).join(" - ")}
+                {doctor.specialties?.map((item) => item).join(" - ")}
               </Text>
             </Flex>
             <Text size="sm" c={theme.other.onSurfaceSecondary}>

@@ -9,7 +9,6 @@ const AddEmployeeSchema = Yup.object().shape({
           .oneOf(["email", "phone"], "Invalid contact type")
           .required("Contact type is required"),
         value: Yup.string().required("Contact value is required"),
-        isPublic: Yup.boolean().required("Public status is required"),
         subType: Yup.string().nullable(), // Optional subtype
       })
     )
@@ -71,7 +70,8 @@ const AddEmployeeSchema = Yup.object().shape({
   medicalLicenseNumber: Yup.string().required(
     "Medical license number is required"
   ),
-  certifications: Yup.array().of(Yup.string()).nullable(),
+  certifications: Yup.string().required("certifications is required"),
+  // certifications: Yup.array().of(Yup.string()).nullable(),
   jobType: Yup.string()
     .oneOf(["FULL_TIME", "PART_TIME"], "Invalid job type")
     .required("Job type is required"),

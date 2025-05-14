@@ -3,7 +3,6 @@ import * as Yup from "yup";
 const AddCompanySchema = Yup.object().shape({
   name: Yup.string().required("Company name is required"),
   address: Yup.string().required("Address is required"),
-  intro: Yup.string().required("Introduction is required"),
   yearOfEstablishment: Yup.string()
     .required("Year of establishment is required")
     .test("valid-date", "Please enter a valid date", (value) => {
@@ -24,14 +23,12 @@ const AddCompanySchema = Yup.object().shape({
       );
     }),
   vision: Yup.string().required("Vision is required"),
-  details: Yup.string().required("Details are required"),
   contactInfos: Yup.array()
     .of(
       Yup.object().shape({
         type: Yup.string()
           .oneOf(["email", "phone"])
           .required("Type is required"),
-        isPublic: Yup.boolean().required("Public status is required"),
         value: Yup.string().required("Value is required"),
         subType: Yup.string().optional(),
       })
@@ -100,7 +97,7 @@ const AddCompanySchema = Yup.object().shape({
     x: Yup.number().required("Latitude is required"),
     y: Yup.number().required("Longitude is required"),
   }),
-  Executives:Yup.string().required("Executives are required"),
+  Executives: Yup.string().required("Executives are required"),
   Founder: Yup.string().required("Founder is required"),
   Key_member: Yup.string().required("Key member is required"),
 });

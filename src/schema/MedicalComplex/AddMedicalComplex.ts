@@ -17,7 +17,6 @@ const AddMedicalComplexSchema = Yup.object().shape({
         type: Yup.string()
           .oneOf(["email", "phone"])
           .required("Type is required"),
-        isPublic: Yup.boolean().required("Public status is required"),
         value: Yup.string().required("Value is required"),
         subType: Yup.string().optional(),
       })

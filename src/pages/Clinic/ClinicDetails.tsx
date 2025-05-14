@@ -24,12 +24,22 @@ const ClinicDetails = () => {
   const { data: patientCount } = usePatientCount(ClinicId!);
   console.log(ClinicId);
   console.log(data);
-  if (!isFetched || !data)
-    return (
-      <Center>
-        <Text>No Clinic Details Found</Text>
-      </Center>
-    );
+ if (!isFetched) {
+  return (
+    <Center mih="60vh">
+      {/* <Text>Loading...</Text> */}
+    </Center>
+  );
+}
+
+if (!data) {
+  return (
+    <Center mih="60vh">
+      <Text>No Clinic Details Found</Text>
+    </Center>
+  );
+}
+
   const titles = ["specialty", "Working Hours", "Goals"];
   const values = [
     data.specializations?.map((item) => item).join(","),
