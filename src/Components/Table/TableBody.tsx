@@ -185,9 +185,11 @@ const TableBody = ({
               ta="start"
               align="center"
             >
-              <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+
+              <Text pr="xs" fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
                 {th0}
               </Text>
+                {imgUrl !== "" && getImageCircle()}
             </Flex>
             <Flex fz="11px" w="160px" c={theme.other.onSurfacePrimary}>
               <Flex
@@ -196,8 +198,7 @@ const TableBody = ({
                 // justify='center'
                 c={theme.other.onSurfacePrimary}
               >
-                {imgUrl !== "" && getImageCircle()}
-                <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                <Text  fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
                   {th1}
                 </Text>
               </Flex>

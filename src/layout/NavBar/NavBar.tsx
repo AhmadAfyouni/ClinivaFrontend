@@ -28,8 +28,12 @@ function NavBar({ login }: Props) {
 
   const handleLogout = () => {
     console.log("Logging out...");
+     const emailsUsed = localStorage.getItem("usedEmails");
     sessionStorage.clear();
     localStorage.clear();
+    if (emailsUsed) {
+    localStorage.setItem("usedEmails", emailsUsed);
+  }
     navigate("/login");
   };
   const handleLogin = () => {

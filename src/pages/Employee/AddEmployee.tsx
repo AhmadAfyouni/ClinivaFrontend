@@ -20,8 +20,7 @@ import useDepartementsList from "../../hooks/departement/useDepartementsList";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 import { language } from "../../data/Language";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
-
+import { useNavigate } from "react-router-dom";
 interface selectSpecializationType {
   [key: string]: string;
 }
@@ -39,8 +38,8 @@ function AddEmployee({ employeeType }: Props) {
   const handleImageChange = (file: File | null) => {
     formik.setFieldValue("image", file);
   };
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const hook = useAddEmployee();
   const querySpecialization = useSpecialization();
   const queryClinic = useClinicsList();
@@ -84,7 +83,7 @@ function AddEmployee({ employeeType }: Props) {
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: (values) => {
-      values.image = "";
+      // values.image = "";
       hook.mutate(values);
 
       console.log("Form Submitted:", values);
@@ -93,8 +92,8 @@ function AddEmployee({ employeeType }: Props) {
   useEffect(() => {
     if (hook.isSuccess) {
       formik.resetForm();
+      formik.values = {} as AddEmployeeType;
       navigate("/users/add");
-      // formik.values = {} as AddEmployeeType;
     }
   }, [hook.isSuccess]);
   if (
@@ -203,7 +202,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.identity,
       placeholder: "123456517890",
-      tooltip: "Enter your identity",
+      tooltip: "Enter  identity",
       value: formik.values.identity || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -307,7 +306,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.nationality,
       placeholder: "Select nationality",
-      tooltip: "Enter your nationality",
+      tooltip: "Enter  nationality",
       value: formik.values.nationality || "",
       onChange: (value) => formik.setFieldValue("nationality", value),
       onBlur: formik.handleBlur,
@@ -364,7 +363,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.address,
       placeholder: "Enter address",
-      tooltip: "Enter your address",
+      tooltip: "Enter  address",
       value: formik.values.address || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -377,7 +376,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.medicalLicenseNumber,
       placeholder: "Medical License Number",
-      tooltip: "Enter your Medical License Number",
+      tooltip: "Enter  Medical License Number",
       value: formik.values.medicalLicenseNumber || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -390,7 +389,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.professional_experience,
       placeholder: "Enter professional experience",
-      tooltip: "Enter your professional experience",
+      tooltip: "Enter  professional experience",
       value: formik.values.professional_experience || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -417,7 +416,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.Languages?.toString(),
       placeholder: "Select Languages",
-      tooltip: "Enter your Languages",
+      tooltip: "Enter  Languages",
       value: formik.values.Languages || [],
       // onChange: formik.handleChange,
       onChange: (selectedValues) =>
@@ -434,7 +433,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.specializations?.toString(),
       placeholder: "Select Specialties",
-      tooltip: "Enter your Specialties",
+      tooltip: "Enter  Specialties",
       value: getKeysByValue(Specializations, formik.values.specializations),
 
       onChange: (selectedKeys) => {
@@ -463,7 +462,7 @@ function AddEmployee({ employeeType }: Props) {
       description: "",
       error: formik.errors.certifications?.toString(),
       placeholder: "Select certifications",
-      tooltip: "Enter your certifications",
+      tooltip: "Enter  certifications",
       value: formik.values.certifications || [],
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
@@ -482,7 +481,6 @@ function AddEmployee({ employeeType }: Props) {
       onChange: () => {},
     },
   ];
-  console.log(formik.values);
   return (
     <ScrollArea h="calc(100vh - 80px)" w="100%">
       <form onSubmit={formik.handleSubmit}>
@@ -520,6 +518,7 @@ function AddEmployee({ employeeType }: Props) {
         />
         <TableSelection<WorkingHoursType>
           title="Working Hours"
+          fieldName="workingHours"
           columns={[
             {
               key: "day",
@@ -546,14 +545,14 @@ function AddEmployee({ employeeType }: Props) {
               type: "time",
             },
           ]}
-          fieldName="workingHours"
           onFieldChange={formik.setFieldValue}
           key={"workingHours"}
           data={formik.values.workingHours}
           error={formik.errors.workingHours?.toString() || ""}
-        />
+          />
         <TableSelection<VacationRecordsType>
           title="Vacation Records"
+          fieldName="vacationRecords"
           columns={[
             { key: "leaveStartDate", label: "Leave Start Date", type: "date" },
             { key: "leaveEndDate", label: "Leave End Date", type: "date" },
@@ -570,7 +569,6 @@ function AddEmployee({ employeeType }: Props) {
               options: ["Approved", "Sick Pending "],
             },
           ]}
-          fieldName="vacationRecords"
           onFieldChange={formik.setFieldValue}
           key={"vacationRecords"}
           data={formik.values.vacationRecords}

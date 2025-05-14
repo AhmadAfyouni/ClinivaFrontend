@@ -13,11 +13,14 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);
     // localStorage.setItem("token", res.data.data.accessToken);
     if (saveToken) {
+      console.log("this is the token => ",res.data.data);
+      
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("token", res.data.data.accessToken);
     }
     if (!saveToken) {
       sessionStorage.setItem("token", res.data.data.accessToken);
+      sessionStorage.setItem("refreshToken", res.data.data.refreshToken);
     }
     const userName = res.data.data.user.name;
   

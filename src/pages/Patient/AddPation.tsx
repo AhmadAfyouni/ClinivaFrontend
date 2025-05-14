@@ -10,9 +10,7 @@ import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { country } from "../../data/country";
 
 function AddPation() {
-  // const handleImageChange = (file: File | null) => {
-  //   formik.setFieldValue("image", file);
-  // };
+  
   const hook = useAddPation();
   const handleMultiSelectChange = (
     fieldName: string,
@@ -20,6 +18,9 @@ function AddPation() {
   ) => {
     console.log(selectedValues);
     formik.setFieldValue(fieldName, selectedValues);
+  };
+  const handleImageChange = (file: File | null) => {
+    formik.setFieldValue("image", file);
   };
   const formik = useFormik<AddPationType>({
     initialValues: {
@@ -31,7 +32,7 @@ function AddPation() {
       dateOfBirth: "",
       gender: "male",
       nationality: "",
-      // image: "",
+      image: "",
       marital_status: "Single",
       number_children: 0,
       blood_type: "A+",
@@ -92,7 +93,7 @@ function AddPation() {
       description: "",
       error: formik.errors.languages?.toString(),
       placeholder: "Select language",
-      tooltip: "Enter your language",
+      tooltip: "Enter  language",
       value: formik.values.languages || [],
       onChange: (selectedValues) =>
         handleMultiSelectChange("languages", selectedValues as string[]),
@@ -191,7 +192,7 @@ function AddPation() {
       error: formik.errors.image,
       placeholder: "",
       value: formik.values.image || "",
-      // onChangeFile: handleImageChange,
+      onChangeFile: handleImageChange,
       onChange: () => {},
     },
     {
@@ -349,7 +350,7 @@ function AddPation() {
       description: "",
       error: formik.errors.professiona_experi,
       placeholder: "Enter professional experience details",
-      tooltip: "Describe your professional experience",
+      tooltip: "Describe  professional experience",
       value: formik.values.professiona_experi || "",
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,

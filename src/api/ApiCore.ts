@@ -101,16 +101,27 @@ axiosInstance.interceptors.response.use(
           break;
         case 401:
           try {
+            console.log("from api core");
+            
             const newAccessToken = await refreshAccessToken();
             error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-            return axiosInstance(error.config); // Retry original request
+            console.log("from api core success");
+            return axiosInstance(error.config);
           } catch (refreshError) {
+            console.log("from api core error", refreshError);
             showToast(
-              "Session expired. Please log in again. " + refreshError,
+              "Session Expired For your security and privacy, your session has ended. Please log in again to continue your work",
               "error"
             );
             localStorage.removeItem("token");
             localStorage.removeItem("refreshToken");
+            sessionStorage.removeItem("token")
+            sessionStorage.removeItem("refreshToken")
+            console.log("from api core error navigate");
+
+             setTimeout(() => {
+              window.location.href = "/login"; 
+            }, 4000);
           }
           break;
         case 403:

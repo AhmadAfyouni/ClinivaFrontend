@@ -105,7 +105,6 @@ const formatTableValue = (value: any) => {
     validationSchema: EditEmployeeSchema,
     validateOnBlur: true,
     validateOnChange: true,
-
     onSubmit: (values) => {
       hook.mutate(values, {
         onSuccess: () => {
