@@ -53,6 +53,7 @@ const UsersPage = () => {
       ? { label: "ACTIVE", value: true }
       : { label: "INACTIVE", value: false }
   );
+  const roleOption = ["Admin"]
   const handlStatusChange = (e: string | null) => {
     setSelectedOption("useStatus", e);
     const value = statusOptions.find((item) => item.label === e)?.value ?? null;
@@ -69,6 +70,11 @@ const UsersPage = () => {
     } else {
       pagination.setDate(undefined);
     }
+  };
+
+  const handlRoleChange = (e: string | null) => {
+    setSelectedOption("useRole", e);
+      pagination.setRole(e);
   };
 
   const toggleAll = () => {
@@ -108,7 +114,7 @@ const UsersPage = () => {
       }}
       // onEditClick={() => navigate(`/users/edit/${item._id}`)}
       onEditClick={() => console.log("edit")}
-      
+      edit={false}
     />
   ));
 
@@ -130,11 +136,16 @@ const UsersPage = () => {
             />
             <CustomFilters
               IsDropDown1={true}
-              IsDateInput={true}
+              // IsDateInput={true}
+              IsDropDown3={true}
               dropdownName1="useStatus"
+              dropdownName3="useRole"
               OptionsDropDown1={statusOptions.map((item) => item.label)}
+              OptionsDropDown3={roleOption}
               handlDropDownChange1={handlStatusChange}
+              handlDropDownChange3={handlRoleChange}
               placeHolderDropDown1="Status"
+              placeHolderDropDown3="Role"
               vlaueDateInput={
                 pagination.date ? new Date(pagination.date) : null
               }
@@ -154,7 +165,7 @@ const UsersPage = () => {
           <Table>
             <TableHead
               labels={[
-                "No",
+                "No.",
                 "UserID",
                 "UserName",
                 "Role",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
 import { Box, Center, Flex, Table, Text } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
@@ -10,11 +10,17 @@ import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import useSortStore from "../../hooks/useSortStore ";
 import CustomPagination from "../../Components/Pagination/Pagination";
 import useDeleteById from "../../hooks/delete/useDeleteById";
+import DeleteConfirmationDialog from "../DeleteWithDialog";
+import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MedicalComplexPage = () => {
+   const queryClient = useQueryClient();
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
   const { data } = useMedicalComplexList(false, sortBy, order);
+    const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
+    const [selectedId, setSelectedId] = useState<string | null>(null);
   const deleteMedcalComplex = useDeleteById({
     endpoint: "cliniccollections",
     mutationKey: "delete-cliniccollection",
@@ -39,14 +45,22 @@ const MedicalComplexPage = () => {
       th3={{ value: item.PIC.name}}
       th4={item.employeeCount.toString()}
       onDeleteClick={() => {
-        deleteMedcalComplex.mutate(item._id);
+        console.log("deletion");
+        
+        setSelectedId(item._id);
+        console.log("deletion one");
+        openDialog();
+        console.log("deletion Two");
         // navigate(`/medicalComplexes`);
       }}
       onEditClick={() => {
         navigate(`/medicalComplexes/edit/${item._id}`);
       }}
+      edit={false}
     />
   ));
+
+  useEffect(() => { return () => { closeDialog(); setSelectedId(null); }; }, []);
 
   const toggleAll = () => {
     if (data) {
@@ -58,6 +72,16 @@ const MedicalComplexPage = () => {
             })
       );
     }
+  };
+
+  const handleDeleteItem = (id: string) => {
+    deleteMedcalComplex.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["cliniccollections"] });
+        setSelectedId(null);
+        closeDialog();
+      },
+    });
   };
   
   if (data?.length === 0)
@@ -93,7 +117,7 @@ const MedicalComplexPage = () => {
                 "_id",
               ]}
               labels={[
-                "No",
+                "No.",
                 "MedicalComplex Id",
                 "MedicalComplex name",
                 "PIC",
@@ -109,6 +133,15 @@ const MedicalComplexPage = () => {
           </Table>
           <CustomPagination store={pagination} />
         </Box>
+         <DeleteConfirmationDialog
+                  opened={isOpen}
+                  onClose={() => {
+                    setSelectedId(null);
+                    closeDialog();
+                  }}
+                  onConfirm={(id) => handleDeleteItem(id!)}
+                  itemId={selectedId!}
+                />
       </Flex>
     );
 };

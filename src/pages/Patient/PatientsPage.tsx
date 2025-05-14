@@ -76,6 +76,7 @@ const handleDateChange = (e: Date | null) => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
   if (!isFetched)

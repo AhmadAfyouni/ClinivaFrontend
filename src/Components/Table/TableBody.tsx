@@ -26,7 +26,8 @@ interface Props {
   selection?: string[];
   onClick: () => void;
   setSelection?: (updater: (current: string[]) => string[]) => void;
-  th5?:string
+  th5?:string,
+  edit?:boolean
 }
 const TableBody = ({
   th0,
@@ -38,7 +39,8 @@ const TableBody = ({
   onEditClick,
   imgUrl = "",
   onClick,
-  th5
+  th5,
+  edit=true
 }: Props) => {
   const theme = useMantineTheme();
   // const isMobile = useMediaQuery("(max-width: 576px)");
@@ -264,7 +266,7 @@ const TableBody = ({
               align="center"
               c={theme.other.onSurfacePrimary}
             >
-              <UnstyledButton
+             {edit && <UnstyledButton
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent click from bubbling to Table.Td
                   // handle edit logic here
@@ -274,8 +276,8 @@ const TableBody = ({
                 p="5px"
                 mr={10}
               >
-                <Edit2Icon size="20px" color={theme.other.onSurfaceSecondary} />
-              </UnstyledButton>
+                 <Edit2Icon size="20px" color={theme.other.onSurfaceSecondary} />
+              </UnstyledButton>}
               <UnstyledButton
                 
                 p="5px"
