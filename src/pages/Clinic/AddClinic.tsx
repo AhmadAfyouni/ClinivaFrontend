@@ -16,13 +16,14 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
+import { useNavigate } from "react-router";
 
 interface selectRoleType {
   [key: string]: string;
 }
 function AddClinic() {
   const hook = useAddClinic();
-
+  const navigate = useNavigate();
   const departments = useDepatementsList();
   const employeeHook = useStaffList(true, "PIC", "_id", "PIC");
   const formik = useFormik<AddClinicType>({
@@ -65,6 +66,7 @@ function AddClinic() {
       console.log("Clinic Submitted:", values);
       hook.mutate(values);
       formik.resetForm();
+      navigate("/clinics");
       // formik.setValues({} as AddClinicType);
     },
   });

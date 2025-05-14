@@ -86,7 +86,7 @@ if (!data || data.length === 0) {
           </Grid.Col>
         </Grid>
         <ScrollArea bg={theme.other.bgSubtle} h={600} offsetScrollbars>
-          <Grid>
+          <Grid pb={50} pl={20} pt={20}>
             {data.map((doctor, index) => (
               <DoctorCard
                 key={index}

@@ -106,7 +106,7 @@ const DepartementsPage = () => {
                 "Complex",
                 "PIC",
                 "Clinics Count",
-                "patients Count",
+                "Actions",
                 "departement",
               ]}
               data={data}
