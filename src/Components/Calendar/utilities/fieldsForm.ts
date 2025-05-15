@@ -1,14 +1,13 @@
 import InputPropsType from "../../../types/InputsType";
 import { FormikProps } from "formik";
 import AppointmentType from "../../../types/Appointment/AppointmentType";
-export interface doctorsSelectType {
+export interface SelectItemType {
   [key: string]: string;
 }
 export const fieldsForm: (
   formik: FormikProps<AppointmentType>,
-  doctors: doctorsSelectType,
-) =>
- InputPropsType[] = (formik, doctors) => [
+  doctors: SelectItemType
+) => InputPropsType[] = (formik, doctors) => [
   {
     id: "datetime",
     label: "Date & Time",
@@ -59,14 +58,12 @@ export const fieldsForm: (
     placeholder: "Select doctor",
     tooltip: "Select the doctor",
     value: formik.values.doctor.name,
-    onChange:  (selectedKeys) => {
+    onChange: (selectedKeys) => {
       if (
         Array.isArray(selectedKeys) &&
         selectedKeys.every((item) => typeof item === "string")
       ) {
-        const selectedValues = selectedKeys.map(
-          (key) => doctors[key]
-        );
+        const selectedValues = selectedKeys.map((key) => doctors[key]);
         formik.setFieldValue("doctor", selectedValues);
       } else {
         console.error("selectedKeys is not a valid array of strings");

@@ -18,6 +18,8 @@ import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
 import { useNavigate } from "react-router";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 interface selectSpecializationType {
   [key: string]: string;
 }
@@ -70,11 +72,18 @@ function AddClinic() {
     onSubmit: (values) => {
       console.log("Clinic Submitted:", values);
       hook.mutate(values);
-      formik.resetForm();
-      navigate("/clinics");
-      // formik.setValues({} as AddClinicType);
+     
     },
   });
+  useEffect(() => {
+    if(hook.isSuccess){
+      formik.resetForm();
+      formik.setValues({} as AddClinicType);
+      navigate("/clinics");
+    }
+  }, [hook.isSuccess]);
+
+
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogl", location);
   };
