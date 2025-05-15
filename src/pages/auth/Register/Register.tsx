@@ -51,6 +51,7 @@ function Register() {
       label: "Step4",
       description: "Create Clinic",
       skip: false,
+      
       skipDescription: "Skipping Create Clinic",
     },
   ];
