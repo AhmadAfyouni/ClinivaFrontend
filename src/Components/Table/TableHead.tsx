@@ -25,7 +25,6 @@ Props<T>) => {
       setOrder("asc");
     }
   };
-
   const styles: React.CSSProperties = {
     cursor: "pointer",
     display: "flex",
@@ -58,8 +57,6 @@ Props<T>) => {
                 {t(labels[1])}
               </Box>
             </Box>
-           
-
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
                 <Box style={styles} onClick={() => handleSort(sortedBy[2])}>
@@ -68,7 +65,6 @@ Props<T>) => {
                 </Box>
               </Box>
             </Flex>
-
             <Box w="110px" onClick={() => handleSort(sortedBy[3])}>
               <Box style={styles}>
                 {t(labels[3])}
@@ -82,7 +78,6 @@ Props<T>) => {
                 {sortBy === sortedBy[4] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
-
             <Box w="110px">
               <Box style={styles}>{t(labels[5])}</Box>
             </Box>

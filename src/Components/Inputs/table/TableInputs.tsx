@@ -19,7 +19,7 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
         value={value as Date}
                 onChange={(date) => {
           const formatted = date ? dayjs(date).format("MMMM D, YYYY") : "";
-          onChange(formatted); // ⬅️ سترجع التاريخ كـ string بصيغة June 22, 2029
+          onChange(formatted); 
         }}
         valueFormat="MMMM D, YYYY"
         error={t(column.error || "")}

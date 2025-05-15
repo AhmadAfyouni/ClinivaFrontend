@@ -12,6 +12,10 @@ import CustomPagination from "../../Components/Pagination/Pagination";
 import CustomFilters from "../../Components/filters/CustomFilters";
 // import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useDropDownStore from "../../store/Dropdown/useDropDownStore ";
+import useDeleteById from "../../hooks/delete/useDeleteById";
+import { useQueryClient } from "@tanstack/react-query";
+import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
+import DeleteConfirmationDialog from "../DeleteWithDialog";
 
 const StaffPage = () => {
   const { sortBy, order } = useSortStore();
@@ -21,10 +25,27 @@ const StaffPage = () => {
   const { data, isFetched } = useStaffList(false, sortBy, order);
   const navigate = useNavigate();
   const { setSelectedOption } = useDropDownStore();
+    const queryClient = useQueryClient();
   const [selection, setSelection] = useState<string[]>([]);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
   const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
-console.log(data);
-
+    const deleteRow = useDeleteById({
+    endpoint: "employees",
+    mutationKey: "delete-employe",
+    navigationUrl: "/employees",
+  });
+  const handleDeleteItem = (id: string) => {
+    console.log('sss');
+    
+    deleteRow.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        setSelectedId(null);
+        closeDialog();
+      },
+    });
+  };
   if (!data) return null;
   const toggleAll = () => {
     setSelection((current) =>
@@ -54,10 +75,11 @@ console.log(data);
       th3={{ value: item.employeeType || "" }}
       th4={item.isActive.toString()}
       // th5={item.isActive.toString()}
-      onDeleteClick={() => {
-        console.log("delete");
+     onDeleteClick={() => {
+        setSelectedId(item._id);
+        openDialog();
       }}
-      onEditClick={() => console.log("edit")}
+      onEditClick={() => navigate(`/employees/edit/${item._id}`)}
     />
   ));
 
@@ -139,6 +161,19 @@ console.log(data);
           </Table>
           <CustomPagination store={pagination} />
         </Box>
+        <DeleteConfirmationDialog
+          opened={isOpen}
+          onClose={() => {
+            setSelectedId(null);
+            closeDialog();
+          }}
+          onConfirm={(id) => {
+            console.log(id);
+            handleDeleteItem(id!)
+            
+          }}
+          itemId={selectedId!}
+        />
       </Flex>
     );
 };

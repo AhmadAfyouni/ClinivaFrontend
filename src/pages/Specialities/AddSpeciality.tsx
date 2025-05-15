@@ -6,7 +6,10 @@ import AddSpecialityType from "../../types/Specialization/AddSpecialityType";
 import useStaff from "../../hooks/staff/useStaff";
 import useAddSpeciality from "../../hooks/Specialization/useAddSpeciality";
 import AddSpecialitySchema from "../../schema/speciality/AddSpecialitySchema";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 function AddSpeciality() {
+    const navigate = useNavigate();
   interface selectStaffType {
     [key: string]: string;
   }
@@ -31,7 +34,13 @@ function AddSpeciality() {
       console.log("Form Submitted:", values);
     },
   });
-
+  useEffect(() => {
+    if (hook.isSuccess) {
+      formik.resetForm();
+      formik.values = {} as AddSpecialityType;
+      navigate("/specialities");
+    }
+  }, [hook.isSuccess]);
   const staffHook = useStaff(0, 0, true);
 
   if (!staffHook.isFetched || !staffHook.data) return <>No Staff</>;
