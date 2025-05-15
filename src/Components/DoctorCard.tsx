@@ -28,8 +28,8 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
 
   return (
     <Grid.Col key={doctor._id} span={{ base: 12, xs: 6, md: 4, lg: 3 }}>
-      <UnstyledButton w="100%" onClick={onClick}>
-        <Card p={0}>
+      <UnstyledButton w="100%" onClick={onClick} h="100%">
+        <Card p={0} h="100%">
           <Flex justify="center" mt="10px" direction="column" align="center">
             {!loaded && !error && <Skeleton w={150} h={150} radius="xl" />}
             {!error && doctor.image ? (
@@ -73,6 +73,8 @@ const DoctorCard = ({ doctor, onClick }: Props) => {
             </Text>
             <Badge
               w={100}
+              pt={10}
+              pb={10}
               bg={
                 doctor.isActive
                   ? theme.other.secondaryColor

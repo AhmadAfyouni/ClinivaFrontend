@@ -19,18 +19,31 @@ const EditEmployeeSchema = Yup.object().shape({
     .required("Gender is required"),
   identity: Yup.string().required("Identify is required"),
   nationality: Yup.string().required("Nationality is required"),
+  // image: Yup.mixed()
+  //   .nullable()
+  //   .test("fileSize", "File size is too large (max 5MB)", (value) => {
+  //     if (!value) return true; // No file uploaded is valid
+  //     return (value as File).size <= 5 * 1024 * 1024; // Max 5MB
+  //   })
+  //   .test("fileType", "Invalid file format (Only images allowed)", (value) => {
+  //     if (!value) return true;
+  //     return ["image/jpeg", "image/png", "image/jpg"].includes(
+  //       (value as File).type
+  //     );
+  //   }),
   image: Yup.mixed()
-    .nullable()
-    .test("fileSize", "File size is too large (max 5MB)", (value) => {
-      if (!value) return true; // No file uploaded is valid
-      return (value as File).size <= 5 * 1024 * 1024; // Max 5MB
-    })
-    .test("fileType", "Invalid file format (Only images allowed)", (value) => {
-      if (!value) return true;
-      return ["image/jpeg", "image/png", "image/jpg"].includes(
-        (value as File).type
-      );
-    }),
+  .nullable()
+  .test("fileSize", "File size is too large (max 5MB)", (value) => {
+    if (!value) return true; 
+    if (typeof value === "string") return true;
+    return (value as File).size <= 5 * 1024 * 1024;
+  })
+  .test("fileType", "Invalid file format (Only JPG/PNG allowed)", (value) => {
+    if (!value) return true;
+    if (typeof value === "string") return true;
+    return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+  }),
+
   marital_status: Yup.string()
     .oneOf(["Single", "Married", "Divorced"], "Invalid marital status")
     .nullable(),

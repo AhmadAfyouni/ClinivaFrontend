@@ -24,6 +24,7 @@ const ServicesPage = () => {
     pagination.setSearchKey(event);
   };
   if (!data) return null;
+console.log(data);
 
   const toggleAll = () => {
     setSelection((current) =>
@@ -59,8 +60,11 @@ const ServicesPage = () => {
       th1={item.publicId || ""}
       // th2={{ value: item.description }}
       th2={{ value: item.name }}
-      th3={{ value: item.price.toString() }}
-      th4={item.clinic !== null ? item.clinic.name : ""}
+      th3={{
+        value: item.doctors?.map((e) => e.name).join(", ") || ""
+      }}
+      // th4={item.clinic !== null ? item.clinic.name : ""}
+      th4={item.isActive.toString()}
       // th5={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
@@ -102,12 +106,12 @@ const ServicesPage = () => {
           <Table>
             <TableHead
               labels={[
-                "serviceId",
-                "serviceName",
-                "description",
-                "price",
-                "clinics",
+                "No",
+                "ServiceID",
+                "Name",
+                "Dr.Provided By",
                 "status",
+                "Actions",
                 "service",
               ]}
               sortedBy={[

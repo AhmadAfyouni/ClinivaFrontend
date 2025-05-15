@@ -26,7 +26,7 @@ interface MedicalTestResult {
 export default interface PatientDetailsType {
   _id: string;
   name: string;
-  image: string;
+  image: string;//
   contactInfos: ContactInfo[];
   dateOfBirth: string;
   gender: string;

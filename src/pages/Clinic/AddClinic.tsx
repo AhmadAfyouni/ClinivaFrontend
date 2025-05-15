@@ -16,6 +16,8 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
+import { useNavigate } from "react-router";
+
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
 interface selectSpecializationType {
   [key: string]: string;
@@ -25,7 +27,7 @@ interface selectRoleType {
 }
 function AddClinic() {
   const hook = useAddClinic();
-
+  const navigate = useNavigate();
   const departments = useDepatementsList();
   const querySpecialization = useSpecialization();
 
@@ -70,6 +72,7 @@ function AddClinic() {
       console.log("Clinic Submitted:", values);
       hook.mutate(values);
       formik.resetForm();
+      navigate("/clinics");
       // formik.setValues({} as AddClinicType);
     },
   });
