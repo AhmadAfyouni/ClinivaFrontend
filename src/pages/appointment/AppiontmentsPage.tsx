@@ -54,7 +54,6 @@ const AppointmentsPage = () => {
       },
     });
   };
-
   if (!data) return null;
 
   const toggleAll = () => {
@@ -94,21 +93,22 @@ const AppointmentsPage = () => {
   };
 
   
-    
-  
   const rows = data?.map((item, index) => (
+    
     <TableBody
       // imgUrl={item.logo !== null ? item.logo : ""}
       // onClick={() => navigate(`/appointments/details/${item._id}`)}
       onClick={() => console.log("appointmentDetails")}
       key={item._id}
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
-      th1={item.patient?.name || ""}
+      // th1={item.patient?.name || ""}
+      th1={item?.publicId || ""}
       th2={{
         value: `${formatDateToCustom(item.datetime)} - ${item.datetime.slice(11, 16)}`,
       }}
       th3={{ value: item.clinic?.name || "" }}
-      th4={item.doctor?.name || ""}
+      // th4={item.doctor?.name || ""}
+      th4={item?.status || ""}
       // th5={item.status || ""}
       // selection={selection}
       // setSelection={setSelection}
@@ -157,12 +157,12 @@ const AppointmentsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Appointment Id",
-                "patient Name",
-                "Last Visist ",
+                "No",
+                "Appointment ID",
+                "Date and Time ",
                 "Clinic",
-                "Doctor",
-                "status",
+                "Status",
+                "Actions",
                 "Appointment",
               ]}
               data={data}

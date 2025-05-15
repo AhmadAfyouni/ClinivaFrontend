@@ -37,7 +37,7 @@ const MedicalComplexPage = () => {
       th1={item.publicId}
       th2={{ value: item.name }}
       th3={{ value: item.PIC.name}}
-      th4={item.employeeCount.toString()}
+      th4={item.isActive.toString()}
       onDeleteClick={() => {
         deleteMedcalComplex.mutate(item._id);
         // navigate(`/medicalComplexes`);
@@ -95,9 +95,9 @@ const MedicalComplexPage = () => {
               labels={[
                 "No",
                 "MedicalComplex Id",
-                "MedicalComplex name",
+                "MedicalComplex Name",
                 "PIC",
-                "departmentsCount",
+                "Status",
                 "Actions",
                 "medicalcomplex",
               ]}

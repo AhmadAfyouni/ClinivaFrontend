@@ -47,10 +47,11 @@ const DepartementsPage = () => {
       setSelection={setSelection}
       key={item._id}
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
-      th1={item.name}
-      th2={{ value: item.clinicCollectionId?.name || "" }}
-      th3={{ value: item.PIC.name }}
-      th4={item.clinicCount.toString()}
+      // th1={item.name}
+      th1={item.publicId}
+      th2={{ value: item?.name || "" }}
+      th3={{ value: item.clinicCollectionId?.name || "" }}
+      th4={item.isActive.toString()}
       // th5={item.patientCount.toString()}
       onDeleteClick={() => {
         console.log("delete");
@@ -101,11 +102,11 @@ const DepartementsPage = () => {
                 "_id",
               ]}
               labels={[
-                "departmentId",
-                "name",
+                "No",
+                "DepartmentID",
+                "Name",
                 "Complex",
-                "PIC",
-                "Clinics Count",
+                "Status",
                 "Actions",
                 "departement",
               ]}
