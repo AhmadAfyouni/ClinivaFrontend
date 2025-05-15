@@ -82,7 +82,7 @@ dayjs.locale("en");
 // };
 
 const dateParser: DateInputProps["dateParser"] = (input) => {
-  return dayjs(input, ["MMMM D, YYYY", "YYYY-MM-DD", "DD/MM/YYYY"]).toDate();
+  return dayjs(input, ["MMMM D, YYYY"]).toDate();
 };
 
 interface Props {
