@@ -20,6 +20,8 @@ const PatientsPage = () => {
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
   const navigate = useNavigate();
+  console.log(data);
+  
   if (!data) return null;
 
   const toggleAll = () => {
@@ -60,6 +62,7 @@ const handleDateChange = (e: Date | null) => {
     pagination.setDate("");
   }
 };
+
   const rows = data?.map((item, index) => (
     <TableBody
       // imgUrl={"https://thisurldoesnotexist.example/image.jpg"}
@@ -69,13 +72,26 @@ const handleDateChange = (e: Date | null) => {
       th1={item.publicId}
       // th2={item.dateOfBirth.slice(0, 10)}
       th2={{ value: item.name }}
-      th3={{ value: item.gender }}
-       th4={item.lastVisit ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.lastVisit)) : "no date"} // Last visit formatted
+        th3={{
+    value: item.lastVisit
+      ? new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        }).format(new Date(item.lastVisit))
+      : "no date"
+  }}
+      //  th4={item.lastVisit ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.lastVisit)) : "no date"} // Last visit formatted
+       th4={item.isActive.toString()} // Last visit formatted
       // th5={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
   if (!isFetched)
@@ -116,12 +132,12 @@ const handleDateChange = (e: Date | null) => {
           <Table>
             <TableHead
               labels={[
-                "patient Id",
+                "No",
+                "Patients ID",
                 "Name",
-                "Birthday",
-                "Gender",
-                "Last Visist ",
-                "status",
+                "Last Visit ",
+                "Status",
+                "Actions",
                 "Patient",
               ]}
               data={data}

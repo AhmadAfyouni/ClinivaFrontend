@@ -39,14 +39,15 @@ const DepartementsPage = () => {
   //   setSelectedOption("DepPIC", e);
   //   console.log(e);
   // };
-  const rows = data.map((item, index) => (
+  const rows = data.map((item) => (
     <TableBody
       // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      // th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th0={item.publicId}
       th1={item.name}
       th2={{ value: item.clinicCollectionId?.name || "" }}
       th3={{ value: item.PIC.name }}
@@ -56,6 +57,7 @@ const DepartementsPage = () => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
 
@@ -101,12 +103,12 @@ const DepartementsPage = () => {
                 "_id",
               ]}
               labels={[
-                "departmentId",
-                "name",
+                "No",
+                "DepartmentID",
+                "Name",
                 "Complex",
-                "PIC",
-                "Clinics Count",
-                "patients Count",
+                "Status",
+                "Actions",
                 "departement",
               ]}
               data={data}

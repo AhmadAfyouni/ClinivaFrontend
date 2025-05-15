@@ -1,4 +1,5 @@
 export default interface PaginationType {
+  roleName: string;
   date: string | undefined;
   withSkelton: boolean;
   paramKey: string;
@@ -20,6 +21,7 @@ export default interface PaginationType {
   setHas_previous_page: (key: boolean) => void;
   setSearchKey: (key: string) => void;
   setFilter: (fieldName: boolean | null | string) => void;
+  setRole: (fieldName: boolean | null | string) => void;
   setGeneralFilter: (paramKey: string) => void;
   resetPagination?: () => void;
   setDate: (date: string | undefined) => void;

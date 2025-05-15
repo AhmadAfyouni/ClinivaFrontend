@@ -19,6 +19,7 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
       pagination.paramKey,
       pagination.filter,
       pagination.date,
+      pagination.roleName,
     ],
     queryFn: async ({ signal }) => {
       const url = `/users?${
@@ -35,7 +36,10 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         "&isActive=" +
         pagination.filter +
         "&createdAt=" +
-        pagination.date
+        pagination.date +
+        "&roleName=" +              
+      pagination.roleName
+        
       }`;
 
       try {

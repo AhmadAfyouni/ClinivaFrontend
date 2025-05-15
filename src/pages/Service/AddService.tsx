@@ -7,7 +7,10 @@ import AddServiceSchema from "../../schema/service/AddServiceSchema";
 import useAddService from "../../hooks/serviceH/useAddService";
 import useClinics from "../../hooks/clinic/useClinics";
 import useDoctors from "../../hooks/doctor/useDoctors";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 function AddService() {
+    const navigate = useNavigate();
   interface selectClinicsType {
     [key: string]: string;
   }
@@ -34,6 +37,13 @@ function AddService() {
       console.log("Form Submitted:", values);
     },
   });
+    useEffect(() => {
+      if (hook.isSuccess) {
+        formik.resetForm();
+        formik.values = {} as AddServiceType;
+        navigate("/services");
+      }
+        }, [hook.isSuccess]);
   const clinicsHook = useClinics(0, 0, true);
 
   const doctorsHook = useDoctors(0, 0, true);

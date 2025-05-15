@@ -93,7 +93,7 @@ function AddEmployee({ employeeType }: Props) {
     if (hook.isSuccess) {
       formik.resetForm();
       formik.values = {} as AddEmployeeType;
-      navigate("/users/add");
+      navigate("/doctors");
     }
   }, [hook.isSuccess]);
   if (

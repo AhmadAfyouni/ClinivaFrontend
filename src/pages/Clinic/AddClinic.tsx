@@ -16,6 +16,7 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
+import { useNavigate } from "react-router";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -81,6 +82,7 @@ function AddClinic() {
       navigate("/clinics");
     }
   }, [hook.isSuccess]);
+
 
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogl", location);
