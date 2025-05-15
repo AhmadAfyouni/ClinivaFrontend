@@ -8,9 +8,11 @@ import { language } from "../../data/Language";
 import useAddPation from "../../hooks/patient/useAddPation";
 import TableSelection from "../../Components/Inputs/table/TableSelection";
 import { country } from "../../data/country";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 function AddPation() {
-  
+    const navigate = useNavigate();
   const hook = useAddPation();
   const handleMultiSelectChange = (
     fieldName: string,
@@ -56,7 +58,13 @@ function AddPation() {
     },
   });
   // if (hook.isSuccess) navigate(`/patients`);
-
+  useEffect(() => {
+    if (hook.isSuccess) {
+      formik.resetForm();
+      formik.values = {} as AddPationType;
+      navigate("/patients");
+    }
+  }, [hook.isSuccess]);
   const attrb: InputPropsType[] = [
     {
       id: "name",

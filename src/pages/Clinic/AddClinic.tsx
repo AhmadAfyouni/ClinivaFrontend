@@ -17,7 +17,6 @@ import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
 import { useNavigate } from "react-router";
-
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
 interface selectSpecializationType {
   [key: string]: string;
@@ -76,7 +75,6 @@ function AddClinic() {
       // formik.setValues({} as AddClinicType);
     },
   });
-
   const handleLocationChange = (location: { x: number; y: number }) => {
     formik.setFieldValue("locationGoogl", location);
   };
