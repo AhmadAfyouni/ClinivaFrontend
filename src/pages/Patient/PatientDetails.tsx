@@ -5,7 +5,6 @@ import {
   Center,
   Flex,
   Grid,
-  Image,
   ScrollArea,
   Text,
   useMantineTheme,

@@ -78,6 +78,7 @@ const ClinicsPage = () => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
 
@@ -114,7 +115,7 @@ const ClinicsPage = () => {
           <Table>
             <TableHead
               labels={[
-                "No",
+                "No.",
                 "Clinic Id",
                 "Clinic name",
                 "speciality",

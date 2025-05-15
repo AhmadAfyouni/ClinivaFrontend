@@ -39,24 +39,25 @@ const DepartementsPage = () => {
   //   setSelectedOption("DepPIC", e);
   //   console.log(e);
   // };
-  const rows = data.map((item, index) => (
+  const rows = data.map((item) => (
     <TableBody
       // imgUrl={item.logo !== null ? item.logo : ""}
       onClick={() => navigate(`/departements/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}
-      th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
-      // th1={item.name}
-      th1={item.publicId}
-      th2={{ value: item?.name || "" }}
-      th3={{ value: item.clinicCollectionId?.name || "" }}
-      th4={item.isActive.toString()}
+      // th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
+      th0={item.publicId}
+      th1={item.name}
+      th2={{ value: item.clinicCollectionId?.name || "" }}
+      th3={{ value: item.PIC.name }}
+      th4={item.clinicCount.toString()}
       // th5={item.patientCount.toString()}
       onDeleteClick={() => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
 

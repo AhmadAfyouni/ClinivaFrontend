@@ -14,8 +14,11 @@ const defaultState = {
   items_per_page: 10,
   date: "",
   GeneralFilter: "",
+  roleName: "",
 };
-const usePaginationtStore = create<PaginationType>((set) => {
+const usePaginationtStore = create<PaginationType>(
+  //@ts-expect-error-err
+  (set) => {
   return {
     ...defaultState,
     setCurrent_page(current_page: number) {
@@ -48,8 +51,20 @@ const usePaginationtStore = create<PaginationType>((set) => {
     setGeneralFilter: (fieldName) => {
       set(() => ({ GeneralFilter: fieldName, currentPage: 1 }));
     },
+    setRole: (value: string) => {
+      set(() => ({ roleName: value, current_page: 1 }));
+    },
     setDate: (Inputdate) => {
-      set(() => ({ date: Inputdate, currentPage: 1 }));
+      let formattedDate: string;
+      if (Inputdate) {
+        const [month, day, year] = Inputdate.split("-");
+        formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+          2,
+          "0"
+        )}`;
+      }
+
+      set(() => ({ date: formattedDate, currentPage: 1 }));
     },
     resetPagination: () => {
       set(() => ({ ...defaultState }));

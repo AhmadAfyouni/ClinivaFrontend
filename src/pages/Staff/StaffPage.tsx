@@ -80,6 +80,7 @@ const StaffPage = () => {
         openDialog();
       }}
       onEditClick={() => navigate(`/employees/edit/${item._id}`)}
+
     />
   ));
 

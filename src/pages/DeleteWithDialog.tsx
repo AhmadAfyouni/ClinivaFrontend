@@ -14,6 +14,7 @@ const DeleteConfirmationDialog = ({
   onConfirm,
   itemId,
 }: DeleteConfirmationDialogProps) => {
+  
   if (!opened) return null;
 
   return (
@@ -62,7 +63,10 @@ const DeleteConfirmationDialog = ({
           <Button variant="outline" color="gray" onClick={onClose}>
             Cancel
           </Button>
-          <Button color="red" onClick={() => onConfirm(itemId)}>
+          <Button color="red" onClick={() =>{
+             console.log("dellllllllllleetion");
+             onConfirm(itemId)
+          }}>
             Delete
           </Button>
         </Group>

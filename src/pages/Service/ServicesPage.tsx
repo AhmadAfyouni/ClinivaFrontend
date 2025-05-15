@@ -70,6 +70,7 @@ console.log(data);
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
 
