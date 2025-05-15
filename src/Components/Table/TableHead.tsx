@@ -15,16 +15,18 @@ const TableHead = <T,>({
 Props<T>) => {
   const theme = useMantineTheme();
   const { t } = useTranslation();
-  const { sortBy, order, setSortBy, toggleOrder, setOrder } = useSortStore();
+  const { sortBy, order,
+    //  setSortBy, toggleOrder, setOrder
+     } = useSortStore();
 
-  const handleSort = (field: string) => {
-    if (field === sortBy) {
-      toggleOrder();
-    } else {
-      setSortBy(field);
-      setOrder("asc");
-    }
-  };
+  // const handleSort = (field: string) => {
+  //   if (field === sortBy) {
+  //     toggleOrder();
+  //   } else {
+  //     setSortBy(field);
+  //     setOrder("asc");
+  //   }
+  // };
 
   const styles: React.CSSProperties = {
     cursor: "pointer",
@@ -62,21 +64,29 @@ Props<T>) => {
 
             <Flex w={{ base: "90px", md: "148px" }}>
               <Box w="148px">
-                <Box style={styles} onClick={() => handleSort(sortedBy[2])}>
+                <Box style={styles} 
+                // onClick={() =>
+                //    handleSort(sortedBy[2])
+                //    }
+                   >
                   {t(labels[2])}
                   {sortBy === sortedBy[2] && (order === "asc" ? "▲" : "▼")}
                 </Box>
               </Box>
             </Flex>
 
-            <Box w="110px" onClick={() => handleSort(sortedBy[3])}>
+            <Box w="110px" 
+            // onClick={() => handleSort(sortedBy[3])}
+              >
               <Box style={styles}>
                 {t(labels[3])}
                 {sortBy === sortedBy[3] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
 
-            <Box w="106px" onClick={() => handleSort(sortedBy[4])}>
+            <Box w="106px" 
+            // onClick={() => handleSort(sortedBy[4])}
+              >
               <Box style={styles}>
                 {t(labels[4])}
                 {sortBy === sortedBy[4] && (order === "asc" ? "▲" : "▼")}

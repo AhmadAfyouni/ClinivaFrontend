@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, Flex, Center, Text, Box } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import TableHead from "../../Components/Table/TableHead";
@@ -25,7 +25,7 @@ function formatDateToCustom(dateString: string): string {
   });
 }
 const AppointmentsPage = () => {
-  
+   const queryClient = useQueryClient();
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
   const { data, isFetched } = useAppointmentsList(false, sortBy, order);
@@ -33,7 +33,6 @@ const AppointmentsPage = () => {
   const navigate = useNavigate();
 
   const { setSelectedOption } = useDropDownStore();
-  const queryClient = useQueryClient();
   const [selectedId, setSelectedId] = useState<string | null>(null);
     const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
 
@@ -43,12 +42,21 @@ const AppointmentsPage = () => {
     navigationUrl: "/appointments",
   });
 
+  useEffect(() => {
+  return () => {
+    closeDialog();
+    setSelectedId(null);
+  };
+}, []);
+
+
+
   const handleDeleteItem = (id: string) => {
-    console.log('sss');
+    console.log("this is idd                ");
     
     deleteRow.mutate(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["users"] });
+        queryClient.invalidateQueries({ queryKey: ["appointments"] });
         setSelectedId(null);
         closeDialog();
       },
@@ -84,11 +92,13 @@ const AppointmentsPage = () => {
       const month = String(date.getDate()).padStart(2, "0");
       const day = String(date.getMonth() + 1).padStart(2, "0"); // month (0-indexed, so add +1) (month)
       const year = date.getFullYear();
+      
       const formattedDate = `${day}-${month}-${year}`;
+      console.log("I am from dat", formattedDate);
 
       pagination.setDate(formattedDate);
     } else {
-      pagination.setDate("");
+      pagination.setDate(undefined);
     }
   };
 
@@ -112,12 +122,12 @@ const AppointmentsPage = () => {
       // th5={item.status || ""}
       // selection={selection}
       // setSelection={setSelection}
-     onDeleteClick={() => {
+      onDeleteClick={() => {
         setSelectedId(item._id);
         openDialog();
-      }}
+      } }
       onEditClick={() => console.log("edit")}
-    />
+      edit={false} />
   ));
   if (!isFetched)
     return (
@@ -181,9 +191,7 @@ const AppointmentsPage = () => {
             closeDialog();
           }}
           onConfirm={(id) => {
-            console.log(id);
             handleDeleteItem(id!)
-            
           }}
           itemId={selectedId!}
         />

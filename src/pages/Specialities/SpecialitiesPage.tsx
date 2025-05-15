@@ -68,6 +68,7 @@ const SpecialitiesPage = () => {
         console.log("delete");
       }}
       onEditClick={() => console.log("edit")}
+      edit={false}
     />
   ));
 

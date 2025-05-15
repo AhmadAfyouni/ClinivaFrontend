@@ -108,24 +108,12 @@ axiosInstance.interceptors.response.use(
             console.log("from api core success");
             return axiosInstance(error.config);
           } catch (refreshError) {
-            console.log("from api core error", refreshError);
-            showToast(
-              "Session Expired For your security and privacy, your session has ended. Please log in again to continue your work",
-              "error"
-            );
-            localStorage.removeItem("token");
-            localStorage.removeItem("refreshToken");
-            sessionStorage.removeItem("token")
-            sessionStorage.removeItem("refreshToken")
-            console.log("from api core error navigate");
-
-             setTimeout(() => {
-              window.location.href = "/login"; 
-            }, 4000);
+            console.log("from api core error", refreshError);     
+            forceNavigateToLogin(true)
           }
           break;
-        case 403:
-          showToast("Forbidden", "error");
+          case 403:
+          forceNavigateToLogin(false)
           break;
         default:
           showToast(
@@ -151,5 +139,21 @@ const showToast = (message: string, variant: "success" | "error") => {
     toast.error(message, { autoClose: 4000, position: "bottom-right" });
   }
 };
+
+const forceNavigateToLogin = (shouldNavigate: boolean) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("refreshToken")
+    console.log("from api core error navigate");
+    showToast("Session Expired For your security and privacy, your session has ended. Please log in again to continue your work",
+              "error");
+              
+      if(shouldNavigate){
+        setTimeout(() => {
+          window.location.href = "/login"; 
+        }, 4000);
+      }
+}
 
 export default axiosInstance;

@@ -11,7 +11,7 @@ import { doctorsSelectType } from "./utilities/fieldsForm";
 import { handleMoveWeek } from "./utilities/handleMoveWeek";
 import { TIME_SLOTS } from "./utilities/timeSlots";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import AppointmentExtraInfo from "./AppointmentMoreInfo";
+// import AppointmentExtraInfo from "./AppointmentMoreInfo";
 import useAppointmentsList from "../../hooks/appointment/useAppointmentsList";
 import useAddAppointment from "../../hooks/appointment/useAddAppointment";
 import AddAppointmentType from "../../types/Appointment/AddAppointment";
@@ -25,7 +25,7 @@ import usePageinationtStore from "../../store/Pagination/usePaginationtStore";
 function AppointmentComponents() {
   const [searchQuery, setSearchQuery] = useState("");
   const [daysInCalender, setDaysInCalender] = useState(5);
-  const [OpenExtraInfo] = useState(true);
+  // const [OpenExtraInfo] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
   const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
   const [startDate, setStartDate] = useState(new Date());
@@ -91,8 +91,8 @@ function AppointmentComponents() {
   ) {
     return <Center>Loading...</Center>;
   } else if (selectedClinic === "Select Clinic") {
-    pagination.setGeneralFilter("&clinic=" + clinicsHook.data[0].name);
-    setSelectedClinic(clinicsHook.data[0].name);
+    pagination.setGeneralFilter("&clinic=" + clinicsHook.data[0]?.name);
+    setSelectedClinic(clinicsHook.data[0]?.name);
   }
 
   const day = new Date(formik.values.datetime).getUTCDate();
@@ -256,15 +256,15 @@ function AppointmentComponents() {
       (c) => c.name === selectedClinic
     )[0];
 
-    console.log(timeSlot.WorkingHours[0].startTime);
-    if (timeSlot.WorkingHours.length === 0)
+    console.log(timeSlot?.WorkingHours[0]?.startTime);
+    if (timeSlot?.WorkingHours.length === 0)
       return type === "start"
-        ? timeSlot.WorkingHours[0].startTime
-        : timeSlot.WorkingHours[0].endTime;
+        ? timeSlot?.WorkingHours[0]?.startTime
+        : timeSlot?.WorkingHours[0]?.endTime;
     const time =
       type === "start"
-        ? timeSlot.WorkingHours[0].startTime
-        : timeSlot.WorkingHours[0].endTime;
+        ? timeSlot?.WorkingHours[0]?.startTime
+        : timeSlot?.WorkingHours[0]?.endTime;
 
     if (time[0] === "0" || time === "00") return time[1];
     return time.slice(0, 2);
@@ -273,9 +273,9 @@ function AppointmentComponents() {
     (c) =>
       c.name ===
       (selectedClinic === "Select Clinic"
-        ? clinicsHook.data[0].name
+        ? clinicsHook.data[0]?.name
         : selectedClinic)
-  )[0].AverageDurationOfVisit;
+  )[0]?.AverageDurationOfVisit;
   return (
     <Box py="md">
       <Flex gap={0} justify={"start"}>
@@ -354,7 +354,7 @@ function AppointmentComponents() {
             </form>
           </Card>
         )}
-        {OpenExtraInfo && !OpenForm && <AppointmentExtraInfo />}
+        {/* {OpenExtraInfo && !OpenForm && <AppointmentExtraInfo />} */}
       </Flex>
     </Box>
   );

@@ -57,7 +57,7 @@ console.log(data);
       onDeleteClick={() => {
         console.log("delete");
       }}
-      onEditClick={() => console.log("edit")}
+      onEditClick={() => navigate(`/employees/details/${item._id}`)}
     />
   ));
 
