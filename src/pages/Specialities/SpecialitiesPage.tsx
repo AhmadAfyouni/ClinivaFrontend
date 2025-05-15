@@ -20,6 +20,8 @@ const SpecialitiesPage = () => {
   console.log(data);
   const [selection, setSelection] = useState<string[]>([]);
   const { setSelectedOption } = useDropDownStore();
+  console.log(data);
+  
   if (!data) return null;
   const handleSearchChange = (event: string) => {
     pagination.setSearchKey(event);
@@ -54,14 +56,14 @@ const SpecialitiesPage = () => {
       key={item._id}
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.publicId}
-      th2={{ value: item.statistics.clinics.toString() }}
+      th2={{ value: item.name}}
       th3={{ value: new Date(item.updatedAt).toLocaleDateString('en-US', {
           month: 'long',
           day: 'numeric',
           year: 'numeric',
         }) }}
-      th4={item.statistics.doctors.toString()}
-      // th5={item.isActive.toString()}
+      // th4={item.statistics.doctors.toString()}
+      th4={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
       }}
@@ -112,12 +114,12 @@ const SpecialitiesPage = () => {
                 "_id",
               ]}
               labels={[
-                "specialityId",
-                "specialityName",
-                "assignedClinics",
+                "No",
+                "SpecialityID",
+                "Name",
                 "lastUpdate",
-                "doctorsNumber",
-                "status",
+                "Status",
+                "Actions",
                 "speciality",
               ]}
               data={data}

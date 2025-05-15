@@ -43,7 +43,7 @@ const MedicalComplexPage = () => {
       th1={item.publicId}
       th2={{ value: item.name }}
       th3={{ value: item.PIC.name}}
-      th4={item.employeeCount.toString()}
+      th4={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("deletion");
         
@@ -119,9 +119,9 @@ const MedicalComplexPage = () => {
               labels={[
                 "No.",
                 "MedicalComplex Id",
-                "MedicalComplex name",
+                "MedicalComplex Name",
                 "PIC",
-                "departmentsCount",
+                "Status",
                 "Actions",
                 "medicalcomplex",
               ]}

@@ -25,6 +25,7 @@ export default function Cards({ title, value }: Props) {
           padding="lg"
           radius="10%"
           w="30%"
+          h="30%"
           bg={index === 1 ? colors.middle : colors.firstAndLast}
           withBorder
           style={{

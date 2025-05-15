@@ -103,12 +103,12 @@ const DepartementsPage = () => {
                 "_id",
               ]}
               labels={[
-                "departmentId",
-                "name",
+                "No",
+                "DepartmentID",
+                "Name",
                 "Complex",
-                "PIC",
-                "Clinics Count",
-                "patients Count",
+                "Status",
+                "Actions",
                 "departement",
               ]}
               data={data}

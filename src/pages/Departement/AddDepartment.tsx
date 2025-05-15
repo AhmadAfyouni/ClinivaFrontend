@@ -10,6 +10,7 @@ import useAddDepartment from "../../hooks/departement/useDepartement";
 import useMedicalComplexList from "../../hooks/medicalcomplex/useMedicalComplexList";
 import useStaffList from "../../hooks/staff/useStaffList";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 interface selectRoleType {
   [key: string]: string;
 }
@@ -41,9 +42,11 @@ function AddDepartment() {
       console.log("Department Submitted:", values);
     },
   });
+  const navigate = useNavigate();
   useEffect(() => {
     if (hook.isSuccess) {
       formik.resetForm();
+      navigate("/departements");
       formik.values = {} as AddDepartmentType;
     }
   }, [hook.isSuccess]);

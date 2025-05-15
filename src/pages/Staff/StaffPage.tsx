@@ -23,6 +23,7 @@ const StaffPage = () => {
   const { setSelectedOption } = useDropDownStore();
   const [selection, setSelection] = useState<string[]>([]);
   const VITE_BACKEND_URL_IMAGE = import.meta.env.VITE_BACKEND_URL_IMAGE;
+console.log(data);
 
   if (!data) return null;
   const toggleAll = () => {
@@ -51,7 +52,7 @@ const StaffPage = () => {
       th1={item.publicId}
       th2={{ value: item.name }}
       th3={{ value: item.employeeType || "" }}
-      th4={item.departmentId !== null ? item.departmentId.name : ""}
+      th4={item.isActive.toString()}
       // th5={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("delete");
@@ -113,12 +114,12 @@ const StaffPage = () => {
           <Table>
             <TableHead
               labels={[
-                "Staff Id",
-                "Staff Name",
+                "No",
+                "Staff ID",
+                "Name",
                 "Job Title",
-                "MedicalComplex",
-                "Departement",
-                "Status",
+                "status",
+                "Actions",
                 "Staff",
               ]}
               sortedBy={[
