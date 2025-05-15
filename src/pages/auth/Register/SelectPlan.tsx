@@ -123,13 +123,14 @@ function SelectPlan() {
                     Department
                   </Text>
                   <Text fw={300} c={theme.other.onSurfaceSecondary}>
-                    Why Department
+                    this plan is not available
                   </Text>
                 </Flex>
                 <Button
                   onClick={() => handelSelectPlan(4)}
                   size="xl"
                   variant="subtle"
+                  disabled={true}
                 >
                   {<IoIosArrowForward size={"50px"} />}
                 </Button>
