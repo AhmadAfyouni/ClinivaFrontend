@@ -28,12 +28,15 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order
+        order 
+        // +
         // "&search=" +
-        // pagination.paramKey
+        // pagination.paramKey 
         // "&isActive=" +
-        // pagination.filter
+        // pagination.filter 
       }`;
+      
+      
       return axiosInstance
         .get<ResponseType<ServiceDetailsType>>(url)
         .then((res) => {
