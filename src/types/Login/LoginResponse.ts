@@ -4,6 +4,7 @@ interface User {
   email: string;
   roles: string[];
   permissions: string[];
+  plan: string;
 }
 
 interface LoginData {

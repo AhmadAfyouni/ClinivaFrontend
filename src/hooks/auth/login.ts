@@ -11,19 +11,15 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
 
   const login = async (data: LoginType): Promise<LoginResponse> => {
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);
-    // localStorage.setItem("token", res.data.data.accessToken);
+    // localStorage.setItem("token", res.data.data.accessToken);d
     if (saveToken) {
-      console.log("this is the token => ",res.data.data);
-      
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
-      localStorage.setItem("token", res.data.data.accessToken);
+      // localStorage.setItem("token", res.data.data.accessToken);
     }
-    if (!saveToken) {
-      sessionStorage.setItem("token", res.data.data.accessToken);
-      sessionStorage.setItem("refreshToken", res.data.data.refreshToken);
-    }
+    sessionStorage.setItem("token", res.data.data.accessToken);
+
     const userName = res.data.data.user.name;
-  
+
     if (userName) {
       localStorage.setItem("userName", userName);
     }
@@ -33,8 +29,12 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
       localStorage.setItem("userEmail", encodedEmail);
     }
     const id = res.data.data.user._id;
-    if(id){
+    if (id) {
       localStorage.setItem("userId", id);
+    }
+    const plan = res.data.data.user.plan;
+    if (plan) {
+      localStorage.setItem("plan", plan);
     }
 
     if (loginToRegister) {

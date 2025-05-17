@@ -20,12 +20,18 @@ export function SideBar() {
   const { t, i18n } = useTranslation();
   const mockdata = [
     // { label: t("Dashboard"), icon: IconGauge, link: "/" },
-    { label: t("Users"), icon: IconUser, link: "/" },
+    { 
+      label: t("Users"), 
+      icon: IconUser, 
+      link: "/", 
+      requiredPlan: 'company' 
+    },
 
     {
       label: t("Appointments"),
       icon: IconCalendarStats,
       link: "/appointments",
+      requiredPlan: 'company'
     },
     {
       label: t("Company"),
@@ -33,38 +39,55 @@ export function SideBar() {
       links: [
         {
           label: t("companyInfo"),
-          // icon: IconBuildingSkyscraper,
           link: "/company",
+          requiredPlan: 'company'
         },
         {
           label: t("MedicalComplexes"),
-          // icon: IconBuildingHospital,
           link: "/medicalComplexes",
+          requiredPlan: 'complex'
         },
         {
           label: t("Departements"),
-          // icon: IconBuildingCommunity,
           link: "/departements",
+          requiredPlan: 'department'
         },
         {
           label: t("Specialities"),
-          // icon: IconMicroscope,
           link: "/specialities",
+          requiredPlan: 'department'
         },
         {
           label: t("Clinics"),
-          // icon: IconHospital,
           link: "/clinics",
+          requiredPlan: 'clinic'
         },
       ],
+      requiredPlan: 'company' // Parent group requires company plan
     },
-    { label: t("Staff"), icon: IconUsersGroup, link: "/employees" },
-    { label: t("Doctors"), icon: IconStethoscope, link: "/doctors" },
-    { label: t("Patients"), icon: IconTreadmill , link: "/patients" },
+    { 
+      label: t("Staff"), 
+      icon: IconUsersGroup, 
+      link: "/employees",
+      requiredPlan: 'department'
+    },
+    { 
+      label: t("Doctors"), 
+      icon: IconStethoscope, 
+      link: "/doctors",
+      requiredPlan: 'department'
+    },
+    { 
+      label: t("Patients"), 
+      icon: IconTreadmill, 
+      link: "/patients",
+      requiredPlan: 'company'
+    },
     {
       label: t("Services"),
       icon: IconReportMedical,
       link: "/services",
+      requiredPlan: 'clinic'
     },
 
     // { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },

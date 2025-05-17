@@ -145,6 +145,7 @@ export default function TableSelection<T extends Record<string, any>>({
                 {columns.map((col) => (
                   <Table.Td key={col.key}>
                     <TableInput
+                      key={col.key + JSON.stringify(newRow[col.key])}
                       column={col}
                       value={newRow[col.key]}
                       onChange={(value) => handleInputChange(col.key, value)}

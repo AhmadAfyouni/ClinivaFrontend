@@ -19,16 +19,7 @@ const DeleteConfirmationDialog = ({
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0)",
-          zIndex: 999,
-        }}
-        onClick={onClose} // Optional: close when clicking outside
-      />
+   
 
       {/* Dialog */}
       <Dialog
@@ -60,7 +51,7 @@ const DeleteConfirmationDialog = ({
         </Text>
 
         <Group justify="flex-end">
-          <Button variant="outline" color="gray" onClick={onClose}>
+          <Button variant="outline" color="red" onClick={onClose} >
             Cancel
           </Button>
           <Button color="red" onClick={() =>{

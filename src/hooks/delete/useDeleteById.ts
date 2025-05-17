@@ -6,8 +6,14 @@ interface Props {
   endpoint: string;
   mutationKey: string;
   navigationUrl: string;
+  reFetch: () => void;
 }
-const useDeleteById = ({ endpoint, mutationKey, navigationUrl }: Props) => {
+const useDeleteById = ({
+  endpoint,
+  mutationKey,
+  navigationUrl,
+  reFetch,
+}: Props) => {
   const navigate = useNavigate();
   return useMutation({
     mutationKey: [mutationKey],
@@ -16,6 +22,7 @@ const useDeleteById = ({ endpoint, mutationKey, navigationUrl }: Props) => {
         .delete(`/${endpoint}/${id}`)
         .then((res) => {
           navigate(navigationUrl);
+          reFetch();
           return res.data;
         })
         .catch((error) => {

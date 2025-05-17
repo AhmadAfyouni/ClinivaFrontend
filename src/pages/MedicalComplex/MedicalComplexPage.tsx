@@ -18,13 +18,14 @@ const MedicalComplexPage = () => {
    const queryClient = useQueryClient();
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
-  const { data } = useMedicalComplexList(false, sortBy, order);
+  const { data,refetch } = useMedicalComplexList(false, sortBy, order);
     const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
     const [selectedId, setSelectedId] = useState<string | null>(null);
   const deleteMedcalComplex = useDeleteById({
     endpoint: "cliniccollections",
     mutationKey: "delete-cliniccollection",
     navigationUrl: "/medicalComplexes",
+    reFetch:refetch
   });
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);

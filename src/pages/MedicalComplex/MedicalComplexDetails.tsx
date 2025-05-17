@@ -23,6 +23,7 @@ const MedicalComplexDetails = () => {
     endpoint: "cliniccollections",
     mutationKey: "delete-cliniccollection",
     navigationUrl: "/medicalComplexes",
+    reFetch:()=>{}
   });
   const { data, isFetched } = useMedicalComplexDetails(id!);
 

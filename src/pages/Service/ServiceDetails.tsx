@@ -25,6 +25,7 @@ const ServiceDetails = () => {
     endpoint: "services",
     mutationKey: "delete-services",
     navigationUrl: "/services",
+    reFetch:()=>{}
   });
   const { id: serviceId } = useParams();
   const { data } = useServiceDetails(serviceId!);
