@@ -11,7 +11,7 @@ type TableInputProps = {
 
 export const TableInput = ({ column, value, onChange }: TableInputProps) => {
   const { t } = useTranslation("index");
-
+console.log('@@',value)
   if (column.type === "date") {
     return (
       <DateInput
@@ -48,7 +48,7 @@ export const TableInput = ({ column, value, onChange }: TableInputProps) => {
         placeholder={t(column.label)}
         data={column.options}
         searchable
-        value={value as string}
+        value={typeof value === "string" ? value : ""}
         onChange={(selectedValue) => onChange(selectedValue || "")}
         nothingFoundMessage={t("Nothing found...")}
       />

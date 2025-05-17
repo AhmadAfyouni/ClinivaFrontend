@@ -17,6 +17,7 @@ const DoctorDetails = () => {
     endpoint: "employees",
     mutationKey: "delete-doctor",
     navigationUrl: "/doctors",
+    reFetch:()=>{}
   });
   const isMobile = useMediaQuery("(max-width: 576px)");
   const isTablet = useMediaQuery("(min-width: 577px) and (max-width: 992px)");

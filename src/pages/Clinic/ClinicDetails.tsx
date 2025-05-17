@@ -18,6 +18,8 @@ const ClinicDetails = () => {
     endpoint: "clinics",
     mutationKey: "delete-clinic",
     navigationUrl: "/clinics",
+    reFetch:()=>{}
+
   });
   const { id: ClinicId } = useParams();
   const { data, isFetched } = useClinicDetails(ClinicId!);

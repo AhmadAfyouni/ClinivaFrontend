@@ -1,4 +1,4 @@
-import { useState } from "react";
+  import { useState } from "react";
 import {
   Group,
   Box,
@@ -21,7 +21,12 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   link?: string;
-  links?: { label: string; link: string }[];
+  links?: { 
+    label: string; 
+    link: string;
+    requiredPlan?: string; // Add required plan for each link
+  }[];
+  requiredPlan?: string; // Add required plan for the parent group
 }
 
 export function LinksGroup({
@@ -30,6 +35,7 @@ export function LinksGroup({
   initiallyOpened,
   links,
   link,
+  requiredPlan,
 }: LinksGroupProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,7 +49,15 @@ export function LinksGroup({
 const isActive = (path: string) =>
   location.pathname === path || location.pathname.startsWith(`${path}/`);
 
-  const items = (links || []).map((linkItem) => (
+  const items = (links || []).filter(linkItem => {
+    // Check if user has access to this link based on their plan
+    const userPlan = localStorage.getItem('plan');
+    const planHierarchy = ['clinic', 'department', 'complex', 'company'];
+    if (!linkItem.requiredPlan || !userPlan) return true;
+    const userPlanIndex = planHierarchy.indexOf(userPlan);
+    const requiredPlanIndex = planHierarchy.indexOf(linkItem.requiredPlan);
+    return userPlanIndex !== -1 && requiredPlanIndex !== -1 && userPlanIndex >= requiredPlanIndex;
+  }).map((linkItem) => (
     <Text<"a">
       component="a"
       className={`${classes.link} ${
@@ -57,8 +71,17 @@ const isActive = (path: string) =>
   ));
 
   const isParentActive =
-    (link && isActive(link)) ||
-    (links && links.some((l) => isActive(l.link)));
+    (link && isActive(link) && (!requiredPlan || (() => {
+      const userPlan = localStorage.getItem('plan') || 'company'; // Default to company plan if not set
+      const planHierarchy = ['clinic', 'department', 'complex', 'company'];
+      const userPlanIndex = planHierarchy.indexOf(userPlan);
+      const requiredPlanIndex = planHierarchy.indexOf(requiredPlan);
+      return userPlanIndex !== -1 && requiredPlanIndex !== -1 && userPlanIndex >= requiredPlanIndex;
+    })())) ||
+    (links && links.some((l) => 
+      isActive(l.link) && 
+      (!l.requiredPlan || l.requiredPlan === localStorage.getItem('plan') || localStorage.getItem('plan') === 'enterprise')
+    ));
 
   return (
     <>

@@ -40,6 +40,7 @@ const UserDetails = () => {
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
+    reFetch:()=>{}
   });
 
   // Fetch user details
