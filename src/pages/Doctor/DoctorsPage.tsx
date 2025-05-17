@@ -4,7 +4,6 @@ import {
   useMantineTheme,
   Box,
   Center,
-  Text,
   Flex,
 } from "@mantine/core";
 import DoctorCard from "../../Components/DoctorCard";
@@ -50,13 +49,13 @@ const DoctorsPage = () => {
   );
 }
 
-if (!data || data.length === 0) {
-  return (
-    <Center mih="60vh">
-      <Text>No Doctors Found</Text>
-    </Center>
-  );
-}
+// if (!data || data.length === 0) {
+//   return (
+//     <Center mih="60vh">
+//       <Text>No Doctors Found</Text>
+//     </Center>
+//   );
+// }
 
   else
     return (
@@ -87,7 +86,7 @@ if (!data || data.length === 0) {
         </Grid>
         <ScrollArea bg={theme.other.bgSubtle} h={600} offsetScrollbars>
           <Grid pb={50} pl={20} pt={20}>
-            {data.map((doctor, index) => (
+            {data?.map((doctor, index) => (
               <DoctorCard
                 key={index}
                 doctor={doctor}
