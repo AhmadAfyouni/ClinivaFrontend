@@ -13,7 +13,6 @@ const useAppointmentsData = () => {
   const [daysInCalender, setDaysInCalender] = useState(5);
   const [selectedDoctor, setSelectedDoctor] = useState("All Doctors");
   const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [doctorService, setDoctorService] = useState([]as{id:string,name:string}[]);
   const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());

@@ -41,7 +41,7 @@ const EditEmployeeSchema = Yup.object().shape({
   .test("fileType", "Invalid file format (Only JPG/PNG allowed)", (value) => {
     if (!value) return true;
     if (typeof value === "string") return true;
-    return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+    return ["image/jpeg", "image/png", "image/jpg"].includes((value as File).type);
   }),
 
   marital_status: Yup.string()
