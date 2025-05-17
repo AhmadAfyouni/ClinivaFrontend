@@ -16,7 +16,6 @@ import LocationPicker from "../../Components/Map/LocationPicker";
 import useAddClinic from "../../hooks/clinic/useAddClinic";
 import useDepatementsList from "../../hooks/departement/useDepartementsList";
 import useStaffList from "../../hooks/staff/useStaffList";
-import { useNavigate } from "react-router";
 import useSpecialization from "../../hooks/Specialization/useSpecializations";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -77,9 +76,12 @@ function AddClinic() {
   });
   useEffect(() => {
     if(hook.isSuccess){
+      const login = localStorage.getItem("loginToRegister");
+      if (!login ) {
+        navigate("/clinics");
+      }
       formik.resetForm();
       formik.setValues({} as AddClinicType);
-      navigate("/clinics");
     }
   }, [hook.isSuccess]);
 

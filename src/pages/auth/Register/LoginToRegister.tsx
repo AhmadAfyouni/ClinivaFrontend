@@ -5,14 +5,27 @@ import useLogin from "../../../hooks/auth/login";
 import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import { Box, Button, Card, Flex, useMantineTheme } from "@mantine/core";
 import { LoginType } from "../../../types/Login/LoginType";
+import useUpdateProfile from "../../../hooks/users/useUpdateProfile";
 interface Props {
   nextStep: () => void;
 }
 export default function LoginToRegister({ nextStep }: Props) {
   const loginMutation = useLogin(false, true);
+  const updateProfile = useUpdateProfile();
   const theme = useMantineTheme();
   if (loginMutation.isSuccess) {
     console.log("first22222");
+    const selectedPLan = localStorage.getItem("plan");
+    updateProfile.mutate({
+      plan:
+        selectedPLan === "2"
+          ? "company"
+          : selectedPLan === "3"
+          ? "complex"
+          : selectedPLan === "4"
+          ? "department"
+          : "clinic",
+    });
     nextStep();
   }
   const formik = useFormik<LoginType>({

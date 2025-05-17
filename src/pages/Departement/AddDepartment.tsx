@@ -45,8 +45,11 @@ function AddDepartment() {
   const navigate = useNavigate();
   useEffect(() => {
     if (hook.isSuccess) {
+      const login = localStorage.getItem("loginToRegister");
+      if (!login ) {
+        navigate("/departements");
+      }
       formik.resetForm();
-      navigate("/departements");
       formik.values = {} as AddDepartmentType;
     }
   }, [hook.isSuccess]);

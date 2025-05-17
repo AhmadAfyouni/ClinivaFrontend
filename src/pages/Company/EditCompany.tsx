@@ -26,7 +26,7 @@ function EditCompany() {
   const da = data ? data[0] : null;
 
   const handleLocationChange = (location: { x: number; y: number }) => {
-    formik.setFieldValue("locationGoogl", location);
+    formik.setFieldValue("locationGoogle", location);
   };
     const hook = useEditCompany(da?._id || '-1');
   
@@ -51,7 +51,7 @@ function EditCompany() {
         expirationDate: da?.commercialRecord?.expirationDate || "",
         taxNumber: da?.commercialRecord?.taxNumber || "",
       },
-      locationGoogl: {
+      locationGoogle: {
         x: da?.locationGoogl?.x || 0,
         y: da?.locationGoogl?.x || 0,
       },
@@ -356,16 +356,16 @@ function EditCompany() {
           <Box mt="md" mb="xl">
             <Flex gap={"xl"}>
               <h3>Location</h3>
-              <h5>x: {formik.values.locationGoogl.x}</h5>
-              <h5>y: {formik.values.locationGoogl.y}</h5>
+              <h5>x: {formik.values.locationGoogle.x}</h5>
+              <h5>y: {formik.values.locationGoogle.y}</h5>
             </Flex>
             <LocationPicker
               onChange={handleLocationChange}
-              initialPosition={formik.values.locationGoogl}
+              initialPosition={formik.values.locationGoogle}
             />
-            {formik.errors.locationGoogl && (
+            {formik.errors.locationGoogle && (
               <div style={{ color: "red" }}>
-                {formik.errors.locationGoogl as string}
+                {formik.errors.locationGoogle as string}
               </div>
             )}
           </Box>
