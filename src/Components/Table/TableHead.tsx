@@ -16,7 +16,7 @@ Props<T>) => {
   const theme = useMantineTheme();
   const { t } = useTranslation();
   const { sortBy, order,
-    //  setSortBy, toggleOrder, setOrder
+     setSortBy, toggleOrder, setOrder
      } = useSortStore();
 
   const handleSort = (field: string) => {
