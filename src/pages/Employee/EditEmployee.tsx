@@ -83,7 +83,13 @@ const formatTableValue = (value: any) => {
       Languages: data?.Languages || [],
       specialties: data?.specialties || [],
       certifications: data?.certifications || [],
-      vacationRecords: data?.vacationRecords || [],
+      // vacationRecords: data?.vacationRecords || [],
+      vacationRecords:
+      data?.vacationRecords?.map((record) => ({
+        ...record,
+        startDate: formatTableValue(record.startDate),
+        endDate: formatTableValue(record.endDate),
+      })) || [],
       workingHours: data?.workingHours || [],
       breakTimes: data?.breakTimes || [],
       jobType: data?.jobType || "FULL_TIME",
