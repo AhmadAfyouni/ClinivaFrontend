@@ -40,6 +40,7 @@ const StaffDetails = () => {
     endpoint: "employees",
     mutationKey: "delete-employee",
     navigationUrl: "/employees",
+    reFetch:()=>{}
   });
     if (!isFetched) {
   return (

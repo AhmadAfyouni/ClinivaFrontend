@@ -16,7 +16,7 @@ function SelectPlan() {
   // const updateProfile = useUpdateProfile();
   const theme = useMantineTheme();
   const handelSelectPlan = (selectedPLan: number) => {
-    localStorage.setItem("plan", selectedPLan.toString());
+    localStorage.setItem("selectedPlan", selectedPLan.toString());
     // updateProfile.mutate({
     //   plan:
     //     selectedPLan === 2

@@ -22,7 +22,7 @@ const StaffPage = () => {
   const pagination = usePaginationtStore();
   // const { data: departments } = useDepatementsList(true);
   // const deps = Array.from(new Set(departments?.map((item) => item.name)));
-  const { data, isFetched } = useStaffList(false, sortBy, order);
+  const { data, isFetched,refetch } = useStaffList(false, sortBy, order);
   const navigate = useNavigate();
   const { setSelectedOption } = useDropDownStore();
     const queryClient = useQueryClient();
@@ -34,6 +34,7 @@ const StaffPage = () => {
     endpoint: "employees",
     mutationKey: "delete-employe",
     navigationUrl: "/employees",
+    reFetch:refetch
   });
   const handleDeleteItem = (id: string) => {
     console.log('sss');

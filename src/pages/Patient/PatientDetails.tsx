@@ -40,6 +40,7 @@ const PatientDetails = () => {
     endpoint: "patients",
     mutationKey: "delete-patient",
     navigationUrl: "/patients",
+    reFetch:()=>{}
   });
   // const [day, month, year] = data?.insurances[0]?.expiryDate?.split("-").map(Number) ||'';
 

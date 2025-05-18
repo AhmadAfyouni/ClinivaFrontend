@@ -28,7 +28,7 @@ const AppointmentsPage = () => {
    const queryClient = useQueryClient();
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
-  const { data, isFetched } = useAppointmentsList(false, sortBy, order);
+  const { data, isFetched ,refetch} = useAppointmentsList(false, sortBy, order);
   const [selection, setSelection] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -40,6 +40,7 @@ const AppointmentsPage = () => {
     endpoint: "appointments",
     mutationKey: "delete-appointment",
     navigationUrl: "/appointments",
+    reFetch:refetch
   });
 
   useEffect(() => {

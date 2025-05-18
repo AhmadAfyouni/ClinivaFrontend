@@ -15,10 +15,8 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 import { useHasPermission } from "../../hooks/permission/useHasPermission";
 import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import DeleteConfirmationDialog from "../DeleteWithDialog";
-import { useQueryClient } from "@tanstack/react-query";
 
 const UsersPage = () => {
-  const queryClient = useQueryClient();
   const canCreateUser = useHasPermission(["admin", "user_create"]);
   console.log("canCreateUser " + canCreateUser);
   const [selection, setSelection] = useState<string[]>([]);
@@ -27,7 +25,7 @@ const UsersPage = () => {
   const { setSelectedOption } = useDropDownStore();
   const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { data, isFetched } = useUsersList(false, sortBy, order);
+  const { data, isFetched,refetch } = useUsersList(false, sortBy, order);
  
   
   const navigate = useNavigate();
@@ -35,6 +33,7 @@ const UsersPage = () => {
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
+    reFetch:refetch,
   });
   useEffect(() => {
     return () => {
@@ -90,7 +89,7 @@ const UsersPage = () => {
   const handleDeleteItem = (id: string) => {
     deleteUser.mutate(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["users"] });
+        // queryClient.invalidateQueries({ queryKey: ["users"] });
         setSelectedId(null);
         closeDialog();
       },

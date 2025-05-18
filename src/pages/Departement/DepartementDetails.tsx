@@ -37,6 +37,7 @@ const DepartementDetails = () => {
     endpoint: "departments",
     mutationKey: "delete-department",
     navigationUrl: "/departements",
+    reFetch:()=>{}
   });
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
