@@ -501,7 +501,6 @@ function AddEmployee({ employeeType }: Props) {
               type: "select",
               options: ["email", "phone"],
             },
-
             {
               key: "value",
               label: "Value",

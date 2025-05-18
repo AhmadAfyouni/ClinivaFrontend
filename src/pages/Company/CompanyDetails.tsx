@@ -61,16 +61,16 @@ useEffect(() => {
       </Center>
   }
   const values = [
-      companies[0].yearOfEstablishment
-    ? new Date(companies[0].yearOfEstablishment).toLocaleDateString('en-US', {
+      companies[0]?.yearOfEstablishment
+    ? new Date(companies[0]?.yearOfEstablishment).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       })
     : "",
-    companies[0].vision || "",
-    companies[0].goals || "",
-    companies[0].overview || "",
+    companies[0]?.vision || "",
+    companies[0]?.goals || "",
+    companies[0]?.overview || "",
     companies[0]?.location?.x != null
       ? `${companies[0].location.x} - ${companies[0].location.y}`
       : "",
@@ -78,7 +78,7 @@ useEffect(() => {
     companies[0]?.Founder || "",
     companies[0]?.Executives || "",
   ];
-  const icons = companies[0].contactInfos.map((item) => {
+  const icons = companies[0]?.contactInfos?.map((item) => {
     if (item.type === "email") {
       return {
         icon: <Mail size={24} />,
@@ -110,12 +110,12 @@ useEffect(() => {
       >
         <Flex w={isComputer ? "23%" : "100%"} direction="column">
           <InfoSide
-            name={companies[0].name}
+            name={companies[0]?.name}
             contactInfoIcons={icons}
             iconsMaxWidth=""
             values={values}
             titles={titles}
-            url={companies[0].logo}
+            url={companies[0]?.logo}
             titlesWidth="90"
             hasSocialMedia={true}
             socialMediaIcons={icons}
@@ -139,9 +139,9 @@ useEffect(() => {
             heightLists={200}
             title="Bank Accunts"
             title1="bank name"
-            content1={companies[0].bankAccount.map((item) => item.bankName)}
+            content1={companies[0]?.bankAccount.map((item) => item.bankName)}
             title2="Account Number"
-            content2={companies[0].bankAccount.map(
+            content2={companies[0]?.bankAccount.map(
               (item) => item.accountNumber
             )}
           />
@@ -150,20 +150,20 @@ useEffect(() => {
             heightLists={200}
             title="Cash Box"
             title1="Cash Box name"
-            content1={companies[0].cashBoxes.map((item) => item.name)}
+            content1={companies[0]?.cashBoxes.map((item) => item.name)}
             title2="Cash Box PIC"
-            content2={companies[0].cashBoxes.map((item) => item.pic)}
+            content2={companies[0]?.cashBoxes.map((item) => item.pic)}
           />
           <TextList
             heightOneList={isMobile ? 50 : 100}
             heightLists={200}
             title="Online Payment Method"
             title1="Company Name"
-            content1={companies[0].onlinePaymentMethods.map(
+            content1={companies[0]?.onlinePaymentMethods.map(
               (item) => item.companyName
             )}
             title2="Processing Fees"
-            content2={companies[0].onlinePaymentMethods.map((item) =>
+            content2={companies[0]?.onlinePaymentMethods.map((item) =>
               item.processingFees.toString()
             )}
           />
@@ -172,11 +172,11 @@ useEffect(() => {
             heightLists={200}
             title="Insurance company"
             title1="Company Name"
-            content1={companies[0].insuranceCompany.map(
+            content1={companies[0]?.insuranceCompany.map(
               (item) => item.companyName
             )}
             title2="Company Phone"
-            content2={companies[0].insuranceCompany.map(
+            content2={companies[0]?.insuranceCompany.map(
               (item) => item.companyPhone
             )}
           />
@@ -204,8 +204,8 @@ useEffect(() => {
               direction="column"
               titles={["recordNumber", "taxNumber"]}
               values={[
-                companies[0].commercialRecord?.recordNumber || "",
-                companies[0].commercialRecord?.taxNumber || "",
+                companies[0]?.commercialRecord?.recordNumber || "",
+                companies[0]?.commercialRecord?.taxNumber || "",
               ]}
             />
           </Flex>
