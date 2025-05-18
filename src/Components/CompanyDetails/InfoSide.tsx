@@ -106,7 +106,7 @@ const InfoSide = ({
           {t("contactInfo")}
         </Text>
         <Flex m="0 auto" justify="space-between" maw={iconsMaxWidth}>
-          {contactInfoIcons.map((item, index) => (
+          {contactInfoIcons?.map((item, index) => (
             <ActionIcon
               m="0 5px"
               onClick={() => window.open(item.href, "_blank")}

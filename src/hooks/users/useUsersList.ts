@@ -40,7 +40,7 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         "&roleName=" +
         pagination.roleName
       }`;
-
+console.log(pagination.filter, url);
       try {
         const res = await axiosInstance.get<ResponseType<UserDetailType>>(url, {
           signal,

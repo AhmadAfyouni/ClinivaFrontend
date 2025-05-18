@@ -1,7 +1,7 @@
 import { Box, Center, Flex } from "@mantine/core";
 import AppointmentHeader from "./AppointmentHeader";
 import AppointmentCalendar from "./AppointmentCalendar";
-import AppointmentExtraInfo from "./AppointmentMoreInfo";
+// import AppointmentExtraInfo from "./AppointmentMoreInfo";
 import { getNextXDays } from "./utilities/getNext7Days";
 import { handleMoveWeek } from "./utilities/handleMoveWeek";
 import { TIME_SLOTS } from "./utilities/timeSlots";
@@ -107,7 +107,7 @@ function AppointmentComponents() {
           />
         )}
         
-        {!openForm && <AppointmentExtraInfo />}
+        {/* {!openForm && <AppointmentExtraInfo />} */}
       </Flex>
     </Box>
   );
