@@ -37,11 +37,10 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         pagination.filter +
         "&createdAt=" +
         pagination.date +
-        "&roleName=" +              
-      pagination.roleName
-        
+        "&roleName=" +
+        pagination.roleName
       }`;
-
+console.log(pagination.filter, url);
       try {
         const res = await axiosInstance.get<ResponseType<UserDetailType>>(url, {
           signal,
@@ -65,9 +64,9 @@ const useUsersList = (allData = false, sortBy = "_id", order = "desc") => {
         throw error;
       }
     },
-    staleTime: 0,
+    staleTime: 4000,
     refetchOnWindowFocus: false,
-    enabled: true,
+    // enabled: true,
   });
 };
 

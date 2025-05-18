@@ -37,6 +37,7 @@ const DepartementDetails = () => {
     endpoint: "departments",
     mutationKey: "delete-department",
     navigationUrl: "/departements",
+    reFetch:()=>{}
   });
   const { sortBy, order } = useSortStore();
   const pagination = usePaginationtStore();
@@ -60,7 +61,7 @@ const DepartementDetails = () => {
 
   const rows = data?.map((item) => (
     <TableBody
-      onClick={() => navigate(`/departements/details/${item._id}`)}
+      onClick={() => navigate(`/employees/details/${item._id}`)}
       selection={selection}
       setSelection={setSelection}
       key={item._id}

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 function Register() {
   const navigate = useNavigate();
 
-  const plan = localStorage.getItem("plan");
+  const plan = localStorage.getItem("selectedPlan");
   const selectedPlan = plan ? Number(plan) : 1;
 
   const [step, setStep] = useState(1);
@@ -58,7 +58,7 @@ function Register() {
   const handleNextStep = () => {
     if (step === steps.length) {
       localStorage.removeItem("loginToRegister");
-      localStorage.removeItem("plan");
+      localStorage.removeItem("selectedPlan");
       navigate("/");
     }
     setStep(step + 1);
