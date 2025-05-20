@@ -53,8 +53,8 @@ const TableBody = ({
   
   const getStatusBadge = (status: string) => {
     const statusColors = {
-      true: { bg: theme.other?.secondaryDarkColor },
-      false: { bg: theme.primaryColor },
+      true: { bg: theme.other?.Active },
+      false: { bg: theme.other?.desActive },
       cancelled: { bg: theme.colors.myPrimary[6] },
       scheduled: { bg: theme.colors.myPrimary[2] },
       completed: { bg: theme.other.secondaryDarkColor },
@@ -136,7 +136,7 @@ const TableBody = ({
   //   );
   // };
   return (
-    <Table.Tbody w="100%">
+    <Table.Tbody w="50px">
       {/* <Table.Tbody> */}
       <Table.Tr key={th0} bd={theme.other.bgSubtle}>
         {/* <Table.Td> 

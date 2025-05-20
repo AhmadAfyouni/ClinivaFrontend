@@ -12,8 +12,10 @@ export const ProtectedRoute = ({
   children,
 }: ProtectedRouteProps) => {
   const hasAccess = useHasPermission(permission);
-
+  console.log("hasAccess " + hasAccess.toString());
+  console.log("permission " + permission);
   if (!hasAccess) {
+    console.log("hasAccess " + hasAccess);
     return <Navigate to="/not-authorized" replace />;
   }
 
