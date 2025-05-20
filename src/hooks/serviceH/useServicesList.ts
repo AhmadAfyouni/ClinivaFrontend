@@ -5,8 +5,8 @@ import usePaginationtStore from "../../store/Pagination/usePaginationtStore";
 import ServiceDetailsType from "../../types/serviceT/ServiceDetailsType";
 const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
   const pagination = usePaginationtStore();
-  // console.log("useGetUsers per_page", per_page);
-  //   const countryStore = useCountriesPaginationStore();
+  console.log("useGetUsers per_page", pagination.paramKey);
+  // const countryStore = useCountriesPaginationStore();
 
   return useQuery({
     queryKey: [
@@ -28,15 +28,13 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
         "&sortBy=" +
         sortBy +
         "&order=" +
-        order 
-        // +
-        // "&search=" +
-        // pagination.paramKey 
+        order +
+        "&search=" +
+        pagination.paramKey
         // "&isActive=" +
-        // pagination.filter 
+        // pagination.filter
       }`;
-      
-      
+
       return axiosInstance
         .get<ResponseType<ServiceDetailsType>>(url)
         .then((res) => {

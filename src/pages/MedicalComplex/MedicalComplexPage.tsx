@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TableHead from "../../Components/Table/TableHead";
-import { Box, Center, Flex, Table, Text } from "@mantine/core";
+import { Box, Flex, Table } from "@mantine/core";
 import TableBody from "../../Components/Table/TableBody";
 import { SearchInput } from "../../Components/SearchInput";
 import AddButton from "../../Components/AddButton";
@@ -15,17 +15,17 @@ import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import { useQueryClient } from "@tanstack/react-query";
 
 const MedicalComplexPage = () => {
-   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const pagination = usePaginationtStore();
   const { sortBy, order } = useSortStore();
-  const { data,refetch } = useMedicalComplexList(false, sortBy, order);
-    const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { data, refetch } = useMedicalComplexList(false, sortBy, order);
+  const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const deleteMedcalComplex = useDeleteById({
     endpoint: "cliniccollections",
     mutationKey: "delete-cliniccollection",
     navigationUrl: "/medicalComplexes",
-    reFetch:refetch
+    reFetch: refetch,
   });
   const navigate = useNavigate();
   const [selection, setSelection] = useState<string[]>([]);
@@ -43,11 +43,11 @@ const MedicalComplexPage = () => {
       th0={(pagination.current_page * (index + 1)).toString().padStart(3, "0")}
       th1={item.publicId}
       th2={{ value: item.name }}
-      th3={{ value: item.PIC.name}}
+      th3={{ value: item.PIC.name }}
       th4={item.isActive.toString()}
       onDeleteClick={() => {
         console.log("deletion");
-        
+
         setSelectedId(item._id);
         console.log("deletion one");
         openDialog();
@@ -61,7 +61,12 @@ const MedicalComplexPage = () => {
     />
   ));
 
-  useEffect(() => { return () => { closeDialog(); setSelectedId(null); }; }, []);
+  useEffect(() => {
+    return () => {
+      closeDialog();
+      setSelectedId(null);
+    };
+  }, []);
 
   const toggleAll = () => {
     if (data) {
@@ -84,67 +89,67 @@ const MedicalComplexPage = () => {
       },
     });
   };
-  
-  if (data?.length === 0)
-    return (
-      <Center>
-        <Text>No MedicalComplex Found</Text>
-      </Center>
-    );
-  else
-    return (
-      <Flex direction="column">
-        <Flex w="97%" justify="space-between">
-          <SearchInput
-            text="Search"
-            searchValue={pagination.paramKey}
-            setSearchValue={handleSearchChange}
-          />
 
-          <AddButton
-            text="addMedicalComplex"
-            handleOnClick={() => navigate(`/medicalComplexes/add`)}
-          />
-        </Flex>
-        <Box style={{ height: "80vh", overflow: "auto" }}>
-          <Table>
-            <TableHead
-              sortedBy={[
-                "_id",
-                "name",
-                "PIC",
-                "departmentCount",
-                "employeeCount",
-                "_id",
-              ]}
-              labels={[
-                "No.",
-                "MedicalComplex Id",
-                "MedicalComplex Name",
-                "PIC",
-                "Status",
-                "Actions",
-                "medicalcomplex",
-              ]}
-              data={data}
-              selection={selection}
-              toggleAll={toggleAll}
-            />
-            {rows}
-          </Table>
-          <CustomPagination store={pagination} />
-        </Box>
-         <DeleteConfirmationDialog
-                  opened={isOpen}
-                  onClose={() => {
-                    setSelectedId(null);
-                    closeDialog();
-                  }}
-                  onConfirm={(id) => handleDeleteItem(id!)}
-                  itemId={selectedId!}
-                />
+  // if (data?.length === 0)
+  //   return (
+  //     <Center>
+  //       <Text>No MedicalComplex Found</Text>
+  //     </Center>
+  //   );
+  // else
+  return (
+    <Flex direction="column">
+      <Flex w="97%" justify="space-between">
+        <SearchInput
+          text="Search"
+          searchValue={pagination.paramKey}
+          setSearchValue={handleSearchChange}
+        />
+
+        <AddButton
+          text="addMedicalComplex"
+          handleOnClick={() => navigate(`/medicalComplexes/add`)}
+        />
       </Flex>
-    );
+      <Box style={{ height: "80vh", overflow: "auto" }}>
+        <Table>
+          <TableHead
+            sortedBy={[
+              "_id",
+              "name",
+              "PIC",
+              "departmentCount",
+              "employeeCount",
+              "_id",
+            ]}
+            labels={[
+              "No.",
+              "MedicalComplex Id",
+              "MedicalComplex Name",
+              "PIC",
+              "Status",
+              "Actions",
+              "medicalcomplex",
+            ]}
+            data={data}
+            selection={selection}
+            toggleAll={toggleAll}
+          />
+          {rows}
+        </Table>
+        <CustomPagination store={pagination} />
+      </Box>
+      <DeleteConfirmationDialog
+        opened={isOpen}
+        onClose={() => {
+          setSelectedId(null);
+          closeDialog();
+        }}
+        onConfirm={(id) => handleDeleteItem(id!)}
+        itemId={selectedId!}
+      />
+    </Flex>
+  );
 };
 
 export default MedicalComplexPage;
