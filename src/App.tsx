@@ -61,7 +61,8 @@ const createAppTheme = (
     PurpleHear: "#D9D9D9",
     calenderCard1: "#FFD9CF",
     calenderCard2: "#CDEDDD",
-
+    desActive:'#FCB98A',
+    Active:"#A5C8F2",
     calenderCardText1: "#1A1615",
     calenderCardText2: "#66615E",
   },

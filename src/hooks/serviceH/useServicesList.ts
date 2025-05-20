@@ -9,7 +9,16 @@ const useServicesList = (allData = false, sortBy = "_id", order = "desc") => {
   // const countryStore = useCountriesPaginationStore();
 
   return useQuery({
-    queryKey: ["services"],
+    queryKey: [
+      "services",
+      pagination.current_page,
+      pagination.items_per_page,
+      allData,
+      sortBy,
+      order,
+      pagination.paramKey,
+      pagination.filter,
+    ],
     queryFn: () => {
       const url = `/services?${
         "&page=" +
