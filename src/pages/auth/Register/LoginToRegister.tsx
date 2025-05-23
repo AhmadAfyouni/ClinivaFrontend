@@ -15,7 +15,7 @@ export default function LoginToRegister({ nextStep }: Props) {
   const theme = useMantineTheme();
   if (loginMutation.isSuccess) {
     console.log("first22222");
-    const selectedPLan = localStorage.getItem("plan");
+    const selectedPLan = localStorage.getItem("selectedPlan");
     updateProfile.mutate({
       plan:
         selectedPLan === "2"

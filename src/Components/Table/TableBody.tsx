@@ -55,6 +55,7 @@ const TableBody = ({
   const userId = localStorage.getItem("userId")
   console.log(th5);
   
+<<<<<<< HEAD
 const getStatusBadge = (status: string) => {
   const statusColors = {
     true: { bg: theme.other?.mainColorButtonActive },
@@ -62,6 +63,38 @@ const getStatusBadge = (status: string) => {
     cancelled: { bg: theme.colors.myPrimary[6] },
     scheduled: { bg: theme.colors.myPrimary[2] },
     completed: { bg: theme.other.secondaryDarkColor },
+=======
+  const getStatusBadge = (status: string) => {
+    const statusColors = {
+      true: { bg: theme.other?.Active },
+      false: { bg: theme.other?.desActive },
+      cancelled: { bg: theme.colors.myPrimary[6] },
+      scheduled: { bg: theme.colors.myPrimary[2] },
+      completed: { bg: theme.other.secondaryDarkColor },
+    };
+    const { bg } = statusColors[status as keyof typeof statusColors] || {
+      bg: theme.other.bg,
+    };
+
+    const label =
+      th4 === "true" ? "Active" : th4 === "false" ? "Inactive" : th4;
+    return th4 === "true" || th4 === "false" ? (
+      <Badge
+        bg={bg}
+        c={theme.other?.onSurfacePrimary}
+        fz="11px"
+        p="4px 10px"
+        radius="20px"
+        w={75}
+      >
+        {label}
+      </Badge>
+    ) : (
+      <Text fz="11px" p="0" c={theme.other.onSurfacePrimary}>
+        {label}
+      </Text>
+    );
+>>>>>>> 14739024d3f6e806caa53f8504780572f46c0332
   };
 
   const { bg } = statusColors[status as keyof typeof statusColors] || {
@@ -144,7 +177,7 @@ const getStatusBadge = (status: string) => {
   //   );
   // };
   return (
-    <Table.Tbody w="100%">
+    <Table.Tbody w="50px">
       {/* <Table.Tbody> */}
       <Table.Tr key={th0} bg={theme.other.bgSubtle} >
         {/* <Table.Td> 
