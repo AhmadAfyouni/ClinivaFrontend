@@ -12,10 +12,12 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       bg={theme.other.secondaryDarkColor}
       onClick={handleOnClick}
       variant="filled"
-      w="fit-content"
-      h="35px"
+      w="113px"
+      h="30px"
       mr="5px"
       color="teal"
+      py="6px"
+      px="10px "
       radius="xl"
       size="35px"
       p="0"
@@ -23,16 +25,17 @@ const AddButton = ({ text, handleOnClick }: Props) => {
       <Text
         fw="normal"
         fz="20px"
-        p="10px 12px"
-        c={theme.other?.onSurfacePrimary}
+        mr="5px"
+        color="white"
+        // c={theme.other?.onSurfacePrimary}
       >
         +
       </Text>
       <Text
         fw="normal"
         fz="11px"
-        p="0 12px"
-        c={theme.other?.onSurfacePrimary}
+        // c={theme.other?.onSurfacePrimary}
+        color="white"
         visibleFrom="xs"
       >
         {t(text)}

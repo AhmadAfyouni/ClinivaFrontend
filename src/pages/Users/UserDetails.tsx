@@ -93,46 +93,54 @@ if (!data) {
   const handleDeleteEvent = () => {
     deleteUser.mutate(userId!);
   };
-
   return (
     <ScrollArea h="100vh">
-      <Flex direction={isComputer ? "row" : "column"}>
-        <Flex w={isComputer ? "20%" : "100%"}>
-          <InfoCard
-            imgUrl=""
-            iconsMaxWidth="150px"
-            contactInfoIcons={icons}
-            isActive={data.isActive}
-            name={data.name}
-            id={data.publicId}
-            birthday={data?.employeeId?.dateOfBirth
-                ? formatDateToCustom(data?.employeeId?.dateOfBirth)
-                : ""
-              }
-            gender={data.employeeId?.gender || ""}
-            address={data.employeeId?.address || ""}
-            nationalId={data.employeeId?.identity || ""}
-          />
-        </Flex>
-        <Flex direction="column" w="100%">
+      <Flex direction={isComputer ? "column" : "column"}>
+                <Flex direction="column" w="100%" >
+                  
           <Flex
             mb={isComputer ? "100px" : 30}
             w="100%"
             direction="column"
             pl={isMobile ? "0px" : "50px"}
+            py={"20px"}
+            style={{borderRadius:"20px"}}
+            bg={theme.other.bgSubtle}
+            
           >
-            <Text fw={600} mb={20} fz={18} c={theme.other.onSurfacePrimary}>
-              Account Info
+            <Text fw={600} mb={20} fz={14} c={theme.other.onSurfacePrimary} style={{lineHeight:"125%"}}>
+              Account Information
             </Text>
+
+            <Flex justify={"space-between"} w={"90%"}>
+              <Flex direction="column">
             <GroupText
               direction="row"
               titlewidth={300}
               titles={[
-                "User Name",
-                "Account Creation ",
-                "Last Modied ",
-                "Last Login",
-                "Two-factor Authentication Enabled",
+                "User ID",
+                "Full Name",
+                "User Name ",
+
+              ]}
+              values={[
+                data.name,
+                formatDateToCustom(data.updatedAt),
+                data.lastLoginAt ? formatDateToCustom(data.lastLoginAt) : "",
+                "No Data",
+              ]}
+              
+            />
+
+              </Flex>
+            <GroupText
+              direction="row"
+              titlewidth={300}
+              titles={[
+                "Description",
+                "Account Creation Date ",
+                "Last Modified Date: ",
+
               ]}
               values={[
                 data.name,
@@ -141,6 +149,7 @@ if (!data) {
                 "No Data",
               ]}
             />
+            </Flex>
           </Flex>
           <Flex
             direction={isMobile ? "column" : "row"}
@@ -194,6 +203,24 @@ if (!data) {
             </Flex>
           </Flex>
         </Flex>
+        <Flex w={isComputer ? "20%" : "100%"}>
+          <InfoCard
+            imgUrl=""
+            iconsMaxWidth="150px"
+            contactInfoIcons={icons}
+            isActive={data.isActive}
+            name={data.name}
+            id={data.publicId}
+            birthday={data?.employeeId?.dateOfBirth
+                ? formatDateToCustom(data?.employeeId?.dateOfBirth)
+                : ""
+              }
+            gender={data.employeeId?.gender || ""}
+            address={data.employeeId?.address || ""}
+            nationalId={data.employeeId?.identity || ""}
+          />
+        </Flex>
+
       </Flex>
       <Button
         variant="filled"

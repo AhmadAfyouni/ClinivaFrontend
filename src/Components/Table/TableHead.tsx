@@ -32,7 +32,8 @@ Props<T>) => {
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
-    fontWeight: "bold",
+    textAlign: "center",
+    fontWeight: "500",
     fontSize: "12px",
     color: theme.other.onSurfacePrimary,
   };
@@ -48,48 +49,47 @@ Props<T>) => {
       }}
     >
       <Table.Tr>
-        <Table.Th p={0} colSpan={6} w="100%" h={14}>
-          <Flex w="100%" justify="space-between" p="15px 20px">
-            <Box w="70px">
+        <Table.Th p={10} colSpan={6} bg={theme.other.bgSubtle} style={{borderTop: "1px" ,borderTopLeftRadius: "16px", borderTopRightRadius: "16px"}} >
+          <Flex w="100%" justify="space-between" p="15px 20px" >
+            <Box w="50px">
               <Box style={styles}>
                 {t(labels[0])}
               </Box>
             </Box>
-            <Box w="160px">
+            <Box w="100px">
               <Box style={styles}>
                 {t(labels[1])}
               </Box>
             </Box>
             <Flex w={{ base: "90px", md: "148px" }}>
-              <Box w="148px">
+              <Box w="100px">
                 <Box style={styles} 
                 // onClick={() =>
                 //    handleSort(sortedBy[2])
                 //    }
                    >
                   {t(labels[2])}
-                  {sortBy === sortedBy[2] && (order === "asc" ? "▲" : "▼")}
                 </Box>
               </Box>
             </Flex>
-            <Box w="110px" onClick={() => handleSort(sortedBy[3])}>
+            <Box w="120px" onClick={() => handleSort(sortedBy[3])}>
 
               <Box style={styles}>
                 {t(labels[3])}
-                {sortBy === sortedBy[3] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
-
-            <Box w="106px" 
+            <Box w="130px" 
             // onClick={() => handleSort(sortedBy[4])}
               >
               <Box style={styles}>
                 {t(labels[4])}
-                {sortBy === sortedBy[4] && (order === "asc" ? "▲" : "▼")}
               </Box>
             </Box>
             <Box w="110px">
               <Box style={styles}>{t(labels[5])}</Box>
+            </Box>
+            <Box w="100px">
+              <Box style={styles}>{t(labels[6])}</Box>
             </Box>
           </Flex>
         </Table.Th>

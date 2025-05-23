@@ -12,12 +12,15 @@ import {
 import { Edit2Icon, CircleAlert } from "lucide-react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
+import EditeIcon from "../../assets/icons/Button.svg";
+import DeleteIcon from "../../assets/icons/ButtonDelete.svg";
 interface Props {
   th0: string;
   th1: string;
   th2: { value: string; width?: string };
   th3: { value: string; width?: string };
+  th5?:string,
   th4: string;
   onEditClick?: () => void;
   onDeleteClick: () => void;
@@ -26,7 +29,7 @@ interface Props {
   selection?: string[];
   onClick: () => void;
   setSelection?: (updater: (current: string[]) => string[]) => void;
-  th5?:string,
+  th6?: string;
   edit?:boolean
 }
 const TableBody = ({
@@ -40,6 +43,7 @@ const TableBody = ({
   imgUrl = "",
   onClick,
   th5,
+  th6,
   edit=true
 }: Props) => {
   const theme = useMantineTheme();
@@ -51,37 +55,41 @@ const TableBody = ({
   const userId = localStorage.getItem("userId")
   console.log(th5);
   
-  const getStatusBadge = (status: string) => {
-    const statusColors = {
-      true: { bg: theme.other?.secondaryDarkColor },
-      false: { bg: theme.primaryColor },
-      cancelled: { bg: theme.colors.myPrimary[6] },
-      scheduled: { bg: theme.colors.myPrimary[2] },
-      completed: { bg: theme.other.secondaryDarkColor },
-    };
-    const { bg } = statusColors[status as keyof typeof statusColors] || {
-      bg: theme.other.bg,
-    };
-
-    const label =
-      th4 === "true" ? "Active" : th4 === "false" ? "Inactive" : th4;
-    return th4 === "true" || th4 === "false" ? (
-      <Badge
-        bg={bg}
-        c={theme.other?.onSurfacePrimary}
-        fz="11px"
-        p="4px 10px"
-        radius="20px"
-        w={75}
-      >
-        {label}
-      </Badge>
-    ) : (
-      <Text fz="11px" p="0" c={theme.other.onSurfacePrimary}>
-        {label}
-      </Text>
-    );
+const getStatusBadge = (status: string) => {
+  const statusColors = {
+    true: { bg: theme.other?.mainColorButtonActive },
+    false: { bg: theme.other?.mainColorButtonInActive }, 
+    cancelled: { bg: theme.colors.myPrimary[6] },
+    scheduled: { bg: theme.colors.myPrimary[2] },
+    completed: { bg: theme.other.secondaryDarkColor },
   };
+
+  const { bg } = statusColors[status as keyof typeof statusColors] || {
+    bg: theme.other.bg,
+  };
+
+  const label =
+    th4 === "true" ? "Active" : th4 === "false" ? "Inactive" : th4;
+
+  return th4 === "true" || th4 === "false" ? (
+    <Badge
+      bg={bg}
+      c={theme.other?.onSurfacePrimary}
+      fz="10px"
+      p="15px 5px"
+      radius="20px"
+      w="70px"
+      h="20px"
+    >
+      {label}
+    </Badge>
+  ) : (
+    <Text fz="11px" p="0" c={theme.other.onSurfacePrimary}>
+      {label}
+    </Text>
+  );
+};
+
 
   // const getAvatarCircle = () => (
   //   <Box
@@ -138,7 +146,7 @@ const TableBody = ({
   return (
     <Table.Tbody w="100%">
       {/* <Table.Tbody> */}
-      <Table.Tr key={th0} bd={theme.other.bgSubtle}>
+      <Table.Tr key={th0} bg={theme.other.bgSubtle} >
         {/* <Table.Td> 
           <CheckBox selection={selection} setToggle={toggleRow} id={th0} />
         </Table.Td> */}
@@ -182,18 +190,18 @@ const TableBody = ({
             )} */}
             <Flex
               fz="11px"
-              w="70px"
+              w="50px"
               c={theme.other.onSurfacePrimary}
               ta="start"
               align="center"
             >
 
-              <Text pr="xs" fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+              <Text pr="xs" fz="11px" p="10" c={theme.other.onSurfacePrimary} truncate>
                 {th0}
               </Text>
                 {imgUrl !== "" && getImageCircle()}
             </Flex>
-            <Flex fz="11px" w="160px" c={theme.other.onSurfacePrimary}>
+            <Flex fz="11px" w="80px" c={theme.other.onSurfacePrimary}>
               <Flex
                 align="center"
                 ta="start"
@@ -214,6 +222,7 @@ const TableBody = ({
               }}
               fz="11px"
               align="center"
+              p={10}
               c={theme.other.onSurfacePrimary}
               style={{
                 color: "#6b7280",
@@ -236,6 +245,19 @@ const TableBody = ({
                 </Text>
               </Tooltip>
             </Flex>
+              <Flex
+                w="110px"
+                fz="11px"
+                ta="start"
+                align="center"
+                c={theme.other.onSurfacePrimary}
+              >
+                <Tooltip label={th5}>
+                  <Text fz="11px" p="0" c={theme.other.onSurfacePrimary} truncate>
+                    {th5}
+                  </Text>
+                </Tooltip>
+              </Flex>
 
             <Flex
               w="106px"
@@ -264,6 +286,7 @@ const TableBody = ({
               fz="11px"
               ta="center"
               align="center"
+              style={{textAlign: "center"}}
               c={theme.other.onSurfacePrimary}
             >
              {edit && <UnstyledButton
@@ -274,36 +297,39 @@ const TableBody = ({
                   console.log("hello");
                 }}
                 p="5px"
-                mr={10}
+                mr={0}
               >
-                 <Edit2Icon size="20px" color={theme.other.onSurfaceSecondary} />
               </UnstyledButton>}
+              <img src={EditeIcon} alt="icon-edit" color={theme.other.onSurfaceSecondary} />
               <UnstyledButton
-                
                 p="5px"
               >
               {
-              th5 === userId
+              th6 === userId
               ? <Tooltip
                 label={"This is your account"}
                 withArrow
                 position="top-end"
                 transitionProps={{ transition: "pop-bottom-right" }}
               >
-                <CircleAlert size="20px" color={theme.other.onSurfaceSecondary} />
+                <CircleAlert size="20px" style={{marginLeft: "10px"}} color={theme.other.onSurfaceSecondary} />
+                
               </Tooltip>:
-              <RiDeleteBinLine
+              
+              <img src={DeleteIcon} alt="icon-delete"
                   onClick={(e) => {
                       e.stopPropagation(); // Prevent click from bubbling to Table.Td
                       // handle edit delete here
                       console.log("hello"); 
                       onDeleteClick();
                     }}
-                  size="20px"
                   color={theme.other.onSurfaceSecondary}
-                />}  
+                />
+              }  
               </UnstyledButton>
+
             </Flex>
+
           </Flex>
         </Table.Td>
       </Table.Tr>

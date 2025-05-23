@@ -34,3 +34,35 @@ function InputBaseCustom({ base }: Props) {
 }
 
 export default InputBaseCustom;
+
+
+
+// import { Flex, Text, TextInput } from "@mantine/core";
+// import InputPropsType from "../../types/InputsType";
+
+// interface Props {
+//   base: InputPropsType;
+// }
+
+// function InputTooltipBase({ base }: Props) {
+//   return (
+//     <Flex align="center" gap="md" w="100%">
+//       {/* Label بجانب الانبوت */}
+//       <Text w={"50%"} fw={500}>
+//         {base.label}
+//       </Text>
+//       <TextInput
+//         type={base.type}
+//         placeholder={base.placeholder}
+//         value={base.value}
+//         onChange={base.onChange}
+//         onBlur={base.onBlur}
+//         error={base.error}
+//         w="100%"
+//         height={"40px"}
+//       />
+//     </Flex>
+//   );
+// }
+
+// export default InputTooltipBase;

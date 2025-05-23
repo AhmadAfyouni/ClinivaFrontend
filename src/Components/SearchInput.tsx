@@ -21,7 +21,8 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
 
   return (
     <TextInput
-      w="180px"
+      w="224px"
+      h="30px"
       fz="10px"
       placeholder={t(text)}
       mb="md"
@@ -30,7 +31,7 @@ export const SearchInput = ({ searchValue, setSearchValue, text }: Props) => {
       onChange={handleSearchChange}
       mr="10px"
       ref={inputRef}
-      radius="md"
+      radius="16px"
     />
   );
 };
