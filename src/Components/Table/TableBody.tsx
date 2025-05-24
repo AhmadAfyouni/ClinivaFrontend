@@ -9,10 +9,9 @@ import {
   Skeleton,
   UnstyledButton,
 } from "@mantine/core";
-import { Edit2Icon, CircleAlert } from "lucide-react";
+import {  CircleAlert } from "lucide-react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
-import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
 import EditeIcon from "../../assets/icons/Button.svg";
 import DeleteIcon from "../../assets/icons/ButtonDelete.svg";
 interface Props {
