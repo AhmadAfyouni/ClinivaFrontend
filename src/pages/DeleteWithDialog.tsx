@@ -55,7 +55,6 @@ const DeleteConfirmationDialog = ({
             Cancel
           </Button>
           <Button color="red" onClick={() =>{
-             console.log("dellllllllllleetion");
              onConfirm(itemId)
           }}>
             Delete

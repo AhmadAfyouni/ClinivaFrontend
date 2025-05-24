@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 import AddPation from "../pages/Patient/AddPation";
 import Dashboard from "../pages/Dashboard";
 import AddDoctor from "../pages/Doctor/AddDpctor";
-import { Login } from "../pages/auth/Login/Login";
+// import { Login } from "../pages/auth/Login/Login";
 import Appointments from "../pages/appointment/AddAppointments";
 // import AddEmployee from "../pages/Employee/AddEmployee";
 import PatientsPage from "../pages/Patient/PatientsPage";
@@ -20,7 +20,7 @@ import ClinicsPage from "../pages/Clinic/ClinicsPage";
 import ClinicDetails from "../pages/Clinic/ClinicDetails";
 import SpecialitiesPage from "../pages/Specialities/SpecialitiesPage";
 import AppointmentsPage from "../pages/appointment/AppiontmentsPage";
-import SelectPlan from "../pages/auth/Register/SelectPlan";
+// import SelectPlan from "../pages/auth/Register/SelectPlan";
 import Register from "../pages/auth/Register/Register";
 import AddClinic from "../pages/Clinic/AddClinic";
 import AddService from "../pages/Service/AddService";
@@ -38,6 +38,9 @@ import EditCompany from "../pages/Company/EditCompany";
 import EditEmployee from "../pages/Employee/EditEmployee";
 import { ProtectedRoute } from "../Components/permission/protectRoute";
 import AddStuff from "../pages/Staff/AddStuff";
+import SelectPlanTest from "../pages/auth/Register/SelectPlanTest";
+// import { Login } from "../pages/auth/Login/Login";
+import { Login } from "../pages/auth/Login/Login";
 
 // Define route types for better type safety
 export type AppRoute = RouteObject & {
@@ -53,6 +56,7 @@ export const routes: AppRoute[] = [
   },
   {
     path: "/login",
+    // element: <Login />,
     element: <Login />,
   },
   {
@@ -61,7 +65,8 @@ export const routes: AppRoute[] = [
   },
   {
     path: "/SelectPlan",
-    element: <SelectPlan />,
+    // element: <SelectPlan />,
+    element: <SelectPlanTest />,
   },
   {
     path: "/patients",
@@ -276,7 +281,6 @@ export const routes: AppRoute[] = [
       },
     ],
   },
-
   {
     path: "*",
     element: <Dashboard />,

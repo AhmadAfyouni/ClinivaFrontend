@@ -1,10 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Flex,
-  Paper,
-  Title,
-} from "@mantine/core";
+import { Button, Checkbox, Flex, Title, Box } from "@mantine/core";
 import classes from "./AuthenticationImage.module.css";
 import InputPropsType from "../../../types/InputsType";
 import { LoginType } from "../../../types/Login/LoginType";
@@ -12,17 +6,17 @@ import { useFormik } from "formik";
 import { LoginSchema } from "../../../schema/LoginSchema";
 import InputBaseCustom from "../../../Components/Inputs/InputBase";
 import useLogin from "../../../hooks/auth/login";
-import { IconArrowRight } from "@tabler/icons-react";
-import { useNavigate } from "react-router";
+import MainShape from "../../../assets/icons/mainShap.svg";
+import loginIcon1 from "../../../assets/icons/loginIcon1.svg";
+import loginIcon2 from "../../../assets/icons/loginIcon2.svg";
+import loginIcon3 from "../../../assets/icons/loginIcon3.svg";
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { IconLock, IconUser } from "@tabler/icons-react";
 
 export function Login() {
-  const navigate = useNavigate();
   const [saveToken, setSaveToken] = useState(false);
-  const [emailSuggestions, setEmailSuggestions] = useState<string[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const loginMutation = useLogin(saveToken, false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,59 +29,57 @@ export function Login() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
-      loginMutation.mutate(values, {
-        onSuccess: () => {
-          const storedEmails = JSON.parse(localStorage.getItem("usedEmails") || "[]");
-          if (!storedEmails.includes(values.email)) {
-            storedEmails.push(values.email);
-            localStorage.setItem("usedEmails", JSON.stringify(storedEmails));
-          }
-        },
-      });
+      loginMutation.mutate(values);
     },
   });
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formik.handleChange(e);
-    const typedEmail = e.target.value;
-    const storedEmails: string[] = JSON.parse(localStorage.getItem("usedEmails") || "[]");
-    const filtered = storedEmails.filter((email) =>
-      email.toLowerCase().startsWith(typedEmail.toLowerCase())
-    );
-    setEmailSuggestions(filtered);
-    setShowSuggestions(true);
-  };
-
-  const handleEmailSelect = (email: string) => {
-    formik.setFieldValue("email", email);
-    setShowSuggestions(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // const formFields: InputPropsType[] = [
+  //   {
+  //     id: "email",
+  //     label: "Email",
+  //     mandatory: true,
+  //     type: "text",
+  //     description: "",
+  //     error: formik.errors.email,
+  //     placeholder: "your@email.com",
+  //     tooltip: "Enter your email",
+  //     value: formik.values.email,
+  //     //@ts-expect-error-type
+  //     onChange: handleEmailChange,
+  //     onBlur: formik.handleBlur,
+  //     autoComplete: "off",
+  //   },
+  //   {
+  //     id: "password",
+  //     label: "Password",
+  //     mandatory: true,
+  //     type: "password",
+  //     description: "",
+  //     error: formik.errors.password,
+  //     placeholder: "Your password",
+  //     tooltip: "Enter your password",
+  //     value: formik.values.password,
+  //     onChange: formik.handleChange,
+  //     onBlur: formik.handleBlur,
+  //     autoComplete: "current-password",
+  //   },
+  // ];
 
   const formFields: InputPropsType[] = [
     {
       id: "email",
-      label: "Email",
+      label: "Username",
       mandatory: true,
       type: "text",
       description: "",
       error: formik.errors.email,
-      placeholder: "your@email.com",
-      tooltip: "Enter your email",
+      placeholder: "Enter username",
+      tooltip: "Enter your username",
       value: formik.values.email,
-      //@ts-expect-error-type
-      onChange: handleEmailChange,
+      onChange: formik.handleChange,
       onBlur: formik.handleBlur,
       autoComplete: "off",
+      leftIcon: <IconUser size={18} />,
     },
     {
       id: "password",
@@ -101,7 +93,8 @@ export function Login() {
       value: formik.values.password,
       onChange: formik.handleChange,
       onBlur: formik.handleBlur,
-      autoComplete:"current-password"
+      autoComplete: "current-password",
+      leftIcon: <IconLock size={18} />,
     },
   ];
 
@@ -127,93 +120,98 @@ export function Login() {
   }, [loginMutation.isError, loginMutation.error]);
 
   return (
-    <form
-      onSubmit={(e) => {
-        formik.handleSubmit(e);
-      }}
-      className={classes.wrapper}
-    >
-      <Paper className={classes.form} radius={0} p={30} h={"100%"}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-          Welcome back to Cliniva !
-        </Title>
+    <div className={classes.wrapper}>
+      <Box w={"50%"} className={`${classes.centering} ${classes.leftLogin}`}>
+        <img
+          style={{ position: "absolute", top: "0", right: "0" }}
+          src={loginIcon1}
+          alt="Cliniva Logo"
+          width={96}
+        />
+        <img
+          style={{ position: "absolute", bottom: "0", right: "0" }}
+          src={loginIcon2}
+          alt="Cliniva Logo"
+          width={96}
+        />
+        <img
+          style={{ position: "absolute", bottom: "0", left: "0" }}
+          src={loginIcon3}
+          alt="Cliniva Logo"
+          width={96}
+        />
+        <Flex gap={32} className={classes.leftLoginBox}>
+          <Flex direction={"column"} align={"center"}>
+            {/* <Avatar w={96} src={MainShape} /> */}
+            <img src={MainShape} alt="Cliniva Logo" width={96} />
 
-        {/* Email input with dropdown */}
-        <div style={{ position: "relative" }} ref={inputRef}>
-          <InputBaseCustom base={formFields[0]} />
-          {showSuggestions && emailSuggestions.length > 0 && (
-            <div
-              style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                right: 0,
-                background: "white",
-                border: "1px solid #ccc",
-                borderRadius: 4,
-                zIndex: 10,
-                maxHeight: "150px",
-                overflowY: "auto",
+            <p className={classes.clinivaTitle}>Cliniva SYS</p>
+          </Flex>
+          <p
+            style={{ color: "#fff", textAlign: "center" }}
+            className={classes.welcomingTitle}
+          >
+            Welcome to Cliniva System <br /> The future of medical center <br />
+            management starts here..
+          </p>
+        </Flex>
+      </Box>
+      <Box w={"50%"} className={classes.columnCentering}>
+        <Flex style={{ gap: "32px", flexDirection: "column" }}>
+          <Title order={2} className={classes.title}>
+            Log in to Cliniva SYS
+          </Title>
+          <Flex
+            style={{ flexDirection: "column", gap: "24px", width: "422px" }}
+          >
+            <div style={{ position: "relative" }} ref={inputRef}>
+              <InputBaseCustom base={formFields[0]} notRight={false} />
+            </div>
+
+            <InputBaseCustom base={formFields[1]} notRight={false} />
+            <Checkbox
+              checked={saveToken}
+              onChange={handleSetSaveToken}
+              label="Remember Me"
+              size="md"
+              styles={{
+                input: {
+                  borderColor: "#69A3E9",
+                  "&:checked": {
+                    backgroundColor: "#69A3E9",
+                    borderColor: "#69A3E9",
+                  },
+                },
+                icon: {
+                  color: "white",
+                },
+                label: {
+                  color: "#69A3E9",
+                },
+              }}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              size="md"
+              bg="#00B48D"
+              c="white"
+              onClick={() => {
+                formik.handleSubmit();
+              }}
+              styles={{
+                root: {
+                  "&:hover": {
+                    backgroundColor: "#7BC8A3",
+                  },
+                },
               }}
             >
-              {emailSuggestions.map((email, index) => (
-                <div
-                  key={index}
-                  style={{
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    borderBottom: "1px solid #eee",
-                  }}
-                  onClick={() => handleEmailSelect(email)}
-                >
-                  {email}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <br />
-        <InputBaseCustom base={formFields[1]} />
-        <Checkbox
-          checked={saveToken}
-          onChange={handleSetSaveToken}
-          label="Remember Me"
-          mt="xl"
-          size="md"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          mt="xl"
-          size="md"
-          bg="#9BDABB"
-          c="white"
-          styles={{
-            root: {
-              "&:hover": {
-                backgroundColor: "#7BC8A3",
-              },
-            },
-          }}
-        >
-          Login
-        </Button>
-        <Flex justify={"center"} w="100%" h={"100%"} mt={"xl"}>
-          <Button
-            variant="filled"
-            h={"3rem"}
-            size="1.5rem"
-            style={{ borderRadius: "0 1rem 0 1rem" }}
-            rightSection={<IconArrowRight size={"40"} />}
-            onClick={() => {
-              navigate("/SelectPlan");
-            }}
-          >
-            Get Started
-          </Button>
+              Login
+            </Button>
+          </Flex>
         </Flex>
-      </Paper>
-    </form>
+      </Box>
+    </div>
   );
 }
