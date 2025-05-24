@@ -15,9 +15,6 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 import { useHasPermission } from "../../hooks/permission/useHasPermission";
 import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import DeleteConfirmationDialog from "../DeleteWithDialog";
-import CustomList from "../../Components/CustomList/CustomList";
-import CustomListType from "../../types/CustomList/CustomListType";
-
 const UsersPage = () => {
   const canCreateUser = useHasPermission(["admin", "user_create"]);
   console.log("canCreateUser " + canCreateUser);
@@ -27,14 +24,15 @@ const UsersPage = () => {
   const { setSelectedOption } = useDropDownStore();
   const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { data, isFetched, refetch } = useUsersList(false, sortBy, order);
-
+  const { data, isFetched,refetch } = useUsersList(false, sortBy, order);
+ 
+  
   const navigate = useNavigate();
   const deleteUser = useDeleteById({
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
-    reFetch: refetch,
+    reFetch:refetch,
   });
   useEffect(() => {
     return () => {
@@ -53,7 +51,7 @@ const UsersPage = () => {
       ? { label: "ACTIVE", value: true }
       : { label: "INACTIVE", value: false }
   );
-  const roleOption = ["Admin"];
+  const roleOption = ["Admin"]
   const handlStatusChange = (e: string | null) => {
     setSelectedOption("useStatus", e);
     const value = statusOptions.find((item) => item.label === e)?.value ?? null;
@@ -74,7 +72,7 @@ const UsersPage = () => {
 
   const handlRoleChange = (e: string | null) => {
     setSelectedOption("useRole", e);
-    pagination.setRole(e);
+      pagination.setRole(e);
   };
 
   const toggleAll = () => {
@@ -96,6 +94,8 @@ const UsersPage = () => {
       },
     });
   };
+  console.log(data);
+  
   const rows = data.map((item, index) => (
     <TableBody
       onClick={() => navigate(`/users/details/${item._id}`)}
@@ -107,7 +107,8 @@ const UsersPage = () => {
       th2={{ value: item.name }}
       th3={{ value: item.roleIds.map((item) => item.name).toString() }}
       th4={item.isActive.toString()}
-      th5={item._id}
+      th5={item.employeeId?.employeeType}
+      th6={item._id}
       onDeleteClick={() => {
         setSelectedId(item._id);
         openDialog();
@@ -118,45 +119,6 @@ const UsersPage = () => {
     />
   ));
 
-  const Props: CustomListType = {
-    TableFields: [
-      { Thead: "No.", Tbody: ["th0"], Color: "", width: "5%" },
-      { Thead: "UserID", Tbody: ["th1"], Color: "", width: "15%" },
-      { Thead: "UserName", Tbody: ["th2", "th3"], Color: "", width: "5%" },
-      { Thead: "Role", Tbody: ["th3", "th4", "th4"], Color: "", width: "15%" },
-      { Thead: "Status", Tbody: ["th4"], Color: "", width: "25%" },
-      { Thead: "Actions", Tbody: ["th5"], Color: "", width: "15%" },
-    ],
-    TableName: "Users",
-    FiltersTable: [
-      {
-        title: "Status",
-        values: statusOptions.map((item) => item.label),
-        key: "useStatus",
-        setFilterValue: handlStatusChange,
-      },
-      {
-        title: "Role",
-        values: roleOption,
-        key: "useRole",
-        setFilterValue: handlRoleChange,
-      },
-    ],
-    UrlAdd: "/users/add",
-    TitleAdd: "Add User",
-    UrlEdit: "/users/edit",
-    isFetching: !isFetched,
-    isEmpty: !data,
-    HasPermissionToAdd: canCreateUser,
-    HasPermissionToEdit: true,
-    HasPermissionToDelete: true,
-    hasPagination: true,
-    pagination: pagination,
-    handleDelete: handleDeleteItem,
-    handelSearch: handleSearchChange,
-    UrlDetails: "",
-  };
-  return <CustomList {...Props} />;
   if (!isFetched || !data)
     return (
       <Center>
@@ -166,10 +128,10 @@ const UsersPage = () => {
   else
     return (
       <Flex direction="column">
-        <Flex w="97%" justify="space-between">
+        <Flex w="99%" justify="space-between">
           <Flex>
             <SearchInput
-              text="Search"
+              text="Search for a user"
               searchValue={pagination.paramKey}
               setSearchValue={handleSearchChange}
             />
@@ -177,37 +139,38 @@ const UsersPage = () => {
               IsDropDown1={true}
               // IsDateInput={true}
               IsDropDown3={true}
-              dropdownName1="useStatus"
-              dropdownName3="useRole"
-              OptionsDropDown1={statusOptions.map((item) => item.label)}
-              OptionsDropDown3={roleOption}
-              handlDropDownChange1={handlStatusChange}
-              handlDropDownChange3={handlRoleChange}
-              placeHolderDropDown1="Status"
-              placeHolderDropDown3="Role"
-              // vlaueDateInput={
-              //   pagination.date ? new Date(pagination.date) : null
-              // }
+              dropdownName1="useRole"
+              dropdownName3="useStatus"
+              OptionsDropDown1={roleOption}
+              OptionsDropDown3={statusOptions.map((item) => item.label)}
+              handlDropDownChange1={handlRoleChange}
+              handlDropDownChange3={handlStatusChange}
+              placeHolderDropDown1="Role"
+              placeHolderDropDown3="Status"
+              vlaueDateInput={
+                pagination.date ? new Date(pagination.date) : null
+              }
               handleDateChange={handleDateChange}
             />
           </Flex>
           {canCreateUser && (
-            <Flex justify="end">
+            <Flex>
               <AddButton
-                text="Add User"
+                text="Add New User"
                 handleOnClick={() => navigate(`/users/add`)}
               />
             </Flex>
           )}
         </Flex>
-        <Box style={{ height: "80vh", overflow: "auto" }} w="100%">
-          <Table>
+        <Box style={{ height: "100vh", overflow: "auto", marginTop: "10px", marginBottom: "10px",}} w="99%" >
+          <Table bg="#fff"  style={{borderRadius: "16px", marginBottom: "20px", textAlign: "center"}}>
             <TableHead
               labels={[
                 "No.",
-                "UserID",
-                "UserName",
-                "Role",
+                "User ID",
+                "User Name",
+                "Roles",
+                "User Type",
                 "Status",
                 "Actions",
                 "user",
@@ -234,7 +197,7 @@ const UsersPage = () => {
           onClose={() => {
             setSelectedId(null);
             closeDialog();
-          }}
+          }}   
           onConfirm={(id) => handleDeleteItem(id!)}
           itemId={selectedId!}
         />
