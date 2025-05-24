@@ -49,7 +49,7 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     } else {
       localStorage.removeItem("loginToRegister");
       // navigate(`/dashboard`);
-      navigate(`/users`);
+      navigate(`/`);
     }
 
     const permissions = res.data.data.user.permissions;
