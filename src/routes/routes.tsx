@@ -38,7 +38,7 @@ import EditCompany from "../pages/Company/EditCompany";
 import EditEmployee from "../pages/Employee/EditEmployee";
 import { ProtectedRoute } from "../Components/permission/protectRoute";
 import AddStuff from "../pages/Staff/AddStuff";
-import SelectPlanTest from "../pages/auth/Register/SelectPlanTest";
+// import SelectPlanTest from "../pages/auth/Register/SelectPlanTest";
 // import { Login } from "../pages/auth/Login/Login";
 import { Login } from "../pages/auth/Login/Login";
 
@@ -63,11 +63,11 @@ export const routes: AppRoute[] = [
     path: "/register",
     element: <Register />,
   },
-  {
-    path: "/SelectPlan",
-    // element: <SelectPlan />,
-    element: <SelectPlanTest />,
-  },
+  // {
+  //   path: "/SelectPlan",
+  //   element: <SelectPlan />,
+  //   // element: <SelectPlanTest />,
+  // },
   {
     path: "/patients",
     element: <MainLayout />,

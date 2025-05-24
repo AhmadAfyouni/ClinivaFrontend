@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import useLoadingStore from "../store/useLoader";
-import {BACKEND_URL} from "../config.ts";
+import { BACKEND_URL } from "../config.ts";
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
@@ -102,18 +102,18 @@ axiosInstance.interceptors.response.use(
         case 401:
           try {
             console.log("from api core");
-            
+
             const newAccessToken = await refreshAccessToken();
             error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             console.log("from api core success");
             return axiosInstance(error.config);
           } catch (refreshError) {
-            console.log("from api core error", refreshError);     
-            forceNavigateToLogin(true)
+            console.log("from api core error", refreshError);
+            forceNavigateToLogin(true);
           }
           break;
-          case 403:
-          forceNavigateToLogin(false)
+        case 403:
+          forceNavigateToLogin(false);
           break;
         default:
           showToast(
@@ -141,19 +141,18 @@ const showToast = (message: string, variant: "success" | "error") => {
 };
 
 const forceNavigateToLogin = (shouldNavigate: boolean) => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    sessionStorage.removeItem("token")
-    sessionStorage.removeItem("refreshToken")
-    console.log("from api core error navigate");
-    showToast("Session Expired For your security and privacy, your session has ended. Please log in again to continue your work",
-              "error");
-              
-      if(shouldNavigate){
-        setTimeout(() => {
-          window.location.href = "/login"; 
-        }, 4000);
-      }
-}
+  localStorage.clear();
+  sessionStorage.clear();
+  showToast(
+    "Session Expired For your security and privacy, your session has ended. Please log in again to continue your work",
+    "error"
+  );
+
+  if (shouldNavigate) {
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 4000);
+  }
+};
 
 export default axiosInstance;

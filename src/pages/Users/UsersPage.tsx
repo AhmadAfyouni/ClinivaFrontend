@@ -15,6 +15,8 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 import { useHasPermission } from "../../hooks/permission/useHasPermission";
 import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import DeleteConfirmationDialog from "../DeleteWithDialog";
+import CustomList from "../../Components/CustomList/CustomList";
+import CustomListType from "../../types/CustomList/CustomListType";
 
 const UsersPage = () => {
   const canCreateUser = useHasPermission(["admin", "user_create"]);
@@ -25,15 +27,14 @@ const UsersPage = () => {
   const { setSelectedOption } = useDropDownStore();
   const { isOpen, openDialog, closeDialog } = useDeleteDialogStore();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { data, isFetched,refetch } = useUsersList(false, sortBy, order);
- 
-  
+  const { data, isFetched, refetch } = useUsersList(false, sortBy, order);
+
   const navigate = useNavigate();
   const deleteUser = useDeleteById({
     endpoint: "users",
     mutationKey: "delete-user",
     navigationUrl: "/users",
-    reFetch:refetch,
+    reFetch: refetch,
   });
   useEffect(() => {
     return () => {
@@ -52,7 +53,7 @@ const UsersPage = () => {
       ? { label: "ACTIVE", value: true }
       : { label: "INACTIVE", value: false }
   );
-  const roleOption = ["Admin"]
+  const roleOption = ["Admin"];
   const handlStatusChange = (e: string | null) => {
     setSelectedOption("useStatus", e);
     const value = statusOptions.find((item) => item.label === e)?.value ?? null;
@@ -73,7 +74,7 @@ const UsersPage = () => {
 
   const handlRoleChange = (e: string | null) => {
     setSelectedOption("useRole", e);
-      pagination.setRole(e);
+    pagination.setRole(e);
   };
 
   const toggleAll = () => {
@@ -117,6 +118,45 @@ const UsersPage = () => {
     />
   ));
 
+  const Props: CustomListType = {
+    TableFields: [
+      { Thead: "No.", Tbody: ["th0"], Color: "", width: "5%" },
+      { Thead: "UserID", Tbody: ["th1"], Color: "", width: "15%" },
+      { Thead: "UserName", Tbody: ["th2", "th3"], Color: "", width: "5%" },
+      { Thead: "Role", Tbody: ["th3", "th4", "th4"], Color: "", width: "15%" },
+      { Thead: "Status", Tbody: ["th4"], Color: "", width: "25%" },
+      { Thead: "Actions", Tbody: ["th5"], Color: "", width: "15%" },
+    ],
+    TableName: "Users",
+    FiltersTable: [
+      {
+        title: "Status",
+        values: statusOptions.map((item) => item.label),
+        key: "useStatus",
+        setFilterValue: handlStatusChange,
+      },
+      {
+        title: "Role",
+        values: roleOption,
+        key: "useRole",
+        setFilterValue: handlRoleChange,
+      },
+    ],
+    UrlAdd: "/users/add",
+    TitleAdd: "Add User",
+    UrlEdit: "/users/edit",
+    isFetching: !isFetched,
+    isEmpty: !data,
+    HasPermissionToAdd: canCreateUser,
+    HasPermissionToEdit: true,
+    HasPermissionToDelete: true,
+    hasPagination: true,
+    pagination: pagination,
+    handleDelete: handleDeleteItem,
+    handelSearch: handleSearchChange,
+    UrlDetails: "",
+  };
+  return <CustomList {...Props} />;
   if (!isFetched || !data)
     return (
       <Center>
@@ -145,9 +185,9 @@ const UsersPage = () => {
               handlDropDownChange3={handlRoleChange}
               placeHolderDropDown1="Status"
               placeHolderDropDown3="Role"
-              vlaueDateInput={
-                pagination.date ? new Date(pagination.date) : null
-              }
+              // vlaueDateInput={
+              //   pagination.date ? new Date(pagination.date) : null
+              // }
               handleDateChange={handleDateChange}
             />
           </Flex>

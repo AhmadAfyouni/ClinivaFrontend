@@ -1,35 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  ScrollArea,
-  Text,
-  Title,
-  useMantineTheme,
-} from "@mantine/core";
-import { IoIosArrowForward } from "react-icons/io";
-import { useNavigate } from "react-router";
+import { Box, Title, useMantineTheme } from "@mantine/core";
 // import useUpdateProfile from "../../../hooks/users/useUpdateProfile";
 
 function SelectPlanTest() {
-  const navigate = useNavigate();
   // const updateProfile = useUpdateProfile();
   const theme = useMantineTheme();
-  const handelSelectPlan = (selectedPLan: number) => {
-    localStorage.setItem("selectedPlan", selectedPLan.toString());
-    // updateProfile.mutate({
-    //   plan:
-    //     selectedPLan === 2
-    //       ? "company"
-    //       : selectedPLan === 3
-    //       ? "complex"
-    //       : selectedPLan === 4
-    //       ? "department"
-    //       : "clinic",
-    // });
-    navigate("/register");
-  };
+
   return (
     <Box bg={theme.other.bg} w="100%" h="100vh">
       <Box w="100%">
