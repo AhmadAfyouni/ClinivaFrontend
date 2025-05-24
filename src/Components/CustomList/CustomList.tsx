@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Image, TextInput } from "@mantine/core";
+import { Button, Flex, TextInput } from "@mantine/core";
 import CustomListType from "../../types/CustomList/CustomListType";
 import { Search } from "lucide-react";
 import FilterCustom from "./Filter";

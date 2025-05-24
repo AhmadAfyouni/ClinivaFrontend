@@ -5,13 +5,12 @@
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
   color: var(--mantine-color-text);
   font-size: var(--mantine-font-size-sm);
+  transition: background 0.2s, color 0.2s;
+}
 
+.hover {
   @mixin hover {
-    background-color: light-dark(
-      var(--mantine-color-gray-0),
-      var(--mantine-color-dark-7)
-    );
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+    background-color: light-dark(#83dfdf, #83dfdf);
   }
 }
 
@@ -21,19 +20,40 @@
   text-decoration: none;
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
   padding-left: var(--mantine-spacing-md);
-  margin-left: var(--mantine-spacing-xl);
+  /* margin-left: var(--mantine-spacing-xl); */
   font-size: var(--mantine-font-size-sm);
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
-  border-left: 1px solid
-    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  /* border-left: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
 
   @mixin hover {
     background-color: light-dark(
       var(--mantine-color-gray-0),
       var(--mantine-color-dark-7)
     );
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
   }
+}
+
+.ltrLink {
+  padding-left: 46px;
+  /* margin-left: var(--mantine-spacing-xl); */
+  /* border-left: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 125%;
+  letter-spacing: 0%;
+}
+
+.rtlLink {
+  padding-right: 46px;
+  /* margin-right: var(--mantine-spacing-xl); */
+  /* border-right: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 125%;
+  letter-spacing: 0%;
 }
 
 .chevron {
@@ -41,11 +61,28 @@
 }
 
 .active {
-  background-color: light-dark(
-    var(--mantine-color-gray-0),
-    var(--mantine-color-dark-7)
-  );
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  background-color: light-dark(#83dfdf, #83dfdf);
+  color: light-dark(#fffdfc, #fffdfc);
   font-weight: 600;
   border-radius: 8px;
+}
+
+.activeText {
+  color: light-dark(#fffdfc, #fffdfc);
+}
+
+.activeChildren {
+  color: light-dark(#83dfdf, #83dfdf);
+}
+
+.linkStyle {
+  padding-top: 12px;
+  padding-right: 8px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }

@@ -48,11 +48,13 @@ const createAppTheme = (
   primaryColor: "myPrimary",
   primaryShade: { light: 4, dark: 6 },
   other: {
-    secondaryDarkColor: "#9BDABB",
+    secondaryDarkColor: "#00B48D",
     secondaryLightColor: "#E2F6EC",
+    mainColorButtonActive: "#A5C8F2",
+    mainColorButtonInActive: "#FCB98A",
     secondaryColor: "#CDEDDD",
     surfaceDefault: colorScheme === "dark" ? "#1A1B1E" : "#FFFDFC",
-    bgSubtle: colorScheme === "dark" ? "#25262B" : "#FAFAF8",
+    bgSubtle: colorScheme === "dark" ? "#25262B" : "#FFFF",
     bg: colorScheme === "dark" ? "#2C2E33" : "#FAF6F5",
     borderDefault: colorScheme === "dark" ? "#373A40" : "#E4E2DD",
     onSurfaceTertiary: colorScheme === "dark" ? "#909296" : "#B8B1A9",
@@ -61,8 +63,6 @@ const createAppTheme = (
     PurpleHear: "#D9D9D9",
     calenderCard1: "#FFD9CF",
     calenderCard2: "#CDEDDD",
-    desActive:'#FCB98A',
-    Active:"#A5C8F2",
     calenderCardText1: "#1A1615",
     calenderCardText2: "#66615E",
   },
@@ -96,36 +96,43 @@ function AppContent() {
   // if (isLoginPage || isRegisterPage) {
   //   return element;
   // }
-  console.log("dir", i18n);
+  console.log("dir", i18n.languages);
   return (
     <>
       <LoaderCustom />
       {!nonAuth && <SideBar />}
-    <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
-      <Flex
-        w={"100%"}
-        direction={"column"}
-        justify={"start"}
-        align={"center"}
-        // style={{
-        //   marginLeft:
-        //     i18n.language === "en" && !isMobile && !nonAuth ? "15%" : 0,
-        //   marginRight:
-        //     i18n.language === "ar" && !isMobile && !nonAuth ? "15%" : 0,
-        // }}
-        style={{
-          ...(i18n.language === "ar"
-            ? { marginRight: !isMobile && !nonAuth ? "15%" : 0 }
-            : { marginLeft: !isMobile && !nonAuth ? "15%" : 0 }),
-        }}
-      >
-        <NavBar login={!nonAuth} />
-        <Card bg={theme.other?.bg} w={"100%"} h={"100%"} mr={"xl"} ml={"xl"}>
-          {element}
-        </Card>
+      <Flex h={"100%"} direction={"row"} justify={"flex-start"}>
+        <Flex
+          w={"100%"}
+          direction={"column"}
+          justify={"start"}
+          align={"center"}
+          // style={{
+          //   marginLeft:
+          //     i18n.language === "en" && !isMobile && !nonAuth ? "15%" : 0,
+          //   marginRight:
+          //     i18n.language === "ar" && !isMobile && !nonAuth ? "15%" : 0,
+          // }}
+          style={{
+            ...(i18n.language === "ar"
+              ? { marginRight: !isMobile && !nonAuth ? "15%" : 0 }
+              : { marginLeft: !isMobile && !nonAuth ? "15%" : 0 }),
+          }}
+        >
+          {!nonAuth && <NavBar login={!nonAuth} />}
+          <Card
+            bg={theme.other?.bg}
+            w={"100%"}
+            h={"100%"}
+            mr={"xl"}
+            ml={"xl"}
+            p={isLoginPage ? 0 : ""}
+          >
+            {element}
+          </Card>
+        </Flex>
+        {!nonAuth && i18n.language === "ar" && <SideBar />}
       </Flex>
-      {!nonAuth && i18n.language === "ar" && <SideBar />}
-    </Flex>
     </>
   );
 }

@@ -10,18 +10,25 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
   console.log("savetoken", saveToken);
 
   const login = async (data: LoginType): Promise<LoginResponse> => {
+    console.log(data);
+
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);
+
     // localStorage.setItem("token", res.data.data.accessToken);d
     if (saveToken) {
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
-      // localStorage.setItem("token", res.data.data.accessToken);
+      localStorage.setItem("token", res.data.data.accessToken);
     }
     sessionStorage.setItem("token", res.data.data.accessToken);
 
     const userName = res.data.data.user.name;
+    const roles = res.data.data.user.roles;
 
     if (userName) {
       localStorage.setItem("userName", userName);
+    }
+    if (roles) {
+      localStorage.setItem("role", roles[0]);
     }
     const email = res.data.data.user.email;
     if (email) {
@@ -42,7 +49,7 @@ const useLogin = (saveToken?: boolean, loginToRegister?: boolean) => {
     } else {
       localStorage.removeItem("loginToRegister");
       // navigate(`/dashboard`);
-      navigate(`/users`);
+      navigate(`/`);
     }
 
     const permissions = res.data.data.user.permissions;

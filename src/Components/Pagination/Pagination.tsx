@@ -8,7 +8,7 @@ import {
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
-
+import iconArrow from "../../assets/icons/CaretDown.svg";
 interface PaginationIconProps extends React.ComponentPropsWithoutRef<"svg"> {
   size?: number | string;
   width?: number | string;
@@ -43,16 +43,16 @@ function CustomPagination({ store: useStore }: Props) {
       {useStore.total_items !== 0 && (
         <Flex>
           <Text
-            style={{ alignContent: "center" }}
-            fz="13px"
+            style={{ alignContent: "center", fontWeight:"400", color:"#717680" }}
+            fz="11px"
             c={theme.other.onSurfaceTertiary}
             mr="6px"
           >
-            showing
+            Showing
           </Text>
           <Select
-            radius="xl"
-            w="55px"
+            radius="20px"
+            w="54px"
             h="30px"
             placeholder={useStore.items_per_page + "" || "Items per page"}
             data={["5", "10", "15", "20", "30"]}
@@ -63,6 +63,7 @@ function CustomPagination({ store: useStore }: Props) {
               useStore.setItems_per_page(Number(value));
               useStore.setReFetch(true);
             }}
+            rightSection={<img src={iconArrow} alt="icon" />}
             size="xs"
             styles={{
               input: {
@@ -76,8 +77,8 @@ function CustomPagination({ store: useStore }: Props) {
             }}
           />
           <Text
-            style={{ alignContent: "center" }}
-            fz="13px"
+            style={{ alignContent: "center", fontWeight: "400" }}
+            fz="11px"
             c={theme.other.onSurfaceTertiary}
             ml="6px"
           >

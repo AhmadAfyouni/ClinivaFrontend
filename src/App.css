@@ -4,3 +4,35 @@
   min-width: 100%;
   min-height: 100%;
 }
+
+.custom-tabs-list {
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+  border-radius: 14px;
+  border: 1px solid #D1D1D1;
+  padding: 10px;
+  transition: all;
+}
+
+.custom-tab {
+  padding: 5px 40px;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+   transition: all;
+  cursor: pointer;
+}
+
+.custom-tab[data-active] {
+  font-weight: 600;
+   transition: all;
+  background-color: #E2F6EC; /* يمكنك تعديل اللون أو إزالته حسب الرغبة */
+}
+
+.custom-tab-panel {
+  padding: 20px;
+   transition: all;
+  background-color: #f9f9f9;
+}

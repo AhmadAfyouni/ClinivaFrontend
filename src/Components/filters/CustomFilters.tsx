@@ -97,13 +97,13 @@ const CustomFilters = ({
         </Flex>
       )}
       {isMobile && (
-        <Popover width={150} position="bottom" withArrow shadow="md">
+        <Popover width={190} position="bottom" withArrow shadow="md">
           <Popover.Target>
             <Button bg={theme.other.secondaryDarkColor} radius="xl">
               <CiSliderHorizontal />
             </Button>
           </Popover.Target>
-          <Popover.Dropdown>
+          <Popover.Dropdown >
             {IsDropDown1 && (
               <Dropdown
                 dropDownName="dropdownName1"
