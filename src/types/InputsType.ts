@@ -20,6 +20,7 @@ export default interface InputPropsType {
   error?: string;
   description?: string;
   mandatory: boolean;
+  leftIcon?: React.ReactNode;
   onChange: (
     event:
       | string

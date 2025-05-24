@@ -15,6 +15,8 @@ import RTL from "../../Components/RTL";
 import SwitchDarkMode from "../../Components/Dark";
 import usePageTitleStore from "../../store/usePageTitleStore";
 import useDrawerStore from "../../store/useDrawerStore";
+import ConfirmDialog from "../../pages/ConfirmDialog";
+import { useConfirmDialogStore } from "../../store/useConfirmDialog";
 interface Props {
   login: boolean;
 }
@@ -24,16 +26,16 @@ function NavBar({ login }: Props) {
   const { opened, toggle } = useDrawerStore();
   const navigate = useNavigate();
   // const location = useLocation();
-  // const isLoginPage = location.pathname === "/register";
+  const isLoginPage = location.pathname === "/login";
 
   const handleLogout = () => {
     console.log("Logging out...");
-     const emailsUsed = localStorage.getItem("usedEmails");
+    const emailsUsed = localStorage.getItem("usedEmails");
     sessionStorage.clear();
     localStorage.clear();
     if (emailsUsed) {
-    localStorage.setItem("usedEmails", emailsUsed);
-  }
+      localStorage.setItem("usedEmails", emailsUsed);
+    }
     navigate("/login");
   };
   const handleLogin = () => {
@@ -44,7 +46,11 @@ function NavBar({ login }: Props) {
   //   console.log("Navigating to settings...");
   // };
   const userName = localStorage.getItem("userName");
+  const role = localStorage.getItem("role");
 
+  const { isConfirmOpen, openConfirmDialog, closeConfirmDialog } =
+    useConfirmDialogStore();
+  if (isLoginPage) return null;
   return (
     <Flex
       // bg={"blue"}
@@ -85,6 +91,17 @@ function NavBar({ login }: Props) {
                 <Avatar radius={"xl"} />
                 <Flex direction={"column"} align={"flex-start"}>
                   <Text fw={"500["}>{userName}</Text>
+                  <Text
+                    style={{
+                      fontWeight: 400,
+                      fontSize: 11,
+                      lineHeight: "124%",
+                      letterSpacing: 0,
+                      color: "#B8B1A9",
+                    }}
+                  >
+                    {role}
+                  </Text>
                   {/* <Text fw={"100"} size="0.8rem">
                     Dev
                   </Text> */}
@@ -101,7 +118,10 @@ function NavBar({ login }: Props) {
               <Menu.Divider />
               <Menu.Item
                 leftSection={<IconLogout size={14} />}
-                onClick={handleLogout}
+                // onClick={handleLogout}
+                onClick={() => {
+                  openConfirmDialog();
+                }}
                 color="red"
               >
                 Logout
@@ -128,12 +148,28 @@ function NavBar({ login }: Props) {
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item>Settings</Menu.Item>
             <Menu.Divider />
-            <Menu.Item color="red" onClick={handleLogout}>
+            <Menu.Item
+              color="red"
+              //  onClick={handleLogout}
+              onClick={() => {
+                openConfirmDialog();
+              }}
+            >
               Logout
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>
+      <ConfirmDialog
+        opened={isConfirmOpen}
+        onClose={() => {
+          // setSelectedId(null);
+          closeConfirmDialog();
+        }}
+        confirm="Logout"
+        areYouSure="Are you sure you want to log out?"
+        onConfirm={() => handleLogout()}
+      />
     </Flex>
   );
 }

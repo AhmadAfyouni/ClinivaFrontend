@@ -148,7 +148,7 @@ const DeleteConfirmationDialog = ({
       }}
     >
       <div
-        onClick={(e) => e.stopPropagation()} // منع الغلق عند الضغط داخل المودال
+        onClick={(e) => e.stopPropagation()} 
         style={{
           backgroundColor: "#fff",
           maxWidth: "400px",

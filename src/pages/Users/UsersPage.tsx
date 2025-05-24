@@ -15,7 +15,6 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 import { useHasPermission } from "../../hooks/permission/useHasPermission";
 import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import DeleteConfirmationDialog from "../DeleteWithDialog";
-import { IoIosArrowDown } from "react-icons/io";
 const UsersPage = () => {
   const canCreateUser = useHasPermission(["admin", "user_create"]);
   console.log("canCreateUser " + canCreateUser);

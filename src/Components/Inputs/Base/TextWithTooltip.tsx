@@ -3,8 +3,12 @@ import { ActionIcon, Center, Text, TextInput, Tooltip } from "@mantine/core";
 import InputPropsType from "../../../types/InputsType";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import classes from "../InputTooltipBase.module.css";
+
 interface Props {
   base: InputPropsType;
+  notRight?: boolean;
+  leftIcon?: React.ReactNode;
 }
 export default function InputTooltipBase(props: Props) {
   const { t } = useTranslation();
@@ -26,9 +30,9 @@ export default function InputTooltipBase(props: Props) {
       position="top-end"
       transitionProps={{ transition: "pop-bottom-right" }}
     >
-     <Text component="div" c="dimmed" style={{ cursor: "help" }}>
+      <Text component="div" c="dimmed" style={{ cursor: "help" }}>
         <Center>
-           {props.base.mandatory && <IconInfoCircle size={18} stroke={1.5} />}
+          {props.base.mandatory && <IconInfoCircle size={18} stroke={1.5} />}
         </Center>
       </Text>
     </Tooltip>
@@ -41,10 +45,16 @@ export default function InputTooltipBase(props: Props) {
       withAsterisk={props.base.mandatory}
       w={"100%"}
       rightSection={
-        props.base.type === "password" ? passwordRightSection : rightSection
+        props.notRight === false
+          ? null
+          : props.base.type === "password"
+          ? passwordRightSection
+          : rightSection
       }
       label={t(props.base.label)}
       placeholder={t(props.base.placeholder || "")}
+      leftSection={props.base.leftIcon}
+      leftSectionWidth={36}
       onChange={props.base.onChange}
       error={props.base.error}
       disabled={props.base.disabled}
@@ -52,6 +62,11 @@ export default function InputTooltipBase(props: Props) {
       value={props.base.value?.toString() || ""}
       autoComplete={props.base.autoComplete || "off"}
       name={props.base.name || ""}
+      classNames={{
+        input: classes.input,
+        label: classes.label,
+        error: classes.error,
+      }}
     />
   );
 }

@@ -1,0 +1,25 @@
+.input {
+  border: 1px solid #d5d7da;
+  border-radius: 4px;
+  height: 48px;
+  font-size: 14px;
+  padding-left: 30px;
+  padding-right: 40px;
+  background: none;
+}
+.input::placeholder {
+  color: #69a3e9;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 125%;
+  letter-spacing: 0%;
+  color: light-dark(#69a3e9, #69a3e9);
+}
+
+.error {
+  font-size: 12px;
+  margin-top: 4px;
+}

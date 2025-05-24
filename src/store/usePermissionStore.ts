@@ -24,6 +24,7 @@ export const usePermissionStore = create<PermissionStore>((set, get) => ({
 
   hasPermission: (required) => {
     const { permissions } = get();
+    
     if (Array.isArray(required)) {
       return required.some((perm) => permissions.includes(perm));
     }

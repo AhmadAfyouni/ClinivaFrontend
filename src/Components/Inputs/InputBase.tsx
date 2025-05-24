@@ -9,15 +9,16 @@ import SelectBaseCustom from "./Base/SelectBase";
 import MultiSelectBase from "./Base/MultiSelect";
 interface Props {
   base: InputPropsType;
+  notRight?: boolean;
 }
-function InputBaseCustom({ base }: Props) {
+function InputBaseCustom({ base, notRight }: Props) {
   if (
     base.type === "text" ||
     base.type === "number" ||
     base.type === "password" ||
     base.type === "email"
   )
-    return <InputTooltipBase base={base} key={base.id} />;
+    return <InputTooltipBase base={base} notRight={notRight} key={base.id} />;
   else if (base.type === "areaText")
     return <TextareaBase base={base} key={base.id} />;
   else if (base.type === "date") return <DateBase base={base} key={base.id} />;

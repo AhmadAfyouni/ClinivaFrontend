@@ -1,11 +1,4 @@
-import {
-  IconCalendarStats,
-  IconStethoscope,
-  IconUsersGroup,
-  IconUser,
-  IconReportMedical,
-  IconTreadmill
-} from "@tabler/icons-react";
+import { IconUsersGroup, IconUser } from "@tabler/icons-react";
 import { Group, ScrollArea, Text, Drawer } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { LinksGroup } from "./NavbarLinksGroup";
@@ -13,6 +6,8 @@ import { UserButton } from "./UserButton";
 import classes from "./NavbarNested.module.css";
 import useDrawerStore from "../../store/useDrawerStore";
 import { useTranslation } from "react-i18next";
+import { CalendarDays, School, SquareUserRound } from "lucide-react";
+import logo from "../../assets/SiteLogo.png";
 
 // import { Logo } from "./Logo";
 
@@ -20,87 +15,78 @@ export function SideBar() {
   const { t, i18n } = useTranslation();
   const mockdata = [
     // { label: t("Dashboard"), icon: IconGauge, link: "/" },
-    { 
-      label: t("Users"), 
-      icon: IconUser, 
-      link: "/", 
-      requiredPlan: 'company' 
+    {
+      label: t("Users"),
+      icon: IconUser,
+      link: "/",
+      requiredPlan: "company",
     },
-
     {
       label: t("Appointments"),
-      icon: IconCalendarStats,
+      icon: CalendarDays,
       link: "/appointments",
-      requiredPlan: 'company'
+      requiredPlan: "company",
     },
     {
-      label: t("Company"),
-      icon: IconCalendarStats,
+      label: t("Patients"),
+      icon: SquareUserRound,
+      link: "/patients",
+      requiredPlan: "company",
+    },
+    {
+      label: t("Medical Facilities"),
+      icon: School,
       links: [
         {
           label: t("companyInfo"),
           link: "/company",
-          requiredPlan: 'company'
+          requiredPlan: "company",
         },
         {
           label: t("MedicalComplexes"),
           link: "/medicalComplexes",
-          requiredPlan: 'complex'
+          requiredPlan: "complex",
         },
         {
           label: t("Departements"),
           link: "/departements",
-          requiredPlan: 'department'
+          requiredPlan: "department",
         },
         {
-          label: t("Specialities"),
-          link: "/specialities",
-          requiredPlan: 'department'
+          label: t("Services"),
+          link: "/services",
+          requiredPlan: "clinic",
         },
         {
           label: t("Clinics"),
           link: "/clinics",
-          requiredPlan: 'clinic'
+          requiredPlan: "clinic",
         },
       ],
-      requiredPlan: 'company' // Parent group requires company plan
-    },
-    { 
-      label: t("Staff"), 
-      icon: IconUsersGroup, 
-      link: "/employees",
-      requiredPlan: 'department'
-    },
-    { 
-      label: t("Doctors"), 
-      icon: IconStethoscope, 
-      link: "/doctors",
-      requiredPlan: 'department'
-    },
-    { 
-      label: t("Patients"), 
-      icon: IconTreadmill, 
-      link: "/patients",
-      requiredPlan: 'company'
+      requiredPlan: "company", // Parent group requires company plan
     },
     {
-      label: t("Services"),
-      icon: IconReportMedical,
-      link: "/services",
-      requiredPlan: 'clinic'
-    },
+      label: t("Doctors & Staff"),
+      icon: IconUsersGroup,
+      links: [
+        {
+          label: t("Staff"),
+          link: "/employees",
+          requiredPlan: "department",
+        },
+        {
+          label: t("Doctors"),
+          link: "/doctors",
+          requiredPlan: "department",
+        },
 
-    // { label: t("Contracts"), icon: IconFileAnalytics, link: "/contracts" },
-    // { label: t("Settings"), icon: IconAdjustments, link: "/settings" },
-    // {
-    //   label: t("Security"),
-    //   icon: IconLock,
-    //   links: [
-    //     { label: t("Enable 2FA"), link: "/security/2fa" },
-    //     { label: t("Change password"), link: "/security/password" },
-    //     { label: t("Recovery codes"), link: "/security/recovery" },
-    //   ],
-    // },
+        {
+          label: t("Specialities"),
+          link: "/specialities",
+          requiredPlan: "department",
+        },
+      ],
+    },
   ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { opened, close } = useDrawerStore();
@@ -117,11 +103,9 @@ export function SideBar() {
       }}
     >
       <div className={classes.header}>
-        <Group justify="space-between">
+        <Group justify="center" align="center">
           {/* <Logo style={{ width: 120 }} /> */}
-          <Text fs={"oblique"} size="1.5rem" fw={"bold"}>
-            Cliniva
-          </Text>
+          <img src={logo} alt="" style={{ width: "167px", height: "32px" }} />
           {/* <Code fw={700}>v3.1.2</Code> */}
         </Group>
       </div>
