@@ -15,13 +15,7 @@ import useDeleteById from "../../hooks/delete/useDeleteById";
 import { useHasPermission } from "../../hooks/permission/useHasPermission";
 import { useDeleteDialogStore } from "../../store/useDeleteDialogStore";
 import DeleteConfirmationDialog from "../DeleteWithDialog";
-<<<<<<< HEAD
 import { IoIosArrowDown } from "react-icons/io";
-=======
-import CustomList from "../../Components/CustomList/CustomList";
-import CustomListType from "../../types/CustomList/CustomListType";
-
->>>>>>> 14739024d3f6e806caa53f8504780572f46c0332
 const UsersPage = () => {
   const canCreateUser = useHasPermission(["admin", "user_create"]);
   console.log("canCreateUser " + canCreateUser);
@@ -126,7 +120,6 @@ const UsersPage = () => {
     />
   ));
 
-<<<<<<< HEAD
   if (!isFetched || !data)
     return (
       <Center>
@@ -211,120 +204,6 @@ const UsersPage = () => {
         />
       </Flex>
     );
-=======
-  const Props:CustomListType = {
-    TableFields: [
-      { Thead: "No.", Tbody: ["th0"], Color: "", width: "5%" },
-      { Thead: "UserID", Tbody: ["th1"], Color: "", width: "15%" },
-      { Thead: "UserName", Tbody: ["th2","th3"], Color: "", width: "5%" },
-      { Thead: "Role", Tbody: ["th3","th4","th4"], Color: "", width: "15%" },
-      { Thead: "Status", Tbody: ["th4"], Color: "", width: "25%" },
-      { Thead: "Actions", Tbody: ["th5"], Color: "", width: "15%" },
-    ],
-    TableName: "Users",
-    FiltersTable: [
-      { title: "Status", values: statusOptions.map((item) => item.label), key: "useStatus", setFilterValue: handlStatusChange },
-      { title: "Role", values: roleOption, key: "useRole", setFilterValue: handlRoleChange },
-    ],
-    UrlAdd: "/users/add",
-    TitleAdd: "Add User",
-    UrlEdit: "/users/edit",
-    isFetching: !isFetched,
-    isEmpty: !data,
-    HasPermissionToAdd: canCreateUser,
-    HasPermissionToEdit: true,
-    HasPermissionToDelete: true,
-    hasPagination: true,
-    pagination: pagination,
-    handleDelete: handleDeleteItem,
-    handelSearch: handleSearchChange,
-    UrlDetails: ""
-  };
-  return <CustomList {...Props} />;
-  // if (!isFetched || !data)
-  //   return (
-  //     <Center>
-  //       <Text>No User Found</Text>
-  //     </Center>
-  //   );
-  // else
-  //   return (
-  //     <Flex direction="column">
-  //       <Flex w="97%" justify="space-between">
-  //         <Flex>
-  //           <SearchInput
-  //             text="Search"
-  //             searchValue={pagination.paramKey}
-  //             setSearchValue={handleSearchChange}
-  //           />
-  //           <CustomFilters
-  //             IsDropDown1={true}
-  //             // IsDateInput={true}
-  //             IsDropDown3={true}
-  //             dropdownName1="useStatus"
-  //             dropdownName3="useRole"
-  //             OptionsDropDown1={statusOptions.map((item) => item.label)}
-  //             OptionsDropDown3={roleOption}
-  //             handlDropDownChange1={handlStatusChange}
-  //             handlDropDownChange3={handlRoleChange}
-  //             placeHolderDropDown1="Status"
-  //             placeHolderDropDown3="Role"
-  //             vlaueDateInput={
-  //               pagination.date ? new Date(pagination.date) : null
-  //             }
-  //             handleDateChange={handleDateChange}
-  //           />
-  //         </Flex>
-  //         {canCreateUser && (
-  //           <Flex justify="end">
-  //             <AddButton
-  //               text="Add User"
-  //               handleOnClick={() => navigate(`/users/add`)}
-  //             />
-  //           </Flex>
-  //         )}
-  //       </Flex>
-  //       <Box style={{ height: "80vh", overflow: "auto" }} w="100%">
-  //         <Table>
-  //           <TableHead
-  //             labels={[
-  //               "No.",
-  //               "UserID",
-  //               "UserName",
-  //               "Role",
-  //               "Status",
-  //               "Actions",
-  //               "user",
-  //             ]}
-  //             sortedBy={[
-  //               "_id",
-  //               "name",
-  //               "name",
-  //               "roleIds",
-  //               "isActive",
-  //               "email",
-  //               "_id",
-  //             ]}
-  //             data={data}
-  //             selection={selection}
-  //             toggleAll={toggleAll}
-  //           />
-  //           {rows}
-  //         </Table>
-  //         <CustomPagination store={pagination} />
-  //       </Box>
-  //       <DeleteConfirmationDialog
-  //         opened={isOpen}
-  //         onClose={() => {
-  //           setSelectedId(null);
-  //           closeDialog();
-  //         }}
-  //         onConfirm={(id) => handleDeleteItem(id!)}
-  //         itemId={selectedId!}
-  //       />
-  //     </Flex>
-  //   );
->>>>>>> 14739024d3f6e806caa53f8504780572f46c0332
 };
 
 export default UsersPage;
