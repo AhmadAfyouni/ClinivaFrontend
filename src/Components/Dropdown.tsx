@@ -1,6 +1,6 @@
 import { Select, useMantineTheme } from "@mantine/core";
 import useDropDownStore from "../store/Dropdown/useDropDownStore ";
-
+import iconArrow from "../assets/icons/CaretDown.svg";
 interface Props {
   options: string[];
   placeHolder: string;
@@ -16,12 +16,14 @@ const Dropdown = ({ placeHolder, options, onChange, dropDownName }: Props) => {
     <>
       <Select
         value={value}
-        w="110px"
-        mr="5px"
+        w="90px"
+        h="30px"
+        mr="10px"
         mb="10px"
         placeholder={placeHolder}
         onChange={onChange}
         color={theme.other.onSurfacePrimary}
+        rightSection={<img src={iconArrow} alt="icon" />}
         data={options}
         clearable
         styles={{

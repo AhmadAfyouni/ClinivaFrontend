@@ -16,16 +16,17 @@ function InputForm({ base, title, onSubmit, with_submit = true }: Props) {
         console.log("omsubmit", e);
         onSubmit(e);
       }}
+      style={{display:"flex", alignItems: "center", marginTop: "50px"}}
     >
       <Flex
         // bg={"grape"}
         w={"100%"}
         h={"100%"}
-        direction={"column"}
-        justify={"center"}
+        // direction={"column"}
+        justify={"space-between"}
         align={"center"}
         gap={"xl"}
-        style={{ overflowY: "auto" }}
+        style={{ overflowY: "auto", }}
       >
         {title ? (
           <Flex
@@ -46,8 +47,8 @@ function InputForm({ base, title, onSubmit, with_submit = true }: Props) {
 
         <Grid w={"95%"} h={"100%"} mb={"xl"}>
           {base.map((attr) => (
-            <Grid.Col span={{ base: 12, sm: 6 }} key={attr.id}>
-              <InputBaseCustom base={attr} key={attr.id} />
+            <Grid.Col span={{ base: 12, sm: 12 }} key={attr.id}>
+              <InputBaseCustom base={attr} key={attr.id}/>
             </Grid.Col>
           ))}
           {with_submit ? (
